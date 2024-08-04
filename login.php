@@ -1,4 +1,5 @@
 <?php
+  session_start();
   include("config.php");
   if($_SERVER['REQUEST_METHOD']== "POST"){
     $enum = $_POST['enum'];
@@ -15,6 +16,7 @@
       }else if($admin_data = mysqli_fetch_array($admin_query)){
         $_SESSION['admin_name'] = $admin_data['name'];
         $_SESSION['admin_email'] = $admin_data['email'];
+        $_SESSION['admin_img'] = $admin_data['profile_img'];
         header('location: admin/index.php');
       }
     }
