@@ -19,6 +19,8 @@
   session_start();
   include('../config.php');
   if(isset($_SESSION['admin_email'])){
+    $users_details = mysqli_query($con,'select * from users');
+    $admins_details = mysqli_query($con,'select * from admins');
 ?>
 <body>
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
@@ -504,8 +506,6 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                    $users_details = mysqli_query($con,'select * from users');
-                    $admins_details = mysqli_query($con,'select * from admins');
                     echo mysqli_num_rows($users_details) + mysqli_num_rows($admins_details);
                   ?>
                 </p>
@@ -582,18 +582,31 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                  <?php
+                      $users_data = [];
+                      while($users_row = mysqli_fetch_assoc($users_details)){
+                          $users_data[] = $users_row;
+                      }
+                      $admins_data = [];
+                      while($admins_row = mysqli_fetch_assoc($admins_details)){
+                          $admins_data[] = $admins_row;
+                      }
+
+                      $all_person = array_merge($users_data,$admins_data);
+                      foreach($all_person as $person){
+                  ?>
                   <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3">
                       <div class="flex items-center text-sm">
                         <!-- Avatar with inset shadow -->
                         <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                           <img class="object-cover w-full h-full rounded-full"
-                            src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                            src="./assets/img/<?php echo $person['profile_img']?>"
                             alt="" loading="lazy" />
                           <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                         </div>
                         <div>
-                          <p class="font-semibold">Hans Burger</p>
+                          <p class="font-semibold"><?php echo $person['name']?></p>
                           <p class="text-xs text-gray-600 dark:text-gray-400">
                             10x Developer
                           </p>
@@ -635,6 +648,9 @@
                       </div>
                     </td>
                   </tr>
+                  <?php
+                      }
+                  ?>
                 </tbody>
               </table>
             </div>
