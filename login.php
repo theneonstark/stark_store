@@ -15,7 +15,7 @@
       }else if($admin_data = mysqli_fetch_array($admin_query)){
         $_SESSION['admin_name'] = $admin_data['name'];
         $_SESSION['admin_email'] = $admin_data['email'];
-        header('location: admin_portal.php');
+        header('location: admin/index.php');
       }
     }
   }
