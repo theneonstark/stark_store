@@ -23,6 +23,8 @@
 
     $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
     $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
+    $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
+    $users_month_filters = mysqli_query($con,"SELECT MONTH(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
     if(isset($_POST['delete'])){
       $delete_id = $_POST['delete'];
       $delete_table_query = mysqli_query($user_info, "drop table $delete_id");
@@ -588,8 +590,8 @@
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">Client</th>
                     <th class="px-4 py-3">Amount</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Date</th>
+                    <th class="px-4 py-3">Created Date</th>
+                    <th class="px-4 py-3">Update Date</th>
                     <th class="px-4 py-3">Actions</th>
                   </tr>
                 </thead>
@@ -632,11 +634,18 @@
                     <td class="px-4 py-3 text-xs">
                       <span
                         class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                        Approved
+                        <?php
+                        echo substr($person['created_at'],0,10);
+                      ?>
                       </span>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                      6/10/2020
+                    <span
+                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                        <?php
+                        echo substr($person['updated_at'],0,10);
+                      ?>
+                      </span>
                     </td>
                     <td class="px-4 py-3">
                       <div class="flex items-center space-x-4 text-sm">
@@ -651,7 +660,6 @@
                           </svg>
                         </button>
                         </a>
-                        <form action="" method="POST">
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                           aria-label="Delete" value="<?php echo $person['username']?>" name="delete">
@@ -661,15 +669,32 @@
                               clip-rule="evenodd"></path>
                           </svg>
                         </button>
-                        </form>
                       </div>
                     </td>
                   </tr>
                   <?php
                       }
-                  ?>
+                    ?>
                 </tbody>
               </table>
+            </div>
+            <div id="fetched_data">
+            <?php
+              while($date_fetch = mysqli_fetch_array($users_date_filters)){
+            ?>
+            <input type="hidden" value="<?php echo $date_fetch['day'];?>" class="fetch_per_day">
+            <input type="hidden" value="<?php echo $date_fetch['new_users'];?>" class="fetch_new_user">
+            <?php
+              }
+            ?>
+            <?php
+              while($month_fetch = mysqli_fetch_array($users_month_filters)){
+            ?>
+            <input type="hidden" value="<?php echo $month_fetch['month'];?>" class="fetch_per_month">
+            <input type="hidden" value="<?php echo $month_fetch['total_users'];?>" class="fetch_monthly_users">
+            <?php
+              }
+            ?>
             </div>
             <div
               class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
@@ -776,11 +801,11 @@
                 <!-- Chart legend -->
                 <div class="flex items-center">
                   <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                  <span>Organic</span>
+                  <span>Total</span>
                 </div>
                 <div class="flex items-center">
                   <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                  <span>Paid</span>
+                  <span>Active</span>
                 </div>
               </div>
             </div>

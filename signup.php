@@ -11,17 +11,17 @@ session_start();
     $upass = substr($password,0,2);
     $unum = substr($num,0,2);
     $username = $uname.$umail.$upass.$unum;
-    if(isset($_POST['sub'])){
+    // if(isset($_POST['sub'])){
     
-    // $_SESSION['user_table'] = $username;
-    // $query = mysqli_query($con, "insert into users (name, email, Mobile, password, username) values ('$name','$email','$num','$password', '$username')");
-    // $table_query = mysqli_query($conn, "CREATE TABLE IF NOT EXISTS $username (
-    //     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    //     data TEXT NOT NULL
-    // )");
-  
+    $_SESSION['user_table'] = $username;
+    $query = mysqli_query($con, "insert into users (name, email, Mobile, password, username) values ('$name','$email','$num','$password', '$username')");
+    $table_query = mysqli_query($conn, "CREATE TABLE IF NOT EXISTS $username (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        data TEXT NOT NULL
+    )");
+  }
 ?>
-<form class="otp-Form">
+<!-- <form class="otp-Form">
  
   <span class="mainHeading">Enter OTP</span>
   <p class="otpSubheading">We have sent a verification code to your mobile number</p>
@@ -36,14 +36,7 @@ session_start();
      <button class="exitBtn">×</button>
      <p class="resendNote">Didn't receive the code? <button class="resendBtn">Resend Code</button></p>
      
-</form>
-
-
-
-<?php
-  }
-}
-?>
+</form> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

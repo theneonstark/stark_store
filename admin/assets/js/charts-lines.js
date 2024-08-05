@@ -1,24 +1,29 @@
 /**
  * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
  */
+const fetch_month = document.querySelectorAll('.fetch_per_day');
+const fetch_monthly_user = document.querySelectorAll('.fetch_monthly_users');
+const months = [];
+fetch_month.forEach((e)=>{
+  // const months = ['Jan', "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  console.log(e.value);
+  months.push(e.value);
+})
+console.log(months)
 const lineConfig = {
   type: 'line',
   data: {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        label: 'Organic',
-        /**
-         * These colors come from Tailwind CSS palette
-         * https://tailwindcss.com/docs/customizing-colors/#default-color-palette
-         */
+        label: 'Total',
         backgroundColor: '#0694a2',
         borderColor: '#0694a2',
-        data: [43, 48, 40, 54, 67, 73, 70],
+        data: [53, 48, 40, 54, 67, 73, 70],
         fill: false,
       },
       {
-        label: 'Paid',
+        label: 'Active',
         fill: false,
         /**
          * These colors come from Tailwind CSS palette
