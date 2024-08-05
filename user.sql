@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2024 at 10:06 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Aug 05, 2024 at 04:59 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,15 +35,16 @@ CREATE TABLE `admins` (
   `password` varchar(150) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `profile_img` text DEFAULT 'user_profile.jpg'
+  `profile_img` text DEFAULT 'user_profile.jpg',
+  `office` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
-INSERT INTO `admins` (`id`, `name`, `username`, `email`, `password`, `created_at`, `updated_at`, `profile_img`) VALUES
-(1, 'Shahid', 'neonstark', 'admin@starkstore.com', 'admin123', '2024-08-03 10:17:53', '2024-08-03 10:17:53', 'user_profile.jpg');
+INSERT INTO `admins` (`id`, `name`, `username`, `email`, `password`, `created_at`, `updated_at`, `profile_img`, `office`) VALUES
+(1, 'Shahid', 'neonstark', 'admin@starkstore.com', 'admin123', '2024-08-03 10:17:53', '2024-08-05 04:50:16', 'user_profile.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -53,8 +54,16 @@ INSERT INTO `admins` (`id`, `name`, `username`, `email`, `password`, `created_at
 
 CREATE TABLE `department` (
   `dept_id` int(11) NOT NULL,
-  `department` varchar(120) NOT NULL
+  `dept_name` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `department`
+--
+
+INSERT INTO `department` (`dept_id`, `dept_name`) VALUES
+(1, 'admin'),
+(2, 'user');
 
 -- --------------------------------------------------------
 
@@ -69,18 +78,10 @@ CREATE TABLE `users` (
   `Mobile` varchar(100) NOT NULL,
   `password` varchar(150) NOT NULL,
   `profile_img` text DEFAULT 'user_profile.jpg',
-  `department` int(11) DEFAULT 2
+  `department` int(11) DEFAULT 2,
+  `office` int(11) DEFAULT 2,
+  `username` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`, `department`) VALUES
-(1, 'Shahid', 'mohd47149@gmail.com', '741085263', 'ads4', 'user_profile.jpg', 2),
-(2, 'Sahil', 'sahil@gmail.com', '974521635', 'sahil123', 'user_profile.jpg', 2),
-(3, 'Sahil', '', '', '', 'user_profile.jpg', 2),
-(5, 'Tarun', 'tarun@gmail.com', '9874533125', 'tar741', 'user_profile.jpg', 2);
 
 --
 -- Indexes for dumped tables
@@ -92,7 +93,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`,
 ALTER TABLE `admins`
   ADD UNIQUE KEY `id` (`id`),
   ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `office` (`office`);
 
 --
 -- Indexes for table `department`
@@ -104,8 +106,10 @@ ALTER TABLE `department`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`) USING HASH,
+  ADD KEY `office` (`office`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -121,7 +125,23 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `admins`
+--
+ALTER TABLE `admins`
+  ADD CONSTRAINT `admins_ibfk_1` FOREIGN KEY (`office`) REFERENCES `department` (`dept_id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `office` FOREIGN KEY (`office`) REFERENCES `department` (`dept_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
