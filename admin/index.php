@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -19,8 +20,19 @@
   session_start();
   include('../config.php');
   if(isset($_SESSION['admin_email'])){
-    $users_details = mysqli_query($con,'select * from users');
-    $admins_details = mysqli_query($con,'select * from admins');
+
+    $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
+    $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
+    if(isset($_POST['delete'])){
+      $delete_id = $_POST['delete'];
+      $delete_table_query = mysqli_query($user_info, "drop table $delete_id");
+      $del_row = mysqli_query($con, "delete from users where username = '$delete_id'");
+      if($del_row){
+        echo "<script>alert('User deleted successfully')</script>";
+      }else{
+        echo "<script>alert(' $delete_id Failed to delete user')</script>";
+      }
+    }
 ?>
 <body>
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
@@ -594,6 +606,7 @@
 
                       $all_person = array_merge($users_data,$admins_data);
                       foreach($all_person as $person){
+                        
                   ?>
                   <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3">
@@ -608,7 +621,7 @@
                         <div>
                           <p class="font-semibold"><?php echo $person['name']?></p>
                           <p class="text-xs text-gray-600 dark:text-gray-400">
-                            10x Developer
+                          <?php echo $person['dept_name']?>
                           </p>
                         </div>
                       </div>
@@ -627,24 +640,28 @@
                     </td>
                     <td class="px-4 py-3">
                       <div class="flex items-center space-x-4 text-sm">
+                        <a href="forms.php?id=<?php echo $person['id']?>">
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Edit">
+                          aria-label="Edit" value="<?php echo $person['id']?>" name="naam">
                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                             <path
                               d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
                             </path>
                           </svg>
                         </button>
+                        </a>
+                        <form action="" method="POST">
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Delete">
+                          aria-label="Delete" value="<?php echo $person['username']?>" name="delete">
                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                               d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
                               clip-rule="evenodd"></path>
                           </svg>
                         </button>
+                        </form>
                       </div>
                     </td>
                   </tr>
@@ -772,6 +789,11 @@
       </main>
     </div>
   </div>
+  <script>
+          if ( window.history.replaceState ) {
+          window.history.replaceState( null, null, window.location.href );
+          }
+        </script>
 <?php
   }
 ?>

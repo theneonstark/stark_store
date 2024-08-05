@@ -16,6 +16,10 @@
     <script src="./assets/js/init-alpine.js"></script>
   </head>
   <body>
+    <?php
+      session_start();
+      echo $_SESSION['person_id'];
+    ?>
     <div
       class="flex h-screen bg-gray-50 dark:bg-gray-900"
       :class="{ 'overflow-hidden': isSideMenuOpen}"
