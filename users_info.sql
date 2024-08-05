@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2024 at 10:07 PM
+-- Generation Time: Aug 05, 2024 at 10:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sah`
+-- Table structure for table `punpunitpu85`
 --
 
-CREATE TABLE `sah` (
+CREATE TABLE `punpunitpu85` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -35,10 +35,10 @@ CREATE TABLE `sah` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sahsahilsa97`
+-- Table structure for table `sahsahilsa84`
 --
 
-CREATE TABLE `sahsahilsa97` (
+CREATE TABLE `sahsahilsa84` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -46,10 +46,10 @@ CREATE TABLE `sahsahilsa97` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shamohd4ad74`
+-- Table structure for table `shashahish96`
 --
 
-CREATE TABLE `shamohd4ad74` (
+CREATE TABLE `shashahish96` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -57,10 +57,10 @@ CREATE TABLE `shamohd4ad74` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tartarunta98`
+-- Table structure for table `tartarunta74`
 --
 
-CREATE TABLE `tartarunta98` (
+CREATE TABLE `tartarunta74` (
   `id` int(10) UNSIGNED NOT NULL,
   `data` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -70,27 +70,27 @@ CREATE TABLE `tartarunta98` (
 --
 
 --
--- Indexes for table `sah`
+-- Indexes for table `punpunitpu85`
 --
-ALTER TABLE `sah`
+ALTER TABLE `punpunitpu85`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `sahsahilsa97`
+-- Indexes for table `sahsahilsa84`
 --
-ALTER TABLE `sahsahilsa97`
+ALTER TABLE `sahsahilsa84`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `shamohd4ad74`
+-- Indexes for table `shashahish96`
 --
-ALTER TABLE `shamohd4ad74`
+ALTER TABLE `shashahish96`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tartarunta98`
+-- Indexes for table `tartarunta74`
 --
-ALTER TABLE `tartarunta98`
+ALTER TABLE `tartarunta74`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -98,27 +98,27 @@ ALTER TABLE `tartarunta98`
 --
 
 --
--- AUTO_INCREMENT for table `sah`
+-- AUTO_INCREMENT for table `punpunitpu85`
 --
-ALTER TABLE `sah`
+ALTER TABLE `punpunitpu85`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sahsahilsa97`
+-- AUTO_INCREMENT for table `sahsahilsa84`
 --
-ALTER TABLE `sahsahilsa97`
+ALTER TABLE `sahsahilsa84`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `shamohd4ad74`
+-- AUTO_INCREMENT for table `shashahish96`
 --
-ALTER TABLE `shamohd4ad74`
+ALTER TABLE `shashahish96`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tartarunta98`
+-- AUTO_INCREMENT for table `tartarunta74`
 --
-ALTER TABLE `tartarunta98`
+ALTER TABLE `tartarunta74`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 

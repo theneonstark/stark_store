@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2024 at 04:59 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Aug 05, 2024 at 10:16 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -80,8 +80,20 @@ CREATE TABLE `users` (
   `profile_img` text DEFAULT 'user_profile.jpg',
   `department` int(11) DEFAULT 2,
   `office` int(11) DEFAULT 2,
-  `username` text DEFAULT NULL
+  `username` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`, `department`, `office`, `username`, `created_at`, `updated_at`) VALUES
+(1, 'Shahid', 'shahid@gmail.com', '9638527411', 'shahid123', 'user_profile.jpg', 2, 2, 'Shashahish96', '2024-08-05 17:10:14', '2024-08-05 17:10:14'),
+(2, 'Tarun', 'tarun@gmail.com', '7418529632', 'Tarun123', 'user_profile.jpg', 2, 2, 'TartarunTa74', '2024-08-05 17:10:34', '2024-08-05 17:10:34'),
+(3, 'Punit', 'punit@gmail.com', '8529637412', 'punit123', 'user_profile.jpg', 2, 2, 'Punpunitpu85', '2024-08-05 17:11:03', '2024-08-05 17:11:03'),
+(4, 'Sahil', 'sahil@gmail.com', '845697123', 'sahil125', 'user_profile.jpg', 2, 2, 'Sahsahilsa84', '2024-08-05 19:27:26', '2024-08-05 19:27:26');
 
 --
 -- Indexes for dumped tables
@@ -125,7 +137,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
