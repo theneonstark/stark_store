@@ -1,17 +1,9 @@
-<?php
-        if(isset($_POST['sub'])){
-          $pname = $_POST['productName'];
-          $gender = $_POST['gender'];
-          $catg = $_POST['catg'];
-          $product_description = $_POST['product_description'];
-          if(isset($_FILES['product_img'])){
-            $product_img = $_FILES['product_img']['name'];
-            $temp_name = $_FILES['product_img']['tmp_name'];
-            move_uploaded_file($temp_name, "../image/product/$product_img");
-          }
-        }
-?>
 <!DOCTYPE html>
+<?php
+  session_start();
+  include('../config.php');
+  if(isset($_SESSION['admin_email'])){
+?>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
 <head>
@@ -22,6 +14,9 @@
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="./assets/js/init-alpine.js"></script>
+  <script src="../vendor/isotope/isotope.pkgd.min.js"></script>
+  <script src="../vendor/sweetalert/sweetalert.min.js"></script>
+  <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
 </head>
 
 <body>
@@ -493,9 +488,6 @@
             Product Upload Here
           </h2>
           <!-- General elements -->
-          <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-            Elements
-          </h4>
           <form action="" method="POST" enctype="multipart/form-data">
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <label class="block text-sm">
@@ -513,7 +505,7 @@
                   <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
                     <input type="radio"
                       class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                      name="gender" value="M" />
+                      name="gender" value="M" checked/>
                     <span class="ml-2">Male</span>
                   </label>
                   <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
@@ -525,27 +517,36 @@
                 </div>
               </div>
 
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Requested Limit
-                </span>
-                <select
-                  class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="catg">
-                  <option value="1">Cloth</option>
-                  <option value="2">Watch</option>
-                  <option value="3">Shoe</option>
-                  <option value="4">Belt</option>
-                  <option value="5">Accessories</option>
-                  <option value="6">Other</option>
-                </select>
-              </label>
+              <div class="flex flex-wrap items-center justify-start">
+                <label class="block mt-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">
+                    Product Category
+                  </span>
+                  <select
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                    name="catg">
+                    <option>--Select-Your-Category--</option>
+                    <option value="1">Cloth</option>
+                    <option value="2">Watch</option>
+                    <option value="3">Shoe</option>
+                    <option value="4">Belt</option>
+                    <option value="5">Accessories</option>
+                    <option value="6">Other</option>
+                  </select>
+                </label>
+                <label class="block mt-4 ml-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">Product Price</span>
+                  <input type="number"
+                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                    placeholder="Product Price" name="price" />
+                </label>
+              </div>
               <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
                 <label
                   class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture</label>
                 <input id="picture" type="file"
                   class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="product_img">
+                  name="product_img" accept="image/png, image/jpeg">
               </div>
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Message</span>
@@ -561,6 +562,56 @@
               </div>
             </div>
           </form>
+          <?php
+  if (isset($_POST['sub'])) {
+    $pname = $_POST['productName'];
+    $gender = $_POST['gender'];
+    $price = $_POST['price'];
+    $catg = $_POST['catg'];
+    $product_description = $_POST['product_description'];
+    if (isset($_FILES['product_img'])) {
+      $directory = "../image/product/";
+      $product_img = $_FILES['product_img']['name'];
+      $temp_name = $_FILES['product_img']['tmp_name'];
+      $already_exist = $directory . $product_img;
+      if (!file_exists($already_exist)) {
+        // if (move_uploaded_file($temp_name, "../image/product/$product_img")) 
+        {
+          // $product_query = mysqli_query($product_info,"insert into product_item (product_name, product_img, product_price, gender, product_description,product_catg) values ('$pname','$product_img','$price','$gender','$product_description', $catg)");
+          ?>
+          <script>
+            $(document).ready(function () {
+              swal({
+                title: "Data or file has been uploaded",
+                text: "Check this out and upload the related pictures of product",
+                icon: "success",
+                buttons: "Okay",
+                dangerMode: false,
+              })
+            })
+          </script>
+          <input type="text">
+          <?php
+        }
+      } else {
+        ?>
+        <script>
+          $(document).ready(function () {
+            swal({
+              title: "File or Data Already uploaded",
+              text: "Please Upload the another file or data !",
+              icon: "warning",
+              buttons: "Okay",
+              dangerMode: true,
+            })
+          })
+        </script>
+        <?php
+      }
+    }
+  }
+}
+  ?>
         </div>
       </main>
     </div>
@@ -571,5 +622,4 @@
     }
   </script>
 </body>
-
 </html>
