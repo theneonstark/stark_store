@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2024 at 08:12 AM
+-- Generation Time: Aug 07, 2024 at 09:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,19 +18,49 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `products`
+-- Database: `product`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
+-- Table structure for table `product_category`
 --
 
-CREATE TABLE `product` (
-  `p_id` int(11) NOT NULL,
-  `product_name` varchar(100) NOT NULL
+CREATE TABLE `product_category` (
+  `pc_id` int(11) NOT NULL,
+  `pc_name` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_category`
+--
+
+INSERT INTO `product_category` (`pc_id`, `pc_name`) VALUES
+(1, 'Cloth'),
+(2, 'Watches'),
+(3, 'Shoes'),
+(4, 'Belt'),
+(5, 'Accessories'),
+(6, 'Other');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_images`
+--
+
+CREATE TABLE `product_images` (
+  `pr_id` int(11) NOT NULL,
+  `pr_imgs` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_images`
+--
+
+INSERT INTO `product_images` (`pr_id`, `pr_imgs`) VALUES
+(0, 'testing.jpg');
 
 -- --------------------------------------------------------
 
@@ -41,23 +71,36 @@ CREATE TABLE `product` (
 CREATE TABLE `product_item` (
   `id` int(11) NOT NULL,
   `product_name` varchar(100) NOT NULL,
-  `product_img` varchar(150) NOT NULL,
-  `product_price` varchar(200) NOT NULL,
+  `product_img` varchar(100) NOT NULL,
+  `product_price` varchar(100) NOT NULL,
+  `gender` varchar(50) NOT NULL,
   `product_description` text NOT NULL,
-  `product_cat` int(11) DEFAULT NULL,
-  `product_gender` varchar(50) DEFAULT NULL
+  `product_related_img` int(11) DEFAULT 0,
+  `product_catg` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_item`
+--
+
+INSERT INTO `product_item` (`id`, `product_name`, `product_img`, `product_price`, `gender`, `product_description`, `product_related_img`, `product_catg`) VALUES
+(3, 'test product', 'banner-01.jpg', '2315', 'F', 'Testing', 0, 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `product`
+-- Indexes for table `product_category`
 --
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`p_id`),
-  ADD UNIQUE KEY `id` (`p_id`);
+ALTER TABLE `product_category`
+  ADD PRIMARY KEY (`pc_id`);
+
+--
+-- Indexes for table `product_images`
+--
+ALTER TABLE `product_images`
+  ADD PRIMARY KEY (`pr_id`);
 
 --
 -- Indexes for table `product_item`
@@ -65,7 +108,8 @@ ALTER TABLE `product`
 ALTER TABLE `product_item`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `product_cat` (`product_cat`);
+  ADD KEY `product_related_img` (`product_related_img`),
+  ADD KEY `product_catg` (`product_catg`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -75,7 +119,7 @@ ALTER TABLE `product_item`
 -- AUTO_INCREMENT for table `product_item`
 --
 ALTER TABLE `product_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -85,7 +129,8 @@ ALTER TABLE `product_item`
 -- Constraints for table `product_item`
 --
 ALTER TABLE `product_item`
-  ADD CONSTRAINT `product_item_ibfk_1` FOREIGN KEY (`product_cat`) REFERENCES `product` (`p_id`);
+  ADD CONSTRAINT `product_item_ibfk_1` FOREIGN KEY (`product_related_img`) REFERENCES `product_images` (`pr_id`),
+  ADD CONSTRAINT `product_item_ibfk_2` FOREIGN KEY (`product_catg`) REFERENCES `product_category` (`pc_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
