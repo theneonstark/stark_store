@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="./assets/js/init-alpine.js"></script>
-  <script src="../vendor/isotope/isotope.pkgd.min.js"></script>
-  <script src="../vendor/sweetalert/sweetalert.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
 </head>
 
@@ -562,6 +562,59 @@
               </div>
             </div>
           </form>
+          <!-- Related -->
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <label class="block mt-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">
+                    Product Category
+                  </span>
+                  <select
+                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                    name="update_catg">
+                    <option>--Select-Your-Product--</option>
+                <?php
+                  $product_data = mysqli_query($product_info,'select * from product_item');
+                  while($product_data_fetch = mysqli_fetch_array($product_data)){
+                ?>
+                    <option value="<?php echo $product_data_fetch['id']?>"><?php echo $product_data_fetch['product_name']?></option>
+                <?php
+                  }
+                ?>
+                  </select>
+                </label>
+                <?php
+                  // echo $product_fetch['product_name']
+                ?>
+              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
+                <label
+                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 1</label>
+                <input id="picture" type="file"
+                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="product_img1" accept="image/png, image/jpeg">
+              </div>
+              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
+                <label
+                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 2</label>
+                <input id="picture" type="file"
+                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="product_img2" accept="image/png, image/jpeg">
+              </div>
+              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
+                <label
+                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 3</label>
+                <input id="picture" type="file"
+                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="product_img3" accept="image/png, image/jpeg">
+              </div>
+              <div class="flex mt-6 text-sm">
+                <input type="submit"
+                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  name="update">
+              </div>
+            </div>
+            
+          </form>
           <?php
   if (isset($_POST['sub'])) {
     $pname = $_POST['productName'];
@@ -573,37 +626,39 @@
       $directory = "../image/product/";
       $product_img = $_FILES['product_img']['name'];
       $temp_name = $_FILES['product_img']['tmp_name'];
-      $already_exist = $directory . $product_img;
+      $already_exist = $directory.$product_img;
       if (!file_exists($already_exist)) {
-        // if (move_uploaded_file($temp_name, "../image/product/$product_img")) 
+        if (move_uploaded_file($temp_name, "../image/product/$product_img")) 
         {
-          // $product_query = mysqli_query($product_info,"insert into product_item (product_name, product_img, product_price, gender, product_description,product_catg) values ('$pname','$product_img','$price','$gender','$product_description', $catg)");
           ?>
           <script>
             $(document).ready(function () {
-              swal({
-                title: "Data or file has been uploaded",
-                text: "Check this out and upload the related pictures of product",
-                icon: "success",
-                buttons: "Okay",
-                dangerMode: false,
+              Swal.fire({
+                  title: "Data or file has been uploaded",
+                  html: "<font color='white'> Check this out and upload the related pictures of product</font>",
+                  icon: "success",
+                  showCloseButton: true,
+                  confirmButtonText: `Okay!`, 
               })
             })
           </script>
-          <input type="text">
           <?php
+          mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 0");
+          $product_query = mysqli_query($product_info,"insert into product_item (product_name, product_img, product_price, gender, product_description,product_catg) values ('$pname','$product_img','$price','$gender','$product_description', $catg)");
+          mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 1");
         }
       } else {
         ?>
         <script>
           $(document).ready(function () {
-            swal({
-              title: "File or Data Already uploaded",
-              text: "Please Upload the another file or data !",
-              icon: "warning",
-              buttons: "Okay",
-              dangerMode: true,
-            })
+            Swal.fire({
+                  title: "File or Data Already uploaded",
+                  html: "<font color='white'> Please Upload the another file or data !</font>",
+                  icon: "warning",
+                  showCloseButton: true,
+                  confirmButtonText: `Okay!`, 
+
+              })
           })
         </script>
         <?php
@@ -611,6 +666,32 @@
     }
   }
 }
+  ?>
+  <?php
+    if(isset($_POST['update'])){
+      $product_related = $_POST['update_catg'];
+      if(isset($_FILES['product_img1'])){
+        $file_img1 = $_FILES['product_img1']['name'];
+        $file_tmp1 = $_FILES['product_img1']['tmp_name'];
+        move_uploaded_file($temp_name1, "../image/product/pr_imgs/$pr_imgs");
+        $query_img1 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$file_img1')");
+      }
+      if(isset($_FILES['product_img2'])){
+        $file_img2 = $_FILES['product_img2']['name'];
+        $file_tmp2 = $_FILES['product_img2']['tmp_name'];
+        move_uploaded_file($temp_name2, "../image/product/pr_imgs/$pr_imgs");
+        $query_img2 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$file_img2')");
+      }
+      if(isset($_FILES['product_img3'])){
+        $file_img3 = $_FILES['product_img3']['name'];
+        $file_tmp3 = $_FILES['product_img3']['tmp_name'];
+        move_uploaded_file($temp_name3, "../image/product/pr_imgs/$pr_imgs");
+        $query_img3 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$file_img3')");
+      }
+      // if($r){
+      //   mysqli_query( $product_info,"UPDATE product_item SET product_related_img = $product_related WHERE id=$product_related");
+      // }
+    }
   ?>
         </div>
       </main>

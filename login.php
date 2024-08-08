@@ -6,14 +6,14 @@
     $pass = $_POST['pass'];
 
     $query = mysqli_query($con, "select * from users where email = '$enum' OR Mobile = '$enum' AND password='$pass'");
-    $admin_query = mysqli_query($con, "select * from admins where username = '$enum' OR email = '$enum' AND password = '$pass' ");
+    $admin_query = mysqli_query($con, "select * from admins where username = '$enum' AND password = '$pass' OR email = '$enum' AND password = '$pass' ");
     if($query && $admin_query){
       if($user_data = mysqli_fetch_assoc($query)){
         $_SESSION['user_name'] = $user_data['fname'];
         $_SESSION['user_email'] = $user_data['email'];
         $_SESSION['user_phone'] = $user_data['Mobile'];
         header('location: index.php');
-      }else if($admin_data = mysqli_fetch_array($admin_query)){
+      }else if($admin_data = mysqli_fetch_assoc($admin_query)){
         $_SESSION['admin_name'] = $admin_data['name'];
         $_SESSION['admin_email'] = $admin_data['email'];
         $_SESSION['admin_img'] = $admin_data['profile_img'];
