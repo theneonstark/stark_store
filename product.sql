@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2024 at 07:33 PM
+-- Generation Time: Aug 08, 2024 at 09:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,10 +60,7 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`pr_id`, `pr_imgs`) VALUES
-(0, 'test.jpg'),
-(21, 'banner-02.jpg'),
-(21, 'banner-05.jpg'),
-(21, 'banner-06.jpg');
+(0, 'testing.jpg');
 
 -- --------------------------------------------------------
 
@@ -87,9 +84,8 @@ CREATE TABLE `product_item` (
 --
 
 INSERT INTO `product_item` (`id`, `product_name`, `product_img`, `product_price`, `gender`, `product_description`, `product_related_img`, `product_catg`) VALUES
-(19, '$pname', '$product_img', '$price', '$gender', '$product_description', 0, 1),
-(20, 'Testing 2', 'banner-03.jpg', '23', 'F', 'piutyrfdxcbnbm', 0, 3),
-(21, 'Testing 3', 'banner-05.jpg', '7410', 'M', 'Ravi Gaand', 0, 6);
+(3, 'test product', 'banner-01.jpg', '2315', 'F', 'Testing', 0, 1),
+(4, 'test product', 'banner-09.jpg', '399', 'M', 'Testing 2', 0, 4);
 
 --
 -- Indexes for dumped tables
@@ -100,6 +96,12 @@ INSERT INTO `product_item` (`id`, `product_name`, `product_img`, `product_price`
 --
 ALTER TABLE `product_category`
   ADD PRIMARY KEY (`pc_id`);
+
+--
+-- Indexes for table `product_images`
+--
+ALTER TABLE `product_images`
+  ADD PRIMARY KEY (`pr_id`);
 
 --
 -- Indexes for table `product_item`
@@ -118,7 +120,7 @@ ALTER TABLE `product_item`
 -- AUTO_INCREMENT for table `product_item`
 --
 ALTER TABLE `product_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
