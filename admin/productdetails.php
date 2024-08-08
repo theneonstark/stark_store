@@ -1,55 +1,34 @@
-
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<?php
+  //SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg
+  session_start();
+  include('../config.php');
+  if(isset($_SESSION['admin_email'])){
+    $product_details = mysqli_query($product_info, "SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg");
+?>
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Windmill Dashboard</title>
+  <title>Product Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="./assets/js/init-alpine.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-  <script src="./assets/js/charts-lines.js" defer></script>
-  <script src="./assets/js/charts-pie.js" defer></script>
 </head>
 
-<?php
-  session_start();
-  include('../config.php');
-  if(isset($_SESSION['admin_email'])){
-
-    $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
-    $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
-    $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
-    $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
-    
-    if(isset($_POST['delete'])){
-      $delete_id = $_POST['delete'];
-      $delete_table_query = mysqli_query($user_info, "drop table $delete_id");
-      $del_row = mysqli_query($con, "delete from users where username = '$delete_id'");
-      if($del_row){
-        echo "<script>alert('User deleted successfully')</script>";
-      }else{
-        echo "<script>alert(' $delete_id Failed to delete user')</script>";
-      }
-    }
-?>
 <body>
-  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
     <!-- Desktop sidebar -->
     <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
       <div class="py-4 text-gray-500 dark:text-gray-400">
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-          Store Admin
+          Store
         </a>
         <ul class="mt-6">
           <li class="relative px-6 py-3">
-            <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-              aria-hidden="true"></span>
-            <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               href="index.php">
               <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -75,7 +54,9 @@
             </a>
           </li>
           <li class="relative px-6 py-3">
-            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+              aria-hidden="true"></span>
+            <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
               href="productdetails.php">
               <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -208,9 +189,7 @@
         </a>
         <ul class="mt-6">
           <li class="relative px-6 py-3">
-            <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-              aria-hidden="true"></span>
-            <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
               href="index.php">
               <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -236,7 +215,9 @@
             </a>
           </li>
           <li class="relative px-6 py-3">
-            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+            <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+              aria-hidden="true"></span>
+            <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
               href="productdetails.php">
               <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                 stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -350,7 +331,7 @@
         </div>
       </div>
     </aside>
-    <div class="flex flex-col flex-1 w-full">
+    <div class="flex flex-col flex-1">
       <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
         <div
           class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
@@ -415,7 +396,8 @@
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeNotificationsMenu"
                   @keydown.escape="closeNotificationsMenu"
-                  class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
+                  class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700"
+                  aria-label="submenu">
                   <li class="flex">
                     <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                       href="#">
@@ -499,12 +481,15 @@
           </ul>
         </div>
       </header>
-      <main class="h-full overflow-y-auto">
+      <main class="h-full pb-16 overflow-y-auto">
         <div class="container px-6 mx-auto grid">
           <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Dashboard
+            Product Details
           </h2>
-          <!-- Cards -->
+          <!-- Responsive cards -->
+          <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+            Products
+          </h4>
           <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
             <!-- Card -->
             <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
@@ -520,9 +505,7 @@
                   Total clients
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  <?php
-                    echo mysqli_num_rows($users_details) + mysqli_num_rows($admins_details);
-                  ?>
+                  6389
                 </p>
               </div>
             </div>
@@ -581,71 +564,11 @@
               </div>
             </div>
           </div>
-          <!-- Charts -->
-          <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Charts
-          </h2>
-          <div class="grid gap-6 mb-8 md:grid-cols-2">
-            <!-- <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-              <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                Revenue
-              </h4>
-              <canvas id="pie"></canvas>
-              <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                Chart legend
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
-                  <span>Shirts</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                  <span>Shoes</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                  <span>Bags</span>
-                </div>
-              </div>
-            </div> -->
-            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-              <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                Traffic
-              </h4>
-              <canvas id="line"></canvas>
-              <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                <!-- Chart legend -->
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                  <span>Total</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                  <span>Active</span>
-                </div>
-              </div>
-            </div>
-            <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-              <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                Per Day User
-              </h4>
-              <canvas id="line2"></canvas>
-              <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                <!-- Chart legend -->
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                  <span>Total</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                  <span>Active</span>
-                </div>
-              </div>
-            </div>
-            </div>
-          <!-- New Table -->
-          <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Persons
-          </h2>
+
+          <!-- Product Data -->
+          <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+            Product Data
+          </h4>
           <div class="w-full overflow-hidden rounded-lg shadow-xs">
             <div class="w-full overflow-x-auto">
               <table class="w-full whitespace-no-wrap">
@@ -654,25 +577,16 @@
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">Client</th>
                     <th class="px-4 py-3">Amount</th>
-                    <th class="px-4 py-3">Created Date</th>
-                    <th class="px-4 py-3">Update Date</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Gender</th>
+                    <th class="px-4 py-3">Date</th>
+                    <th class="px-4 py-3">Description</th>
                     <th class="px-4 py-3">Actions</th>
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                   <?php
-                      $users_data = [];
-                      while($users_row = mysqli_fetch_assoc($users_details)){
-                          $users_data[] = $users_row;
-                      }
-                      $admins_data = [];
-                      while($admins_row = mysqli_fetch_assoc($admins_details)){
-                          $admins_data[] = $admins_row;
-                      }
-
-                      $all_person = array_merge($users_data,$admins_data);
-                      foreach($all_person as $person){
-                        
+                    while($product_detail_fetch = mysqli_fetch_array($product_details)){
                   ?>
                   <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3">
@@ -680,53 +594,50 @@
                         <!-- Avatar with inset shadow -->
                         <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                           <img class="object-cover w-full h-full rounded-full"
-                            src="./assets/img/<?php echo $person['profile_img']?>"
+                            src="../image/product/<?php echo $product_detail_fetch['product_img']?>"
                             alt="" loading="lazy" />
                           <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                         </div>
                         <div>
-                          <p class="font-semibold"><?php echo $person['name']?></p>
+                          <p class="font-semibold"><?php echo $product_detail_fetch['product_name']?></p>
                           <p class="text-xs text-gray-600 dark:text-gray-400">
-                          <?php echo $person['dept_name']?>
+                          <?php echo $product_detail_fetch['pc_name']?>
                           </p>
                         </div>
                       </div>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                      $ 863.45
+                    <?php echo $product_detail_fetch['product_price']?>
                     </td>
                     <td class="px-4 py-3 text-xs">
                       <span
                         class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                        <?php
-                        echo substr($person['created_at'],0,10);
-                      ?>
+                        <?php echo $product_detail_fetch['pc_name']?>
                       </span>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                    <span
-                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                        <?php
-                        echo substr($person['updated_at'],0,10);
-                      ?>
-                      </span>
+                    <?php echo $product_detail_fetch['gender']?>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                      6/10/2020
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                    <?php echo $product_detail_fetch['product_description']?>
                     </td>
                     <td class="px-4 py-3">
                       <div class="flex items-center space-x-4 text-sm">
-                        <a href="forms.php?id=<?php echo $person['id']?>">
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Edit" value="<?php echo $person['id']?>" name="naam">
+                          aria-label="Edit">
                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                             <path
                               d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
                             </path>
                           </svg>
                         </button>
-                        </a>
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Delete" value="<?php echo $person['username']?>" name="delete">
+                          aria-label="Delete">
                           <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                               d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
@@ -737,220 +648,10 @@
                     </td>
                   </tr>
                   <?php
-                      }
-                    ?>
-                </tbody>
-              </table>
-            </div>
-            <div id="fetched_data">
-            <?php
-              while($date_fetch = mysqli_fetch_array($users_date_filters)){
-            ?>
-            <input type="hidden" value="<?php echo $date_fetch['day']?>" class="fetch_per_day">
-            <input type="hidden" value="<?php echo $date_fetch['new_users'];?>" class="fetch_new_user">
-            <?php
-              }
-            ?>
-            <?php
-              while($month_fetch = mysqli_fetch_array($users_month_filters)){
-            ?>
-            <input type="hidden" value="<?php
-            $date = strtotime($month_fetch['month']);
-             echo date('M', $date);
-             ?>" class="fetch_per_month">
-            <input type="hidden" value="<?php echo $month_fetch['total_users'];?>" class="fetch_monthly_users">
-            <?php
-              }
-            ?>
-            </div>
-            <div
-              class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
-              <span class="flex items-center col-span-3">
-                Showing 21-30 of 100
-              </span>
-              <span class="col-span-2"></span>
-              <!-- Pagination -->
-              <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
-                <nav aria-label="Table navigation">
-                  <ul class="inline-flex items-center">
-                    <li>
-                      <button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
-                        aria-label="Previous">
-                        <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                          <path
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd" fill-rule="evenodd"></path>
-                        </svg>
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        1
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        2
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        3
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        4
-                      </button>
-                    </li>
-                    <li>
-                      <span class="px-3 py-1">...</span>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        8
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                        9
-                      </button>
-                    </li>
-                    <li>
-                      <button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
-                        aria-label="Next">
-                        <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
-                          <path
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd" fill-rule="evenodd"></path>
-                        </svg>
-                      </button>
-                    </li>
-                  </ul>
-                </nav>
-              </span>
-            </div>
-          </div>
-          <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Persons
-          </h2>
-          <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full overflow-x-auto">
-              <table class="w-full whitespace-no-wrap">
-                <thead>
-                  <tr
-                    class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th class="px-4 py-3">Client</th>
-                    <th class="px-4 py-3">Amount</th>
-                    <th class="px-4 py-3">Created Date</th>
-                    <th class="px-4 py-3">Update Date</th>
-                    <th class="px-4 py-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                  <?php
-                      $users_daa = [];
-                      while($users_row = mysqli_fetch_assoc($users_details)){
-                          $users_data[] = $users_row;
-                      }
-                      $admins_data = [];
-                      while($admins_row = mysqli_fetch_assoc($admins_details)){
-                          $admins_data[] = $admins_row;
-                      }
-
-                      $all_person = array_merge($users_data,$admins_data);
-                      foreach($all_person as $person){
-                        
+                    }
                   ?>
-                  <tr class="text-gray-700 dark:text-gray-400">
-                    <td class="px-4 py-3">
-                      <div class="flex items-center text-sm">
-                        <!-- Avatar with inset shadow -->
-                        <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                          <img class="object-cover w-full h-full rounded-full"
-                            src="./assets/img/<?php echo $person['profile_img']?>"
-                            alt="" loading="lazy" />
-                          <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                        </div>
-                        <div>
-                          <p class="font-semibold"><?php echo $person['name']?></p>
-                          <p class="text-xs text-gray-600 dark:text-gray-400">
-                          <?php echo $person['dept_name']?>
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                      $ 863.45
-                    </td>
-                    <td class="px-4 py-3 text-xs">
-                      <span
-                        class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                        <?php
-                        echo substr($person['created_at'],0,10);
-                      ?>
-                      </span>
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                    <span
-                        class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                        <?php
-                        echo substr($person['updated_at'],0,10);
-                      ?>
-                      </span>
-                    </td>
-                    <td class="px-4 py-3">
-                      <div class="flex items-center space-x-4 text-sm">
-                        <a href="forms.php?id=<?php echo $person['id']?>">
-                        <button
-                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Edit" value="<?php echo $person['id']?>" name="naam">
-                          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                              d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                            </path>
-                          </svg>
-                        </button>
-                        </a>
-                        <button
-                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Delete" value="<?php echo $person['username']?>" name="delete">
-                          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                              clip-rule="evenodd"></path>
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <?php
-                      }
-                    ?>
                 </tbody>
               </table>
-            </div>
-            <div id="fetched_data">
-            <?php
-              while($date_fetch = mysqli_fetch_array($users_date_filters)){
-            ?>
-            <input type="hidden" value="<?php echo $date_fetch['day']?>" class="fetch_per_day">
-            <input type="hidden" value="<?php echo $date_fetch['new_users'];?>" class="fetch_new_user">
-            <?php
-              }
-            ?>
-            <?php
-              while($month_fetch = mysqli_fetch_array($users_month_filters)){
-            ?>
-            <input type="hidden" value="<?php
-            $date = strtotime($month_fetch['month']);
-             echo date('M', $date);
-             ?>" class="fetch_per_month">
-            <input type="hidden" value="<?php echo $month_fetch['total_users'];?>" class="fetch_monthly_users">
-            <?php
-              }
-            ?>
             </div>
             <div
               class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
@@ -1025,14 +726,8 @@
       </main>
     </div>
   </div>
-  <script>
-          if ( window.history.replaceState ) {
-          window.history.replaceState( null, null, window.location.href );
-          }
-        </script>
+</body>
 <?php
   }
 ?>
-</body>
-
 </html>
