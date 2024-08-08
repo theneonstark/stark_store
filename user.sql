@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2024 at 09:28 PM
+-- Generation Time: Aug 08, 2024 at 07:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -93,7 +93,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`,
 (1, 'Shahid', 'shahid@gmail.com', '9638527411', 'shahid123', 'user_profile.jpg', 2, 2, 'Shashahish96', '2024-08-05 17:10:14', '2024-08-05 17:10:14'),
 (2, 'Tarun', 'tarun@gmail.com', '7418529632', 'Tarun123', 'user_profile.jpg', 2, 2, 'TartarunTa74', '2024-08-05 17:10:34', '2024-08-05 17:10:34'),
 (3, 'Punit', 'punit@gmail.com', '8529637412', 'punit123', 'user_profile.jpg', 2, 2, 'Punpunitpu85', '2024-08-05 17:11:03', '2024-08-05 17:11:03'),
-(4, 'Sahil', 'sahil@gmail.com', '845697123', 'sahil125', 'user_profile.jpg', 2, 2, 'Sahsahilsa84', '2024-08-05 19:27:26', '2024-08-05 19:27:26');
+(4, 'Sahil', 'sahil@gmail.com', '845697123', 'sahil125', 'user_profile.jpg', 2, 2, 'Sahsahilsa84', '2024-08-05 19:27:26', '2024-08-05 19:27:26'),
+(5, 'Kunal', 'kunal@gmail.com', '785412365', 'kunal123', 'user_profile.jpg', 2, 2, 'Kunkunalku78', '2024-08-06 07:35:24', '2024-08-06 07:35:24'),
+(6, 'Mainsh', 'manish@gmail.com', '7458963211', 'abc', 'user_profile.jpg', 2, 2, 'Maimanisab74', '2024-08-08 04:01:12', '2024-08-08 04:01:12');
 
 --
 -- Indexes for dumped tables
@@ -137,7 +139,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

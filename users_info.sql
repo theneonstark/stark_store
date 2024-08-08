@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2024 at 09:28 PM
+-- Generation Time: Aug 08, 2024 at 07:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `users_info`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kunkunalku78`
+--
+
+CREATE TABLE `kunkunalku78` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `maimanisab74`
+--
+
+CREATE TABLE `maimanisab74` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -70,6 +92,18 @@ CREATE TABLE `tartarunta74` (
 --
 
 --
+-- Indexes for table `kunkunalku78`
+--
+ALTER TABLE `kunkunalku78`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `maimanisab74`
+--
+ALTER TABLE `maimanisab74`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `punpunitpu85`
 --
 ALTER TABLE `punpunitpu85`
@@ -96,6 +130,18 @@ ALTER TABLE `tartarunta74`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `kunkunalku78`
+--
+ALTER TABLE `kunkunalku78`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `maimanisab74`
+--
+ALTER TABLE `maimanisab74`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `punpunitpu85`
