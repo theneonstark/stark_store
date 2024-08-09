@@ -17,7 +17,13 @@ session_start();
     $query = mysqli_query($con, "insert into users (name, email, Mobile, password, username) values ('$name','$email','$num','$password', '$username')");
     $table_query = mysqli_query($conn, "CREATE TABLE IF NOT EXISTS $username (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        data TEXT NOT NULL
+        username varchar(120) NOT NULL,
+        address TEXT NOT NULL,
+        phone varchar(100) NOT NULL,
+        email varchar(100) UNIQUE NOT NULL,
+        cart_product int,
+        wishlist int,
+        
     )");
   }
 ?>
