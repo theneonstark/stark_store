@@ -1,14 +1,25 @@
+const product_name = document.querySelectorAll(".product .product_name");
+const product_val = document.querySelectorAll(".product .product_val");
+const p_name = [];
+const p_val = [];
+product_name.forEach((e)=>{
+  p_name.push(e.value);
+  console.log(e.value)
+})
+product_val.forEach((e)=>{
+  p_val.push(e.value)
+})
 const pieConfig = {
   type: "pie",
   data: {
     datasets: [
       {
-        data: [33, 33, 33],
-        backgroundColor: ["#0694a2", "#1c64f2", "#7e3af2",'#c0c'],
+        data: p_val,
+        backgroundColor: ["#e02424", "#047481", "#7e3af2",'#c0c'],
         label: "Dataset 1",
       },
     ],
-    labels: ["Shoes", "Shirts", "Bags"],
+    labels: p_name,
   },
   options: {
     responsive: true,
