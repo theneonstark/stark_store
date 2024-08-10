@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2024 at 01:31 PM
+-- Generation Time: Aug 10, 2024 at 11:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,9 +92,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`, `department`, `office`, `username`, `created_at`, `updated_at`, `wishlist`, `cart`) VALUES
-(11, 'Tarun', 'tarun@gmail.com', '9632587410', 'tarun123', 'user_profile.jpg', 2, 2, 'Tartarunta96', '2024-08-10 07:51:05', '2024-08-10 07:51:05', 'user_wishlist', 'user_cart'),
-(12, 'Sahil', 'sahil@gmail.com', '7418529630', 'sahil123', 'user_profile.jpg', 2, 2, 'Sahsahilsa74', '2024-08-10 08:07:27', '2024-08-10 08:07:27', 'user_wishlist', 'user_cart'),
-(13, 'Manish', 'manish@gmail.com', '8526541254', 'manish123', 'user_profile.jpg', 2, 2, 'Manmanisma85', '2024-08-10 08:13:23', '2024-08-10 08:13:23', 'user_wishlist', 'user_cart');
+(11, 'Tarun', 'tarun@gmail.com', '9632587410', 'tarun123', 'user_profile.jpg', 2, 2, 'Tartarunta96', '2024-08-10 07:51:05', '2024-08-10 18:57:37', '11Tarun_wishlist', '11Tarun'),
+(12, 'Sahil', 'sahil@gmail.com', '7418529630', 'sahil123', 'user_profile.jpg', 2, 2, 'Sahsahilsa74', '2024-08-10 08:07:27', '2024-08-10 18:31:48', '12Sahil_wishlist', 'user_cart'),
+(13, 'Manish', 'manish@gmail.com', '8526541254', 'manish123', 'user_profile.jpg', 2, 2, 'Manmanisma85', '2024-08-10 08:13:23', '2024-08-10 18:45:54', '13Manish_wishlist', 'user_cart'),
+(14, 'Punit', 'punit@gmail.com', '9856745872', 'pun123', 'user_profile.jpg', 2, 2, 'Punpunitpu98', '2024-08-10 18:35:06', '2024-08-10 18:58:12', '14Punit_wishlist', '14Punit_cart'),
+(15, 'rahul', 'rahul@gmail.com', '8541236529', 'rah123', 'user_profile.jpg', 2, 2, 'rahrahulra85', '2024-08-10 18:42:34', '2024-08-10 18:44:41', '15rahul_wishlist', 'user_cart'),
+(16, 'zara', 'zara@gmail.com', '9652745285', 'zara123', 'user_profile.jpg', 2, 2, 'zarzara@za96', '2024-08-10 18:47:02', '2024-08-10 18:47:30', '16zara_wishlist', 'user_cart'),
+(17, 'Aysha', 'aysha@gmail.com', '9874123685', 'aysha123', 'user_profile.jpg', 2, 2, 'Aysayshaay98', '2024-08-10 18:49:22', '2024-08-10 18:55:01', '17Aysha_wishlist', 'user_cart');
 
 --
 -- Indexes for dumped tables
@@ -138,7 +142,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
