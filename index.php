@@ -23,7 +23,6 @@
 </head>
 
 <body class="animsition">
-
 	<!-- Header -->
 	<header>
 		<!-- Header desktop -->
@@ -33,6 +32,11 @@
 				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
+<?php
+	session_start();
+	
+	// echo $_SESSION['name'];
+?>
 					</div>
 				</div>
 			</div>
@@ -90,8 +94,9 @@
 							data-notify="0">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+						<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
 							<i class="zmdi zmdi-account-circle"></i>
+							<span class="h6 m-0 ml-2"><?php echo $_SESSION['name'];?></span>
 						</a>
 					</div>
 				</nav>
@@ -122,6 +127,7 @@
 				</a>
 				<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 					<i class="zmdi zmdi-account-circle"></i>
+					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name'];?></span>
 				</a>
 			</div>
 
@@ -732,12 +738,15 @@
 							</div>
 
 							<div class="block2-txt-child2 flex-r p-t-3">
-								<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
-										alt="ICON">
-									<img class="icon-heart2 dis-block trans-04 ab-t-l"
+								<?php
+								
+								?>
+							<a href="index.php?<?php echo $_SESSION['id'].$_SESSION['name']?>_wishlist" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+								<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
+								alt="ICON">
+										<img class="icon-heart2 dis-block trans-04 ab-t-l"
 										src="images/icons/icon-heart-02.png" alt="ICON">
-								</a>
+							</a>
 							</div>
 						</div>
 					</div>
@@ -1638,7 +1647,7 @@
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
 		$('.js-addwish-b2').on('click', function (e) {
-			e.preventDefault();
+			// e.preventDefault();
 		});
 
 		$('.js-addwish-b2').each(function () {
