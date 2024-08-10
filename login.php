@@ -1,27 +1,51 @@
 <?php
-  session_start();
-  include("config.php");
-  if($_SERVER['REQUEST_METHOD']== "POST"){
+session_start();
+include("config.php");
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $enum = $_POST['enum'];
     $pass = $_POST['pass'];
 
-    $query = mysqli_query($con, "select * from users where email = '$enum' OR Mobile = '$enum' AND password='$pass'");
-    $admin_query = mysqli_query($con, "select * from admins where username = '$enum' AND password = '$pass' OR email = '$enum' AND password = '$pass' ");
-    if($query && $admin_query){
-      if($user_data = mysqli_fetch_assoc($query)){
-        $_SESSION['user_name'] = $user_data['fname'];
-        $_SESSION['user_email'] = $user_data['email'];
-        $_SESSION['user_phone'] = $user_data['Mobile'];
+    // Using prepared statements to prevent SQL injection
+    // Check in users table
+    $user_stmt = $con->prepare("SELECT * FROM users WHERE (email = ? OR Mobile = ?) AND password = ?");
+    $user_stmt->bind_param("sss", $enum, $enum, $pass);
+    $user_stmt->execute();
+    $user_result = $user_stmt->get_result();
+
+    // Check in admins table
+    $admin_stmt = $con->prepare("SELECT * FROM admins WHERE (username = ? AND password = ?) OR (email = ? AND password = ?)");
+    $admin_stmt->bind_param("ssss", $enum, $pass, $enum, $pass);
+    $admin_stmt->execute();
+    $admin_result = $admin_stmt->get_result();
+
+    if ($user_result->num_rows > 0) {
+        $user_data = $user_result->fetch_assoc();
+        // Store user data in session
+        foreach (['id', 'name', 'email', 'Mobile', 'password', 'profile_img', 'department', 'office', 'username'] as $key) {
+            $_SESSION[$key] = $user_data[$key];
+        }
         header('location: index.php');
-      }else if($admin_data = mysqli_fetch_assoc($admin_query)){
+        exit();
+    } elseif ($admin_result->num_rows > 0) {
+        $admin_data = $admin_result->fetch_assoc();
+        // Store admin data in session
         $_SESSION['admin_name'] = $admin_data['name'];
         $_SESSION['admin_email'] = $admin_data['email'];
         $_SESSION['admin_img'] = $admin_data['profile_img'];
         header('location: admin/index.php');
-      }
+        exit();
+    } else {
+        // Handle invalid login
+        echo "Invalid login credentials.";
     }
-  }
+
+    // Close the prepared statements
+    $user_stmt->close();
+    $admin_stmt->close();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
