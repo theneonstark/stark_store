@@ -21,14 +21,50 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($user_result->num_rows > 0) {
         $user_data = $user_result->fetch_assoc();
+        
         // Store user data in session
-        foreach (['id', 'name', 'email', 'Mobile', 'password', 'profile_img', 'department', 'office', 'username'] as $key) {
+        foreach (['id', 'name', 'email', 'Mobile', 'password', 'profile_img', 'department', 'office', 'username', 'wishlist', 'cart'] as $key) {
             $_SESSION[$key] = $user_data[$key];
         }
+
+        // Automatically update wishlist if condition is met
+        if ($_SESSION['wishlist'] == 'user_wishlist') {
+            $id = $_SESSION['id'];
+            $name = $_SESSION['name'];
+            $wish = '_wishlist';
+
+            // Prepare an update statement for the wishlist
+            $update_stmt = $con->prepare("UPDATE users SET wishlist = ? WHERE id = ?");
+            $new_wishlist = $id . $name . $wish;
+            $update_stmt->bind_param("si", $new_wishlist, $id);
+            $update_stmt->execute();
+            $update_stmt->close();
+
+            // Update the session variable with the new wishlist value
+            $_SESSION['wishlist'] = $new_wishlist;
+        }
+
+        if ($_SESSION['cart'] == 'user_cart') {
+            $id = $_SESSION['id'];
+            $name = $_SESSION['name'];
+            $cart = '_cart';
+
+            // Prepare an update statement for the wishlist
+            $update_stmt = $con->prepare("UPDATE users SET cart = ? WHERE id = ?");
+            $new_cart = $id . $name . $cart;
+            $update_stmt->bind_param("si", $new_cart, $id);
+            $update_stmt->execute();
+            $update_stmt->close();
+
+            // Update the session variable with the new wishlist value
+            $_SESSION['cart'] = $new_cart;
+        }
+
         header('location: index.php');
         exit();
     } elseif ($admin_result->num_rows > 0) {
         $admin_data = $admin_result->fetch_assoc();
+
         // Store admin data in session
         $_SESSION['admin_name'] = $admin_data['name'];
         $_SESSION['admin_email'] = $admin_data['email'];
@@ -45,6 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $admin_stmt->close();
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
