@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2024 at 07:33 PM
+-- Generation Time: Aug 10, 2024 at 01:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -82,20 +82,19 @@ CREATE TABLE `users` (
   `office` int(11) DEFAULT 2,
   `username` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `wishlist` varchar(100) DEFAULT 'user_wishlist',
+  `cart` varchar(100) DEFAULT 'user_cart'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`, `department`, `office`, `username`, `created_at`, `updated_at`) VALUES
-(1, 'Shahid', 'shahid@gmail.com', '9638527411', 'shahid123', 'user_profile.jpg', 2, 2, 'Shashahish96', '2024-08-05 17:10:14', '2024-08-05 17:10:14'),
-(2, 'Tarun', 'tarun@gmail.com', '7418529632', 'Tarun123', 'user_profile.jpg', 2, 2, 'TartarunTa74', '2024-08-05 17:10:34', '2024-08-05 17:10:34'),
-(3, 'Punit', 'punit@gmail.com', '8529637412', 'punit123', 'user_profile.jpg', 2, 2, 'Punpunitpu85', '2024-08-05 17:11:03', '2024-08-05 17:11:03'),
-(4, 'Sahil', 'sahil@gmail.com', '845697123', 'sahil125', 'user_profile.jpg', 2, 2, 'Sahsahilsa84', '2024-08-05 19:27:26', '2024-08-05 19:27:26'),
-(5, 'Kunal', 'kunal@gmail.com', '785412365', 'kunal123', 'user_profile.jpg', 2, 2, 'Kunkunalku78', '2024-08-06 07:35:24', '2024-08-06 07:35:24'),
-(6, 'Mainsh', 'manish@gmail.com', '7458963211', 'abc', 'user_profile.jpg', 2, 2, 'Maimanisab74', '2024-08-08 04:01:12', '2024-08-08 04:01:12');
+INSERT INTO `users` (`id`, `name`, `email`, `Mobile`, `password`, `profile_img`, `department`, `office`, `username`, `created_at`, `updated_at`, `wishlist`, `cart`) VALUES
+(11, 'Tarun', 'tarun@gmail.com', '9632587410', 'tarun123', 'user_profile.jpg', 2, 2, 'Tartarunta96', '2024-08-10 07:51:05', '2024-08-10 07:51:05', 'user_wishlist', 'user_cart'),
+(12, 'Sahil', 'sahil@gmail.com', '7418529630', 'sahil123', 'user_profile.jpg', 2, 2, 'Sahsahilsa74', '2024-08-10 08:07:27', '2024-08-10 08:07:27', 'user_wishlist', 'user_cart'),
+(13, 'Manish', 'manish@gmail.com', '8526541254', 'manish123', 'user_profile.jpg', 2, 2, 'Manmanisma85', '2024-08-10 08:13:23', '2024-08-10 08:13:23', 'user_wishlist', 'user_cart');
 
 --
 -- Indexes for dumped tables
@@ -139,7 +138,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
