@@ -130,12 +130,35 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								data-notify="2">
 								<i class="zmdi zmdi-shopping-cart"></i>
 							</div>
-
+							<?php
+							$wish_user = $_SESSION['wishlist'];
+							$wish_db = "wishlist";
+							// Prepare the SQL query
+							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+							$wish_table_query->execute();
+							$wish_table_result = $wish_table_query->get_result();
+							$wish_table_row = $wish_table_result->fetch_assoc();
+							if ($wish_table_row['count'] > 0) {
+								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
+							?>
+							<a href="#"
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+							<?php
+								// }
+							}else{
+							?>
 							<a href="#"
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
 								data-notify="0">
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</a>
+							<?php
+							}
+							?>
 							<a href="#"
 								class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
 								<i class="zmdi zmdi-account-circle"></i>
