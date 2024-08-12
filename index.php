@@ -4,7 +4,6 @@
 session_start();
 include ('config.php');
 $product = "select * from product_item";
-$users = "select * from users";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 	if (isset($_POST['wish'])) {
@@ -344,8 +343,16 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 					<ul class="header-cart-wrapitem w-full">
 						<?php
 							$wish_user = $_SESSION['wishlist'];
-							$wish_details = mysqli_query($wishlist_info, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id ");		
-							while($wish_fetch = mysqli_fetch_assoc($wish_details)){
+							$wish_db = "wishlist";
+							// Prepare the SQL query
+							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+							$wish_table_query->execute();
+							$wish_table_result = $wish_table_query->get_result();
+							$wish_table_row = $wish_table_result->fetch_assoc();
+							if ($wish_table_row['count'] > 0) {
+								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id ");		
+								while($wish_fetch = mysqli_fetch_assoc($wish_details)){
 							?>
 						<li class="header-cart-item flex-w flex-t m-b-12">
 							<div class="header-cart-item-img">
@@ -363,7 +370,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							</div>
 						</li>
 						<?php
-							}
+}
 						?>
 					</ul>
 
@@ -379,6 +386,13 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							</a>
 						</div>
 					</div>
+					<?php
+						}else{						
+						?>
+						<h1>Add Product</h1>
+						<?php
+						}
+					?>
 				</div>
 			</div>
 		</div>

@@ -2,6 +2,9 @@
 session_start();
 include("config.php");
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $enum = $_POST['enum'];
     $pass = $_POST['pass'];
