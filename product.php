@@ -1,5 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+session_start();
+include ('config.php');
+$product = "select * from product_item";
+$wishlist_data = "select * from wishlist";
+if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
+	if (isset($_POST['wish'])) {
+		$wish_product = $_POST['wish_product'];
+		$wish_data = $_POST['wish'];
+		$wish_table = mysqli_query($wishlist_info, "CREATE TABLE IF NOT EXISTS $wish_data (
+	w_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
+	user_name varchar(100),
+	wp_detail INT
+	)");
+		if ($wish_table) {
+			$database_name = 'wishlist';
+			$table_name = $wish_data;
+			$query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+			$query->bind_param("ss", $database_name, $table_name);
+			$query->execute();
+			$result = $query->get_result();
+			$row = $result->fetch_assoc();
+			if ($row['count'] > 0) {
+				$sql = "SELECT COUNT(*) as count FROM $table_name WHERE wp_detail = ?";
+				$table_row = $wishlist_info->prepare($sql);
+				$table_row->bind_param('s', $wish_product); 
+				$table_row->execute();
+				$checked = $table_row->get_result();
+				$check_row = $checked->fetch_assoc();
+				if (!$check_row['count'] > 0) {
+					$insert_stmt = $wishlist_info->prepare("INSERT INTO $wish_data (user_name, wp_detail) VALUES (?, ?)");
+					$insert_stmt->bind_param("si", $wish_data, $wish_product);
+					$insert_stmt->execute();
+					$insert_stmt->close();
+				} else {
+					echo 'already add';
+				}
+				$table_row->close();
+
+			} else {
+				echo "Table does not exist.";
+			}
+			$query->close();
+		}
+	}
+
+	?>
 <head>
 	<title>Product</title>
 	<meta charset="UTF-8">
@@ -28,27 +75,9 @@
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
 			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container">
+				<div class="content-topbar flex-sb-m dis-flex align-items-center h-full container">
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
-					</div>
-
-					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							Help & FAQs
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							My Account
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							EN
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							USD
-						</a>
 					</div>
 				</div>
 			</div>
@@ -105,9 +134,40 @@
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
 
-						<a href="#" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</a>
+						<?php
+							$wish_user = $_SESSION['wishlist'];
+							$wish_db = "wishlist";
+							// Prepare the SQL query
+							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+							$wish_table_query->execute();
+							$wish_table_result = $wish_table_query->get_result();
+							$wish_table_row = $wish_table_result->fetch_assoc();
+							if ($wish_table_row['count'] > 0) {
+								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
+							?>
+							<a href="#"
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+							<?php
+								// }
+							}else{
+							?>
+							<a href="#"
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+								data-notify="0">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</a>
+							<?php
+							}
+							?>
+							<a href="#"
+								class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
+								<i class="zmdi zmdi-account-circle"></i>
+								<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+							</a>
 					</div>
 				</nav>
 			</div>	
@@ -126,12 +186,39 @@
 					<i class="zmdi zmdi-search"></i>
 				</div>
 
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
-					<i class="zmdi zmdi-shopping-cart"></i>
-				</div>
+				<?php
+					$wish_user = $_SESSION['wishlist'];
+					$wish_db = "wishlist";
+					// Prepare the SQL query
+					$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+					$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+					$wish_table_query->execute();
+					$wish_table_result = $wish_table_query->get_result();
+					$wish_table_row = $wish_table_result->fetch_assoc();
+					if ($wish_table_row['count'] > 0) {
+						$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
+					?>
+					<a href="#"
+						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+						data-notify="<?php echo mysqli_num_rows($wish_details)?>">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+					<?php
+						// }
+					}else{
+					?>
+					<a href="#"
+						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+						data-notify="0">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+					<?php
+					}
+				?>
 
-				<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
-					<i class="zmdi zmdi-favorite-outline"></i>
+				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
+					<i class="zmdi zmdi-account-circle"></i>
+					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
 				</a>
 			</div>
 
@@ -150,26 +237,6 @@
 				<li>
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
-					</div>
-				</li>
-
-				<li>
-					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							Help & FAQs
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							My Account
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							EN
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							USD
-						</a>
 					</div>
 				</li>
 			</ul>
@@ -310,7 +377,78 @@
 			</div>
 		</div>
 	</div>
+	<!-- Wishlist -->
+	<div class="wrap-header-wishlist js-panel-wishlist">
+			<div class="s-full js-hide-wishlist"></div>
 
+			<div class="header-wishlist flex-col-l p-l-65 p-r-25">
+				<div class="header-wishlist-title flex-w flex-sb-m p-b-8">
+					<span class="mtext-103 cl2">
+						Your Wishlist
+					</span>
+
+					<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-wishlist">
+						<i class="zmdi zmdi-close"></i>
+					</div>
+				</div>
+
+				<div class="header-cart-content flex-w js-pscroll">
+					<ul class="header-cart-wrapitem w-full">
+						<?php
+							$wish_user = $_SESSION['wishlist'];
+							$wish_db = "wishlist";
+							// Prepare the SQL query
+							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+							$wish_table_query->execute();
+							$wish_table_result = $wish_table_query->get_result();
+							$wish_table_row = $wish_table_result->fetch_assoc();
+							if ($wish_table_row['count'] > 0) {
+								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id ");		
+								while($wish_fetch = mysqli_fetch_assoc($wish_details)){
+							?>
+						<li class="header-cart-item flex-w flex-t m-b-12">
+							<div class="header-cart-item-img">
+								<img src="images/item-cart-01.jpg" alt="IMG">
+							</div>
+
+							<div class="header-cart-item-txt p-t-8">
+								<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+									<?php echo $wish_fetch['product_name'];?>
+								</a>
+								
+								<span class="header-cart-item-info">
+									<?php echo $wish_fetch['product_price'];?>
+								</span>
+							</div>
+						</li>
+						<?php
+}
+						?>
+					</ul>
+
+					<div class="w-full">
+						<div class="header-cart-total w-full p-tb-40">
+							Total: $75.00
+						</div>
+
+						<div class="header-cart-buttons flex-w w-full">
+							<a href="shoping-cart.php"
+								class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+								View Wishlist
+							</a>
+						</div>
+					</div>
+					<?php
+						}else{						
+						?>
+						<h1>Add Product</h1>
+						<?php
+						}
+					?>
+				</div>
+			</div>
+		</div>
 	
 	<!-- Product -->
 	<div class="bg0 m-t-23 p-b-140">
@@ -1489,6 +1627,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-
+<?php
+}
+?>
 </body>
 </html>
