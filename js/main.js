@@ -276,10 +276,18 @@
     
     /*==================================================================
     [ Show modal1 ]*/
-    $('.js-show-modal1').on('click',function(e){
+    $('.js-show-modal1').on('click', function(e) {
         e.preventDefault();
+        let head = $(this).closest('.block2').find('.block2-txt a.stext-104').text();
+        let price = $(this).closest('.block2').find('.block2-txt .stext-105').text();
+        let img = $(this).prev('img').attr('src');
+        $('#data_head').text(head);
+        $('#data_price').text(price);
+        $('#main_img').attr('src',img);
+        $('#slick1').attr('data-thumb', img);
         $('.js-modal1').addClass('show-modal1');
     });
+    
 
     $('.js-hide-modal1').on('click',function(){
         $('.js-modal1').removeClass('show-modal1');
