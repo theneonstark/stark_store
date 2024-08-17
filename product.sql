@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2024 at 09:47 PM
+-- Generation Time: Aug 17, 2024 at 02:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,7 +60,17 @@ CREATE TABLE `product_images` (
 --
 
 INSERT INTO `product_images` (`pr_id`, `pr_imgs`) VALUES
-(0, 'testing.jpg');
+(0, 'testing.jpg'),
+(5, '61E0Jzp-JVL._SY879_.jpg'),
+(6, '61E0Jzp-JVL._SY879_.jpg'),
+(6, '41VhSSlalQL._SL1198_.jpg'),
+(6, '61zdJmxjmuL._SL1500_.jpg'),
+(7, '719gA5x-+eL._SY879_.jpg'),
+(7, '715m7v58JDL._SL1500_.jpg'),
+(7, '51YmKgWW8yL._SL1198_.jpg'),
+(8, '61YyziD54bL.jpg'),
+(8, '61qdoP+EkOL.jpg'),
+(8, '71nGWvsbPNL.jpg');
 
 -- --------------------------------------------------------
 
@@ -84,8 +94,9 @@ CREATE TABLE `product_item` (
 --
 
 INSERT INTO `product_item` (`id`, `product_name`, `product_img`, `product_price`, `gender`, `product_description`, `product_related_img`, `product_catg`) VALUES
-(3, 'test product', 'banner-01.jpg', '2315', 'F', 'Testing', 0, 1),
-(4, 'test product', 'banner-09.jpg', '399', 'M', 'Testing 2', 0, 4);
+(6, 'Lymio Men T-Shirt', '61J70J3DBwL._SY879_.jpg', '1199', 'M', 'Men T-Shirt || T-Shirt for Men || Polo T Shirt || T-Shirt\r\nPattern Type: Plain\r\nSleeve Length: Short Sleeve\r\nColor Disclaimer: Product color might slightly vary due to photographic lighting sources or your monitor settings\r\nFit type-Regular Fit', 6, 1),
+(7, 'Polo Men T-Shirt', '718j9P1Gf4L._SY879_.jpg', '1299', 'M', 'Men T-Shirt || T-Shirt for Men || Polo T Shirt || T-Shirt\r\nPattern Type: Plain\r\nSleeve Length: Short Sleeve\r\nColor Disclaimer: Product color might slightly vary due to photographic lighting sources or your monitor settings\r\nFit type-Regular Fit', 7, 1),
+(8, 'Supreme Men T-Shirt', '61bkKEY7iaL.jpg', '1199', 'M', 'Men T-Shirt || T-Shirt for Men || Polo T Shirt || T-Shirt\r\nPattern Type: Plain\r\nSleeve Length: Short Sleeve\r\nColor Disclaimer: Product color might slightly vary due to photographic lighting sources or your monitor settings\r\nFit type-Regular Fit', 8, 1);
 
 --
 -- Indexes for dumped tables
@@ -96,12 +107,6 @@ INSERT INTO `product_item` (`id`, `product_name`, `product_img`, `product_price`
 --
 ALTER TABLE `product_category`
   ADD PRIMARY KEY (`pc_id`);
-
---
--- Indexes for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD PRIMARY KEY (`pr_id`);
 
 --
 -- Indexes for table `product_item`
@@ -120,7 +125,7 @@ ALTER TABLE `product_item`
 -- AUTO_INCREMENT for table `product_item`
 --
 ALTER TABLE `product_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
