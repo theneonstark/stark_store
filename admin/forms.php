@@ -654,20 +654,19 @@
         $file_img1 = $_FILES['product_img1']['name'];
         $file_tmp1 = $_FILES['product_img1']['tmp_name'];
         move_uploaded_file($file_tmp1, "../image/product/pr_imgs/$file_img1");
-        $query_img1 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$file_img1')");
       }
       if(isset($_FILES['product_img2'])){
         $file_img2 = $_FILES['product_img2']['name'];
         $file_tmp2 = $_FILES['product_img2']['tmp_name'];
         move_uploaded_file($file_tmp2, "../image/product/pr_imgs/$file_img2");
-        $query_img2 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$file_img2')");
       }
       if(isset($_FILES['product_img3'])){
         $file_img3 = $_FILES['product_img3']['name'];
         $file_tmp3 = $_FILES['product_img3']['tmp_name'];
         move_uploaded_file($file_tmp3, "../image/product/pr_imgs/$file_img3");
-        $query_img3 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$file_img3')");
       }
+      $all_images = json_encode([$file_img1,$file_img2,$file_img3]);
+      $query_img3 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$all_images')");
         ?>
         <script>
           $(document).ready(function () {
