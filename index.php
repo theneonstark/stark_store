@@ -900,11 +900,11 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
 										<a href="product-detail.php" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-											<?php echo $fetch_product['product_name'] ?>
+											 <?php echo $fetch_product['product_name'] ?>
 										</a>
 
 										<span class="stext-105 cl3">
-											$ <?php echo $_SESSION['wishlist'] ?>
+											<b>₹ <?php echo $fetch_product['product_price'] ?></b>
 										</span>
 									</div>
 
@@ -1645,39 +1645,39 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 												<img src="" alt="IMG-PRODUCT" id="main_img">
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-													href="images/product-detail-01.jpg">
+													href="" id="main_href">
 													<i class="fa fa-expand"></i>
 												</a>
 											</div>
 										</div>
 
-										<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
+										<div class="item-slick3">
 											<div class="wrap-pic-w pos-relative">
 												<img src="" alt="IMG-PRODUCT1" id="pr_img1">
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-													href="images/product-detail-02.jpg">
+													href="" id="pr_href1">
 													<i class="fa fa-expand"></i>
 												</a>
 											</div>
 										</div>
 
-										<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
+										<div class="item-slick3">
 											<div class="wrap-pic-w pos-relative">
 												<img src="" alt="IMG-PRODUCT" id="pr_img2">
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-													href="images/product-detail-03.jpg">
+													href="" id="pr_href2">
 													<i class="fa fa-expand"></i>
 												</a>
 											</div>
 										</div>
-										<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
+										<div class="item-slick3">
 											<div class="wrap-pic-w pos-relative">
 												<img src="" alt="IMG-PRODUCT" id="pr_img3">
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-													href="images/product-detail-03.jpg">
+													href="" id="pr_href3">
 													<i class="fa fa-expand"></i>
 												</a>
 											</div>

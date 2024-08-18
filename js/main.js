@@ -288,35 +288,43 @@
         $('#data_head').text(head);
         $('#data_price').text(price);
         $('#main_img').attr('src', img);
+        $('#main_href').attr('href', img);
         $('#pr_img1').attr('src', pr_img1);
+        $('#pr_href1').attr('href', pr_img1);
         $('#pr_img2').attr('src', pr_img2);
+        $('#pr_href2').attr('href', pr_img2);
         $('#pr_img3').attr('src', pr_img3);
-        $('.wrap-slick3').each(function(){
-            $(this).find('.slick3').slick({
+        $('#pr_href3').attr('href', pr_img3);
+        $('.js-modal1').addClass('show-modal1');  
+        $('.wrap-slick3').each(function() {
+            let $slickElement = $(this).find('.slick3');
+            if ($slickElement.hasClass('slick-initialized')) {
+                $slickElement.slick('unslick');
+            }    
+            $slickElement.slick({
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 fade: true,
                 infinite: true,
                 autoplay: false,
                 autoplaySpeed: 6000,
-
+    
                 arrows: true,
                 appendArrows: $(this).find('.wrap-slick3-arrows'),
-                prevArrow:'<button class="arrow-slick3 prev-slick3"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
-                nextArrow:'<button class="arrow-slick3 next-slick3"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
-
+                prevArrow: '<button class="arrow-slick3 prev-slick3"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+                nextArrow: '<button class="arrow-slick3 next-slick3"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+    
                 dots: true,
                 appendDots: $(this).find('.wrap-slick3-dots'),
-                dotsClass:'slick3-dots',
+                dotsClass: 'slick3-dots',
                 customPaging: function(slick, index) {
                     var portrait = $(slick.$slides[index]).find('img').attr('src');
-                    console.log(portrait)
-                    return '<img src=" ' + portrait + ' "/><div class="slick3-dot-overlay"></div>';
-                },  
+                    return `<img src="${portrait}" /><div class="slick3-dot-overlay"></div>`;
+                }
             });
         });
-        $('.js-modal1').addClass('show-modal1');
     });
+    
     
 
     $('.js-hide-modal1').on('click',function(){
