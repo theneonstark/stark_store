@@ -1672,6 +1672,16 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 												</a>
 											</div>
 										</div>
+										<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
+											<div class="wrap-pic-w pos-relative">
+												<img src="" alt="IMG-PRODUCT" id="pr_img3">
+
+												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+													href="images/product-detail-03.jpg">
+													<i class="fa fa-expand"></i>
+												</a>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

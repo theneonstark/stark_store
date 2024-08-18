@@ -290,6 +290,7 @@
         $('#main_img').attr('src', img);
         $('#pr_img1').attr('src', pr_img1);
         $('#pr_img2').attr('src', pr_img2);
+        $('#pr_img3').attr('src', pr_img3);
         $('.wrap-slick3').each(function(){
             $(this).find('.slick3').slick({
                 slidesToShow: 1,
