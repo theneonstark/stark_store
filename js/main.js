@@ -280,11 +280,40 @@
         e.preventDefault();
         let head = $(this).closest('.block2').find('.block2-txt a.stext-104').text();
         let price = $(this).closest('.block2').find('.block2-txt .stext-105').text();
+        let pr_img1 = $(this).closest('.block2-pic').find('.pr_img1').val();
+        let pr_img2 = $(this).closest('.block2-pic').find('.pr_img2').val();
+        let pr_img3 = $(this).closest('.block2-pic').find('.pr_img3').val();
         let img = $(this).prev('img').attr('src');
+        console.log(pr_img3)
         $('#data_head').text(head);
         $('#data_price').text(price);
-        $('#main_img').attr('src',img);
-        $('#slick1').attr('data-thumb', img);
+        $('#main_img').attr('src', img);
+        $('#pr_img1').attr('src', pr_img1);
+        $('#pr_img2').attr('src', pr_img2);
+        $('.wrap-slick3').each(function(){
+            $(this).find('.slick3').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                fade: true,
+                infinite: true,
+                autoplay: false,
+                autoplaySpeed: 6000,
+
+                arrows: true,
+                appendArrows: $(this).find('.wrap-slick3-arrows'),
+                prevArrow:'<button class="arrow-slick3 prev-slick3"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+                nextArrow:'<button class="arrow-slick3 next-slick3"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+
+                dots: true,
+                appendDots: $(this).find('.wrap-slick3-dots'),
+                dotsClass:'slick3-dots',
+                customPaging: function(slick, index) {
+                    var portrait = $(slick.$slides[index]).find('img').attr('src');
+                    console.log(portrait)
+                    return '<img src=" ' + portrait + ' "/><div class="slick3-dot-overlay"></div>';
+                },  
+            });
+        });
         $('.js-modal1').addClass('show-modal1');
     });
     

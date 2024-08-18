@@ -3,7 +3,7 @@
 <?php
 session_start();
 include ('config.php');
-$product = "select * from product_item";
+$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 	if (isset($_POST['wish'])) {
@@ -881,13 +881,16 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 					<?php
 					$product_data = mysqli_query($product_info, $product);
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
+						$pr_img = json_decode($fetch_product['pr_imgs']);
 						?>
 						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
+									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[0] ?>" class="pr_img1">
+									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[1] ?>" class="pr_img2">
+									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[2] ?>" class="pr_img3">
 									<img src="image/product/<?php echo $fetch_product['product_img'] ?>" alt="IMG-PRODUCT">
-
 									<a href="#"
 										class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 										Quick View
@@ -1650,7 +1653,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 										<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
 											<div class="wrap-pic-w pos-relative">
-												<img src="images/product-detail-02.jpg" alt="IMG-PRODUCT">
+												<img src="" alt="IMG-PRODUCT1" id="pr_img1">
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
 													href="images/product-detail-02.jpg">
@@ -1661,7 +1664,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 										<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
 											<div class="wrap-pic-w pos-relative">
-												<img src="images/product-detail-03.jpg" alt="IMG-PRODUCT">
+												<img src="" alt="IMG-PRODUCT" id="pr_img2">
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
 													href="images/product-detail-03.jpg">
