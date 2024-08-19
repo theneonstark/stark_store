@@ -120,7 +120,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							<?php
 							}
 							?>
-							<a href="#"
+							<a href="logout.php"
 								class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
 								<i class="zmdi zmdi-account-circle"></i>
 								<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
