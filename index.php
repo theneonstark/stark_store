@@ -6,46 +6,6 @@ include ('config.php');
 $product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-	if (isset($_POST['wish'])) {
-		$wish_product = $_POST['wish_product'];
-		$wish_data = $_POST['wish'];
-		$wish_table = mysqli_query($wishlist_info, "CREATE TABLE IF NOT EXISTS $wish_data (
-	w_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
-	user_name varchar(100),
-	wp_detail INT
-	)");
-		if ($wish_table) {
-			$database_name = 'wishlist';
-			$table_name = $wish_data;
-			$query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-			$query->bind_param("ss", $database_name, $table_name);
-			$query->execute();
-			$result = $query->get_result();
-			$row = $result->fetch_assoc();
-			if ($row['count'] > 0) {
-				$sql = "SELECT COUNT(*) as count FROM $table_name WHERE wp_detail = ?";
-				$table_row = $wishlist_info->prepare($sql);
-				$table_row->bind_param('s', $wish_product); 
-				$table_row->execute();
-				$checked = $table_row->get_result();
-				$check_row = $checked->fetch_assoc();
-				if (!$check_row['count'] > 0) {
-					$insert_stmt = $wishlist_info->prepare("INSERT INTO $wish_data (user_name, wp_detail) VALUES (?, ?)");
-					$insert_stmt->bind_param("si", $wish_data, $wish_product);
-					$insert_stmt->execute();
-					$insert_stmt->close();
-				} else {
-					echo 'already add';
-				}
-				$table_row->close();
-
-			} else {
-				echo "Table does not exist.";
-			}
-			$query->close();
-		}
-	}
-
 	?>
 
 	<head>
@@ -197,7 +157,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							$wish_table_result = $wish_table_query->get_result();
 							$wish_table_row = $wish_table_result->fetch_assoc();
 							if ($wish_table_row['count'] > 0) {
-								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
+								$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");								
 							?>
 							<a href="#"
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
@@ -899,7 +859,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="product-detail.php" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+										<a href="product-detail.php" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
 											 <?php echo $fetch_product['product_name'] ?>
 										</a>
 
@@ -909,10 +869,10 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 									</div>
 
 									<div class="block2-txt-child2 flex-r p-t-3">
-										<form action="" method="POST">
+										<form action="wishlist_config.php" method="POST" class="wishlistForm" >
 											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
-												value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
+											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish"> 
+											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
 												<img class="icon-heart2 dis-block trans-04 ab-t-l"
@@ -1831,40 +1791,27 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 		<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 		<script src="vendor/sweetalert/sweetalert.min.js"></script>
 		<script>
-			$('.js-addwish-b2').on('click', function (e) {
-				// e.preventDefault();
-			});
+			$('.wishlistForm').on('submit', function(e) {
+				e.preventDefault(); // Prevent the form from submitting the traditional way
 
-			$('.js-addwish-b2').each(function () {
-				var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-				$(this).on('click', function () {
-					swal(nameProduct, "is added to wishlist !", "success");
-
-					$(this).addClass('js-addedwish-b2');
-					$(this).off('click');
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(response) {
+						if(response == ""){
+							swal('Your Product', 'is added to wishlist !', 'success');
+						}else if(response == "already add"){
+							swal('Your Product', 'already added to wishlist !', 'warning');
+						}
+						
+						
+					},
+					error: function(xhr, status, error) {
+						alert('An error occurred: ' + error);
+					}
 				});
 			});
-
-			$('.js-addwish-detail').each(function () {
-				var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-				$(this).on('click', function () {
-					swal(nameProduct, "is added to wishlist !", "success");
-
-					$(this).addClass('js-addedwish-detail');
-					$(this).off('click');
-				});
-			});
-
-			/*---------------------------------------------*/
-
-			$('.js-addcart-detail').each(function () {
-				var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-				$(this).on('click', function () {
-					swal(nameProduct, "is added to cart !", "success");
-				});
-			});
-
 		</script>
 		<!--===============================================================================================-->
 		<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -1883,6 +1830,28 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 				})
 			});
 		</script>
+		<script>
+			// $(document).ready(function() {
+			// $('.wishlistForm').on('submit', function(e) {
+			// 	e.preventDefault(); // Prevent the form from submitting the traditional way
+
+			// 	$.ajax({
+			// 		type: 'POST',
+			// 		url: $(this).attr('action'),
+			// 		data: $(this).serialize(), // Serialize form data
+			// 		success: function(response) {
+			// 			// Handle the response from the server
+			// 			alert(response); // Show server response
+			// 		},
+			// 		error: function(xhr, status, error) {
+			// 			// Handle errors
+			// 			alert('An error occurred: ' + error);
+			// 		}
+			// 	});
+			// });
+			// });
+		</script>	
+
 		<!--===============================================================================================-->
 		<script src="js/main.js"></script>
 		<?php

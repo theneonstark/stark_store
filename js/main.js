@@ -284,7 +284,6 @@
         let pr_img2 = $(this).closest('.block2-pic').find('.pr_img2').val();
         let pr_img3 = $(this).closest('.block2-pic').find('.pr_img3').val();
         let img = $(this).prev('img').attr('src');
-        console.log(pr_img3)
         $('#data_head').text(head);
         $('#data_price').text(price);
         $('#main_img').attr('src', img);
