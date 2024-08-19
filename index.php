@@ -1202,27 +1202,25 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								</div>
 								<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 									<div class="flex-m bor9 p-r-10 m-r-11">
-										<a href="#"
-											class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-											data-tooltip="Add to Wishlist">
-											<i class="zmdi zmdi-favorite"></i>
-										</a>
+										<form action="wishlist_config.php" method="POST" class="wishlistForm" >
+											<?php
+												$product_data = mysqli_query($product_info, $product);
+												while ($fetch_product = mysqli_fetch_array($product_data)) {
+											?>
+											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
+											<?php
+												}
+											?>
+											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish"> 
+											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
+													alt="ICON">
+												<img class="icon-heart2 dis-block trans-04 ab-t-l"
+													src="images/icons/icon-heart-02.png" alt="ICON">
+											</button>
+										</form>
 									</div>
-
-									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-										data-tooltip="Facebook">
-										<i class="fa fa-facebook"></i>
-									</a>
-
-									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-										data-tooltip="Twitter">
-										<i class="fa fa-twitter"></i>
-									</a>
-
-									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-										data-tooltip="Google Plus">
-										<i class="fa fa-google-plus"></i>
-									</a>
+									<p>Add in you wishlist</p>
 								</div>
 							</div>
 						</div>
