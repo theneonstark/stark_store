@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="./assets/js/init-alpine.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
@@ -575,7 +576,7 @@
                           <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                         </div>
                         <div>
-                          <p class="font-semibold"><?php echo $product_detail_fetch['product_name']?></p>
+                          <p class="font-semibold w-20 truncate"><?php echo $product_detail_fetch['product_name']?></p>
                           <p class="text-xs text-gray-600 dark:text-gray-400">
                           <?php echo $product_detail_fetch['pc_name']?>
                           </p>
@@ -597,8 +598,8 @@
                     <td class="px-4 py-3 text-sm">
                       6/10/2020
                     </td>
-                    <td class="px-4 py-3 text-sm">
-                    <?php echo $product_detail_fetch['product_description']?>
+                    <td class="px-4 py-3 text-sm w-20 truncate">
+                      <p class="font-semibold w-20 truncate"><?php echo $product_detail_fetch['product_description']?></p>
                     </td>
                     <td class="px-4 py-3">
                       <div class="flex items-center space-x-4 text-sm">
