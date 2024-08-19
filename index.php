@@ -1306,31 +1306,10 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 				})
 			});
 		</script>
-		<script>
-			// $(document).ready(function() {
-			// $('.wishlistForm').on('submit', function(e) {
-			// 	e.preventDefault(); // Prevent the form from submitting the traditional way
-
-			// 	$.ajax({
-			// 		type: 'POST',
-			// 		url: $(this).attr('action'),
-			// 		data: $(this).serialize(), // Serialize form data
-			// 		success: function(response) {
-			// 			// Handle the response from the server
-			// 			alert(response); // Show server response
-			// 		},
-			// 		error: function(xhr, status, error) {
-			// 			// Handle errors
-			// 			alert('An error occurred: ' + error);
-			// 		}
-			// 	});
-			// });
-			// });
-		</script>	
-
-		<!--===============================================================================================-->
 		<script src="js/main.js"></script>
 		<?php
+}else{
+	header('location: login.php');
 }
 ?>
  <script>
