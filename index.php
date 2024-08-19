@@ -3,7 +3,8 @@
 <?php
 session_start();
 include ('config.php');
-$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id";
+$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
+";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 	?>
@@ -594,19 +595,19 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							All Products
 						</button>
 
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-							Women
+						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Cloth">
+							Cloth
 						</button>
 
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
-							Men
+						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Accessories">
+							Accessories
 						</button>
 
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
-							Bag
+						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Belt">
+							Belt
 						</button>
 
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
+						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Shoes">
 							Shoes
 						</button>
 
@@ -843,7 +844,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
 						$pr_img = json_decode($fetch_product['pr_imgs']);
 						?>
-						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $fetch_product['pc_name'] ?>">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
@@ -861,10 +862,10 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 									<div class="block2-txt-child1 flex-col-l ">
 										<a href="product-detail.php" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
 											 <?php echo $fetch_product['product_name'] ?>
-										</a>
-
-										<span class="stext-105 cl3">
-											<b>₹ <?php echo $fetch_product['product_price'] ?></b>
+											</a>
+											
+											<span class="stext-105 cl3">
+												<b>₹ <?php echo $fetch_product['product_price'] ?></b>
 										</span>
 									</div>
 
