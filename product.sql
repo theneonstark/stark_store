@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2024 at 10:36 PM
+-- Generation Time: Aug 20, 2024 at 06:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,7 +61,8 @@ CREATE TABLE `product_images` (
 
 INSERT INTO `product_images` (`pr_id`, `pr_imgs`) VALUES
 (10, '[\"41VhSSlalQL._SL1198_.jpg\",\"61E0Jzp-JVL._SY879_.jpg\",\"61zdJmxjmuL._SL1500_.jpg\"]'),
-(11, '[\"51YmKgWW8yL._SL1198_.jpg\",\"719gA5x-+eL._SY879_.jpg\",\"715m7v58JDL._SL1500_.jpg\"]');
+(11, '[\"51YmKgWW8yL._SL1198_.jpg\",\"719gA5x-+eL._SY879_.jpg\",\"715m7v58JDL._SL1500_.jpg\"]'),
+(12, '[\"41557PpoauL.jpg\",\"31lRz5TGgwL.jpg\",\"61dUjRK9hlL._SY575_.jpg\"]');
 
 -- --------------------------------------------------------
 
@@ -86,7 +87,8 @@ CREATE TABLE `product_item` (
 
 INSERT INTO `product_item` (`id`, `product_name`, `product_img`, `product_price`, `gender`, `product_description`, `product_related_img`, `product_catg`) VALUES
 (10, 'Lymio Men T-Shirt || T-Shirt for Men || Polo T Shirt || T-Shirt (polo-30-33)', '61J70J3DBwL._SY879_.jpg', '1299', 'M', 'Men T-Shirt || T-Shirt for Men || Polo T Shirt || T-Shirt\r\nPattern Type: Plain\r\nSleeve Length: Short Sleeve\r\nColor Disclaimer: Product color might slightly vary due to photographic lighting sources or your monitor settings\r\nFit type-Regular Fit', 10, 1),
-(11, 'Lux Cozi Mens Regular Fit Polo Neck Half Sleeve Solid Casual T-Shirt', '718j9P1Gf4L._SY879_.jpg', '1498', 'M', 'Lux Cozi Mens Regular Fit Polo Neck Half Sleeve Solid Casual T-shirt is a stylish and comfortable choice for casual wear.\r\nThe half sleeves offer a relaxed and versatile style, perfect for warmer weather or layering under jackets.\r\nThe solid color design adds a touch of elegance and makes it easy to pair with different bottoms.\r\nIt is suitable for various occasions, including casual outings, social gatherings, and relaxed work environments.\r\nThe T-shirt is designed with a classic polo neck, giving it a sophisticated and timeless look.', 11, 1);
+(11, 'Lux Cozi Mens Regular Fit Polo Neck Half Sleeve Solid Casual T-Shirt', '718j9P1Gf4L._SY879_.jpg', '1498', 'M', 'Lux Cozi Mens Regular Fit Polo Neck Half Sleeve Solid Casual T-shirt is a stylish and comfortable choice for casual wear.\r\nThe half sleeves offer a relaxed and versatile style, perfect for warmer weather or layering under jackets.\r\nThe solid color design adds a touch of elegance and makes it easy to pair with different bottoms.\r\nIt is suitable for various occasions, including casual outings, social gatherings, and relaxed work environments.\r\nThe T-shirt is designed with a classic polo neck, giving it a sophisticated and timeless look.', 11, 1),
+(12, 'Fox Racing uniquesex-adult Modern', '31WPIRNSGQL.jpg', '49999', 'M', 'Dual BOA Li2 system provides on the move micro-adjustability and improved power transfer to the pedals.\r\nOne-piece welded seamless upper reduces weight. Molded toe cap is designed to protect against rock strikes. Molded internal stiffening plate optimizes power transfer and off-bike comfort. and offers a precise fit.\r\nUltratac rubber compound provides excellent durability and unprecedented grip.\r\nHigh and low arch support options for a custom fit.\r\n2-bolt cleat system is compatible with all major pedal suppliers.', 12, 3);
 
 --
 -- Indexes for dumped tables
@@ -122,7 +124,7 @@ ALTER TABLE `product_item`
 -- AUTO_INCREMENT for table `product_item`
 --
 ALTER TABLE `product_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
