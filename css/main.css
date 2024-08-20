@@ -2112,8 +2112,19 @@ input.num-product::-webkit-inner-spin-button {
 
 /*//////////////////////////////////////////////////////////////////
 [ Block2 ]*/
+.block2{
+  padding: 10px 5px;
+  border-radius: 0.5rem;
+  transition: all 0.5s;
+}
+
+.block2:hover{
+  box-shadow: 0 0 20px #c0c0c0;
+}
 .block2-pic {
+  border-radius: 0.5rem;
   position: relative;
+  height: 300px;
 }
 
 .block2-btn {
@@ -3138,10 +3149,12 @@ input.num-product::-webkit-inner-spin-button {
 
 .hov-img0 img{
   width: 100%;
+  height: 100%;
   -webkit-transition: transform 0.9s ease;
   -o-transition: transform 0.9s ease;
   -moz-transition: transform 0.9s ease;
   transition: transform 0.9s ease;
+  object-fit: cover;
 }
 
 .hov-img0:hover img {
