@@ -197,11 +197,6 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 				<ul class="main-menu-m">
 					<li>
 						<a href="index.php">Home</a>
-						<ul class="sub-menu-m">
-							<li><a href="index.php">Homepage 1</a></li>
-							<li><a href="home-02.php">Homepage 2</a></li>
-							<li><a href="home-03.php">Homepage 3</a></li>
-						</ul>
 						<span class="arrow-main-menu-m">
 							<i class="fa fa-angle-right" aria-hidden="true"></i>
 						</span>
@@ -365,7 +360,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							?>
 						<li class="header-cart-item flex-w flex-t m-b-12">
 							<div class="header-cart-item-img">
-								<img src="images/item-cart-01.jpg" alt="IMG">
+								<img src="image/product/<?php echo $wish_fetch['product_img'];?>" alt="IMG">
 							</div>
 
 							<div class="header-cart-item-txt p-t-8">
