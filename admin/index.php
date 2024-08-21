@@ -506,10 +506,13 @@
               </div>
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Pending contacts
+                  Queries
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  35
+                  <?php
+                    $fetch_queries = mysqli_query($fandq_info , "SELECT COUNT(*) FROM queries");
+                    echo mysqli_num_rows($fetch_queries);
+                  ?>
                 </p>
               </div>
             </div>
