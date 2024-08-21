@@ -46,6 +46,12 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 		}
 	}
 
+	if(isset($_POST['send'])){
+		$mail = $_POST['email'];
+		$msg = $_POST['msg'];
+		$send_query = mysqli_query($fandq_info, "INSERT INTO queries (email, message) VALUES ('$mail', '$msg')");
+	}
+
 	?>
 <head>
 	<title>Contact</title>
@@ -408,7 +414,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							?>
 						<li class="header-cart-item flex-w flex-t m-b-12">
 							<div class="header-cart-item-img">
-								<img src="images/item-cart-01.jpg" alt="IMG">
+								<img src="image/product/<?php echo $wish_fetch['product_img'];?>" alt="IMG">
 							</div>
 
 							<div class="header-cart-item-txt p-t-8">
@@ -462,13 +468,13 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 		<div class="container">
 			<div class="flex-w flex-tr">
 				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-					<form>
+					<form method="POST">
 						<h4 class="mtext-105 cl2 txt-center p-b-30">
 							Send Us A Message
 						</h4>
 
 						<div class="bor8 m-b-20 how-pos4-parent">
-							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email" placeholder="Your Email Address">
+							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="email" name="email" placeholder="Your Email Address">
 							<img class="how-pos4 pointer-none" src="images/icons/icon-email.png" alt="ICON">
 						</div>
 
@@ -476,7 +482,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							<textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="msg" placeholder="How Can We Help?"></textarea>
 						</div>
 
-						<button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+						<button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" name="send">
 							Submit
 						</button>
 					</form>
