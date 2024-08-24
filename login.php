@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $admin_data = $admin_result->fetch_assoc();
 
         // Store admin data in session
-        foreach (['id', 'name', 'username', 'email', 'password', 'profile_img', 'office'] as $key) {
+        foreach (['id', 'name', 'username', 'email', 'mobile', 'password', 'profile_img', 'office' ,'address','city', 'country', 'pincode','about'] as $key) {
           $_SESSION[$key] = $admin_data[$key];
       }
         header('location: admin/index.php');
