@@ -4,6 +4,39 @@
 session_start();
 include('../config.php');
 if (isset($_SESSION['email'])) {
+            if (isset($_POST['update'])) {
+              $id = $_SESSION['id'];
+              $name = $_POST['name'];
+              $username = $_POST['username'];
+              $email = $_POST['email'];
+              $address = $_POST['address'];
+              $city = $_POST['city'];
+              $country = $_POST['country'];
+              $pincode = $_POST['pincode'];
+              $about = $_POST['about'];
+              $query = "SELECT id FROM admins WHERE username = '$username' AND id != '$id'";
+              $result = mysqli_query($con, $query);
+              if (!mysqli_num_rows($result) > 0) {
+                if (isset($_FILES['profile_update'])) {
+                  $directory = "../image/users/";
+                  $profile_update = $_FILES['profile_update']['name'];
+                  $temp_name = $_FILES['profile_update']['tmp_name'];
+                  $already_exist = $directory . $profile_update;
+                  if (!file_exists($already_exist)) {
+                    unlink($already_exist);
+                  }
+
+                  if (move_uploaded_file($temp_name, "../image/users/$profile_update")) {
+                    $update = mysqli_query($con, "UPDATE admins SET name = '$name', username = '$username', email = '$email', profile_img = '$profile_update', address = '$address', city = '$city', country = '$country', pincode = '$pincode', about = '$about' WHERE id = '$id'");
+                    if (!$update) {
+                      die('Error: ' . mysqli_error($con));
+                    }
+                  } else {
+                    echo "The username '$username' is already taken.";
+                  }
+                }
+              }
+            }
   ?>
 
   <head>
@@ -448,41 +481,6 @@ if (isset($_SESSION['email'])) {
               Profile
             </h2>
             </nav>
-
-            <?php
-            if (isset($_POST['update'])) {
-              $id = $_SESSION['id'];
-              $name = $_POST['name'];
-              $username = $_POST['username'];
-              $email = $_POST['email'];
-              $address = $_POST['address'];
-              $city = $_POST['city'];
-              $country = $_POST['country'];
-              $pincode = $_POST['pincode'];
-              $about = $_POST['about'];
-              $query = "SELECT id FROM admins WHERE username = '$username' AND id != '$id'";
-              $result = mysqli_query($con, $query);
-              if (!mysqli_num_rows($result) > 0) {
-                if (isset($_FILES['profile_update'])) {
-                  $directory = "../image/users/";
-                  $profile_update = $_FILES['profile_update']['name'];
-                  $temp_name = $_FILES['profile_update']['tmp_name'];
-                  $already_exist = $directory . $profile_update;
-                  if (!file_exists($already_exist)) {
-                    if (move_uploaded_file($temp_name, "../image/users/$profile_update")) {
-                      $update = mysqli_query($con, "UPDATE admins SET name = '$name', username = '$username', email = '$email', profile_img = '$profile_update', address = '$address', city = '$city', country = '$country', pincode = '$pincode', about = '$about' WHERE id = '$id'");
-                      if (!$update) {
-                        die('Error: ' . mysqli_error($con));
-                      }
-                    } else {
-                      echo "The username '$username' is already taken.";
-                    }
-
-                  }
-                }
-              }
-            }
-            ?>
             <form method="POST" enctype="multipart/form-data">
               <?php
               $admin_query = mysqli_query($con, "SELECT * FROM admins LEFT JOIN department ON admins.office = department.dept_id");
