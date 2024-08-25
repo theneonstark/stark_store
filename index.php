@@ -103,20 +103,20 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							if ($wish_table_row['count'] > 0) {
 								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
 							?>
-							<a href="#"
+							<span
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
 								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
 								<i class="zmdi zmdi-favorite-outline"></i>
-							</a>
+							</span>
 							<?php
 								// }
 							}else{
 							?>
-							<a href="#"
+							<span
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
 								data-notify="0">
 								<i class="zmdi zmdi-favorite-outline"></i>
-							</a>
+							</span>
 							<?php
 							}
 							?>
@@ -160,20 +160,20 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							if ($wish_table_row['count'] > 0) {
 								$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");								
 							?>
-							<a href="#"
+							<span
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
 								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
 								<i class="zmdi zmdi-favorite-outline"></i>
-							</a>
+							</span>
 							<?php
 								// }
 							}else{
 							?>
-							<a href="#"
+							<span
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
 								data-notify="0">
 								<i class="zmdi zmdi-favorite-outline"></i>
-							</a>
+							</span>
 							<?php
 							}
 							?>
@@ -377,19 +377,6 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 }
 						?>
 					</ul>
-
-					<div class="w-full">
-						<div class="header-cart-total w-full p-tb-40">
-							Total: $75.00
-						</div>
-
-						<div class="header-cart-buttons flex-w w-full">
-							<a href="shoping-cart.php"
-								class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-								View Wishlist
-							</a>
-						</div>
-					</div>
 					<?php
 						}else{						
 						?>
