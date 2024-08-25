@@ -2,7 +2,7 @@
 <?php
 session_start();
 include ('../config.php');
-if (isset($_SESSION['admin_email'])) {
+if (isset($_SESSION['email'])) {
   $products = mysqli_query($product_info, 'SELECT product_category.pc_id, product_category.pc_name, COUNT(product_item.id) AS item_count FROM product_category RIGHT JOIN product_item ON product_category.pc_id = product_item.product_catg GROUP BY product_category.pc_name');
     ?>
   <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">

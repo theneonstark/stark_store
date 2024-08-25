@@ -4,7 +4,7 @@
   //SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg
   session_start();
   include('../config.php');
-  if(isset($_SESSION['admin_email'])){
+  if(isset($_SESSION['email'])){
     $product_details = mysqli_query($product_info, "SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg");
 ?>
 
@@ -362,12 +362,20 @@
             </li>
             <!-- Profile menu -->
             <li class="relative">
+              <?php
+                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
+                while ($admins_detail = mysqli_fetch_assoc($admin_query)) 
+                if($_SESSION['id']== $admins_detail['id']){
+              ?>
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="./assets/img/<?php echo $_SESSION['admin_img']?>"
+                  src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
                   alt="" aria-hidden="true" />
               </button>
+              <?php
+                }
+              ?>
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
