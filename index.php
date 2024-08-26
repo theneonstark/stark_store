@@ -64,7 +64,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								</li>
 
 								<li class="label1" data-label1="hot">
-									<a href="shoping-cart.php">Features</a>
+									<a href="shoping-cart.php">Your Cart</a>
 								</li>
 
 								<li>
@@ -839,10 +839,13 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 										Quick View
 									</a>
 								</div>
+								<?php
+									
+								?>
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="product-detail.php" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
+										<a href="product-detail.php?id=<?php echo $fetch_product['id']?>&&name=<?php echo $fetch_product['product_name']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
 											 <?php echo $fetch_product['product_name'] ?>
 											</a>
 											

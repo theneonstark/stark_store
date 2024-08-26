@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+	<?php
+		include('config.php');
+		session_start();
+	?>
 <head>
 	<title>Product Detail</title>
 	<meta charset="UTF-8">
@@ -21,7 +25,6 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body class="animsition">
-	
 	<!-- Header -->
 	<header class="header-v4">
 		<!-- Header desktop -->
@@ -48,11 +51,6 @@
 						<ul class="main-menu">
 							<li>
 								<a href="index.php">Home</a>
-								<ul class="sub-menu">
-									<li><a href="index.php">Homepage 1</a></li>
-									<li><a href="home-02.php">Homepage 2</a></li>
-									<li><a href="home-03.php">Homepage 3</a></li>
-								</ul>
 							</li>
 
 							<li>
@@ -60,7 +58,7 @@
 							</li>
 
 							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.php">Features</a>
+								<a href="shoping-cart.php">Your Cart</a>
 							</li>
 
 							<li>
@@ -139,11 +137,6 @@
 			<ul class="main-menu-m">
 				<li>
 					<a href="index.php">Home</a>
-					<ul class="sub-menu-m">
-						<li><a href="index.php">Homepage 1</a></li>
-						<li><a href="home-02.php">Homepage 2</a></li>
-						<li><a href="home-03.php">Homepage 3</a></li>
-					</ul>
 					<span class="arrow-main-menu-m">
 						<i class="fa fa-angle-right" aria-hidden="true"></i>
 					</span>
@@ -154,7 +147,7 @@
 				</li>
 
 				<li>
-					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
+					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Your Cart</a>
 				</li>
 
 				<li>
@@ -273,7 +266,18 @@
 		</div>
 	</div>
 
-
+	<?php
+if (isset($_GET['id']) && isset($_GET['name'])) {
+    $product_id = $_GET['id'];
+    $product_name = $_GET['name'];
+    $query = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id WHERE product_item.id = ?";
+    $stmt = $product_info->prepare($query);
+    $stmt->bind_param('i', $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $product_details = $result->fetch_assoc();
+    if ($product_details) {
+?>
 	<!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -288,7 +292,7 @@
 			</a>
 
 			<span class="stext-109 cl4">
-				Lightweight Jacket
+				<?php echo $product_details['product_name']?>
 			</span>
 		</div>
 	</div>
@@ -342,15 +346,15 @@
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-							Lightweight Jacket
+						<?php echo $product_details['product_name']?>
 						</h4>
 
 						<span class="mtext-106 cl2">
-							$58.79
+							<?php echo $product_details['product_price']?>
 						</span>
 
 						<p class="stext-102 cl3 p-t-23">
-							Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
+						<?php echo $product_details['product_description']?>
 						</p>
 						
 						<!--  -->
@@ -619,11 +623,20 @@
 			</span>
 
 			<span class="stext-107 cl6 p-lr-25">
-				Categories: Jacket, Men
+			<?php echo $product_details['pc_name']?>
 			</span>
 		</div>
 	</section>
-
+	
+	<?php
+	       
+		} else {
+			echo "Product not found.";
+		}
+	} else {
+		echo "Product ID or name not provided.";
+	}
+?>
 
 	<!-- Related Products -->
 	<section class="sec-relate-product bg0 p-t-45 p-b-105">
