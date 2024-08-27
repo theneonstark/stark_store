@@ -404,7 +404,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							</div>
 
 							<div class="header-cart-item-txt p-t-8">
-								<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+								<a href="product-detail.php?id=<?php echo $fetch_product['id']?>&&name=<?php echo $fetch_product['product_name']?>" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
 									<?php echo $wish_fetch['product_name'];?>
 								</a>
 								
@@ -715,7 +715,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="product-detail.php" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
+										<a href="product-detail.php?id=<?php echo $fetch_product['id']?>&&name=<?php echo $fetch_product['product_name']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
 											 <?php echo $fetch_product['product_name'] ?>
 											</a>
 											
@@ -1108,41 +1108,28 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <!--===============================================================================================-->
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.js-addwish-b2, .js-addwish-detail').on('click', function(e){
-			e.preventDefault();
-		});
+			$('.wishlistForm').on('submit', function(e) {
+				e.preventDefault(); // Prevent the form from submitting the traditional way
 
-		$('.js-addwish-b2').each(function(){
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(response) {
+						if(response == ""){
+							swal('Your Product', 'is added to wishlist !', 'success');
+						}else if(response == "already add"){
+							swal('Your Product', 'already added to wishlist !', 'warning');
+						}
+						
+						
+					},
+					error: function(xhr, status, error) {
+						alert('An error occurred: ' + error);
+					}
+				});
 			});
-		});
-
-		$('.js-addwish-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
-	
-	</script>
+		</script>
 <!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
