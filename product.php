@@ -7,46 +7,6 @@ $product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.
 ";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-	if (isset($_POST['wish'])) {
-		$wish_product = $_POST['wish_product'];
-		$wish_data = $_POST['wish'];
-		$wish_table = mysqli_query($wishlist_info, "CREATE TABLE IF NOT EXISTS $wish_data (
-	w_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
-	user_name varchar(100),
-	wp_detail INT
-	)");
-		if ($wish_table) {
-			$database_name = 'wishlist';
-			$table_name = $wish_data;
-			$query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-			$query->bind_param("ss", $database_name, $table_name);
-			$query->execute();
-			$result = $query->get_result();
-			$row = $result->fetch_assoc();
-			if ($row['count'] > 0) {
-				$sql = "SELECT COUNT(*) as count FROM $table_name WHERE wp_detail = ?";
-				$table_row = $wishlist_info->prepare($sql);
-				$table_row->bind_param('s', $wish_product); 
-				$table_row->execute();
-				$checked = $table_row->get_result();
-				$check_row = $checked->fetch_assoc();
-				if (!$check_row['count'] > 0) {
-					$insert_stmt = $wishlist_info->prepare("INSERT INTO $wish_data (user_name, wp_detail) VALUES (?, ?)");
-					$insert_stmt->bind_param("si", $wish_data, $wish_product);
-					$insert_stmt->execute();
-					$insert_stmt->close();
-				} else {
-					echo 'already add';
-				}
-				$table_row->close();
-
-			} else {
-				echo "Table does not exist.";
-			}
-			$query->close();
-		}
-	}
-
 	?>
 <head>
 	<title>Product</title>
@@ -286,88 +246,63 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
-		<div class="s-full js-hide-cart"></div>
+			<div class="s-full js-hide-cart"></div>
 
-		<div class="header-cart flex-col-l p-l-65 p-r-25">
-			<div class="header-cart-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-					Your Cart
-				</span>
+			<div class="header-cart flex-col-l p-l-65 p-r-25">
+				<div class="header-cart-title flex-w flex-sb-m p-b-8">
+					<span class="mtext-103 cl2">
+						Your Cart
+					</span>
 
-				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-					<i class="zmdi zmdi-close"></i>
+					<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+						<i class="zmdi zmdi-close"></i>
+					</div>
 				</div>
-			</div>
-			
-			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-01.jpg" alt="IMG">
-						</div>
 
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								White Shirt Pleat
-							</a>
+				<div class="header-cart-content flex-w js-pscroll">
+					<ul class="header-cart-wrapitem w-full">
+						<?php
+							$cart_user = $_SESSION['cart'];
+							$cart_db = "usercart";
+							// Prepare the SQL query
+							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
+							$cart_table_query->execute();
+							$cart_table_result = $cart_table_query->get_result();
+							$cart_table_row = $cart_table_result->fetch_assoc();
+							if ($cart_table_row['count'] > 0) {
+								$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");		
+								while($cart_fetch = mysqli_fetch_assoc($cart_details)){
+							?>
+						<li class="header-cart-item flex-w flex-t m-b-12">
+							<div class="header-cart-item-img">
+								<img src="image/product/<?php echo $cart_fetch['product_img'];?>" alt="IMG">
+							</div>
 
-							<span class="header-cart-item-info">
-								1 x $19.00
-							</span>
-						</div>
-					</li>
-
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-02.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								Converse All Star
-							</a>
-
-							<span class="header-cart-item-info">
-								1 x $39.00
-							</span>
-						</div>
-					</li>
-
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-03.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								Nixon Porter Leather
-							</a>
-
-							<span class="header-cart-item-info">
-								1 x $17.00
-							</span>
-						</div>
-					</li>
-				</ul>
-				
-				<div class="w-full">
-					<div class="header-cart-total w-full p-tb-40">
-						Total: $75.00
-					</div>
-
-					<div class="header-cart-buttons flex-w w-full">
-						<a href="shoping-cart.php" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-							View Cart
-						</a>
-
-						<a href="shoping-cart.php" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-							Check Out
-						</a>
-					</div>
+							<div class="header-cart-item-txt p-t-8">
+								<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+									<?php echo $cart_fetch['product_name'];?>
+								</a>
+								
+								<span class="header-cart-item-info">
+									<?php echo $cart_fetch['product_price'];?>
+								</span>
+							</div>
+						</li>
+						<?php
+}
+						?>
+					</ul>
+					<?php
+						}else{						
+						?>
+						<h1>Add Product</h1>
+						<?php
+						}
+					?>
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- Wishlist -->
 	<div class="wrap-header-wishlist js-panel-wishlist">
 			<div class="s-full js-hide-wishlist"></div>
@@ -400,7 +335,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							?>
 						<li class="header-cart-item flex-w flex-t m-b-12">
 							<div class="header-cart-item-img">
-								<img src="images/item-cart-01.jpg" alt="IMG">
+								<img src="image/product/<?php echo $wish_fetch['product_img'];?>" alt="IMG">
 							</div>
 
 							<div class="header-cart-item-txt p-t-8">
@@ -694,7 +629,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 				</div>
 
 			<div class="row isotope-grid">
-			<?php
+				<?php
 					$product_data = mysqli_query($product_info, $product);
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
 						$pr_img = json_decode($fetch_product['pr_imgs']);
@@ -706,7 +641,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[0] ?>" class="pr_img1">
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[1] ?>" class="pr_img2">
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[2] ?>" class="pr_img3">
-									<input type="hidden" value="product-detail.php?id=<?php echo $fetch_product['id']?>&&name=<?php echo $fetch_product['product_name']?>" class="product_details">
+									<input type="hidden" value="<?php echo $fetch_product['id']?>" class="product_details">
 									<img src="image/product/<?php echo $fetch_product['product_img'] ?>" alt="IMG-PRODUCT">
 									<a href="#"
 										class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -1042,10 +977,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 													<i class="fs-16 zmdi zmdi-plus"></i>
 												</div>
 											</div>
-											<a href=""
-												class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" id="product_detail_link	">
-												Add to cart
-											</a>
+											<form action="cart_config.php" method="POST" class="cartForm">
+												<input type="hidden" value="" name="cart_product" id="product_cart_details">
+												<input type="hidden" value="<?php echo $_SESSION['cart'];?>" name="cart">
+												<button type="submit"
+													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+													Add to cart
+												</button>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -1137,6 +1076,27 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 							swal('Your Product', 'is added to wishlist !', 'success');
 						}else if(response == "already add"){
 							swal('Your Product', 'already added to wishlist !', 'warning');
+						}
+						
+						
+					},
+					error: function(xhr, status, error) {
+						alert('An error occurred: ' + error);
+					}
+				});
+			});
+			$('.cartForm').on('submit', function(e) {
+				e.preventDefault(); // Prevent the form from submitting the traditional way
+
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(response) {
+						if(response == ""){
+							swal('Your Product', 'is added to Cart !', 'success');
+						}else if(response == "already add"){
+							swal('Your Product', 'already added to Cart !', 'warning');
 						}
 						
 						
