@@ -295,7 +295,7 @@
         $('#pr_href2').attr('href', pr_img2);
         $('#pr_img3').attr('src', pr_img3);
         $('#pr_href3').attr('href', pr_img3);
-        $('#product_detail_link').attr('href', product_details);
+        $('#product_cart_details').attr('value', product_details);
         $('.js-modal1').addClass('show-modal1');  
         $('.wrap-slick3').each(function() {
             let $slickElement = $(this).find('.slick3');
