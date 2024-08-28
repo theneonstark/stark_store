@@ -87,10 +87,31 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								<i class="zmdi zmdi-search"></i>
 							</div>
 
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-								data-notify="2">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
+							<?php
+							$cart_user = $_SESSION['cart'];
+							$cart_db = "usercart";
+							// Prepare the SQL query
+							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
+							$cart_table_query->execute();
+							$cart_table_result = $cart_table_query->get_result();
+							$cart_table_row = $cart_table_result->fetch_assoc();
+							if ($cart_table_row['count'] > 0) {
+								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");								
+							?>
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+						data-notify="<?php echo mysqli_num_rows($cart_details)?>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+					<?php
+							}else{
+							?>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+					<?php
+							}
+							?>
 							<?php
 							$wish_user = $_SESSION['wishlist'];
 							$wish_db = "wishlist";
@@ -113,8 +134,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							}else{
 							?>
 							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="0">
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</span>
 							<?php
@@ -142,16 +162,35 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 						<i class="zmdi zmdi-search"></i>
 					</div>
-
+					<?php
+							$cart_user = $_SESSION['cart'];
+							$cart_db = "usercart";
+							// Prepare the SQL query
+							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
+							$cart_table_query->execute();
+							$cart_table_result = $cart_table_query->get_result();
+							$cart_table_row = $cart_table_result->fetch_assoc();
+							if ($cart_table_row['count'] > 0) {
+								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");								
+							?>
 					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-						data-notify="2">
+						data-notify="<?php echo mysqli_num_rows($cart_details)?>">
 						<i class="zmdi zmdi-shopping-cart"></i>
 					</div>
+					<?php
+							}else{
+							?>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+					<?php
+							}
+							?>
 
 					<?php
 							$wish_user = $_SESSION['wishlist'];
 							$wish_db = "wishlist";
-							// Prepare the SQL query
 							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
 							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
 							$wish_table_query->execute();
@@ -170,8 +209,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 							}else{
 							?>
 							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="0">
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</span>
 							<?php
