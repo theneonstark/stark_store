@@ -3,4 +3,5 @@
   $product_info = mysqli_connect("localhost","root","","product");
   $wishlist_info = mysqli_connect("localhost","root","","wishlist");
   $fandq_info = mysqli_connect("localhost","root","","fandq");
+  $cart_info = mysqli_connect("localhost","root","","usercart");
 ?>
