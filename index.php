@@ -320,7 +320,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								</a>
 								
 								<span class="header-cart-item-info">
-									<?php echo $cart_fetch['product_price'];?>
+								₹ <?php echo $cart_fetch['product_price'];?>
 								</span>
 							</div>
 						</li>
@@ -380,7 +380,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 								</a>
 								
 								<span class="header-cart-item-info">
-									<?php echo $wish_fetch['product_price'];?>
+								₹ <?php echo $wish_fetch['product_price'];?>
 								</span>
 							</div>
 						</li>
