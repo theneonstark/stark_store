@@ -224,12 +224,22 @@
     [ +/- num product ]*/
     $('.btn-num-product-down').on('click', function(){
         var numProduct = Number($(this).next().val());
-        if(numProduct > 0) $(this).next().val(numProduct - 1);
+        if(numProduct > 0) {
+            $(this).next().val(numProduct - 1);
+            numProduct--;
+        }
+        var price = $(this).closest('.table_row').find('.column-3').text().replace('₹ ', '').trim();
+        var totalPrice = numProduct * parseFloat(price);
+        $(this).closest('.table_row').find('.column-5').text('₹ ' + totalPrice.toFixed(2));
     });
-
+    
     $('.btn-num-product-up').on('click', function(){
         var numProduct = Number($(this).prev().val());
         $(this).prev().val(numProduct + 1);
+        numProduct++;
+        var price = $(this).closest('.table_row').find('.column-3').text().replace('₹ ', '').trim();
+        var totalPrice = numProduct * parseFloat(price);
+        $(this).closest('.table_row').find('.column-5').text('₹ ' + totalPrice.toFixed(2));
     });
 
     /*==================================================================
