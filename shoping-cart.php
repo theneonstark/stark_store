@@ -26,30 +26,30 @@ include('config.php');
 <body class="animsition">
 
 	<!-- Header -->
-	<header>
+	<header class="header-v4">
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
 			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
+				<div class="content-topbar flex-sb-m h-full container">
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
 					</div>
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop">
+			<div class="wrap-menu-desktop how-shadow1">
 				<nav class="limiter-menu-desktop container">
 
 					<!-- Logo desktop -->
-					<a href="index.php" class="logo">
+					<a href="#" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li class="active-menu">
+							<li>
 								<a href="index.php">Home</a>
 							</li>
 
@@ -77,183 +77,184 @@ include('config.php');
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
-						</div>
-
-						<?php
-						$cart_user = $_SESSION['cart'];
-						$cart_db = "usercart";
-						// Prepare the SQL query
-						$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-						$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-						$cart_table_query->execute();
-						$cart_table_result = $cart_table_query->get_result();
-						$cart_table_row = $cart_table_result->fetch_assoc();
-						if ($cart_table_row['count'] > 0) {
-							$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
-							?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-								data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
-								<i class="zmdi zmdi-shopping-cart"></i>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+								<i class="zmdi zmdi-search"></i>
 							</div>
+
 							<?php
-						} else {
+							$cart_user = $_SESSION['cart'];
+							$cart_db = "usercart";
+							// Prepare the SQL query
+							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
+							$cart_table_query->execute();
+							$cart_table_result = $cart_table_query->get_result();
+							$cart_table_row = $cart_table_result->fetch_assoc();
+							if ($cart_table_row['count'] > 0) {
+								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");								
+							?>
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+						data-notify="<?php echo mysqli_num_rows($cart_details)?>">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+					<?php
+							}else{
 							?>
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+					<?php
+							}
+							?>
 							<?php
-						}
-						?>
-						<?php
-						$wish_user = $_SESSION['wishlist'];
-						$wish_db = "wishlist";
-						// Prepare the SQL query
-						$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-						$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-						$wish_table_query->execute();
-						$wish_table_result = $wish_table_query->get_result();
-						$wish_table_row = $wish_table_result->fetch_assoc();
-						if ($wish_table_row['count'] > 0) {
-							$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");
+							$wish_user = $_SESSION['wishlist'];
+							$wish_db = "wishlist";
+							// Prepare the SQL query
+							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+							$wish_table_query->execute();
+							$wish_table_result = $wish_table_query->get_result();
+							$wish_table_row = $wish_table_result->fetch_assoc();
+							if ($wish_table_row['count'] > 0) {
+								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
 							?>
 							<span
 								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
+								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</span>
 							<?php
-							// }
-						} else {
+								// }
+							}else{
 							?>
-							<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
+							<span
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</span>
 							<?php
-						}
-						?>
-						<a href="logout.php"
-							class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
-							<i class="zmdi zmdi-account-circle"></i>
-							<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-						</a>
-					</div>
+							}
+							?>
+							<a href="logout.php"
+								class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
+								<i class="zmdi zmdi-account-circle"></i>
+								<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+							</a>
+						</div>
 				</nav>
 			</div>
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
-			<div class="logo-mobile">
-				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-			</div>
-
-			<!-- Icon header -->
-			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-					<i class="zmdi zmdi-search"></i>
+				<!-- Logo moblie -->
+				<div class="logo-mobile">
+					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 				</div>
-				<?php
-				$cart_user = $_SESSION['cart'];
-				$cart_db = "usercart";
-				// Prepare the SQL query
-				$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-				$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-				$cart_table_query->execute();
-				$cart_table_result = $cart_table_query->get_result();
-				$cart_table_row = $cart_table_result->fetch_assoc();
-				if ($cart_table_row['count'] > 0) {
-					$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
-					?>
+
+				<!-- Icon header -->
+				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+						<i class="zmdi zmdi-search"></i>
+					</div>
+					<?php
+							$cart_user = $_SESSION['cart'];
+							$cart_db = "usercart";
+							// Prepare the SQL query
+							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
+							$cart_table_query->execute();
+							$cart_table_result = $cart_table_query->get_result();
+							$cart_table_row = $cart_table_result->fetch_assoc();
+							if ($cart_table_row['count'] > 0) {
+								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");								
+							?>
 					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-						data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
+						data-notify="<?php echo mysqli_num_rows($cart_details)?>">
 						<i class="zmdi zmdi-shopping-cart"></i>
 					</div>
 					<?php
-				} else {
-					?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
+							}else{
+							?>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
 						<i class="zmdi zmdi-shopping-cart"></i>
 					</div>
 					<?php
-				}
-				?>
+							}
+							?>
 
-				<?php
-				$wish_user = $_SESSION['wishlist'];
-				$wish_db = "wishlist";
-				$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-				$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-				$wish_table_query->execute();
-				$wish_table_result = $wish_table_query->get_result();
-				$wish_table_row = $wish_table_result->fetch_assoc();
-				if ($wish_table_row['count'] > 0) {
-					$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");
-					?>
-					<span
-						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-						data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
 					<?php
-					// }
-				} else {
-					?>
-					<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-					<?php
-				}
-				?>
-				<a href="#"
-					class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-					<i class="zmdi zmdi-account-circle"></i>
-					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-				</a>
-			</div>
+							$wish_user = $_SESSION['wishlist'];
+							$wish_db = "wishlist";
+							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+							$wish_table_query->execute();
+							$wish_table_result = $wish_table_query->get_result();
+							$wish_table_row = $wish_table_result->fetch_assoc();
+							if ($wish_table_row['count'] > 0) {
+								$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");								
+							?>
+							<span
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</span>
+							<?php
+								// }
+							}else{
+							?>
+							<span
+								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</span>
+							<?php
+							}
+							?>
+					<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+						<i class="zmdi zmdi-account-circle"></i>
+						<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+					</a>
+				</div>
 
-			<!-- Button show menu -->
-			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
-				</span>
+				<!-- Button show menu -->
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
 			</div>
-		</div>
 
 
 		<!-- Menu Mobile -->
 		<div class="menu-mobile">
-			<ul class="main-menu-m">
-				<li>
-					<a href="index.php">Home</a>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
-				</li>
+				<ul class="main-menu-m">
+					<li>
+						<a href="index.php">Home</a>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
 
-				<li>
-					<a href="product.php">Shop</a>
-				</li>
+					<li>
+						<a href="product.php">Shop</a>
+					</li>
 
-				<li>
-					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
-				</li>
+					<li>
+						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
+					</li>
 
-				<li>
-					<a href="blog.php">Blog</a>
-				</li>
+					<li>
+						<a href="blog.php">Blog</a>
+					</li>
 
-				<li>
-					<a href="about.php">About</a>
-				</li>
+					<li>
+						<a href="about.php">About</a>
+					</li>
 
-				<li>
-					<a href="contact.php">Contact</a>
-				</li>
-			</ul>
-		</div>
+					<li>
+						<a href="contact.php">Contact</a>
+					</li>
+				</ul>
+			</div>
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
