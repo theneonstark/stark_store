@@ -332,6 +332,35 @@
         $('.js-modal1').removeClass('show-modal1');
     });
 
+    // Sahil dalla's code
+    // 	let unitPrice = document.getElementsByClassName('total_item_price')[0];
+    // 	let zoom =parseFloat(document.getElementsByClassName('product_cart_price')[0].innerHTML);
+    // 	let inp=parseFloat(document.getElementsByClassName('inp_value')[0].value);
+    //     let plus =document.getElementById('add');
+    //     let minus =document.getElementById('sub');
+        
+    //     plus.addEventListener('click',function(){
+            
+        
+    // 	inp ++;
+    // 	let addtotal=inp*zoom;
+    // 	unitPrice.innerHTML=addtotal;
+    //  });
+
+    //  minus.addEventListener('click',function(){
+    // 	inp --;
+    // 	let addtotal=inp*zoom;            
+    // 	unitPrice.innerHTML=addtotal;
+    //  });
+    
+    //  let sub =() => {
+    // 	if(inp<=0) return;
+    // 	inp --;
+    // 	let subtotal=inp*zoom;
+    // 	unitPrice.innerHTML=subtotal;
+    //  };
+							
+
 
 
 })(jQuery);
