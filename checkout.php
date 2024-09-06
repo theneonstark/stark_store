@@ -553,7 +553,7 @@ include('config.php');
 	  <p class="text-sm font-medium text-gray-900">Total</p>
 	  <p class="text-2xl font-semibold text-gray-900">$408.00</p>
 	</div>
-    <button class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+    <a href="payment.php" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</a>
    </div>
   </div>
 </div>
