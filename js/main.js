@@ -231,6 +231,7 @@
         var price = $(this).closest('.table_row').find('.column-3').text().replace('₹ ', '').trim();
         var totalPrice = numProduct * parseFloat(price);
         $(this).closest('.table_row').find('.column-5').text('₹ ' + totalPrice.toFixed(2));
+        $(this).closest('.table_row').find('.total_price').val(totalPrice);
     });
     
     $('.btn-num-product-up').on('click', function(){
@@ -240,6 +241,7 @@
         var price = $(this).closest('.table_row').find('.column-3').text().replace('₹ ', '').trim();
         var totalPrice = numProduct * parseFloat(price);
         $(this).closest('.table_row').find('.column-5').text('₹ ' + totalPrice.toFixed(2));
+        $(this).closest('.table_row').find('.total_price').val(totalPrice);
     });
 
     /*==================================================================
