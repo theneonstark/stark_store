@@ -199,7 +199,6 @@ include('config.php');
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</span>
 							<?php
-								// }
 							}else{
 							?>
 							<span
@@ -406,10 +405,9 @@ include('config.php');
 			</span>
 		</div>
 	</div>
-
-
+	
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<form action="checkout.php" class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-12 m-lr-auto m-b-50">
@@ -436,6 +434,7 @@ include('config.php');
 									$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");
 									while ($cart_fetch = mysqli_fetch_assoc($cart_details)) {
 										?>
+										<input type="hidden" value="<?php echo $cart_fetch['id'];?>" name="check_id">
 										<tr class="table_row">
 											<td class="column-1">
 												<div class="how-itemcart1">
@@ -459,6 +458,7 @@ include('config.php');
 												</div>
 											</td>
 											<td class="column-5">₹ <?php echo $cart_fetch['product_price'];?></td>
+											<td class="total d-none"><input type="text" class="total_price" value="<?php echo $cart_fetch['product_price'];?>" name="check_price"></td>
 										</tr>
 										<?php
 									}
@@ -488,7 +488,7 @@ include('config.php');
 
 							<div
 								class="flex-c-m">
-								<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+								<button name="checkout" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
 							Proceed to Checkout
 						</button>
 							</div>
