@@ -407,7 +407,7 @@ include('config.php');
 	</div>
 	
 	<!-- Shoping Cart -->
-	<form action="checkout.php" class="bg0 p-t-75 p-b-85">
+	<form action="checkout.php" method="POST" class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-12 m-lr-auto m-b-50">
@@ -434,7 +434,7 @@ include('config.php');
 									$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");
 									while ($cart_fetch = mysqli_fetch_assoc($cart_details)) {
 										?>
-										<input type="hidden" value="<?php echo $cart_fetch['id'];?>" name="check_id">
+										<input type="hidden" value="<?php echo $cart_fetch['id'];?>" name="check_id[]">
 										<tr class="table_row">
 											<td class="column-1">
 												<div class="how-itemcart1">
@@ -458,7 +458,8 @@ include('config.php');
 												</div>
 											</td>
 											<td class="column-5">₹ <?php echo $cart_fetch['product_price'];?></td>
-											<td class="total d-none"><input type="text" class="total_price" value="<?php echo $cart_fetch['product_price'];?>" name="check_price"></td>
+											<td class="total d-none"><input type="text" class="total_price" value="<?php echo $cart_fetch['product_price'];?>" name="check_price[]"></td>
+											
 										</tr>
 										<?php
 									}
