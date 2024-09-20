@@ -5,6 +5,24 @@
     <?php
 session_start();
 include('config.php');
+
+if (isset($_POST['new_address'])) {
+    $id = $_SESSION['id'];
+    $username = $_POST['username'];
+    $house = $_POST['house'];
+    $landmark = $_POST['landmark'];
+    $city = $_POST['city'];
+    $zip = $_POST['zip'];
+    $state = $_POST['state'];
+    $query = "SELECT id FROM users WHERE username = '$username' AND id != '$id'";
+    $result = mysqli_query($con, $query);
+    if (!mysqli_num_rows($result) > 0) {
+        $update = mysqli_query($con, "UPDATE users SET address = '$house', landmark = '$landmark', city = '$city', zip = '$zip', state = '$state' WHERE id = '$id'");
+        echo "<script>alert('success')</script>";
+        } else {
+          echo "The username '$username' is already taken.";
+        }
+    }
 ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -419,8 +437,9 @@ include('config.php');
             <p class="text-xl font-medium">Add Address</p>
             <p class="text-gray-400"> Add a suitable shipping address.</p>
             <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                <form>
-                <div class="form-group flex flex-col gap-5">
+                <form method="POST">
+                    <div class="form-group flex flex-col gap-5">
+                    <input type="hidden" name="username" value="<?php echo $_SESSION['username']?>">
                     <input type="street" name="house" class="form-control stext-107" id="autocomplete" placeholder="House/Building No.">
                     <div class="flex gap-5">
                     <input type="city" name="landmark" class="form-control stext-107" id="inputCity" placeholder="Landmark">
