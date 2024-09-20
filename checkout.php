@@ -391,7 +391,7 @@ include('config.php');
 		</div>
 	</div>
 
-	<div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 py-16">
+<div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 py-16">
 	<div class="px-4 pt-8">
 		<p class="text-xl font-medium">Address Details</p>
 		<p class="text-gray-400">Check your items. And select a suitable shipping method.</p>
@@ -405,11 +405,8 @@ include('config.php');
 			</div>
 		</div>
 		<div class="flex flex-col rounded-lg bg-white sm:flex-row">
-			<img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
 			<div class="flex w-full flex-col px-4 py-4">
-			<span class="font-semibold">Nike Air Max Pro 8888 - Super Light</span>
-			<span class="float-right text-gray-400">42EU - 8.5US</span>
-			<p class="mt-auto text-lg font-bold">$238.99</p>
+				<a href="" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-center text-white">Add Address</a>
 			</div>
 		</div>
 		</div>
@@ -474,7 +471,7 @@ include('config.php');
 </div>
 </div>
 
-<footer class="bg3 p-t-75 p-b-32">
+	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 p-b-50">
