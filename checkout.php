@@ -427,6 +427,18 @@ include('config.php');
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$product_ids = $_POST['check_id'];
 			$product_prices = $_POST['check_price'];
+			$checking_price = array_sum($product_prices);
+			$shipping = 60;
+			switch($checking_price){
+				case $checking_price > 3000:
+					$shipping = 0;
+					break;
+					case $checking_price > 1500;
+					$shipping = 40;
+					break;
+					default:
+					$shipping = 60;
+			}
 			foreach ($product_ids as $index => $product_id) {
 				$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
 				while($checkout_data = mysqli_fetch_assoc($cart_details)){
@@ -462,16 +474,16 @@ include('config.php');
 	<div class="mt-6 border-t border-b py-2">
 	  <div class="flex items-center justify-between">
 		<p class="text-sm font-medium text-gray-900">Subtotal</p>
-		<p class="font-semibold text-gray-900">$399.00</p>
+		<p class="font-semibold text-gray-900"><?php echo $checking_price?>.00</p>
 	  </div>
 	  <div class="flex items-center justify-between">
 		<p class="text-sm font-medium text-gray-900">Shipping</p>
-		<p class="font-semibold text-gray-900">$8.00</p>
+		<p class="font-semibold text-gray-900"><?php echo $shipping?>.00</p>
 	  </div>
 	</div>
 	<div class="mt-6 flex items-center justify-between">
 	  <p class="text-sm font-medium text-gray-900">Total</p>
-	  <p class="text-2xl font-semibold text-gray-900">$408.00</p>
+	  <p class="text-2xl font-semibold text-gray-900"><?php echo $checking_price+$shipping?>.00</p>
 	</div>
     <a href="payment.php" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</a>
    </div>
