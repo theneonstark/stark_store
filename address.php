@@ -421,16 +421,22 @@ if (isset($_POST['new_address'])) {
             <p class="text-xl font-medium">Address Details</p>
             <p class="text-gray-400">Check your Address. And select a suitable shipping Address.</p>
             <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+                <?php
+                    $address_id = $_SESSION['id'];
+                    $fetch_address = mysqli_query($con, "SELECT * FROM users WHERE id = $address_id");
+                    while ($row = mysqli_fetch_assoc($fetch_address)) {
+                ?>
                 <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-                    <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                        src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                        alt="" />
                     <div class="flex w-full flex-col px-4 py-4">
-                        <span class="font-semibold">Nike Air Max Pro 8888 - Super Light</span>
-                        <span class="float-right text-gray-400">42EU - 8.5US</span>
-                        <p class="text-lg font-bold">$138.99</p>
+                        <span class="font-semibold"><?php echo $row['address']?></span>
+                        <span class="float-right text-gray-400"><?php echo $row['landmark']?></span>
+                        <p class="text-lg font-bold"><?php echo $row['city'].'-'.$row['zip'].','.$row['state']?></p>
                     </div>
                 </div>
+                <?php
+                }
+                
+                ?>
             </div>
         </div>
         <div class="px-4 pt-8">
