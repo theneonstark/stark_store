@@ -402,6 +402,8 @@ include('config.php');
 				$address_id = $_SESSION['id'];
 				$fetch_address = mysqli_query($con, "SELECT * FROM users WHERE id = $address_id");
 				while ($row = mysqli_fetch_assoc($fetch_address)) {
+					$_SESSION['address'] = $row['address'].','.$row['landmark'].','.$row['city'].','.$row['zip'].'-'.$row['state'];
+					echo $_SESSION['address'];
 				?>
 					<div class="flex flex-col rounded-lg bg-white sm:flex-row">
 						<div class="flex w-full flex-col px-4 py-4">
@@ -429,7 +431,6 @@ include('config.php');
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					$product_ids = $_POST['check_id'];
 					$product_prices = $_POST['check_price'];
-					// $orderId = "ORD".rand(1111,9999);
 					$checking_price = array_sum($product_prices);
 					$shipping = 60;
 					switch ($checking_price) {
@@ -442,9 +443,12 @@ include('config.php');
 						default:
 							$shipping = 60;
 					}
+					$total = $checking_price+$shipping;
 					foreach ($product_ids as $index => $product_id) {
 						$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
 						while ($checkout_data = mysqli_fetch_assoc($cart_details)) {
+							$_SESSION['product_id'] = $checkout_data['id'];
+							echo $_SESSION['product_id'];
 				?>
 							<div class="flex flex-col rounded-lg bg-white sm:flex-row">
 								<div class="m-2 h-24 w-28 rounded-md border object-cover object-center">
@@ -483,7 +487,7 @@ include('config.php');
 		</div>
 		<div class="mt-6 flex items-center justify-between">
 			<p class="text-sm font-medium text-gray-900">Total</p>
-			<p class="text-2xl font-semibold text-gray-900"><?php echo $checking_price + $shipping ?>.00</p>
+			<p class="text-2xl font-semibold text-gray-900"><?php echo $total ?>.00</p>
 		</div>
 		<!-- <form action=""> -->
 		<button id="button" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
@@ -501,17 +505,19 @@ include('config.php');
 	$keySecret = 'P5NsdNUNPas0c0C74oCjkk1Y';
 
 	$api = new Api($keyId, $keySecret);
-	// Create a new Razorpay order
+
+	$_SESSION['total_price'] = $total;
+
 	try {
 		$order = $api->order->create([
-			'amount' => ($checking_price + $shipping) * 100,
+			'amount' => $total * 100,
 			'currency' => 'INR',
 			'receipt' => 'order_rcptid_' . $_SESSION['id'],
 			'payment_capture' => 1
 		]);
 
 		$orderId = $order['id'];
-		// echo json_encode(['status' => 'success', 'order_id' => $orderId]);
+		echo json_encode(['status' => 'success', 'order_id' => $orderId]);
 
 	} catch (Exception $e) {
 		die(json_encode(['status' => 'failure', 'error' => $e->getMessage()]));
@@ -535,21 +541,21 @@ include('config.php');
 				"handler": function(response) {
 					console.log("Simulating successful payment in test mode");
 
-					// $.ajax({
-					// 	url: "verify_payment.php",
-					// 	type: "POST",
-					// 	data: {
-					// 		payment_id: response.razorpay_payment_id,
-					// 		order_id: response.razorpay_order_id,
-					// 		signature: response.razorpay_signature
-					// 	},
-					// 	success: function(data) {
-					// 		alert('Payment verified successfully!');
-					// 	},
-					// 	error: function(err) {
-					// 		alert('Payment verification failed!');
-					// 	}
-					// });
+					$.ajax({
+						url: "verify_payment.php",
+						type: "POST",
+						data: {
+							payment_id: response.razorpay_payment_id,
+							order_id: response.razorpay_order_id,
+							signature: response.razorpay_signature
+						},
+						success: function(data) {
+							alert('Payment verified successfully!' + data);
+						},
+						error: function(err) {
+							alert('Payment verification failed!');
+						}
+					});
 				},
 				"theme": {
 					"color": "#3399cc"
