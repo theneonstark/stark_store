@@ -493,30 +493,31 @@ include('config.php');
 	</div>
 	</div>
 	<?php
-require_once './razorpay/Razorpay.php';
+	require_once './razorpay/Razorpay.php';
 
-use Razorpay\Api\Api; 
-$keyId = 'rzp_test_kBREEooxYkKLPo'; 
-$keySecret = 'P5NsdNUNPas0c0C74oCjkk1Y';  
+	use Razorpay\Api\Api;
 
-$api = new Api($keyId, $keySecret);
-// Create a new Razorpay order
-try {
-    $order = $api->order->create([
-        'amount' =>  ($checking_price + $shipping) * 100, 
-        'currency' => 'INR',
-        'receipt' => 'order_rcptid_'.$_SESSION['id'],
-        'payment_capture' => 1 
-    ]);
+	$keyId = 'rzp_test_kBREEooxYkKLPo';
+	$keySecret = 'P5NsdNUNPas0c0C74oCjkk1Y';
 
-    $orderId = $order['id'];
-    // echo json_encode(['status' => 'success', 'order_id' => $orderId]);
+	$api = new Api($keyId, $keySecret);
+	// Create a new Razorpay order
+	try {
+		$order = $api->order->create([
+			'amount' => ($checking_price + $shipping) * 100,
+			'currency' => 'INR',
+			'receipt' => 'order_rcptid_' . $_SESSION['id'],
+			'payment_capture' => 1
+		]);
 
-} catch (Exception $e) {
-    die(json_encode(['status' => 'failure', 'error' => $e->getMessage()]));
-}
+		$orderId = $order['id'];
+		// echo json_encode(['status' => 'success', 'order_id' => $orderId]);
 
-?>
+	} catch (Exception $e) {
+		die(json_encode(['status' => 'failure', 'error' => $e->getMessage()]));
+	}
+
+	?>
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script>
 		let button = document.getElementById('button')
