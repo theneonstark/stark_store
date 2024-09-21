@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="button" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById('button').addEventListener('click', function(e) {
+        console.log("helo");
+        
+        e.preventDefault(); // Prevents the default button action
+
+        var options = {
+            "key": "<?php echo $keyId; ?>", // Razorpay Key ID
+            "amount": "<?php echo $Total * 100; ?>", // Amount in paise
+            "currency": "INR",
+            "name": "Your Website Name",
+            "description": "Purchase Description",
+            "image": "", // Company logo
+            "order_id": "<?php echo $orderId; ?>", // Razorpay Order ID
+            "handler": function(response) {
+                // Simulate successful payment in test mode
+                console.log("Simulating successful payment in test mode");
+
+                $.ajax({
+                    url: "verify_payment.php",
+                    type: "POST",
+                    data: {
+                        payment_id: response.razorpay_payment_id,
+                        order_id: response.razorpay_order_id,
+                        signature: response.razorpay_signature
+                    },
+                    success: function(data) {
+                        alert('Payment verified successfully!');
+                    },
+                    error: function(err) {
+                        alert('Payment verification failed!');
+                    }
+                });
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+    });
+</script>
+</body>
+</html>
