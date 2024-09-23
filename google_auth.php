@@ -1,7 +1,6 @@
 <?php
 session_start();
 // 778357140705-e2be615r2qhpf198er0fa5bgcm1ppi1u.apps.googleusercontent.com
-// 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
 $google_oauth_client_id = 'YOUR_ID';
 $google_oauth_client_secret = 'YOUR_SECRET';
 $google_oauth_redirect_uri = 'http://localhost/stark_store/google_auth.php';
