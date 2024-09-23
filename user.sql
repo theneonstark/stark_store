@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2024 at 01:36 PM
+-- Generation Time: Sep 23, 2024 at 01:57 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -68,6 +68,23 @@ INSERT INTO `department` (`dept_id`, `dept_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `google_user`
+--
+
+CREATE TABLE `google_user` (
+  `id` int(11) NOT NULL,
+  `sub` text NOT NULL,
+  `name` text NOT NULL,
+  `given_name` text NOT NULL,
+  `picture` text NOT NULL,
+  `email` text NOT NULL,
+  `email_verify` tinyint(1) NOT NULL,
+  `dept` int(11) DEFAULT 2
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -127,6 +144,14 @@ ALTER TABLE `department`
   ADD PRIMARY KEY (`dept_id`);
 
 --
+-- Indexes for table `google_user`
+--
+ALTER TABLE `google_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `dept` (`dept`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -146,6 +171,12 @@ ALTER TABLE `admins`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `google_user`
+--
+ALTER TABLE `google_user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -160,6 +191,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `admins`
   ADD CONSTRAINT `admins_ibfk_1` FOREIGN KEY (`office`) REFERENCES `department` (`dept_id`);
+
+--
+-- Constraints for table `google_user`
+--
+ALTER TABLE `google_user`
+  ADD CONSTRAINT `google_user_ibfk_1` FOREIGN KEY (`dept`) REFERENCES `department` (`dept_id`);
 
 --
 -- Constraints for table `users`
