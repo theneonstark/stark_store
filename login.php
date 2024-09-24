@@ -16,18 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_stmt->execute();
     $user_result = $user_stmt->get_result();
 
-    $google_stmt = $con->prepare("SELECT * FROM google_user WHERE email = ? AND sub = ?");
-    $google_stmt->bind_param("ss", $enum, $pass);
-    $google_stmt->execute();
-    $google_result = $google_stmt->get_result();
-
     // Check in admins table
     $admin_stmt = $con->prepare("SELECT * FROM admins WHERE (username = ? AND password = ?) OR (email = ? AND password = ?)");
     $admin_stmt->bind_param("ssss", $enum, $pass, $enum, $pass);
     $admin_stmt->execute();
     $admin_result = $admin_stmt->get_result();
 
-    if ($user_result->num_rows > 0 || $google_result->num_rows > 0) {
+    if ($user_result->num_rows > 0) {
         $user_data = $user_result->fetch_assoc();
         
         // Store user data in session
