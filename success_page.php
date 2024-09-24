@@ -23,15 +23,17 @@ $check_user = $con->prepare("SELECT * FROM google_user WHERE email = ? OR sub = 
     $check_user->bind_param("ss", $email, $sub);
     $check_user->execute();
     $google_user_result = $check_user->get_result();
-if($google_user_result->num_row){
-    // $g_user = $con->prepare("INSERT INTO google_user (sub,name,given_name,picture,email,email_verify) VALUES (?,?,?,?,?,?)");
-    // $g_user->bind_param("ssssss", $sub, $name, $given, $pic, $email, $email_v);
-    // $g_user->execute();
+if(!$google_user_result->num_rows){
+    $g_user = $con->prepare("INSERT INTO google_user (sub,name,given_name,picture,email,email_verify) VALUES (?,?,?,?,?,?)");
+    $g_user->bind_param("ssssss", $sub, $name, $given, $pic, $email, $email_v);
+    $g_user->execute();
+    $user = $con->prepare("INSERT INTO users (name,profile_img,email) VALUES (?,?,?)");
+    $user->bind_param("sss", $name, $pic, $email);
+    $user->execute();
     echo "Data matched";
-    header('location: signup1.php');
+    header('location: index.php');
 }else{
-    echo "user already exsist";
-    header('location: signup.php');
+    header('location: index.php');
 }
     
     

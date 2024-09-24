@@ -1,7 +1,7 @@
 <?php
 session_start();
-$google_oauth_client_id = 'YOUR_ID';
-$google_oauth_client_secret = 'YOUR_SECRET';
+$google_oauth_client_id = 'ID';
+$google_oauth_client_secret = 'secret';
 $google_oauth_redirect_uri = 'http://localhost/stark_store/google_auth.php';
 $google_oauth_version = 'v3';
 
