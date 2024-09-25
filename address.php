@@ -5,7 +5,7 @@
     <?php
 session_start();
 include('config.php');
-
+if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 if (isset($_POST['new_address'])) {
     $id = $_SESSION['id'];
     $username = $_POST['username'];
@@ -19,6 +19,7 @@ if (isset($_POST['new_address'])) {
     if (!mysqli_num_rows($result) > 0) {
         $update = mysqli_query($con, "UPDATE users SET address = '$house', landmark = '$landmark', city = '$city', zip = '$zip', state = '$state' WHERE id = '$id'");
         echo "<script>alert('success')</script>";
+        header('location: checkout.php');
         } else {
           echo "The username '$username' is already taken.";
         }
@@ -446,16 +447,16 @@ if (isset($_POST['new_address'])) {
                 <form method="POST">
                     <div class="form-group flex flex-col gap-5">
                     <input type="hidden" name="username" value="<?php echo $_SESSION['username']?>">
-                    <input type="street" name="house" class="form-control stext-107" id="autocomplete" placeholder="House/Building No.">
+                    <input type="street" name="house" class="form-control stext-107" id="autocomplete" placeholder="House/Building No." required>
                     <div class="flex gap-5">
-                    <input type="city" name="landmark" class="form-control stext-107" id="inputCity" placeholder="Landmark">
-                    <input type="state" name="city" class="form-control stext-107" id="inputState" placeholder="City">
+                    <input type="city" name="landmark" class="form-control stext-107" id="inputCity" placeholder="Landmark" required>
+                    <input type="state" name="city" class="form-control stext-107" id="inputState" placeholder="City" required>
                     </div>
                     <div class="flex gap-5">
-                    <input type="zip" name="zip" class="form-control stext-107" id="inputZip" placeholder="Zip Code">
-                    <input type="county" name="state" class="form-control stext-107" id="inputCounty" placeholder="State">
+                    <input type="zip" name="zip" class="form-control stext-107" id="inputZip" placeholder="Zip Code" required>
+                    <input type="county" name="state" class="form-control stext-107" id="inputCounty" placeholder="State" required>
                     </div>
-                    <input type="submit" name="new_address" class="form-control flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" >
+                    <input type="submit" name="new_address" class="form-control flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                 </div>
             </form>
 
@@ -670,7 +671,11 @@ if (isset($_POST['new_address'])) {
         });
     </script>
     <script src="js/main.js"></script>
-
+    <?php
+}else{
+    header('location: login.php');
+}
+    ?>
 </body>
 
 </html>
