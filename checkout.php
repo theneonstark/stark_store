@@ -24,7 +24,7 @@ include('config.php');
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="animsition">
 
 	<header class="header-v4">
 		<!-- Header desktop -->
@@ -427,47 +427,72 @@ include('config.php');
 			<p class="text-xl font-medium">Order Summary</p>
 			<p class="text-gray-400">Check your items</p>
 			<div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-				<?php
-				if ($_SERVER["REQUEST_METHOD"] == "POST") {
-					$product_ids = $_POST['check_id'];
-					$product_prices = $_POST['check_price'];
-					$checking_price = array_sum($product_prices);
-					$shipping = 60;
-					switch ($checking_price) {
-						case $checking_price > 3000:
-							$shipping = 0;
-							break;
-						case $checking_price > 1500;
-							$shipping = 40;
-							break;
-						default:
-							$shipping = 60;
-					}
-					$total = $checking_price+$shipping;
-					foreach ($product_ids as $index => $product_id) {
-						$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
-						while ($checkout_data = mysqli_fetch_assoc($cart_details)) {
-							$_SESSION['product_id'] = $checkout_data['id'];
-							echo $_SESSION['product_id'];
-				?>
-							<div class="flex flex-col rounded-lg bg-white sm:flex-row">
-								<div class="m-2 h-24 w-28 rounded-md border object-cover object-center">
-									<img class="w-auto h-auto" src="image/product/<?php echo $checkout_data['product_img'] ?>" alt="" />
-								</div>
-								<div class="flex w-full flex-col px-4 py-4">
-									<span class="font-semibold"><?php echo $checkout_data['product_name'] ?></span>
-									<!-- <span class="float-right text-gray-400">42EU - 8.5US</span> -->
-									<p class="text-lg font-bold"><?php echo $product_prices[$index] ?></p>
-								</div>
-							</div>
+			<?php
 
-				<?php
-						}
-					}
-				} else {
-					echo "No cart data found!";
-				}
-				?>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	try {
+		// Check if POST data is set
+        if (!isset($_POST['check_id']) || !isset($_POST['check_price'])) {
+			throw new Exception("Error: No cart data found!");
+        }
+		
+        $product_ids = $_POST['check_id'];
+        $product_prices = $_POST['check_price'];
+		
+        // Validate that product_prices is an array and the lengths match
+        if (!is_array($product_prices) || count($product_ids) !== count($product_prices)) {
+			throw new Exception("Error: Product IDs and prices do not match.");
+        }
+
+        $checking_price = array_sum($product_prices);
+        $shipping = 60;
+
+        // Calculate shipping based on the checking price
+        if ($checking_price > 3000) {
+            $shipping = 0;
+        } elseif ($checking_price > 1500) {
+            $shipping = 40;
+        }
+
+        $total = $checking_price + $shipping;
+		
+        // Iterate through product IDs and fetch details from the database
+        foreach ($product_ids as $index => $product_id) {
+			$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
+			
+            if (!$cart_details) {
+				throw new Exception("Error: Could not retrieve product details. " . mysqli_error($product_info));
+            }
+			
+            // Check if product exists
+            if (mysqli_num_rows($cart_details) > 0) {
+                while ($checkout_data = mysqli_fetch_assoc($cart_details)) {
+                    $_SESSION['product_id'] = $checkout_data['id'];
+                    echo $_SESSION['product_id'];
+                    ?>
+                    <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+						<div class="m-2 h-24 w-28 rounded-md border object-cover object-center">
+                            <img class="w-auto h-auto" src="image/product/<?php echo htmlspecialchars($checkout_data['product_img']) ?>" alt="" />
+                        </div>
+                        <div class="flex w-full flex-col px-4 py-4">
+                            <span class="font-semibold"><?php echo htmlspecialchars($checkout_data['product_name']) ?></span>
+                            <p class="text-lg font-bold"><?php echo htmlspecialchars($product_prices[$index]) ?></p>
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+				throw new Exception("Error: Product with ID $product_id not found.");
+            }
+        }
+    } catch (Exception $e) {
+		echo $e->getMessage();
+    }
+} else {
+	echo "Error: Invalid request method.";
+}
+?>
+
 			</div>
 		</div>
 	</div>
@@ -539,7 +564,7 @@ include('config.php');
 				"image": "./images/icons/logo-01.png",
 				"order_id": "<?php echo $orderId; ?>",
 				"handler": function(response) {
-					console.log("Simulating successful payment in test mode");
+					window.location.href = "order.php";
 
 					$.ajax({
 						url: "verify_payment.php",
@@ -550,9 +575,9 @@ include('config.php');
 							signature: response.razorpay_signature
 						},
 						success: function(data) {
-							alert('Payment verified successfully!' + data);
-						},
-						error: function(err) {
+							// alert('Payment verified successfully!' + data);
+							},
+							error: function(err) {
 							alert('Payment verification failed!');
 						}
 					});
@@ -561,7 +586,7 @@ include('config.php');
 					"color": "#3399cc"
 				}
 			};
-
+			
 			var rzp = new Razorpay(options);
 			rzp.open();
 		});
@@ -771,7 +796,5 @@ include('config.php');
 	<script src="js/main.js"></script>
 
 	<!-- payment gatewauy -->
-
 </body>
-
 </html>
