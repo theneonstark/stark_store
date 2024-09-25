@@ -3,8 +3,12 @@
 <?php
 session_start();
 include('config.php');
+if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
 	header('location: shoping-cart.php');
+}
+}else{
+	header('location: login.php');
 }
 ?>
 
@@ -797,8 +801,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		});
 	</script>
 	<script src="js/main.js"></script>
-
-	<!-- payment gatewauy -->
 	<script>
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
