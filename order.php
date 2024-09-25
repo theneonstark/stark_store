@@ -22,7 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="animsition">
 <header class="header-v4">
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
