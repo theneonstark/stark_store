@@ -3,6 +3,9 @@
 <?php
 session_start();
 include('config.php');
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+	header('location: shoping-cart.php');
+}
 ?>
 
 <head>
@@ -796,5 +799,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<script src="js/main.js"></script>
 
 	<!-- payment gatewauy -->
+	<script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
 </body>
 </html>
