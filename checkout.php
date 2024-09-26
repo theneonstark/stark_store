@@ -4,10 +4,10 @@
 session_start();
 include('config.php');
 if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
-if ($_SERVER["REQUEST_METHOD"] != "POST") {
-	header('location: shoping-cart.php');
-}
-}else{
+	if ($_SERVER["REQUEST_METHOD"] != "POST") {
+		header('location: shoping-cart.php');
+	}
+} else {
 	header('location: login.php');
 }
 ?>
@@ -409,7 +409,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 				$address_id = $_SESSION['id'];
 				$fetch_address = mysqli_query($con, "SELECT * FROM users WHERE id = $address_id");
 				while ($row = mysqli_fetch_assoc($fetch_address)) {
-					$_SESSION['address'] = $row['address'].','.$row['landmark'].','.$row['city'].','.$row['zip'].'-'.$row['state'];
+					$_SESSION['address'] = $row['address'] . ',' . $row['landmark'] . ',' . $row['city'] . ',' . $row['zip'] . '-' . $row['state'];
 					echo $_SESSION['address'];
 				?>
 					<div class="flex flex-col rounded-lg bg-white sm:flex-row">
@@ -434,71 +434,69 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 			<p class="text-xl font-medium">Order Summary</p>
 			<p class="text-gray-400">Check your items</p>
 			<div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-			<?php
+				<?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	try {
-		// Check if POST data is set
-        if (!isset($_POST['check_id']) || !isset($_POST['check_price'])) {
-			throw new Exception("Error: No cart data found!");
-        }
-		
-        $product_ids = $_POST['check_id'];
-        $product_prices = $_POST['check_price'];
-		
-        // Validate that product_prices is an array and the lengths match
-        if (!is_array($product_prices) || count($product_ids) !== count($product_prices)) {
-			throw new Exception("Error: Product IDs and prices do not match.");
-        }
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+					try {
+						// Check if POST data is set
+						if (!isset($_POST['check_id']) || !isset($_POST['check_price'])) {
+							throw new Exception("Error: No cart data found!");
+						}
 
-        $checking_price = array_sum($product_prices);
-        $shipping = 60;
+						$product_ids = $_POST['check_id'];
+						$product_prices = $_POST['check_price'];
 
-        // Calculate shipping based on the checking price
-        if ($checking_price > 3000) {
-            $shipping = 0;
-        } elseif ($checking_price > 1500) {
-            $shipping = 40;
-        }
+						// Validate that product_prices is an array and the lengths match
+						if (!is_array($product_prices) || count($product_ids) !== count($product_prices)) {
+							throw new Exception("Error: Product IDs and prices do not match.");
+						}
 
-        $total = $checking_price + $shipping;
-		
-        // Iterate through product IDs and fetch details from the database
-        foreach ($product_ids as $index => $product_id) {
-			$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
-			
-            if (!$cart_details) {
-				throw new Exception("Error: Could not retrieve product details. " . mysqli_error($product_info));
-            }
-			
-            // Check if product exists
-            if (mysqli_num_rows($cart_details) > 0) {
-                while ($checkout_data = mysqli_fetch_assoc($cart_details)) {
-                    $_SESSION['product_id'] = $checkout_data['id'];
-                    echo $_SESSION['product_id'];
-                    ?>
-                    <div class="flex flex-col rounded-lg bg-white sm:flex-row">
-						<div class="m-2 h-24 w-28 rounded-md border object-cover object-center">
-                            <img class="w-auto h-auto" src="image/product/<?php echo htmlspecialchars($checkout_data['product_img']) ?>" alt="" />
-                        </div>
-                        <div class="flex w-full flex-col px-4 py-4">
-                            <span class="font-semibold"><?php echo htmlspecialchars($checkout_data['product_name']) ?></span>
-                            <p class="text-lg font-bold"><?php echo htmlspecialchars($product_prices[$index]) ?></p>
-                        </div>
-                    </div>
-                    <?php
-                }
-            } else {
-				throw new Exception("Error: Product with ID $product_id not found.");
-            }
-        }
-    } catch (Exception $e) {
-		echo $e->getMessage();
-    }
-} else {
-	echo "Error: Invalid request method.";
-}
-?>
+						$checking_price = array_sum($product_prices);
+						$shipping = 60;
+
+						// Calculate shipping based on the checking price
+						if ($checking_price > 3000) {
+							$shipping = 0;
+						} elseif ($checking_price > 1500) {
+							$shipping = 40;
+						}
+
+						$total = $checking_price + $shipping;
+
+						// Iterate through product IDs and fetch details from the database
+						foreach ($product_ids as $index => $product_id) {
+							$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
+
+							if (!$cart_details) {
+								throw new Exception("Error: Could not retrieve product details. " . mysqli_error($product_info));
+							}
+
+							// Check if product exists
+							if (mysqli_num_rows($cart_details) > 0) {
+								while ($checkout_data = mysqli_fetch_assoc($cart_details)) {
+				?>
+									<div class="flex flex-col rounded-lg bg-white sm:flex-row">
+										<div class="m-2 h-24 w-28 rounded-md border object-cover object-center">
+											<img class="w-auto h-auto" src="image/product/<?php echo htmlspecialchars($checkout_data['product_img']) ?>" alt="" />
+										</div>
+										<div class="flex w-full flex-col px-4 py-4">
+											<span class="font-semibold"><?php echo htmlspecialchars($checkout_data['product_name']) ?></span>
+											<p class="text-lg font-bold"><?php echo htmlspecialchars($product_prices[$index]) ?></p>
+										</div>
+									</div>
+				<?php
+								}
+							} else {
+								throw new Exception("Error: Product with ID $product_id not found.");
+							}
+						}
+					} catch (Exception $e) {
+						echo $e->getMessage();
+					}
+				} else {
+					echo "Error: Invalid request method.";
+				}
+				?>
 
 			</div>
 		</div>
@@ -539,6 +537,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$api = new Api($keyId, $keySecret);
 
 	$_SESSION['total_price'] = $total;
+	$_SESSION['product_id'] = $product_ids;
+	$_SESSION['product_check'] = $product_prices;
 
 	try {
 		$order = $api->order->create([
@@ -550,7 +550,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$orderId = $order['id'];
 		echo json_encode(['status' => 'success', 'order_id' => $orderId]);
-
 	} catch (Exception $e) {
 		die(json_encode(['status' => 'failure', 'error' => $e->getMessage()]));
 	}
@@ -571,7 +570,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				"image": "./images/icons/logo-01.png",
 				"order_id": "<?php echo $orderId; ?>",
 				"handler": function(response) {
-					window.location.href = "order.php";
+					// window.location.href = "verify_payment.php";
 
 					$.ajax({
 						url: "verify_payment.php",
@@ -582,9 +581,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							signature: response.razorpay_signature
 						},
 						success: function(data) {
-							// alert('Payment verified successfully!' + data);
-							},
-							error: function(err) {
+							alert('Payment verified successfully!' + data);
+						},
+						error: function(err) {
 							alert('Payment verification failed!');
 						}
 					});
@@ -593,7 +592,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					"color": "#3399cc"
 				}
 			};
-			
+
 			var rzp = new Razorpay(options);
 			rzp.open();
 		});
@@ -802,9 +801,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	</script>
 	<script src="js/main.js"></script>
 	<script>
-    if (window.history.replaceState) {
-      window.history.replaceState(null, null, window.location.href);
-    }
-  </script>
+		// if (window.history.replaceState) {
+		// 	window.history.replaceState(null, null, window.location.href);
+		// }
+	</script>
 </body>
+
 </html>
