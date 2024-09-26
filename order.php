@@ -394,12 +394,16 @@
             <h2 class="font-manrope font-bold text-4xl leading-10 text-black text-center">
                 Payment Successful
             </h2>
-            <p class="mt-4 font-normal text-lg leading-8 text-gray-500 mb-11 text-center">Thanks for making a purchase you can check our order summary frm below</p>
+            <p class="mt-4 font-normal text-lg leading-8 text-gray-500 mb-11 text-center">Thanks for making a purchase you can check our order summary from below</p>
+			<?php
+				 $order_detail = mysqli_query($user_order, "SELECT * FROM user_order ORDER BY id DESC LIMIT 1");
+				 if($exe = mysqli_fetch_assoc($order_detail)){
+			?>
             <div class="main-box border border-gray-200 rounded-xl pt-6 max-w-xl max-lg:mx-auto lg:max-w-full">
                 <div
                     class="flex flex-col lg:flex-row lg:items-center justify-between px-6 pb-6 border-b border-gray-200">
                     <div class="data">
-                        <p class="font-semibold text-base leading-7 text-black">Order Id: <span class="text-indigo-600 font-medium">#10234987</span></p>
+                        <p class="font-semibold text-base leading-7 text-black">Order Id: <span class="text-indigo-600 font-medium"><?php echo $exe['razorpay_order_id']?></span></p>
                         <p class="font-semibold text-base leading-7 text-black mt-4">Order Payment : <span class="text-gray-400 font-medium"> 18th march
                             2021</span></p>
                     </div>
@@ -408,6 +412,12 @@
                         Your Order</button>
                 </div>
                 <div class="w-full px-3 min-[400px]:px-6">
+					<?php
+					echo $exe['product_id'];
+						// for($i=0; $i<count($exe['product_id']); $i++){
+						// 	echo $exe['product_id']['$i'];
+						// }
+					?>
                     <div class="flex flex-col lg:flex-row items-center py-6 border-b border-gray-200 gap-6 w-full">
                         <div class="img-box max-lg:w-full">
                             <img src="https://pagedone.io/asset/uploads/1701167607.png" alt="Premium Watch image" 
@@ -538,6 +548,9 @@
                 </div>
 
             </div>
+			<?php
+				 }
+			?>
         </div>
     </section>
 
