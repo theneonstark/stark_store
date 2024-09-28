@@ -11,12 +11,12 @@ AJAX: Asynchronous loading of data for smoother user experiences.
 Bootstrap & Tailwind: Responsive design frameworks for consistent layout and styling.
 Font Awesome: Iconography for visual elements.
 Swiper: A powerful slider for showcasing products and images.
-Backend:
 
+Backend:
 PHP: Server-side scripting to handle business logic and server requests.
 MySQL: Database management for storing product information, user data, and transactions.
-Data Visualization:
 
+Data Visualization:
 Chart.js: Library for creating responsive charts and graphs to visualize sales data and trends.
 Key Features:
 
