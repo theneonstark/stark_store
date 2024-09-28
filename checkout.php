@@ -443,6 +443,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							throw new Exception("Error: No cart data found!");
 						}
 
+						$product_id = $_POST['check_id'];
 						$product_ids = $_POST['check_id'];
 						$product_prices = $_POST['check_price'];
 
@@ -570,7 +571,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				"image": "./images/icons/logo-01.png",
 				"order_id": "<?php echo $orderId; ?>",
 				"handler": function(response) {
-					// window.location.href = "verify_payment.php";
+					window.location.href = "order.php";
 
 					$.ajax({
 						url: "verify_payment.php",
