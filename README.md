@@ -13,11 +13,14 @@ Font Awesome: Iconography for visual elements.
 Swiper: A powerful slider for showcasing products and images.
 
 Backend:
+
 PHP: Server-side scripting to handle business logic and server requests.
 MySQL: Database management for storing product information, user data, and transactions.
 
 Data Visualization:
+
 Chart.js: Library for creating responsive charts and graphs to visualize sales data and trends.
+
 Key Features:
 
 User-friendly interface with a responsive design.
