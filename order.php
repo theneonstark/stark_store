@@ -4,12 +4,11 @@
     <?php
         include("config.php");
         session_start();
-		// if ($_SESSION['success'] != "order_success") {
-		// 	header('location: shoping-cart.php');
-		// }else{
-		// 	unset($_SESSION['success']);
-		// 	unset($_SESSION['product_ids']);
-		// }
+		if ($_SESSION['success'] != "order_success") {
+			header('location: shoping-cart.php');
+		}else{
+			unset($_SESSION['success']);
+		}
     ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -403,7 +402,7 @@
             <p class="mt-4 font-normal text-lg leading-8 text-gray-500 mb-11 text-center">Thanks for making a purchase you can check our order summary from below</p>
 			<?php
 				 $order_detail = mysqli_query($user_order, "SELECT * FROM user_order ORDER BY id DESC LIMIT 1");
-				 while($exe = mysqli_fetch_assoc($order_detail)){
+				 if($exe = mysqli_fetch_assoc($order_detail)){
 					$product_ids = json_decode($exe['product_id']);
 			?>
             <div class="main-box border border-gray-200 rounded-xl pt-6 max-w-xl max-lg:mx-auto lg:max-w-full">
@@ -420,8 +419,7 @@
                 <div class="w-full px-3 min-[400px]:px-6">
 					<?php
 						for($i=0; $i<count($product_ids); $i++){
-							print_r( [$product_ids]);
-							$order_product = mysqli_query($user_order,"SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON uo.product_id = pi.id WHERE uo.product_id = $product_ids[$i] AND pi.id = $product_ids[$i]");
+							$order_product = mysqli_query($user_order,"SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
 							while($row = mysqli_fetch_assoc($order_product)){
 					?>
                     <div class="flex flex-col lg:flex-row items-center py-6 border-b border-gray-200 gap-6 w-full">
@@ -438,7 +436,7 @@
                                     </div>
 
                                 </div>
-                                <!-- <div class="grid grid-cols-5"> -->
+                                <div class="grid grid-cols-5">
                                     <div class="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
                                         <div class="flex gap-3 lg:block">
                                             <p class="font-medium text-sm leading-7 text-black">price</p>
