@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2024 at 09:35 PM
+-- Generation Time: Oct 02, 2024 at 06:01 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,7 +31,7 @@ CREATE TABLE `user_order` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
+  `product_id` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`product_id`)),
   `razorpay_order_id` varchar(255) DEFAULT NULL,
   `razorpay_payment_id` varchar(225) DEFAULT NULL,
   `currency` varchar(10) DEFAULT NULL,
@@ -45,7 +45,9 @@ CREATE TABLE `user_order` (
 --
 
 INSERT INTO `user_order` (`id`, `user_id`, `amount`, `product_id`, `razorpay_order_id`, `razorpay_payment_id`, `currency`, `status`, `address`, `created_at`) VALUES
-(9, 14, 12298, 10, 'order_OzviHDo8Cez9HZ', 'pay_OzvkeZyCn9pbky', 'INR', 'completed', 'AB-145, Harsh Vihar, OM Nagar,Near GYM,Badarpur,110044-New Delhi', '2024-09-21 19:23:50');
+(15, 14, 13596, '[\"15\",\"10\",\"14\",\"13\"]', 'order_P2eqsBW4rFZj8M', 'pay_P2eqycaKNtE8Xc', 'INR', 'completed', 'AB-145, Harsh Vihar, OM Nagar,Near GYM,Badarpur,110044-New Delhi', '2024-09-28 16:48:53'),
+(16, 14, 13596, '[\"15\",\"10\",\"14\",\"13\"]', 'order_P2fkcaMC9qDRZz', 'pay_P2fkxn8vGYzSQb', 'INR', 'completed', 'AB-145, Harsh Vihar, OM Nagar,Near GYM,Badarpur,110044-New Delhi', '2024-09-28 17:41:53'),
+(17, 14, 15094, '[\"15\",\"10\",\"14\",\"13\",\"11\"]', 'order_P2fpDe8JYBE1Bj', 'pay_P2fpJBPPJHZPCG', 'INR', 'completed', 'AB-145, Harsh Vihar, OM Nagar,Near GYM,Badarpur,110044-New Delhi', '2024-09-28 17:46:04');
 
 --
 -- Indexes for dumped tables
@@ -65,7 +67,7 @@ ALTER TABLE `user_order`
 -- AUTO_INCREMENT for table `user_order`
 --
 ALTER TABLE `user_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
