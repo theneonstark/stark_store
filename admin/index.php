@@ -388,7 +388,7 @@
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
+                  src="../image/users/<?php echo $admins_detail['profile_img']?>"
                   alt="" aria-hidden="true" />
               </button>
               <?php
@@ -624,7 +624,7 @@
                         <!-- Avatar with inset shadow -->
                         <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                           <img class="object-cover w-full h-full rounded-full"
-                            src="./assets/img/<?php echo $person['profile_img']?>"
+                            src="<?php echo $person['profile_img'] === 'user_profile.jpg' ? '../image/users/'.$person['profile_img'] : $person['profile_img']; ?>"
                             alt="" loading="lazy" />
                           <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                         </div>
