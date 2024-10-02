@@ -407,7 +407,7 @@
                         <p class="font-semibold text-base leading-7 text-black">Order Id: <span class="text-indigo-600 font-medium"><?php echo $exe['razorpay_order_id']?></span></p>
                         <p class="font-semibold text-base leading-7 text-black mt-4">Order Payment : <span class="text-gray-400 font-medium"><?php echo $exe['created_at']?></span></p>
                     </div>
-                    <a href="orders.php?order_id=<?php $exe['razorpay_order_id']?>&&id=<?php echo $exe['id']?>"
+                    <a href="order_details.php?order_id=<?php echo $exe['razorpay_order_id']?>&&id=<?php echo $exe['id']?>&&user=<?php echo $exe['user_id']?>"
                         class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400">Track
                         Your Order</a>
                 </div>
