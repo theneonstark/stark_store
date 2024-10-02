@@ -4,39 +4,6 @@
 session_start();
 include('../config.php');
 if (isset($_SESSION['email'])) {
-            if (isset($_POST['update'])) {
-              $id = $_SESSION['id'];
-              $name = $_POST['name'];
-              $username = $_POST['username'];
-              $email = $_POST['email'];
-              $address = $_POST['address'];
-              $city = $_POST['city'];
-              $country = $_POST['country'];
-              $pincode = $_POST['pincode'];
-              $about = $_POST['about'];
-              $query = "SELECT id FROM admins WHERE username = '$username' AND id != '$id'";
-              $result = mysqli_query($con, $query);
-              if (!mysqli_num_rows($result) > 0) {
-                if (isset($_FILES['profile_update'])) {
-                  $directory = "../image/users/";
-                  $profile_update = $_FILES['profile_update']['name'];
-                  $temp_name = $_FILES['profile_update']['tmp_name'];
-                  $already_exist = $directory . $profile_update;
-                  if (!file_exists($already_exist)) {
-                    unlink($already_exist);
-                  }
-
-                  if (move_uploaded_file($temp_name, "../image/users/$profile_update")) {
-                    $update = mysqli_query($con, "UPDATE admins SET name = '$name', username = '$username', email = '$email', profile_img = '$profile_update', address = '$address', city = '$city', country = '$country', pincode = '$pincode', about = '$about' WHERE id = '$id'");
-                    if (!$update) {
-                      die('Error: ' . mysqli_error($con));
-                    }
-                  } else {
-                    echo "The username '$username' is already taken.";
-                  }
-                }
-              }
-            }
   ?>
 
   <head>
@@ -476,7 +443,7 @@ if (isset($_SESSION['email'])) {
         </header>
         <main class="h-full pb-16 overflow-y-auto">
           <!-- Remove everything INSIDE this div to a really blank page -->
-          <div class="container px-6 mx-auto grid" x-data="{isToggled: false, isButton: false }">
+          <div class="container px-6 mx-auto grid">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
               Profile
             </h2>
@@ -497,8 +464,6 @@ if (isset($_SESSION['email'])) {
                           <div
                             class="relative inline-flex items-center justify-center text-white transition-all duration-200 ease-in-out text-base h-20 w-20 rounded-xl overflow-hidden">
                             <div class="w-full shadow-2xl rounded-xl">
-                              <input id="file" x-bind:type="isButton ? 'file': 'hidden'" name="profile_update"
-                                class="absolute top-px h-full opacity-0" />
                               <img src="../image/users/<?php echo $users_detail['profile_img'] ?>"
                                 class="w-full shadow-2xl rounded-xl" />
                             </div>
@@ -523,10 +488,6 @@ if (isset($_SESSION['email'])) {
                           <div class="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
                             <div class="flex items-center">
                               <p class="mb-0 dark:text-white/80">Edit Profile</p>
-                              <button x-bind:type="isButton ? 'submit': 'button'"
-                                class="inline-block px-8 py-2 mb-4 ml-auto font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md cursor-pointer text-xs tracking-tight-rem hover:shadow-xs hover:-translate-y-px active:opacity-85 focus:outline-none"
-                                @click="isToggled = !isToggled; isButton = !isButton; $event.stopPropagation()"
-                                x-text="isToggled ? 'Save' : 'Edit'" name="update">Edit</button>
                             </div>
                           </div>
                           <div class="flex-auto p-6">
@@ -538,7 +499,7 @@ if (isset($_SESSION['email'])) {
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Name</label>
                                   <input type="text" name="name" value="<?php echo $users_detail['name']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                               <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
@@ -547,7 +508,7 @@ if (isset($_SESSION['email'])) {
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Username</label>
                                   <input type="text" name="username" value="<?php echo $users_detail['username']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                               <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
@@ -557,7 +518,7 @@ if (isset($_SESSION['email'])) {
                                     address</label>
                                   <input type="email" name="email" value="<?php echo $users_detail['email']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                             </div>
@@ -573,7 +534,7 @@ if (isset($_SESSION['email'])) {
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Address</label>
                                   <input type="text" name="address" value="<?php echo $users_detail['address']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                               <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
@@ -582,7 +543,7 @@ if (isset($_SESSION['email'])) {
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">City</label>
                                   <input type="text" name="city" value="<?php echo $users_detail['city']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                               <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
@@ -591,7 +552,7 @@ if (isset($_SESSION['email'])) {
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Landmark</label>
                                   <input type="text" name="landmark" value="<?php echo $users_detail['landmark']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                               <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
@@ -600,7 +561,7 @@ if (isset($_SESSION['email'])) {
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Zip</label>
                                   <input type="text" name="zip" value="<?php echo $users_detail['zip']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
+                                    readonly />
                                 </div>
                               </div>
                             </div>
