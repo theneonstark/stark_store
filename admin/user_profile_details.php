@@ -483,9 +483,10 @@ if (isset($_SESSION['email'])) {
             </nav>
             <form method="POST" enctype="multipart/form-data">
               <?php
-              $admin_query = mysqli_query($con, "SELECT * FROM admins LEFT JOIN department ON admins.office = department.dept_id");
-              while ($admins_detail = mysqli_fetch_assoc($admin_query)) {
-                if ($_SESSION['id'] == $admins_detail['id']) {
+              if (isset($_GET['id'])) {
+                $user_id = $_GET['id'];
+              $user_query = mysqli_query($con, "SELECT * FROM users LEFT JOIN department ON users.office = department.dept_id WHERE id = $user_id");
+              while ($users_detail = mysqli_fetch_assoc($user_query)) {
                   ?>
                   <div class="relative w-full mx-auto">
 
@@ -498,16 +499,16 @@ if (isset($_SESSION['email'])) {
                             <div class="w-full shadow-2xl rounded-xl">
                               <input id="file" x-bind:type="isButton ? 'file': 'hidden'" name="profile_update"
                                 class="absolute top-px h-full opacity-0" />
-                              <img src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
+                              <img src="../image/users/<?php echo $users_detail['profile_img'] ?>"
                                 class="w-full shadow-2xl rounded-xl" />
                             </div>
                           </div>
                         </div>
                         <div class="flex-none w-auto max-w-full px-3 my-auto">
                           <div class="h-full">
-                            <h5 class="mb-1 dark:text-white"><?php echo $admins_detail['name']; ?></h5>
+                            <h5 class="mb-1 dark:text-white"><?php echo $users_detail['name']; ?></h5>
                             <p class="mb-0 font-semibold leading-normal dark:text-white dark:opacity-60 text-sm">
-                              <?php echo $admins_detail['dept_name']; ?>
+                              <?php echo $users_detail['dept_name']; ?>
                             </p>
                           </div>
                         </div>
@@ -535,7 +536,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="first name"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Name</label>
-                                  <input type="text" name="name" value="<?php echo $admins_detail['name']; ?>"
+                                  <input type="text" name="name" value="<?php echo $users_detail['name']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -544,7 +545,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="username"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Username</label>
-                                  <input type="text" name="username" value="<?php echo $admins_detail['username']; ?>"
+                                  <input type="text" name="username" value="<?php echo $users_detail['username']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -554,7 +555,7 @@ if (isset($_SESSION['email'])) {
                                   <label for="email"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Email
                                     address</label>
-                                  <input type="email" name="email" value="<?php echo $admins_detail['email']; ?>"
+                                  <input type="email" name="email" value="<?php echo $users_detail['email']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -570,7 +571,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="address"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Address</label>
-                                  <input type="text" name="address" value="<?php echo $admins_detail['address']; ?>"
+                                  <input type="text" name="address" value="<?php echo $users_detail['address']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -579,7 +580,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="city"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">City</label>
-                                  <input type="text" name="city" value="<?php echo $admins_detail['city']; ?>"
+                                  <input type="text" name="city" value="<?php echo $users_detail['city']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -587,8 +588,8 @@ if (isset($_SESSION['email'])) {
                               <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
                                 <div class="mb-4">
                                   <label for="country"
-                                    class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Country</label>
-                                  <input type="text" name="country" value="<?php echo $admins_detail['country']; ?>"
+                                    class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Landmark</label>
+                                  <input type="text" name="landmark" value="<?php echo $users_detail['landmark']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -596,25 +597,8 @@ if (isset($_SESSION['email'])) {
                               <div class="w-full max-w-full px-3 shrink-0 md:w-4/12 md:flex-0">
                                 <div class="mb-4">
                                   <label for="postal code"
-                                    class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Postal
-                                    code</label>
-                                  <input type="text" name="pincode" value="<?php echo $admins_detail['pincode']; ?>"
-                                    class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
-                                    x-bind:readonly="!isToggled" />
-                                </div>
-                              </div>
-                            </div>
-                            <hr
-                              class="h-px mx-0 my-4 bg-transparent border-0 opacity-25 bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent " />
-
-                            <p class="leading-normal uppercase dark:text-white dark:opacity-60 text-sm">About me</p>
-                            <div class="flex flex-wrap -mx-3">
-                              <div class="w-full max-w-full px-3 shrink-0 md:w-full md:flex-0">
-                                <div class="mb-4">
-                                  <label for="about me"
-                                    class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">About
-                                    me</label>
-                                  <input type="text" name="about" value="<?php echo $admins_detail['about']; ?>"
+                                    class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Zip</label>
+                                  <input type="text" name="zip" value="<?php echo $users_detail['zip']; ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
