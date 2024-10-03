@@ -452,7 +452,21 @@ if (isset($_SESSION['email'])) {
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    <?php                    
+                    <?php
+                    if (isset($_GET['orders'])) {
+                        $products_id = $_GET['orders'];
+                        $product_ids = json_decode($products_id, true); // Decode to array if possible
+                        
+                        // If json_decode fails (returns NULL), treat as a single ID string
+                        if (is_null($product_ids)) {
+                            echo "Single product ID: " . $products_id; // Treat as single product ID (no array)
+                        } elseif (is_array($product_ids)) {
+                            echo "Number of product IDs: " . count($product_ids); // Handle array of product IDs
+                        } else {
+                            echo "Unexpected format for product IDs.";
+                        }
+                    }
+                    
                     while ($order_row = mysqli_fetch_assoc($order_details)) {
                       $product_ids = json_decode($order_row['product_id']);
                     ?>
