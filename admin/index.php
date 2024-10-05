@@ -26,6 +26,8 @@
     $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
     $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
     $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
+    $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
+    $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
     
     if(isset($_POST['delete'])){
       $delete_id = $_POST['delete'];
@@ -484,7 +486,11 @@
                   Account balance
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  $ 46,760.89
+                  ₹ <?php
+                    if($price = mysqli_fetch_assoc($user_order_price)){
+                      echo $price["SUM(amount)"]; 
+                    }
+                  ?>
                 </p>
               </div>
             </div>
@@ -499,10 +505,14 @@
               </div>
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  New sales
+                  Total sales
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  376
+                <?php
+                    if($count = mysqli_fetch_assoc($user_order_count)){
+                      echo $count["COUNT(*)"];
+                    }
+                  ?>
                 </p>
               </div>
             </div>
@@ -672,8 +682,8 @@
                         </button>
                         </a>
                         <form method="POST">
-                          <input type="text" value="<?php echo $person['cart']?>" name="cart">
-                          <input type="text" value="<?php echo $person['wishlist']?>" name="wishlist">
+                          <input type="hidden" value="<?php echo $person['cart']?>" name="cart">
+                          <input type="hidden" value="<?php echo $person['wishlist']?>" name="wishlist">
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                           aria-label="Delete" value="<?php echo $person['id']?>" name="delete">
