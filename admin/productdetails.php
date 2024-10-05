@@ -4,6 +4,10 @@
   //SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg
   session_start();
   include('../config.php');
+  $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
+    $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
+    $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
+    $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
   if(isset($_SESSION['email'])){
     $product_details = mysqli_query($product_info, "SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg");
 ?>
