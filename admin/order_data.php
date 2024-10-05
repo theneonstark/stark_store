@@ -612,8 +612,7 @@ if (isset($_SESSION['email'])) {
                           <?php echo $order_row['amount'] ?>
                         </td>
                         <td class="px-4 py-3 text-sm w-5 truncate">
-                          <?php echo $order_row['product_id']; ?>
-                          <a href="order_product_details.php?orders=<?php echo $order_row['user_id'] ?>" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                          <a href="order_product_details.php?orders=<?php echo $order_row['razorpay_order_id']?>" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                             aria-label="Edit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
@@ -642,7 +641,7 @@ if (isset($_SESSION['email'])) {
                             <a href="user_profile_details.php?id=<?php echo $order_row['razorpay_order_id']?>">
                               <button
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                aria-label="Edit" value="<?php echo $person['id']?>" name="naam">
+                                aria-label="Edit" value="" name="naam">
                                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                                   <path
                                     d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
