@@ -431,103 +431,67 @@ if (isset($_SESSION['email'])) {
         <main class="h-full overflow-y-auto">
           <div class="container px-6 mx-auto grid">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-              Products
+              Orders Product
             </h2>
-            <!-- New Table -->
-            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-              Orders
-            </h2>
-            <div class="w-full overflow-hidden rounded-lg shadow-xs">
-              <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
-                  <thead>
-                    <tr
-                      class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Id</th>
-                      <th class="px-4 py-3">User Id</th>
-                      <th class="px-4 py-3">Amount</th>
-                      <th class="px-4 py-3">Product</th>
-                      <th class="px-4 py-3">Order Id</th>
-                      <th class="px-4 py-3">Payment Id</th>
-                    </tr>
-                  </thead>
-                  <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            <div class="container">
+              <!-- Order Summary Card -->
+              <?php
+              if (isset($_GET['orders'])) {
+                $order_id = $_GET['orders'];
+                // Fetch order details
+                $order_query = mysqli_query($user_order, "SELECT * FROM user_order WHERE razorpay_order_id = '$order_id'");
+                if ($order_details = mysqli_fetch_assoc($order_query)) {
+                  $product_ids = json_decode($order_details['product_id']);
+              ?>
+                  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 space-y-6">
+                    <div class="flex justify-between items-center">
+                      <div>
+                        <p class="text-lg font-semibold text-blue-500">Order Id: <?php echo $order_id ?></p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Order Payment: <?php echo $order_details['created_at'] ?></p>
+                      </div>
+                      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                        Track Your Order
+                      </button>
+                    </div>
+
                     <?php
-                    if (isset($_GET['orders'])) {
-                        $products_id = $_GET['orders'];
-                        $product_ids = json_decode($products_id, true); // Decode to array if possible
-                        
-                        // If json_decode fails (returns NULL), treat as a single ID string
-                        if (is_null($product_ids)) {
-                            echo "Single product ID: " . $products_id; // Treat as single product ID (no array)
-                        } elseif (is_array($product_ids)) {
-                            echo "Number of product IDs: " . count($product_ids); // Handle array of product IDs
-                        } else {
-                            echo "Unexpected format for product IDs.";
-                        }
-                    }
-                    
-                    while ($order_row = mysqli_fetch_assoc($order_details)) {
-                      $product_ids = json_decode($order_row['product_id']);
+                    // Fetch all products in a single query
+                    $product_ids_list = implode(",", array_map('intval', $product_ids)); // Convert JSON array to SQL-friendly format
+                    $order_product_query = mysqli_query($user_order, "SELECT pi.*, uo.product_id FROM product.product_item pi 
+                    JOIN user_order.user_order uo ON pi.id IN ($product_ids_list) 
+                    WHERE uo.razorpay_order_id = '$order_id'");
+                    while ($row = mysqli_fetch_assoc($order_product_query)) {
                     ?>
-                      <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-4 py-3">
-                          <div class="flex items-center text-sm">
-                            <div>
-                              <p class="font-semibold"><?php echo $order_row['id'] ?></p>
-                              <p class="text-xs text-gray-600 dark:text-gray-400">
-                                <?php echo $order_row['user_id'] ?>
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                          <?php
-                          if ($order_row['user_id']) {
-                            $user_details = mysqli_query($con, "SELECT * FROM users WHERE id = " . $order_row['user_id']);
-                            $user_info = mysqli_fetch_assoc($user_details);
-                            echo $user_info['name'];
-                          }
-                          ?>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                          <?php echo $order_row['amount'] ?>
-                        </td>
-                        <td class="px-4 py-3 text-sm w-5 truncate">
-                          <!-- <?php echo $order_row['product_id']; ?> -->
-                          <a href="order_product_details.php?<?php print_r($product_ids); ?>" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                            aria-label="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
-                              <path d="M11 11h2v6h-2zm0-4h2v2h-2z"></path>
-                            </svg>
-                          </a>
-                        </td>
-                        <td class="px-4 py-3 text-xs">
-                          <span
-                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                            <?php
-                            echo $order_row['razorpay_order_id'];
-                            ?>
-                          </span>
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                          <span
-                            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                            <?php
-                            echo $order_row['razorpay_payment_id'];
-                            ?>
-                          </span>
-                        </td>
-                      </tr>
+                      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 border-b pb-4">
+                        <img src="../image/product/<?php echo $row['product_img'] ?>" alt="Product Image" class="w-full h-auto md:w-32">
+                        <div class="col-span-2">
+                          <h3 class="font-bold text-lg"><?php echo $row['product_name'] ?></h3>
+                          <!-- <p class="text-sm text-gray-500 dark:text-gray-400">Qty: </p> -->
+                        </div>
+                        <div class="md:text-right">
+                          <p class="text-lg font-semibold text-blue-600"><?php echo $row['product_price'] ?></p>
+                          <p class="text-sm bg-green-100 text-green-600 px-2 py-1 inline-block rounded-md">Ready for Delivery</p>
+                          <p class="text-sm text-gray-500 dark:text-gray-400">Expected Delivery Time: 23rd March 2021</p>
+                        </div>
+                      </div>
                     <?php
                     }
                     ?>
-                  </tbody>
-                </table>
-              </div>
+
+                    <!-- Footer Section -->
+                    <div class="flex justify-end items-center">
+                      <div class="text-right">
+                        <p class="text-lg font-bold text-blue-600">Total Price: <?php echo $order_details['amount'] ?></p>
+                      </div>
+                    </div>
+                  </div>
+
+              <?php
+                }
+              }
+              ?>
+
             </div>
-          </div>
         </main>
       </div>
     </div>
