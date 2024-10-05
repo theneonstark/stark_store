@@ -455,7 +455,9 @@
                   Total clients
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  6389
+                  <?php
+                    echo mysqli_num_rows($users_details) + mysqli_num_rows($admins_details);
+                  ?>
                 </p>
               </div>
             </div>
@@ -473,7 +475,11 @@
                   Account balance
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  $ 46,760.89
+                  ₹ <?php
+                    if($price = mysqli_fetch_assoc($user_order_price)){
+                      echo $price["SUM(amount)"]; 
+                    }
+                  ?>
                 </p>
               </div>
             </div>
@@ -488,10 +494,14 @@
               </div>
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  New sales
+                  Total sales
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  376
+                <?php
+                    if($count = mysqli_fetch_assoc($user_order_count)){
+                      echo $count["COUNT(*)"];
+                    }
+                  ?>
                 </p>
               </div>
             </div>
@@ -506,10 +516,13 @@
               </div>
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Pending contacts
+                  Queries
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                  35
+                  <?php
+                    $fetch_queries = mysqli_query($fandq_info , "SELECT COUNT(*) FROM queries");
+                    echo mysqli_num_rows($fetch_queries);
+                  ?>
                 </p>
               </div>
             </div>
