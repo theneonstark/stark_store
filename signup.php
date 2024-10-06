@@ -65,7 +65,7 @@ if (isset($_POST['sub'])) {
                     </div>
                   </div>
                   <div style="padding-top: 20px; color: rgb(153, 153, 153); text-align: center;">
-                    <p style="padding-bottom: 16px">Made with ♥ in Stark-Stor</p>
+                    <p style="padding-bottom: 16px">Made with ♥ in Stark-Store</p>
                   </div>
                 </td>
               </tr>
