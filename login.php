@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       <span>Or</span>
       <hr class="line">
     </div>
-    <a href="" class="create-account">
+    <a href="signup.php" class="create-account">
       Create a new account
     </a>
     <div class="auth-login">
