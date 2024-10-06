@@ -5,6 +5,7 @@
     <?php
         session_start();
         include('config.php');
+        if(empty($_SESSION['OTP'])){
 
         if(isset($_POST['verified'])){
             $otp = $_POST['otp1'].$_POST['otp2'].$_POST['otp3'].$_POST['otp4'];
@@ -30,16 +31,24 @@
         <span class="mainHeading">Enter OTP</span>
         <p class="otpSubheading">We have sent a verification code to your mobile number</p>
         <div class="inputContainer">
-            <input required="required" maxlength="1" type="text" name="otp1" class="otp-input" id="otp-input1">
-            <input required="required" maxlength="1" type="text" name="otp2" class="otp-input" id="otp-input2">
-            <input required="required" maxlength="1" type="text" name="otp3" class="otp-input" id="otp-input3">
-            <input required="required" maxlength="1" type="text" name="otp4" class="otp-input" id="otp-input4">
+            <input type="tel" inputmode="numeric" required="required" maxlength="1" type="text" name="otp1" class="otp-input" id="otp-input1" autocomplete="off">
+            <input type="tel" inputmode="numeric" required="required" maxlength="1" type="text" name="otp2" class="otp-input" id="otp-input2" autocomplete="off">
+            <input type="tel" inputmode="numeric" required="required" maxlength="1" type="text" name="otp3" class="otp-input" id="otp-input3" autocomplete="off">
+            <input type="tel" inputmode="numeric" required="required" maxlength="1" type="text" name="otp4" class="otp-input" id="otp-input4" autocomplete="off">
 
         </div>
         <button class="verifyButton" type="submit" name="verified">Verify</button>
         <p class="resendNote">Didn't receive the code? <button class="resendBtn">Resend Code</button></p>
 
     </form>
+    <?php
+        }else{
+            header('signup.php');
+        }
+    ?>
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<script src="js/main.js"></script>
 </body>
 
 </html>

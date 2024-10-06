@@ -373,6 +373,29 @@
     //  };
 							
 
+    const otpInputs = document.querySelectorAll('.otp-input');
 
+  otpInputs.forEach((input, index) => {
+    input.addEventListener('input', (event) => {
+      const currentInput = event.target;
+      if (currentInput.value.length === 1) {
+        const nextInput = otpInputs[index + 1];
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
+    });
+    input.addEventListener('keydown', (e) => {
+        // Allow only numeric input
+        if (!/^\d$/.test(e.key) && e.key !== 'Backspace') {
+            e.preventDefault();
+        }
+
+        // Move to the previous input on Backspace
+        if (e.key === 'Backspace' && index > 0 && input.value === '') {
+            inputs[index - 1].focus();
+        }
+    });
+  });
 
 })(jQuery);
