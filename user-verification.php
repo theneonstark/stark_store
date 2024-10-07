@@ -5,7 +5,7 @@
     <?php
         session_start();
         include('config.php');
-        if(empty($_SESSION['OTP'])){
+        // if(empty($_SESSION['OTP'])){
 
         if(isset($_POST['verified'])){
             $otp = $_POST['otp1'].$_POST['otp2'].$_POST['otp3'].$_POST['otp4'];
@@ -42,9 +42,9 @@
 
     </form>
     <?php
-        }else{
-            header('signup.php');
-        }
+        // }else{
+        //     header('signup.php');
+        // }
     ?>
 <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="vendor/animsition/js/animsition.min.js"></script>

@@ -11,7 +11,7 @@ $umail = substr($email, 0, 5);
 $upass = substr($password, 0, 2);
 $unum = substr($num, 0, 2);
 $username = $uname . $umail . $upass . $unum;
-echo $name.$email.$num.$password;
+header('location: index.php');
 
     $query = mysqli_query($con, "INSERT INTO users (name, email, Mobile, password, username) VALUES ('$name','$email','$num','$password', '$username')");
 
@@ -51,6 +51,5 @@ echo $name.$email.$num.$password;
             $_SESSION['cart'] = $new_cart;
         }
         }
-        header('Location: index.php');
         exit(); 
     }
