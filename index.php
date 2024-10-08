@@ -86,12 +86,12 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
 								<i class="zmdi zmdi-search"></i>
 							</div>
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-									<i class="zmdi zmdi-shopping-cart"></i>
-								</div>
-								<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-									<i class="zmdi zmdi-favorite-outline"></i>
-								</span>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+							<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</span>
 							<a href="logout.php"
 								class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
 								<i class="zmdi zmdi-account-circle"></i>
@@ -114,12 +114,12 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 						<i class="zmdi zmdi-search"></i>
 					</div>
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
-						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</span>
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</div>
+					<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</span>
 					<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 						<i class="zmdi zmdi-account-circle"></i>
 						<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
@@ -1106,7 +1106,6 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					success: function(response) {
 						if (response == "") {
 							swal('Your Product', 'is added to wishlist !', 'success');
-							alert();
 						} else if (response == "already add") {
 							swal('Your Product', 'already added to wishlist !', 'warning');
 						}
@@ -1200,21 +1199,21 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 			setInterval(fetchWishlistData, 2000);
 
 			function fetchCartData() {
-        $.ajax({
-            url: 'cart-data-config.php', // PHP script for fetching cart data
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                if (response.status === 'success') {
-                    // Update cart count
-                    $('.noti-cart').attr('data-notify', response.count);
+				$.ajax({
+					url: 'cart-data-config.php', // PHP script for fetching cart data
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							// Update cart count
+							$('.noti-cart').attr('data-notify', response.count);
 
-                    // Build the cart items HTML
-                    var cartItems = response.data;
-                    var cartHTML = '';
+							// Build the cart items HTML
+							var cartItems = response.data;
+							var cartHTML = '';
 
-                    cartItems.forEach(function(item) {
-                        cartHTML += `
+							cartItems.forEach(function(item) {
+								cartHTML += `
                             <li class="header-cart-item flex-w flex-t m-b-12">
                                 <div class="header-cart-item-img">
                                     <img src="image/product/${item.product_img}" alt="IMG">
@@ -1228,21 +1227,21 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
                                     </span>
                                 </div>
                             </li>`;
-                    });
+							});
 
-                    // Update cart items in the DOM
-                    $('.header-cart-wrapitem').html(cartHTML);
-                } else if (response.status === 'empty') {
-                    // Display "Add Product" message when cart is empty
-                    $('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-                    $('.noti-cart').attr('data-notify', 0); // Set notify to 0
-                }
-            },
-            error: function() {
-                console.error('Error fetching cart data');
-            }
-        });
-    }
+							// Update cart items in the DOM
+							$('.header-cart-wrapitem').html(cartHTML);
+						} else if (response.status === 'empty') {
+							// Display "Add Product" message when cart is empty
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+						}
+					},
+					error: function() {
+						console.error('Error fetching cart data');
+					}
+				});
+			}
 
 			setInterval(fetchCartData, 2000);
 
