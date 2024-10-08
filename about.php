@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<?php
+		session_start();
+		include('config.php');
+		$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
+		";
+		$wishlist_data = "select * from wishlist";
+		if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
+	?>
 	<title>About</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,49 +45,26 @@
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
 			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container">
+				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
-					</div>
-
-					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							Help & FAQs
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							My Account
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							EN
-						</a>
-
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							USD
-						</a>
 					</div>
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop how-shadow1">
+			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					
-					<!-- Logo desktop -->		
-					<a href="#" class="logo">
+
+					<!-- Logo desktop -->
+					<a href="index.php" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li>
+							<li class="active-menu">
 								<a href="index.php">Home</a>
-								<ul class="sub-menu">
-									<li><a href="index.php">Homepage 1</a></li>
-									<li><a href="home-02.php">Homepage 2</a></li>
-									<li><a href="home-03.php">Homepage 3</a></li>
-								</ul>
 							</li>
 
 							<li>
@@ -87,14 +72,14 @@
 							</li>
 
 							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.php">Features</a>
+								<a href="shoping-cart.php">Your Cart</a>
 							</li>
 
 							<li>
 								<a href="blog.php">Blog</a>
 							</li>
 
-							<li class="active-menu">
+							<li>
 								<a href="about.php">About</a>
 							</li>
 
@@ -102,29 +87,32 @@
 								<a href="contact.php">Contact</a>
 							</li>
 						</ul>
-					</div>	
+					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
 							<i class="zmdi zmdi-search"></i>
 						</div>
-
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
-
-						<a href="#" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
 							<i class="zmdi zmdi-favorite-outline"></i>
+						</span>
+						<a href="logout.php"
+							class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
+							<i class="zmdi zmdi-account-circle"></i>
+							<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
 						</a>
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->		
+			<!-- Logo moblie -->
 			<div class="logo-mobile">
 				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 			</div>
@@ -134,13 +122,15 @@
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 					<i class="zmdi zmdi-search"></i>
 				</div>
-
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
 					<i class="zmdi zmdi-shopping-cart"></i>
 				</div>
-
-				<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
+				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
 					<i class="zmdi zmdi-favorite-outline"></i>
+				</span>
+				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
+					<i class="zmdi zmdi-account-circle"></i>
+					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
 				</a>
 			</div>
 
@@ -155,42 +145,9 @@
 
 		<!-- Menu Mobile -->
 		<div class="menu-mobile">
-			<ul class="topbar-mobile">
-				<li>
-					<div class="left-top-bar">
-						Free shipping for standard order over $100
-					</div>
-				</li>
-
-				<li>
-					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							Help & FAQs
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							My Account
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							EN
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							USD
-						</a>
-					</div>
-				</li>
-			</ul>
-
 			<ul class="main-menu-m">
 				<li>
 					<a href="index.php">Home</a>
-					<ul class="sub-menu-m">
-						<li><a href="index.php">Homepage 1</a></li>
-						<li><a href="home-02.php">Homepage 2</a></li>
-						<li><a href="home-03.php">Homepage 3</a></li>
-					</ul>
 					<span class="arrow-main-menu-m">
 						<i class="fa fa-angle-right" aria-hidden="true"></i>
 					</span>
@@ -249,73 +206,32 @@
 					<i class="zmdi zmdi-close"></i>
 				</div>
 			</div>
-			
+
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-01.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								White Shirt Pleat
-							</a>
-
-							<span class="header-cart-item-info">
-								1 x $19.00
-							</span>
-						</div>
-					</li>
-
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-02.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								Converse All Star
-							</a>
-
-							<span class="header-cart-item-info">
-								1 x $39.00
-							</span>
-						</div>
-					</li>
-
-					<li class="header-cart-item flex-w flex-t m-b-12">
-						<div class="header-cart-item-img">
-							<img src="images/item-cart-03.jpg" alt="IMG">
-						</div>
-
-						<div class="header-cart-item-txt p-t-8">
-							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								Nixon Porter Leather
-							</a>
-
-							<span class="header-cart-item-info">
-								1 x $17.00
-							</span>
-						</div>
-					</li>
 				</ul>
-				
-				<div class="w-full">
-					<div class="header-cart-total w-full p-tb-40">
-						Total: $75.00
-					</div>
+			</div>
+		</div>
+	</div>
 
-					<div class="header-cart-buttons flex-w w-full">
-						<a href="shoping-cart.php" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-							View Cart
-						</a>
+	<!-- wishlist -->
+	<div class="wrap-header-wishlist js-panel-wishlist">
+		<div class="s-full js-hide-wishlist"></div>
 
-						<a href="shoping-cart.php" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-							Check Out
-						</a>
-					</div>
+		<div class="header-wishlist flex-col-l p-l-65 p-r-25">
+			<div class="header-wishlist-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Your Wishlist
+				</span>
+
+				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-wishlist">
+					<i class="zmdi zmdi-close"></i>
 				</div>
+			</div>
+
+			<div class="header-cart-content flex-w js-pscroll">
+				<ul class="header-wishlist-wrapitem w-full">
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -587,6 +503,104 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			})
 		});
 	</script>
+	<script>
+		function fetchWishlistData() {
+				$.ajax({
+					url: 'wishlist-data-config.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							$('.noti-wish').attr('data-notify', response.count);
+							var wishlistItems = response.data;
+							var wishlistHTML = '';
+
+							wishlistItems.forEach(function(item) {
+								wishlistHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+							});
+							$('.header-wishlist-wrapitem').html(wishlistHTML);
+						} else if (response.status === 'empty') {
+							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-wish').attr('data-notify', 0);
+						}
+					},
+					error: function() {
+						console.error('Error fetching wishlist data');
+					}
+				});
+			}
+			setInterval(fetchWishlistData, 2000);
+
+			function fetchCartData() {
+				$.ajax({
+					url: 'cart-data-config.php', // PHP script for fetching cart data
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							// Update cart count
+							$('.noti-cart').attr('data-notify', response.count);
+
+							// Build the cart items HTML
+							var cartItems = response.data;
+							var cartHTML = '';
+
+							cartItems.forEach(function(item) {
+								cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+							});
+
+							// Update cart items in the DOM
+							$('.header-cart-wrapitem').html(cartHTML);
+						} else if (response.status === 'empty') {
+							// Display "Add Product" message when cart is empty
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+						}
+					},
+					error: function() {
+						console.error('Error fetching cart data');
+					}
+				});
+			}
+
+			setInterval(fetchCartData, 2000);
+
+			$(document).ready(function() {
+				fetchCartData();
+				fetchWishlistData();
+			});
+	</script>
+	<?php
+} else {
+	header('location: login.php');
+}
+	?>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 	

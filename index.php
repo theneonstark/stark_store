@@ -202,7 +202,6 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				<div class="header-cart-content flex-w js-pscroll">
 					<ul class="header-cart-wrapitem w-full">
 					</ul>
-					<h1>Add Product</h1>
 				</div>
 			</div>
 		</div>
@@ -224,9 +223,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 				<div class="header-cart-content flex-w js-pscroll">
 					<ul class="header-wishlist-wrapitem w-full">
-						hello
 					</ul>
-					<h1>Add Product</h1>
 				</div>
 			</div>
 		</div>
@@ -1159,6 +1156,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				})
 			});
 		</script>
+
+		<!-- fetch data -->
 		<script>
 			function fetchWishlistData() {
 				$.ajax({
