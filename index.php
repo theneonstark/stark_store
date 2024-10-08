@@ -318,8 +318,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				</div>
 
 				<div class="header-cart-content flex-w js-pscroll">
-					<ul class="header-cart-wrapitem w-full">
-						
+					<ul class="header-wishlist-wrapitem w-full">
+						hello
 					</ul>
 					<h1>Add Product</h1>
 				</div>
@@ -1195,6 +1195,66 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 		<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 		<script src="vendor/sweetalert/sweetalert.min.js"></script>
 		<script>
+			$('.wishlistForm').on('submit', function(e) {
+				e.preventDefault();
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(response) {
+						if (response == "") {
+							swal('Your Product', 'is added to wishlist !', 'success');
+							alert();
+						} else if (response == "already add") {
+							swal('Your Product', 'already added to wishlist !', 'warning');
+						}
+
+
+					},
+					error: function(xhr, status, error) {
+						alert('An error occurred: ' + error);
+					}
+				});
+			});
+			$('.cartForm').on('submit', function(e) {
+				e.preventDefault(); // Prevent the form from submitting the traditional way
+
+				$.ajax({
+					type: 'POST',
+					url: $(this).attr('action'),
+					data: $(this).serialize(),
+					success: function(response) {
+						if (response == "") {
+							swal('Your Product', 'is added to Cart !', 'success');
+						} else if (response == "already add") {
+							swal('Your Product', 'already added to Cart !', 'warning');
+						}
+
+
+					},
+					error: function(xhr, status, error) {
+						alert('An error occurred: ' + error);
+					}
+				});
+			});
+		</script>
+		<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script>
+			$('.js-pscroll').each(function() {
+				$(this).css('position', 'relative');
+				$(this).css('overflow', 'hidden');
+				var ps = new PerfectScrollbar(this, {
+					wheelSpeed: 1,
+					scrollingThreshold: 1000,
+					wheelPropagation: false,
+				});
+
+				$(window).on('resize', function() {
+					ps.update();
+				})
+			});
+		</script>
+		<script>
 			function fetchWishlistData() {
 				$.ajax({
 					url: 'wishlist-data-config.php',
@@ -1222,9 +1282,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
                         </li>`;
 							});
 
-							$('.header-cart-wrapitem').html(wishlistHTML);
+							$('.header-wishlist-wrapitem').html(wishlistHTML);
 						} else if (response.status === 'empty') {
-							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
 						}
 					},
 					error: function() {
@@ -1232,7 +1292,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					}
 				});
 			}
-			setInterval(fetchWishlistData, 5000);
+			setInterval(fetchWishlistData, 2000);
 
 			function fetchCartData() {
 				$.ajax({
@@ -1272,70 +1332,11 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				});
 			}
 
-			setInterval(fetchCartData, 5000);
+			setInterval(fetchCartData, 2000);
 
 			$(document).ready(function() {
 				fetchCartData();
 				fetchWishlistData();
-			});
-			$('.wishlistForm').on('submit', function(e) {
-				e.preventDefault(); // Prevent the form from submitting the traditional way
-
-				$.ajax({
-					type: 'POST',
-					url: $(this).attr('action'),
-					data: $(this).serialize(),
-					success: function(response) {
-						if (response == "") {
-							swal('Your Product', 'is added to wishlist !', 'success');
-						} else if (response == "already add") {
-							swal('Your Product', 'already added to wishlist !', 'warning');
-						}
-
-
-					},
-					error: function(xhr, status, error) {
-						alert('An error occurred: ' + error);
-					}
-				});
-			});
-			$('.cartForm').on('submit', function(e) {
-				e.preventDefault(); // Prevent the form from submitting the traditional way
-
-				$.ajax({
-					type: 'POST',
-					url: $(this).attr('action'),
-					data: $(this).serialize(),
-					success: function(response) {
-						if (response == "") {
-							swal('Your Product', 'is added to Cart !', 'success');
-						} else if (response == "already add") {
-							swal('Your Product', 'already added to Cart !', 'warning');
-						}
-
-
-					},
-					error: function(xhr, status, error) {
-						alert('An error occurred: ' + error);
-					}
-				});
-			});
-		</script>
-		<!--===============================================================================================-->
-		<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-		<script>
-			$('.js-pscroll').each(function() {
-				$(this).css('position', 'relative');
-				$(this).css('overflow', 'hidden');
-				var ps = new PerfectScrollbar(this, {
-					wheelSpeed: 1,
-					scrollingThreshold: 1000,
-					wheelPropagation: false,
-				});
-
-				$(window).on('resize', function() {
-					ps.update();
-				})
 			});
 		</script>
 		<script src="js/main.js"></script>
