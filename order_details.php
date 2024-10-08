@@ -30,25 +30,25 @@
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
 			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container">
+				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
 					</div>
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop how-shadow1">
+			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
 
 					<!-- Logo desktop -->
-					<a href="#" class="logo">
+					<a href="index.php" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li>
+							<li class="active-menu">
 								<a href="index.php">Home</a>
 							</li>
 
@@ -79,60 +79,12 @@
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
 							<i class="zmdi zmdi-search"></i>
 						</div>
-
-						<?php
-						$cart_user = $_SESSION['cart'];
-						$cart_db = "usercart";
-						// Prepare the SQL query
-						$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-						$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-						$cart_table_query->execute();
-						$cart_table_result = $cart_table_query->get_result();
-						$cart_table_row = $cart_table_result->fetch_assoc();
-						if ($cart_table_row['count'] > 0) {
-							$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
-						?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-								data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
-						<?php
-						} else {
-						?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
-						<?php
-						}
-						?>
-						<?php
-						$wish_user = $_SESSION['wishlist'];
-						$wish_db = "wishlist";
-						// Prepare the SQL query
-						$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-						$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-						$wish_table_query->execute();
-						$wish_table_result = $wish_table_query->get_result();
-						$wish_table_row = $wish_table_result->fetch_assoc();
-						if ($wish_table_row['count'] > 0) {
-							$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");
-						?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
-						<?php
-							// }
-						} else {
-						?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
-						<?php
-						}
-						?>
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
+						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+							<i class="zmdi zmdi-favorite-outline"></i>
+						</span>
 						<a href="logout.php"
 							class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
 							<i class="zmdi zmdi-account-circle"></i>
@@ -155,59 +107,12 @@
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 					<i class="zmdi zmdi-search"></i>
 				</div>
-				<?php
-				$cart_user = $_SESSION['cart'];
-				$cart_db = "usercart";
-				// Prepare the SQL query
-				$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-				$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-				$cart_table_query->execute();
-				$cart_table_result = $cart_table_query->get_result();
-				$cart_table_row = $cart_table_result->fetch_assoc();
-				if ($cart_table_row['count'] > 0) {
-					$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
-				?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-						data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-				<?php
-				} else {
-				?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-				<?php
-				}
-				?>
-
-				<?php
-				$wish_user = $_SESSION['wishlist'];
-				$wish_db = "wishlist";
-				$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-				$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-				$wish_table_query->execute();
-				$wish_table_result = $wish_table_query->get_result();
-				$wish_table_row = $wish_table_result->fetch_assoc();
-				if ($wish_table_row['count'] > 0) {
-					$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");
-				?>
-					<span
-						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-						data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-				<?php
-					// }
-				} else {
-				?>
-					<span
-						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-				<?php
-				}
-				?>
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+					<i class="zmdi zmdi-shopping-cart"></i>
+				</div>
+				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+					<i class="zmdi zmdi-favorite-outline"></i>
+				</span>
 				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 					<i class="zmdi zmdi-account-circle"></i>
 					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
@@ -289,45 +194,7 @@
 
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
-					<?php
-					$cart_user = $_SESSION['cart'];
-					$cart_db = "usercart";
-					// Prepare the SQL query
-					$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-					$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-					$cart_table_query->execute();
-					$cart_table_result = $cart_table_query->get_result();
-					$cart_table_row = $cart_table_result->fetch_assoc();
-					if ($cart_table_row['count'] > 0) {
-						$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");
-						while ($cart_fetch = mysqli_fetch_assoc($cart_details)) {
-					?>
-							<li class="header-cart-item flex-w flex-t m-b-12">
-								<div class="header-cart-item-img">
-									<img src="image/product/<?php echo $cart_fetch['product_img']; ?>" alt="IMG">
-								</div>
-
-								<div class="header-cart-item-txt p-t-8">
-									<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-										<?php echo $cart_fetch['product_name']; ?>
-									</a>
-
-									<span class="header-cart-item-info">
-										₹ <?php echo $cart_fetch['product_price']; ?>
-									</span>
-								</div>
-							</li>
-						<?php
-						}
-						?>
 				</ul>
-			<?php
-					} else {
-			?>
-				<h1>Add Product</h1>
-			<?php
-					}
-			?>
 			</div>
 		</div>
 	</div>
@@ -348,142 +215,131 @@
 			</div>
 
 			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
-					<?php
-					$wish_user = $_SESSION['wishlist'];
-					$wish_db = "wishlist";
-					// Prepare the SQL query
-					$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-					$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-					$wish_table_query->execute();
-					$wish_table_result = $wish_table_query->get_result();
-					$wish_table_row = $wish_table_result->fetch_assoc();
-					if ($wish_table_row['count'] > 0) {
-						$wish_details = mysqli_query($wishlist_info, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id ");
-						while ($wish_fetch = mysqli_fetch_assoc($wish_details)) {
-					?>
-							<li class="header-cart-item flex-w flex-t m-b-12">
-								<div class="header-cart-item-img">
-									<img src="image/product/<?php echo $wish_fetch['product_img']; ?>" alt="IMG">
-								</div>
-
-								<div class="header-cart-item-txt p-t-8">
-									<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-										<?php echo $wish_fetch['product_name']; ?>
-									</a>
-
-									<span class="header-cart-item-info">
-										₹ <?php echo $wish_fetch['product_price']; ?>
-									</span>
-								</div>
-							</li>
-						<?php
-						}
-						?>
+				<ul class="header-wishlist-wrapitem w-full">
 				</ul>
-			<?php
-					} else {
-			?>
-				<h1>Add Product</h1>
-			<?php
-					}
-			?>
 			</div>
 		</div>
 	</div>
 	<!-- order-details -->
-	 <?php
-	 	if(isset($_GET['id']) && isset($_GET['order_id'])){
-			$order_user = $_GET['id'];
-			$order_id = $_GET['order_id'];
-			$order_details = mysqli_query($user_order, "SELECT * FROM user_order WHERE razorpay_order_id = '$order_id'");
-			if($order_row = mysqli_fetch_assoc($order_details)){
-	 ?>
-	<div class="container-fluid">
+	<?php
+	if (isset($_GET['id']) && isset($_GET['order_id'])) {
+		$order_user = $_GET['id'];
+		$order_id = $_GET['order_id'];
+		$order_details = mysqli_query($user_order, "SELECT * FROM user_order WHERE razorpay_order_id = '$order_id'");
+		if ($order_row = mysqli_fetch_assoc($order_details)) {
+	?>
+			<div class="container-fluid">
 
-		<div class="container">
-			<!-- Title -->
-			<div class="d-flex justify-content-between align-items-center py-3">
-				<h2 class="h5 mb-0"><a href="#" class="text-muted"><?php echo $order_id?></a></h2>
-			</div>
+				<div class="container">
+					<!-- Title -->
+					<div class="d-flex justify-content-between align-items-center py-3">
+						<h2 class="h5 mb-0"><a href="#" class="text-muted"><?php echo $order_id ?></a></h2>
+					</div>
 
-			<!-- Main content -->
-			<div class="row">
-				<div class="col-lg-8">
-					<!-- Details -->
-					<div class="card mb-4">
-						<div class="card-body">
-							<div class="mb-3 d-flex justify-content-between">
-								<div>
-									<span class="me-3"><?php echo $order_row['created_at']?></span>
-									<span class="badge rounded-pill bg-info">SHIPPING</span>
-								</div>
-								<div class="d-flex">
-									<button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><span class="text">Invoice</span></button>
+					<!-- Main content -->
+					<div class="row">
+						<div class="col-lg-8">
+							<!-- Details -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<div class="mb-3 d-flex justify-content-between">
+										<div>
+											<span class="me-3"><?php echo $order_row['created_at'] ?></span>
+											<span class="badge rounded-pill bg-info">SHIPPING</span>
+										</div>
+										<div class="d-flex">
+											<button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><span class="text">Invoice</span></button>
+										</div>
+									</div>
+									<table class="table table-borderless">
+										<tbody>
+											<?php
+											$product_ids = json_decode($order_row['product_id']);
+											for ($i = 0; $i <= count($product_ids); $i++) {
+												$order_product = mysqli_query($user_order, "SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
+												if ($row = mysqli_fetch_assoc($order_product)) {
+											?>
+													<tr>
+														<td>
+															<div class="d-flex mb-2">
+																<div class="flex-shrink-0">
+																	<img src="./image/product/<?php echo $row['product_img'] ?>" alt="" width="35" class="img-fluid">
+																</div>
+																<div class="flex-lg-grow-1 ms-3">
+																	<h6 class="small mb-0"><a href="product-detail.php?id=<?php echo $row['id'] ?>&&name=<?php echo $row['product_name'] ?>" class="text-reset"><?php echo $row['product_name'] ?></a></h6>
+																	<span class="small">Color: Black</span>
+																</div>
+															</div>
+														</td>
+														<td></td>
+														<td class="text-end">$<?php echo $row['product_price'] ?></td>
+													</tr>
+											<?php
+												}
+											}
+											?>
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="2">Subtotal</td>
+												<td class="text-end">$15699</td>
+											</tr>
+											<tr>
+												<td colspan="2">Shipping</td>
+												<td class="text-end">$20.00</td>
+											</tr>
+											<tr>
+												<td colspan="2">Discount (Code: NEWYEAR)</td>
+												<td class="text-danger text-end">-$10.00</td>
+											</tr>
+											<tr class="fw-bold">
+												<td colspan="2">TOTAL</td>
+												<td class="text-end">$169,98</td>
+											</tr>
+										</tfoot>
+									</table>
 								</div>
 							</div>
-							<table class="table table-borderless">
-								<tbody>
-								<?php
-								    $product_ids = json_decode($order_row['product_id']);
-						for($i=0; $i<=count($product_ids); $i++){
-							$order_product = mysqli_query($user_order,"SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
-							if($row = mysqli_fetch_assoc($order_product)){
-								?>
-									<tr>
-										<td>
-											<div class="d-flex mb-2">
-												<div class="flex-shrink-0">
-													<img src="./image/product/<?php echo $row['product_img']?>" alt="" width="35" class="img-fluid">
-												</div>
-												<div class="flex-lg-grow-1 ms-3">
-													<h6 class="small mb-0"><a href="product-detail.php?id=<?php echo $row['id']?>&&name=<?php echo $row['product_name']?>" class="text-reset"><?php echo $row['product_name']?></a></h6>
-													<span class="small">Color: Black</span>
-												</div>
-											</div>
-										</td>
-										<td></td>
-										<td class="text-end">$<?php echo $row['product_price']?></td>
-									</tr>
-									<?php
-							}
-						}
-									?>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="2">Subtotal</td>
-										<td class="text-end">$15699</td>
-									</tr>
-									<tr>
-										<td colspan="2">Shipping</td>
-										<td class="text-end">$20.00</td>
-									</tr>
-									<tr>
-										<td colspan="2">Discount (Code: NEWYEAR)</td>
-										<td class="text-danger text-end">-$10.00</td>
-									</tr>
-									<tr class="fw-bold">
-										<td colspan="2">TOTAL</td>
-										<td class="text-end">$169,98</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</div>
-					<!-- Payment -->
-					<div class="card mb-4">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-6">
-									<h3 class="h6">Payment Method</h3>
-									<p>Visa -1234 <br>
-										Total: $169,98 <span class="badge bg-success rounded-pill">PAID</span></p>
+							<!-- Payment -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<h3 class="h6">Payment Method</h3>
+											<p>Visa -1234 <br>
+												Total: $169,98 <span class="badge bg-success rounded-pill">PAID</span></p>
+										</div>
+										<div class="col-lg-6">
+											<h3 class="h6">Billing address</h3>
+											<address>
+												<strong><?php echo $_SESSION['name'] ?></strong><br>
+												1355 Market St, Suite 900<br>
+												San Francisco, CA 94103<br>
+												<abbr title="Phone">P:</abbr> (123) 456-7890
+											</address>
+										</div>
+									</div>
 								</div>
-								<div class="col-lg-6">
-									<h3 class="h6">Billing address</h3>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<!-- Customer Notes -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<h3 class="h6">Customer Notes</h3>
+									<p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>
+								</div>
+							</div>
+							<div class="card mb-4">
+								<!-- Shipping information -->
+								<div class="card-body">
+									<h3 class="h6">Shipping Information</h3>
+									<strong>FedEx</strong>
+									<span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>
+									<hr>
+									<h3 class="h6">Address</h3>
 									<address>
-										<strong><?php echo $_SESSION['name']?></strong><br>
+										<strong>John Doe</strong><br>
 										1355 Market St, Suite 900<br>
 										San Francisco, CA 94103<br>
 										<abbr title="Phone">P:</abbr> (123) 456-7890
@@ -493,34 +349,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-4">
-					<!-- Customer Notes -->
-					<div class="card mb-4">
-						<div class="card-body">
-							<h3 class="h6">Customer Notes</h3>
-							<p>Sed enim, faucibus litora velit vestibulum habitasse. Cras lobortis cum sem aliquet mauris rutrum. Sollicitudin. Morbi, sem tellus vestibulum porttitor.</p>
-						</div>
-					</div>
-					<div class="card mb-4">
-						<!-- Shipping information -->
-						<div class="card-body">
-							<h3 class="h6">Shipping Information</h3>
-							<strong>FedEx</strong>
-							<span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>
-							<hr>
-							<h3 class="h6">Address</h3>
-							<address>
-								<strong>John Doe</strong><br>
-								1355 Market St, Suite 900<br>
-								San Francisco, CA 94103<br>
-								<abbr title="Phone">P:</abbr> (123) 456-7890
-							</address>
-						</div>
-					</div>
-				</div>
 			</div>
-		</div>
-	</div>
 	<?php
 		}
 	}
@@ -727,6 +556,99 @@
 			});
 		});
 	</script>
+	<script>
+	function fetchWishlistData() {
+				$.ajax({
+					url: 'wishlist-data-config.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							$('.noti-wish').attr('data-notify', response.count);
+							var wishlistItems = response.data;
+							var wishlistHTML = '';
+
+							wishlistItems.forEach(function(item) {
+								wishlistHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+							});
+							$('.header-wishlist-wrapitem').html(wishlistHTML);
+						} else if (response.status === 'empty') {
+							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-wish').attr('data-notify', 0);
+						}
+					},
+					error: function() {
+						console.error('Error fetching wishlist data');
+					}
+				});
+			}
+			setInterval(fetchWishlistData, 2000);
+
+			function fetchCartData() {
+				$.ajax({
+					url: 'cart-data-config.php', // PHP script for fetching cart data
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							// Update cart count
+							$('.noti-cart').attr('data-notify', response.count);
+
+							// Build the cart items HTML
+							var cartItems = response.data;
+							var cartHTML = '';
+
+							cartItems.forEach(function(item) {
+								cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+							});
+
+							// Update cart items in the DOM
+							$('.header-cart-wrapitem').html(cartHTML);
+						} else if (response.status === 'empty') {
+							// Display "Add Product" message when cart is empty
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+						}
+					},
+					error: function() {
+						console.error('Error fetching cart data');
+					}
+				});
+			}
+
+			setInterval(fetchCartData, 2000);
+
+			$(document).ready(function() {
+				fetchCartData();
+				fetchWishlistData();
+			});
+</script>
 	<script src="js/main.js"></script>
 </body>
 
