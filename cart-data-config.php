@@ -23,6 +23,7 @@ if ($cart_table_row['count'] > 0) {
 
     while ($cart_fetch = mysqli_fetch_assoc($cart_details)) {
         $cart_items[] = [
+            'product_id' => $cart_fetch['id'],
             'product_img' => $cart_fetch['product_img'],
             'product_name' => $cart_fetch['product_name'],
             'product_price' => $cart_fetch['product_price'],

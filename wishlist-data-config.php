@@ -20,6 +20,7 @@ if ($wish_table_row['count'] > 0) {
 
     while ($wish_fetch = mysqli_fetch_assoc($wish_details)) {
         $wishlist_items[] = [
+            'product_id' => $wish_fetch['id'],
             'product_img' => $wish_fetch['product_img'],
             'product_name' => $wish_fetch['product_name'],
             'product_price' => $wish_fetch['product_price'],

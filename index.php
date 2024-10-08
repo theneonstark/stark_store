@@ -1176,7 +1176,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
                                     <img src="image/product/${item.product_img}" alt="IMG">
                                 </div>
                                 <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                    <a href="product-detail.php?id=${item.product_id}&&name=${item.product_name}" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
                                         ${item.product_name}
                                     </a>
                                     <span class="header-cart-item-info">
@@ -1219,7 +1219,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
                                     <img src="image/product/${item.product_img}" alt="IMG">
                                 </div>
                                 <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                    <a href="product-detail.php?id=${item.product_id}&&name=${item.product_name}" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
                                         ${item.product_name}
                                     </a>
                                     <span class="header-cart-item-info">
