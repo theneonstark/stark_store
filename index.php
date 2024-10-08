@@ -99,7 +99,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							if ($cart_table_row['count'] > 0) {
 								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
 							?>
-								<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart"
 									data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
 									<i class="zmdi zmdi-shopping-cart"></i>
 								</div>
@@ -125,7 +125,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");
 							?>
 								<span
-									class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+									class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti
+									noti-wish js-show-wishlist"
 									data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
 									<i class="zmdi zmdi-favorite-outline"></i>
 								</span>
@@ -174,7 +175,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					if ($cart_table_row['count'] > 0) {
 						$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
 					?>
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti-cart js-show-cart"
 							data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</div>
@@ -200,7 +201,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");
 					?>
 						<span
-							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti-wish js-show-wishlist"
 							data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</span>
@@ -1262,7 +1263,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					dataType: 'json',
 					success: function(response) {
 						if (response.status === 'success') {
-							$('.icon-header-noti').attr('data-notify', response.count);
+							$('.noti-wish').attr('data-notify', response.count);
 							var wishlistItems = response.data;
 							var wishlistHTML = '';
 
@@ -1285,7 +1286,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							$('.header-wishlist-wrapitem').html(wishlistHTML);
 						} else if (response.status === 'empty') {
 							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
-							$('.icon-header-noti').attr('data-notify', 0);
+							$('.noti-wish').attr('data-notify', 0);
 						}
 					},
 					error: function() {
@@ -1296,42 +1297,49 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 			setInterval(fetchWishlistData, 2000);
 
 			function fetchCartData() {
-				$.ajax({
-					url: 'cart-data-config.php',
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							var cartItems = response.data;
-							var cartHTML = '';
+        $.ajax({
+            url: 'cart-data-config.php', // PHP script for fetching cart data
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Update cart count
+                    $('.noti-cart').attr('data-notify', response.count);
 
-							cartItems.forEach(function(item) {
-								cartHTML += `
-                        <li class="header-cart-item flex-w flex-t m-b-12">
-                            <div class="header-cart-item-img">
-                                <img src="image/product/${item.product_img}" alt="IMG">
-                            </div>
-                            <div class="header-cart-item-txt p-t-8">
-                                <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                    ${item.product_name}
-                                </a>
-                                <span class="header-cart-item-info">
-                                    ₹ ${item.product_price}
-                                </span>
-                            </div>
-                        </li>`;
-							});
+                    // Build the cart items HTML
+                    var cartItems = response.data;
+                    var cartHTML = '';
 
-							$('.header-cart-wrapitem').html(cartHTML);
-						} else if (response.status === 'empty') {
-							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-						}
-					},
-					error: function() {
-						console.error('Error fetching cart data');
-					}
-				});
-			}
+                    cartItems.forEach(function(item) {
+                        cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+                    });
+
+                    // Update cart items in the DOM
+                    $('.header-cart-wrapitem').html(cartHTML);
+                } else if (response.status === 'empty') {
+                    // Display "Add Product" message when cart is empty
+                    $('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+                    $('.noti-cart').attr('data-notify', 0); // Set notify to 0
+                }
+            },
+            error: function() {
+                console.error('Error fetching cart data');
+            }
+        });
+    }
 
 			setInterval(fetchCartData, 2000);
 
