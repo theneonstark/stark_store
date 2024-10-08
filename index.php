@@ -1262,29 +1262,30 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					dataType: 'json',
 					success: function(response) {
 						if (response.status === 'success') {
+							$('.icon-header-noti').attr('data-notify', response.count);
 							var wishlistItems = response.data;
 							var wishlistHTML = '';
 
 							wishlistItems.forEach(function(item) {
 								wishlistHTML += `
-                        <li class="header-cart-item flex-w flex-t m-b-12">
-                            <div class="header-cart-item-img">
-                                <img src="image/product/${item.product_img}" alt="IMG">
-                            </div>
-                            <div class="header-cart-item-txt p-t-8">
-                                <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                    ${item.product_name}
-                                </a>
-                                <span class="header-cart-item-info">
-                                    ₹ ${item.product_price}
-                                </span>
-                            </div>
-                        </li>`;
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
 							});
-
 							$('.header-wishlist-wrapitem').html(wishlistHTML);
 						} else if (response.status === 'empty') {
 							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+							$('.icon-header-noti').attr('data-notify', 0);
 						}
 					},
 					error: function() {

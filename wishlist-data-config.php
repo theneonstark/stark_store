@@ -1,8 +1,8 @@
 <?php
 session_start();
-include 'config.php';
+include 'config.php'; 
 
-$wish_user = $_SESSION['wishlist'];
+$wish_user = $_SESSION['wishlist']; 
 $wish_db = "wishlist";
 
 $wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
@@ -12,7 +12,10 @@ $wish_table_result = $wish_table_query->get_result();
 $wish_table_row = $wish_table_result->fetch_assoc();
 
 if ($wish_table_row['count'] > 0) {
-    $wish_details = mysqli_query($con, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id");
+    $wish_details = mysqli_query($con, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id");
+    $wish_count = mysqli_query($con, "SELECT COUNT(*) as total FROM wishlist.$wish_user");
+    $wish_row = mysqli_fetch_assoc($wish_count);
+
     $wishlist_items = [];
 
     while ($wish_fetch = mysqli_fetch_assoc($wish_details)) {
@@ -23,8 +26,11 @@ if ($wish_table_row['count'] > 0) {
         ];
     }
 
-    echo json_encode(['status' => 'success', 'data' => $wishlist_items]);
+    echo json_encode([
+        'status' => 'success',
+        'count' => $wish_row['total'],
+        'data' => $wishlist_items
+    ]);
 } else {
     echo json_encode(['status' => 'empty', 'message' => 'No products in wishlist']);
 }
-?>
