@@ -2,12 +2,12 @@
 <html lang="en">
 <?php
 session_start();
-include ('config.php');
+include('config.php');
 $product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
 ";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
-	?>
+?>
 
 	<head>
 		<title>Home</title>
@@ -97,19 +97,19 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							$cart_table_result = $cart_table_query->get_result();
 							$cart_table_row = $cart_table_result->fetch_assoc();
 							if ($cart_table_row['count'] > 0) {
-								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");								
+								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
 							?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-						data-notify="<?php echo mysqli_num_rows($cart_details)?>">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-					<?php
-							}else{
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+									data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
+									<i class="zmdi zmdi-shopping-cart"></i>
+								</div>
+							<?php
+							} else {
 							?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-					<?php
+								<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
+									<i class="zmdi zmdi-shopping-cart"></i>
+								</div>
+							<?php
 							}
 							?>
 							<?php
@@ -122,21 +122,21 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							$wish_table_result = $wish_table_query->get_result();
 							$wish_table_row = $wish_table_result->fetch_assoc();
 							if ($wish_table_row['count'] > 0) {
-								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");								
+								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");
 							?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
+								<span
+									class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+									data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
+									<i class="zmdi zmdi-favorite-outline"></i>
+								</span>
 							<?php
 								// }
-							}else{
+							} else {
 							?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
+								<span
+									class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
+									<i class="zmdi zmdi-favorite-outline"></i>
+								</span>
 							<?php
 							}
 							?>
@@ -163,58 +163,58 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						<i class="zmdi zmdi-search"></i>
 					</div>
 					<?php
-							$cart_user = $_SESSION['cart'];
-							$cart_db = "usercart";
-							// Prepare the SQL query
-							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-							$cart_table_query->execute();
-							$cart_table_result = $cart_table_query->get_result();
-							$cart_table_row = $cart_table_result->fetch_assoc();
-							if ($cart_table_row['count'] > 0) {
-								$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");								
-							?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-						data-notify="<?php echo mysqli_num_rows($cart_details)?>">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
+					$cart_user = $_SESSION['cart'];
+					$cart_db = "usercart";
+					// Prepare the SQL query
+					$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+					$cart_table_query->bind_param("ss", $cart_db, $cart_user);
+					$cart_table_query->execute();
+					$cart_table_result = $cart_table_query->get_result();
+					$cart_table_row = $cart_table_result->fetch_assoc();
+					if ($cart_table_row['count'] > 0) {
+						$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
+					?>
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+							data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
 					<?php
-							}else{
-							?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
+					} else {
+					?>
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
 					<?php
-							}
-							?>
+					}
+					?>
 
 					<?php
-							$wish_user = $_SESSION['wishlist'];
-							$wish_db = "wishlist";
-							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-							$wish_table_query->execute();
-							$wish_table_result = $wish_table_query->get_result();
-							$wish_table_row = $wish_table_result->fetch_assoc();
-							if ($wish_table_row['count'] > 0) {
-								$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");								
-							?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="<?php echo mysqli_num_rows($wish_details)?>">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
-							<?php
-								// }
-							}else{
-							?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
-							<?php
-							}
-							?>
+					$wish_user = $_SESSION['wishlist'];
+					$wish_db = "wishlist";
+					$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+					$wish_table_query->bind_param("ss", $wish_db, $wish_user);
+					$wish_table_query->execute();
+					$wish_table_result = $wish_table_query->get_result();
+					$wish_table_row = $wish_table_result->fetch_assoc();
+					if ($wish_table_row['count'] > 0) {
+						$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");
+					?>
+						<span
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
+							data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
+							<i class="zmdi zmdi-favorite-outline"></i>
+						</span>
+					<?php
+						// }
+					} else {
+					?>
+						<span
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
+							<i class="zmdi zmdi-favorite-outline"></i>
+						</span>
+					<?php
+					}
+					?>
 					<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 						<i class="zmdi zmdi-account-circle"></i>
 						<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
@@ -296,45 +296,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 				<div class="header-cart-content flex-w js-pscroll">
 					<ul class="header-cart-wrapitem w-full">
-						<?php
-							$cart_user = $_SESSION['cart'];
-							$cart_db = "usercart";
-							// Prepare the SQL query
-							$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-							$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-							$cart_table_query->execute();
-							$cart_table_result = $cart_table_query->get_result();
-							$cart_table_row = $cart_table_result->fetch_assoc();
-							if ($cart_table_row['count'] > 0) {
-								$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");		
-								while($cart_fetch = mysqli_fetch_assoc($cart_details)){
-							?>
-						<li class="header-cart-item flex-w flex-t m-b-12">
-							<div class="header-cart-item-img">
-								<img src="image/product/<?php echo $cart_fetch['product_img'];?>" alt="IMG">
-							</div>
-
-							<div class="header-cart-item-txt p-t-8">
-								<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-									<?php echo $cart_fetch['product_name'];?>
-								</a>
-								
-								<span class="header-cart-item-info">
-								₹ <?php echo $cart_fetch['product_price'];?>
-								</span>
-							</div>
-						</li>
-						<?php
-}
-						?>
 					</ul>
-					<?php
-						}else{						
-						?>
-						<h1>Add Product</h1>
-						<?php
-						}
-					?>
+					<h1>Add Product</h1>
 				</div>
 			</div>
 		</div>
@@ -356,45 +319,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 				<div class="header-cart-content flex-w js-pscroll">
 					<ul class="header-cart-wrapitem w-full">
-						<?php
-							$wish_user = $_SESSION['wishlist'];
-							$wish_db = "wishlist";
-							// Prepare the SQL query
-							$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-							$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-							$wish_table_query->execute();
-							$wish_table_result = $wish_table_query->get_result();
-							$wish_table_row = $wish_table_result->fetch_assoc();
-							if ($wish_table_row['count'] > 0) {
-								$wish_details = mysqli_query($wishlist_info, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id ");		
-								while($wish_fetch = mysqli_fetch_assoc($wish_details)){
-							?>
-						<li class="header-cart-item flex-w flex-t m-b-12">
-							<div class="header-cart-item-img">
-								<img src="image/product/<?php echo $wish_fetch['product_img'];?>" alt="IMG">
-							</div>
-
-							<div class="header-cart-item-txt p-t-8">
-								<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-									<?php echo $wish_fetch['product_name'];?>
-								</a>
-								
-								<span class="header-cart-item-info">
-								₹ <?php echo $wish_fetch['product_price'];?>
-								</span>
-							</div>
-						</li>
-						<?php
-}
-						?>
+						
 					</ul>
-					<?php
-						}else{						
-						?>
-						<h1>Add Product</h1>
-						<?php
-						}
-					?>
+					<h1>Add Product</h1>
 				</div>
 			</div>
 		</div>
@@ -836,7 +763,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					$product_data = mysqli_query($product_info, $product);
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
 						$pr_img = json_decode($fetch_product['pr_imgs']);
-						?>
+					?>
 						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $fetch_product['pc_name'] ?>">
 							<!-- Block2 -->
 							<div class="block2">
@@ -844,7 +771,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[0] ?>" class="pr_img1">
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[1] ?>" class="pr_img2">
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[2] ?>" class="pr_img3">
-									<input type="hidden" value="<?php echo $fetch_product['id']?>" class="product_details">
+									<input type="hidden" value="<?php echo $fetch_product['id'] ?>" class="product_details">
 									<img src="image/product/<?php echo $fetch_product['product_img'] ?>" alt="IMG-PRODUCT">
 									<a href="#"
 										class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -852,24 +779,24 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 									</a>
 								</div>
 								<?php
-									
+
 								?>
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="product-detail.php?id=<?php echo $fetch_product['id']?>&&name=<?php echo $fetch_product['product_name']?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
-											 <?php echo $fetch_product['product_name'] ?>
-											</a>
-											
-											<span class="stext-105 cl3">
-												<b>₹ <?php echo $fetch_product['product_price'] ?></b>
+										<a href="product-detail.php?id=<?php echo $fetch_product['id'] ?>&&name=<?php echo $fetch_product['product_name'] ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
+											<?php echo $fetch_product['product_name'] ?>
+										</a>
+
+										<span class="stext-105 cl3">
+											<b>₹ <?php echo $fetch_product['product_price'] ?></b>
 										</span>
 									</div>
 
 									<div class="block2-txt-child2 flex-r p-t-3">
-										<form action="wishlist_config.php" method="POST" class="wishlistForm" >
+										<form action="wishlist_config.php" method="POST" class="wishlistForm">
 											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish"> 
+											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
 											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
@@ -881,7 +808,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 								</div>
 							</div>
 						</div>
-						<?php
+					<?php
 					}
 					?>
 				</div>
@@ -1036,7 +963,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					<p class="stext-107 cl6 txt-center">
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						Copyright &copy;
-						<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i
+						<script>
+							document.write(new Date().getFullYear());
+						</script> All rights reserved | Made with <i
 							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
 							target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com"
 							target="_blank">ThemeWagon</a>
@@ -1192,7 +1121,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 											<form action="cart_config.php" method="POST" class="cartForm">
 												<input type="hidden" value="" name="cart_product" id="product_cart_details">
-												<input type="hidden" value="<?php echo $_SESSION['cart'];?>" name="cart">
+												<input type="hidden" value="<?php echo $_SESSION['cart']; ?>" name="cart">
 												<button type="submit"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Add to cart
@@ -1203,16 +1132,16 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 								</div>
 								<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 									<div class="flex-m bor9 p-r-10 m-r-11">
-										<form action="wishlist_config.php" method="POST" class="wishlistForm" >
+										<form action="wishlist_config.php" method="POST" class="wishlistForm">
 											<?php
-												$product_data = mysqli_query($product_info, $product);
-												while ($fetch_product = mysqli_fetch_array($product_data)) {
+											$product_data = mysqli_query($product_info, $product);
+											while ($fetch_product = mysqli_fetch_array($product_data)) {
 											?>
-											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
+												<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
 											<?php
-												}
+											}
 											?>
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish"> 
+											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
 											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
@@ -1235,7 +1164,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 		<script src="vendor/select2/select2.min.js"></script>
 		<script>
-			$(".js-select2").each(function () {
+			$(".js-select2").each(function() {
 				$(this).select2({
 					minimumResultsForSearch: 20,
 					dropdownParent: $(this).next('.dropDownSelect2')
@@ -1252,7 +1181,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 		</script>
 		<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 		<script>
-			$('.gallery-lb').each(function () { // the containers for all your galleries
+			$('.gallery-lb').each(function() { // the containers for all your galleries
 				$(this).magnificPopup({
 					delegate: 'a', // the selector for gallery item
 					type: 'image',
@@ -1266,6 +1195,89 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 		<script src="vendor/isotope/isotope.pkgd.min.js"></script>
 		<script src="vendor/sweetalert/sweetalert.min.js"></script>
 		<script>
+			function fetchWishlistData() {
+				$.ajax({
+					url: 'wishlist-data-config.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							var wishlistItems = response.data;
+							var wishlistHTML = '';
+
+							wishlistItems.forEach(function(item) {
+								wishlistHTML += `
+                        <li class="header-cart-item flex-w flex-t m-b-12">
+                            <div class="header-cart-item-img">
+                                <img src="image/product/${item.product_img}" alt="IMG">
+                            </div>
+                            <div class="header-cart-item-txt p-t-8">
+                                <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                    ${item.product_name}
+                                </a>
+                                <span class="header-cart-item-info">
+                                    ₹ ${item.product_price}
+                                </span>
+                            </div>
+                        </li>`;
+							});
+
+							$('.header-cart-wrapitem').html(wishlistHTML);
+						} else if (response.status === 'empty') {
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+						}
+					},
+					error: function() {
+						console.error('Error fetching wishlist data');
+					}
+				});
+			}
+			setInterval(fetchWishlistData, 5000);
+
+			function fetchCartData() {
+				$.ajax({
+					url: 'cart-data-config.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							var cartItems = response.data;
+							var cartHTML = '';
+
+							cartItems.forEach(function(item) {
+								cartHTML += `
+                        <li class="header-cart-item flex-w flex-t m-b-12">
+                            <div class="header-cart-item-img">
+                                <img src="image/product/${item.product_img}" alt="IMG">
+                            </div>
+                            <div class="header-cart-item-txt p-t-8">
+                                <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                    ${item.product_name}
+                                </a>
+                                <span class="header-cart-item-info">
+                                    ₹ ${item.product_price}
+                                </span>
+                            </div>
+                        </li>`;
+							});
+
+							$('.header-cart-wrapitem').html(cartHTML);
+						} else if (response.status === 'empty') {
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+						}
+					},
+					error: function() {
+						console.error('Error fetching cart data');
+					}
+				});
+			}
+
+			setInterval(fetchCartData, 5000);
+
+			$(document).ready(function() {
+				fetchCartData();
+				fetchWishlistData();
+			});
 			$('.wishlistForm').on('submit', function(e) {
 				e.preventDefault(); // Prevent the form from submitting the traditional way
 
@@ -1274,13 +1286,13 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					url: $(this).attr('action'),
 					data: $(this).serialize(),
 					success: function(response) {
-						if(response == ""){
+						if (response == "") {
 							swal('Your Product', 'is added to wishlist !', 'success');
-						}else if(response == "already add"){
+						} else if (response == "already add") {
 							swal('Your Product', 'already added to wishlist !', 'warning');
 						}
-						
-						
+
+
 					},
 					error: function(xhr, status, error) {
 						alert('An error occurred: ' + error);
@@ -1295,13 +1307,13 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					url: $(this).attr('action'),
 					data: $(this).serialize(),
 					success: function(response) {
-						if(response == ""){
+						if (response == "") {
 							swal('Your Product', 'is added to Cart !', 'success');
-						}else if(response == "already add"){
+						} else if (response == "already add") {
 							swal('Your Product', 'already added to Cart !', 'warning');
 						}
-						
-						
+
+
 					},
 					error: function(xhr, status, error) {
 						alert('An error occurred: ' + error);
@@ -1312,7 +1324,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 		<!--===============================================================================================-->
 		<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script>
-			$('.js-pscroll').each(function () {
+			$('.js-pscroll').each(function() {
 				$(this).css('position', 'relative');
 				$(this).css('overflow', 'hidden');
 				var ps = new PerfectScrollbar(this, {
@@ -1321,22 +1333,22 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					wheelPropagation: false,
 				});
 
-				$(window).on('resize', function () {
+				$(window).on('resize', function() {
 					ps.update();
 				})
 			});
 		</script>
 		<script src="js/main.js"></script>
-		<?php
-}else{
+	<?php
+} else {
 	header('location: login.php');
 }
-?>
- <script>
-    if (window.history.replaceState) {
-      window.history.replaceState(null, null, window.location.href);
-    }
-  </script>
-</body>
+	?>
+	<script>
+		if (window.history.replaceState) {
+			window.history.replaceState(null, null, window.location.href);
+		}
+	</script>
+	</body>
 
 </html>
