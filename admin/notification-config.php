@@ -1,5 +1,6 @@
 <?php
 include('../config.php');
+
 $query = mysqli_query($notification,"SELECT * FROM admin_notify WHERE active = 1");
 $notify = [];
 
@@ -13,4 +14,10 @@ while($notifications = mysqli_fetch_assoc($query)){
     ];
 }
 
-echo json_encode($notify);
+// Include status in the JSON response
+$response = [
+    'status' => 'success',
+    'data' => $notify
+];
+
+echo json_encode($response);
