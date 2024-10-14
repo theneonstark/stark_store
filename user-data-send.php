@@ -11,7 +11,6 @@ $umail = substr($email, 0, 5);
 $upass = substr($password, 0, 2);
 $unum = substr($num, 0, 2);
 $username = $uname . $umail . $upass . $unum;
-header('location: index.php');
 
     $query = mysqli_query($con, "INSERT INTO users (name, email, Mobile, password, username) VALUES ('$name','$email','$num','$password', '$username')");
 
@@ -49,8 +48,8 @@ header('location: index.php');
             $update_stmt->close();
 
             $_SESSION['cart'] = $new_cart;
+            header('location: notification-send.php');
         }
         }
         exit(); 
-        header('location: notification-send.php');
     }
