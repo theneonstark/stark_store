@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
   <script src="./assets/js/charts-lines.js" defer></script>
-  <script src="./assets/js/charts-pie.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -359,7 +358,7 @@
             </li>
             <!-- Notifications menu -->
             <li class="relative">
-              <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+              <button class="notification-btn relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
                 @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu" aria-label="Notifications"
                 aria-haspopup="true">
                 <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -368,8 +367,6 @@
                   </path>
                 </svg>
                 <!-- Notification badge -->
-                <span aria-hidden="true"
-                  class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
               </button>
               <template x-if="isNotificationsMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
@@ -380,9 +377,8 @@
                     <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                       href="new-user.php">
                       <span>Users</span>
-                      <span
-                        class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
-                        13
+                      <span class="notification-count inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
+                        1
                       </span>
                     </a>
                   </li>
@@ -814,6 +810,73 @@
 <?php
   }
 ?>
+<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+<script>
+  function fetchNotification() {
+  $.ajax({
+    url: 'notify-badge-config.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      if (response.data >= "1") {
+        if (!$('.notification-btn').find('span').length) {
+          $('.notification-btn').append(`
+            <span aria-hidden="true" 
+                  class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
+          `);
+        }
+        $('.notification-count').html(response.data);
+      } else {
+        $('.notification-btn').find('span').remove();
+      }
+    },
+    error: function(xhr, status, error) {
+      console.log("Error: " + error);
+    }
+  });
+}
+
+
+function fetchCount() {
+  $.ajax({
+    url: 'notify-count-config.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
+      if (response.data >= "1") {
+        $('.notification-count').html(response.data);
+      } else {
+        $('.notification-count').html(0);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.log("Error: " + error);
+    }
+  });
+}
+
+$('.notification-btn').on('click', function() {
+  $.ajax({
+    url: 'notify-badge-clear.php',
+    type: 'POST',
+    success: function(response) {
+      $('.notification-btn').find('span').remove();
+    },
+    error: function(xhr, status, error) {
+      console.log("Error: " + error);
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  fetchNotification();
+  fetchCount();
+  setInterval(fetchNotification, 1000);
+  setInterval(fetchCount, 1000);
+});
+
+</script>
 </body>
 
 </html>
