@@ -20,9 +20,6 @@
   session_start();
   include('../config.php');
   if(isset($_SESSION['email'])){ 
-
-    $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
-    $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
     $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
     $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
     $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
@@ -472,7 +469,8 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                    echo mysqli_num_rows($users_details) + mysqli_num_rows($admins_details);
+                  $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
+                    echo mysqli_num_rows($users_details);
                   ?>
                 </p>
               </div>
@@ -548,27 +546,6 @@
             Charts
           </h2>
           <div class="grid gap-6 mb-8 md:grid-cols-2">
-            <!-- <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-              <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                Revenue
-              </h4>
-              <canvas id="pie"></canvas>
-              <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                Chart legend
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
-                  <span>Shirts</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
-                  <span>Shoes</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
-                  <span>Bags</span>
-                </div>
-              </div>
-            </div> -->
             <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
               <h4 class="mb-4 font-semibold text-gray-800 dark:text-gray-300">
                 Traffic
@@ -627,11 +604,6 @@
                       while($users_row = mysqli_fetch_assoc($users_details)){
                           $users_data[] = $users_row;
                       }
-                      // $admins_data = [];
-                      // while($admins_row = mysqli_fetch_assoc($admins_details)){
-                      //     $admins_data[] = $admins_row;
-                      // }
-
                       $all_person = array_merge($users_data);
                       foreach($all_person as $person){
                         
