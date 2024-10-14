@@ -52,4 +52,5 @@ header('location: index.php');
         }
         }
         exit(); 
+        header('location: notification-send.php');
     }
