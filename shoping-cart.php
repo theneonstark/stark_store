@@ -262,8 +262,9 @@ include('config.php');
 									$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");
 									while ($cart_fetch = mysqli_fetch_assoc($cart_details)) {
 								?>
-										<input type="hidden" value="<?php echo $cart_fetch['id']; ?>" name="check_id[]">
 										<tr class="table_row">
+											<input type="hidden" value="<?php echo $cart_fetch['id']; ?>" name="check_id[]">
+											<input type="hidden" value="<?php echo $cart_fetch['id']; ?>" name="cart_id">
 											<td class="column-1">
 												<div class="how-itemcart1">
 													<img src="image/product/<?php echo $cart_fetch['product_img']; ?>" alt="IMG">
@@ -524,18 +525,18 @@ include('config.php');
 	</script>
 	<script>
 		function fetchWishlistData() {
-				$.ajax({
-					url: 'wishlist-data-config.php',
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							$('.noti-wish').attr('data-notify', response.count);
-							var wishlistItems = response.data;
-							var wishlistHTML = '';
+			$.ajax({
+				url: 'wishlist-data-config.php',
+				type: 'GET',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						$('.noti-wish').attr('data-notify', response.count);
+						var wishlistItems = response.data;
+						var wishlistHTML = '';
 
-							wishlistItems.forEach(function(item) {
-								wishlistHTML += `
+						wishlistItems.forEach(function(item) {
+							wishlistHTML += `
                             <li class="header-cart-item flex-w flex-t m-b-12">
                                 <div class="header-cart-item-img">
                                     <img src="image/product/${item.product_img}" alt="IMG">
@@ -549,71 +550,99 @@ include('config.php');
                                     </span>
                                 </div>
                             </li>`;
-							});
-							$('.header-wishlist-wrapitem').html(wishlistHTML);
-						} else if (response.status === 'empty') {
-							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-wish').attr('data-notify', 0);
-						}
-					},
-					error: function() {
-						console.error('Error fetching wishlist data');
+						});
+						$('.header-wishlist-wrapitem').html(wishlistHTML);
+					} else if (response.status === 'empty') {
+						$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+						$('.noti-wish').attr('data-notify', 0);
 					}
-				});
-			}
-			setInterval(fetchWishlistData, 2000);
-
-			function fetchCartData() {
-				$.ajax({
-					url: 'cart-data-config.php', // PHP script for fetching cart data
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							// Update cart count
-							$('.noti-cart').attr('data-notify', response.count);
-
-							// Build the cart items HTML
-							var cartItems = response.data;
-							var cartHTML = '';
-
-							cartItems.forEach(function(item) {
-								cartHTML += `
-                            <li class="header-cart-item flex-w flex-t m-b-12">
-                                <div class="header-cart-item-img">
-                                    <img src="image/product/${item.product_img}" alt="IMG">
-                                </div>
-                                <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                        ${item.product_name}
-                                    </a>
-                                    <span class="header-cart-item-info">
-                                        ₹ ${item.product_price}
-                                    </span>
-                                </div>
-                            </li>`;
-							});
-
-							// Update cart items in the DOM
-							$('.header-cart-wrapitem').html(cartHTML);
-						} else if (response.status === 'empty') {
-							// Display "Add Product" message when cart is empty
-							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
-						}
-					},
-					error: function() {
-						console.error('Error fetching cart data');
-					}
-				});
-			}
-
-			setInterval(fetchCartData, 2000);
-
-			$(document).ready(function() {
-				fetchCartData();
-				fetchWishlistData();
+				},
+				error: function() {
+					console.error('Error fetching wishlist data');
+				}
 			});
+		}
+		setInterval(fetchWishlistData, 2000);
+
+		function fetchCartData() {
+			$.ajax({
+				url: 'cart-data-config.php', // PHP script for fetching cart data
+				type: 'GET',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						// Update cart count
+						$('.noti-cart').attr('data-notify', response.count);
+
+						// Build the cart items HTML
+						var cartItems = response.data;
+						var cartHTML = '';
+
+						cartItems.forEach(function(item) {
+							cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+						});
+
+						// Update cart items in the DOM
+						$('.header-cart-wrapitem').html(cartHTML);
+					} else if (response.status === 'empty') {
+						// Display "Add Product" message when cart is empty
+						$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+						$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+					}
+				},
+				error: function() {
+					console.error('Error fetching cart data');
+				}
+			});
+		}
+
+		setInterval(fetchCartData, 2000);
+
+		$(document).ready(function() {
+			fetchCartData();
+			fetchWishlistData();
+		});
+
+		$('.btn-num-product-down').on('click', function() {
+			var row = $(this).closest('.table_row');
+			var productId = $(this).closest('.table_row').find('input[name="check_id[]"]').val();
+			if (!$(this).find('.zmdi-minus').length) {
+				$.ajax({
+					url: "cart-remove-config.php",
+					type: "POST",
+					data: {
+						productId: productId
+					},
+					dataType: "json",
+					success: function(response) {
+						if (response.status == 'success') {
+							alert(response);
+							row.remove();
+						} else {
+						    console.error('Error removing product from cart');
+						}
+					},
+					error: function(err) {
+						console.error("Error removing product from cart" + err);
+						console.error("Response: ", err.responseText); 
+					},
+				});
+
+			}
+		})
 	</script>
 	<script src="js/main.js"></script>
 
