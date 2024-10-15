@@ -21,6 +21,7 @@ include('config.php');
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/product-add.css">
 </head>
 
 <body class="animsition">
@@ -236,6 +237,12 @@ include('config.php');
 
 	<!-- Shoping Cart -->
 	<form action="checkout.php" method="POST" class="bg0 p-t-75 p-b-85">
+		<?php
+		$cart_user = $_SESSION['cart'];
+		$cart_db = "usercart";
+		// Prepare the SQL query
+		$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
+		?>
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-10 col-xl-12 m-lr-auto m-b-50">
@@ -250,10 +257,6 @@ include('config.php');
 									<th class="column-5">Total</th>
 								</tr>
 								<?php
-								$cart_user = $_SESSION['cart'];
-								$cart_db = "usercart";
-								// Prepare the SQL query
-								$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
 								$cart_table_query->bind_param("ss", $cart_db, $cart_user);
 								$cart_table_query->execute();
 								$cart_table_result = $cart_table_query->get_result();
@@ -293,13 +296,6 @@ include('config.php');
 									<?php
 									}
 									?>
-								<?php
-								} else {
-								?>
-									<h1>Add Product</h1>
-								<?php
-								}
-								?>
 							</table>
 						</div>
 
@@ -327,6 +323,37 @@ include('config.php');
 				</div>
 			</div>
 		</div>
+	<?php
+								} else {
+	?>
+		<section class="page_404">
+  <div class="container">
+    <div class="row"> 
+    <div class="col-sm-12 ">
+    <div class="col-sm-10 col-sm-offset-1  text-center">
+    <div class="four_zero_four_bg">
+      <h1 class="text-center ">404</h1>
+    
+    
+    </div>
+    
+    <div class="contant_box_404">
+    <h3 class="h2">
+    Look like you're lost
+    </h3>
+    
+    <p>the page you are looking for not avaible!</p>
+    
+    <a href="https://instagram.com/abol.codes" class="link_404">Go to Home</a>
+  </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+	<?php
+								}
+	?>
 	</form>
 
 
@@ -629,15 +656,15 @@ include('config.php');
 					dataType: "json",
 					success: function(response) {
 						if (response.status == 'success') {
-							alert(response);
 							row.remove();
+							location.reload();
 						} else {
-						    console.error('Error removing product from cart');
+							console.error('Error removing product from cart');
 						}
 					},
 					error: function(err) {
 						console.error("Error removing product from cart" + err);
-						console.error("Response: ", err.responseText); 
+						console.error("Response: ", err.responseText);
 					},
 				});
 
