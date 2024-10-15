@@ -274,7 +274,7 @@ include('config.php');
 											<td class="column-4">
 												<div class="wrap-num-product flex-w m-l-auto m-r-0">
 													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-														<i class="fs-16 zmdi zmdi-minus"></i>
+														<i class="fs-16 zmdi zmdi-delete"></i>
 													</div>
 
 													<input class="mtext-104 cl3 txt-center num-product" type="number"
@@ -285,7 +285,7 @@ include('config.php');
 													</div>
 												</div>
 											</td>
-											<td class="column-5">₹ <?php echo $cart_fetch['product_price']; ?></td>
+											<td class="column-5">₹ <?php echo $cart_fetch['product_price']; ?>.00</td>
 											<td class="total d-none"><input type="text" class="total_price" value="<?php echo $cart_fetch['product_price']; ?>" name="check_price[]"></td>
 
 										</tr>
