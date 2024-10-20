@@ -225,7 +225,7 @@
 				Your Orders
 			</h2>
 			<?php
-			$order_detail = mysqli_query($user_order, "SELECT * FROM user_order");
+			$order_detail = mysqli_query($user_order, "SELECT * FROM user_order ORDER BY created_at DESC");
 			while ($exe = mysqli_fetch_assoc($order_detail)) {
 				if ($exe['user_id'] == $_SESSION['id']) {
 					$product_ids = json_decode($exe['product_id']);
@@ -237,9 +237,16 @@
 								<p class="font-semibold text-base leading-7 text-black">Order Id: <span class="text-indigo-600 font-medium"><?php echo $exe['razorpay_order_id'] ?></span></p>
 								<p class="font-semibold text-base leading-7 text-black mt-4">Order Payment : <span class="text-gray-400 font-medium"><?php echo $exe['created_at'] ?></span></p>
 							</div>
+							<div>
+							<?php if($exe['status'] !== "Canceled"){?>
+							<button class="cancel-order-btn rounded-full py-2.5 px-7 font-semibold text-sm leading-7 text-white bg-red-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-red-700 hover:shadow-red-400" data-order-id="<?php echo $exe['razorpay_order_id']; ?>" data-payment-id="<?php echo $exe['razorpay_payment_id']; ?>">Cancel</button>
+							<?php
+                                }else{
+                                    echo '<span class="text-gray-500">Order Canceled</span>';
+                                }?>
 							<a href="order_details.php?order_id=<?php echo $exe['razorpay_order_id'] ?>&&id=<?php echo $exe['id'] ?>&&user=<?php echo $exe['user_id'] ?>"
-								class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400">Track
-								Your Order</a>
+								class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400">Track Your Order</a>
+							</div>
 						</div>
 						<div class="w-full px-3 min-[400px]:px-6">
 							<?php
@@ -465,6 +472,7 @@
 		</span>
 	</div>
 
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 	<script src="vendor/bootstrap/js/popper.js"></script>
@@ -496,20 +504,62 @@
 		});
 	</script>
 	<script>
-		$(document).ready(function() {
-			$("#cardPayment").slideUp(10);
-			// Listen for changes on payment method radio buttons
-			$(".peer").on("change", function() {
-				if ($("#Card").is(':checked')) {
-					$("#cardPayment").slideDown();
-				} else {
-					$("#cardPayment").slideDown();
-
-				}
-			});
-		});
-	</script>
-	<script>
+		 $(document).ready(function () {
+        // Cancel Order
+        $(".cancel-order-btn").click(function (e) {
+            e.preventDefault();
+            const orderId = $(this).data('order-id');
+            const paymentId = $(this).data('payment-id');
+            console.log(orderId);
+            
+            // SweetAlert confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you really want to cancel this order?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, cancel it!',
+                cancelButtonText: 'No, keep it'
+            })
+			.then(
+				(result) => {
+                if (result.isConfirmed) {
+                    // AJAX request to cancel the order if confirmed
+                    $.ajax({
+                        url: 'refund-config.php', // Path to your PHP script
+                        method: 'POST',
+                        data: { order_id: orderId, payment_Id: paymentId },
+                        dataType: 'json',
+                        success: function (response) {
+                            console.log(response);
+                            
+                            // Handle success and error responses
+                            Swal.fire(
+                                response.status === 'success' ? 'Canceled!' : 'Error',
+                                response.message,
+                                response.status === 'success' ? 'success' : 'error'
+                            );
+                            // Reload the page if the order is successfully canceled
+                            if (response.status === 'success') {
+                                setTimeout(function() {
+                                    location.reload(); // Reload the page to reflect the cancellation
+                                }, 1500);
+                            }
+                        },
+                        error: function (err) {
+							console.error(err);
+							console.log(err.responseText);
+                            Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+                        }
+                    }
+				);
+                }
+            }
+		);
+        });
+    });
 	function fetchWishlistData() {
 				$.ajax({
 					url: 'wishlist-data-config.php',
