@@ -102,7 +102,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 								</div>
 								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
 									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
-									<a href="#" class="dropdown-item font-weight-bold">Your Orders</a>
+									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
 									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
 									<div class="dropdown-divider"></div>
 									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
