@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       <span>Apple</span>
     </a>
     </div>
-    <p class="note">Terms of use &amp; Conditions</p>
+    <a href="terms-of-use-and-condition.php" class="note">Terms of use &amp; Conditions</a>
   </form>
 </body>
 
