@@ -1,89 +1,14 @@
 <?php
 session_start();
-// require_once "config.php";
 
-require 'vendor/PHPMailer/PHPMailer/src/Exception.php';
-require 'vendor/PHPMailer/PHPMailer/src/PHPMailer.php';
-require 'vendor/PHPMailer/PHPMailer/src/SMTP.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-$mail = new PHPMailer(true);
+$otp_generate = rand(1111, 9999);
+$_SESSION['OTP'] = $otp_generate;
 if (isset($_POST['sub'])) {
   $_SESSION['name'] = $_POST['fname'];
   $_SESSION['email'] = $_POST['mail'];
   $_SESSION['num'] = $_POST['number'];
   $_SESSION['pass'] = $_POST['pass'];
-  $otp_generate = rand(1111, 9999);
-  $_SESSION['OTP'] = $otp_generate;
 
-  try {
-    $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'shahid.convegenius@gmail.com';                     //SMTP username
-    $mail->Password   = 'quuqjkdnouqgywno';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
-    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-    //Recipients
-    $mail->setFrom('mail@starkstore.com', 'Stark-Store');
-    $mail->addAddress($_POST['mail'], $_POST['fname']);
-    $mail->addReplyTo('info@starkstor.com', 'Info');
-    // $mail->addCC('cc@example.com');
-    // $mail->addBCC('bcc@example.com');
-
-    //Attachments
-    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-
-    //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'User Verification OTP';
-    $mail->Body    = '
-<body style="font-family: Helvetica, Arial, sans-serif; margin: 0px; padding: 0px; background-color: #ffffff;">
-  <table role="presentation"
-    style="width: 100%; border-collapse: collapse; border: 0px; border-spacing: 0px; font-family: Arial, Helvetica, sans-serif; background-color: rgb(239, 239, 239);">
-    <tbody>
-      <tr>
-        <td align="center" style="padding: 1rem 2rem; vertical-align: top; width: 100%;">
-          <table role="presentation" style="max-width: 600px; border-collapse: collapse; border: 0px; border-spacing: 0px; text-align: left;">
-            <tbody>
-              <tr>
-                <td style="padding: 40px 0px 0px;">
-                  <div style="text-align: center;">
-                    <div style="padding-bottom: 20px;"><img src="https://i.ibb.co/strrDmp/logo-01.png" alt="Company" style="width: 56px;"></div>
-                  </div>
-                  <div style="padding: 20px; background-color: rgb(255, 255, 255);">
-                    <div style="color: rgb(0, 0, 0); text-align: left;">
-                      <h1 style="margin: 1rem 0">Verification code</h1>
-                      <p style="padding-bottom: 16px">Please use the verification code below to sign in.</p>
-                      <p style="padding-bottom: 16px"><strong style="font-size: 130%">' . $_SESSION['OTP'] . '</strong></p>
-                      <p style="padding-bottom: 16px">If you didn’t request this, you can ignore this email.</p>
-                      <p style="padding-bottom: 16px">Thanks,<br>The Stark-Store team</p>
-                    </div>
-                  </div>
-                  <div style="padding-top: 20px; color: rgb(153, 153, 153); text-align: center;">
-                    <p style="padding-bottom: 16px">Made with ♥ in Stark-Store</p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</body>
-';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-    $mail->send();
-    header('location: user-verification.php');
-  } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-  }
   header('location: user-verification.php');
 }
 ?>
@@ -147,12 +72,15 @@ if (isset($_POST['sub'])) {
           </div>
         </div>
         <div class="flex-auto p-6">
-          <form method="POST" role="form text-left">
+          <form method="POST" role="form text-left" id="form">
+            <div class="mb-4">
+              <input aria-describedby="email-addon" aria-label="Name" type="hidden" name="OTP" value="<?php echo $_SESSION['OTP'] ?>" id="OTP">
+            </div>
             <div class="mb-4">
               <input aria-describedby="email-addon" aria-label="Name" placeholder="Name" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="text" name="fname">
             </div>
             <div class="mb-4">
-              <input aria-describedby="email-addon" aria-label="Email" placeholder="Email" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="email" name="mail">
+              <input aria-describedby="email-addon" aria-label="Email" placeholder="Email" class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="email" name="mail" id="mail">
             </div>
             <div class="mb-4">
               <input aria-describedby="email-addon" aria-label="number" placeholder="Mobile No." class="text-sm focus:shadow-soft-primary-outline leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow" type="number" name="number">
@@ -168,10 +96,30 @@ if (isset($_POST['sub'])) {
         </div>
       </div>
     </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
       if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
       }
+    </script>
+    <script type="text/javascript">
+      emailjs.init('PqoT1k1LbFg44g6DL')
+
+      document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const serviceID = 'default_service';
+        const templateID = 'template_5xhh4gq';
+        
+        // Use `sendForm` to collect all form data automatically
+        emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+          alert('Email sent successfully!');
+          document.getElementById('form').submit();
+          window.location.href = 'user-verification.php'; 
+          }, (err) => {
+            alert('Email sending failed: ' + JSON.stringify(err));
+          });
+      });
     </script>
 </body>
 
