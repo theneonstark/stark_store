@@ -97,30 +97,47 @@ if (isset($_POST['sub'])) {
       </div>
     </div>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <script>
       if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
       }
     </script>
     <script type="text/javascript">
-      emailjs.init('PqoT1k1LbFg44g6DL')
+    emailjs.init('PqoT1k1LbFg44g6DL');
 
-      document.getElementById('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const serviceID = 'default_service';
-        const templateID = 'template_5xhh4gq';
-        
-        // Use `sendForm` to collect all form data automatically
-        emailjs.sendForm(serviceID, templateID, this)
-        .then(() => {
-          alert('Email sent successfully!');
-          document.getElementById('form').submit();
-          window.location.href = 'user-verification.php'; 
-          }, (err) => {
-            alert('Email sending failed: ' + JSON.stringify(err));
-          });
-      });
-    </script>
+    $(document).ready(function() {
+        $('#form').on('submit', function(event) {
+            event.preventDefault();
+
+            const serviceID = 'default_service';
+            const templateID = 'template_5xhh4gq';
+            emailjs.sendForm(serviceID, templateID, this)
+            .then(() => {
+                const formData = $(this).serialize() + '&sub=1';
+                $.ajax({
+                    url: 'session-config.php',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            window.location.href = 'user-verification.php';
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('AJAX submission failed: ' + error);
+                    }
+                });
+            }, (err) => {
+                alert('Email sending failed: ' + JSON.stringify(err));
+            });
+        });
+    });
+</script>
+
 </body>
 
 </html>
