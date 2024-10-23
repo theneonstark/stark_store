@@ -29,34 +29,37 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
 
 <body class="animsition">
 
+	<!-- Header -->
 	<header class="header-v4">
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
 			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container">
+				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 					<div class="left-top-bar">
 						Free shipping for standard order over $100
 					</div>
 				</div>
 			</div>
 
-			<div class="wrap-menu-desktop how-shadow1">
+			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
 
 					<!-- Logo desktop -->
-					<a href="#" class="logo">
+					<a href="index.php" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li>
+							<li class="active-menu">
 								<a href="index.php">Home</a>
 							</li>
 
@@ -87,65 +90,25 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
 							<i class="zmdi zmdi-search"></i>
 						</div>
-
-						<?php
-						$cart_user = $_SESSION['cart'];
-						$cart_db = "usercart";
-						// Prepare the SQL query
-						$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-						$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-						$cart_table_query->execute();
-						$cart_table_result = $cart_table_query->get_result();
-						$cart_table_row = $cart_table_result->fetch_assoc();
-						if ($cart_table_row['count'] > 0) {
-							$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
-						?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-								data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
-								<i class="zmdi zmdi-shopping-cart"></i>
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+							<i class="zmdi zmdi-shopping-cart"></i>
+						</div>
+						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+							<i class="zmdi zmdi-favorite-outline"></i>
+						</span>
+						<div class="dropdown">
+								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
+									<i class="zmdi zmdi-account-circle"></i>
+									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+								</div>
+								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
+									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
+									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
+									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
+									<div class="dropdown-divider"></div>
+									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
+								</div>
 							</div>
-						<?php
-						} else {
-						?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
-						<?php
-						}
-						?>
-						<?php
-						$wish_user = $_SESSION['wishlist'];
-						$wish_db = "wishlist";
-						// Prepare the SQL query
-						$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-						$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-						$wish_table_query->execute();
-						$wish_table_result = $wish_table_query->get_result();
-						$wish_table_row = $wish_table_result->fetch_assoc();
-						if ($wish_table_row['count'] > 0) {
-							$wish_details = mysqli_query($wishlist_info, "SELECT * FROM $wish_user");
-						?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-								data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
-						<?php
-							// }
-						} else {
-						?>
-							<span
-								class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</span>
-						<?php
-						}
-						?>
-						<a href="logout.php"
-							class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
-							<i class="zmdi zmdi-account-circle"></i>
-							<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-						</a>
 					</div>
 				</nav>
 			</div>
@@ -163,59 +126,12 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 					<i class="zmdi zmdi-search"></i>
 				</div>
-				<?php
-				$cart_user = $_SESSION['cart'];
-				$cart_db = "usercart";
-				// Prepare the SQL query
-				$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-				$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-				$cart_table_query->execute();
-				$cart_table_result = $cart_table_query->get_result();
-				$cart_table_row = $cart_table_result->fetch_assoc();
-				if ($cart_table_row['count'] > 0) {
-					$cart_details = mysqli_query($cart_info, "SELECT COUNT(*) FROM $cart_user");
-				?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-						data-notify="<?php echo mysqli_num_rows($cart_details) ?>">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-				<?php
-				} else {
-				?>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 js-show-cart">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-				<?php
-				}
-				?>
-
-				<?php
-				$wish_user = $_SESSION['wishlist'];
-				$wish_db = "wishlist";
-				$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-				$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-				$wish_table_query->execute();
-				$wish_table_result = $wish_table_query->get_result();
-				$wish_table_row = $wish_table_result->fetch_assoc();
-				if ($wish_table_row['count'] > 0) {
-					$wish_details = mysqli_query($wishlist_info, "SELECT COUNT(*) FROM $wish_user");
-				?>
-					<span
-						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-wishlist"
-						data-notify="<?php echo mysqli_num_rows($wish_details) ?>">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-				<?php
-					// }
-				} else {
-				?>
-					<span
-						class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-wishlist">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-				<?php
-				}
-				?>
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+					<i class="zmdi zmdi-shopping-cart"></i>
+				</div>
+				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+					<i class="zmdi zmdi-favorite-outline"></i>
+				</span>
 				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
 					<i class="zmdi zmdi-account-circle"></i>
 					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
@@ -297,45 +213,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
-					<?php
-					$cart_user = $_SESSION['cart'];
-					$cart_db = "usercart";
-					// Prepare the SQL query
-					$cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-					$cart_table_query->bind_param("ss", $cart_db, $cart_user);
-					$cart_table_query->execute();
-					$cart_table_result = $cart_table_query->get_result();
-					$cart_table_row = $cart_table_result->fetch_assoc();
-					if ($cart_table_row['count'] > 0) {
-						$cart_details = mysqli_query($cart_info, "SELECT * FROM usercart.$cart_user uw JOIN product.product_item pi ON uw.cp_detail = pi.id WHERE uw.cp_detail AND pi.id ");
-						while ($cart_fetch = mysqli_fetch_assoc($cart_details)) {
-					?>
-							<li class="header-cart-item flex-w flex-t m-b-12">
-								<div class="header-cart-item-img">
-									<img src="image/product/<?php echo $cart_fetch['product_img']; ?>" alt="IMG">
-								</div>
-
-								<div class="header-cart-item-txt p-t-8">
-									<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-										<?php echo $cart_fetch['product_name']; ?>
-									</a>
-
-									<span class="header-cart-item-info">
-										₹ <?php echo $cart_fetch['product_price']; ?>
-									</span>
-								</div>
-							</li>
-						<?php
-						}
-						?>
 				</ul>
-			<?php
-					} else {
-			?>
-				<h1>Add Product</h1>
-			<?php
-					}
-			?>
 			</div>
 		</div>
 	</div>
@@ -356,46 +234,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 			</div>
 
 			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
-					<?php
-					$wish_user = $_SESSION['wishlist'];
-					$wish_db = "wishlist";
-					// Prepare the SQL query
-					$wish_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-					$wish_table_query->bind_param("ss", $wish_db, $wish_user);
-					$wish_table_query->execute();
-					$wish_table_result = $wish_table_query->get_result();
-					$wish_table_row = $wish_table_result->fetch_assoc();
-					if ($wish_table_row['count'] > 0) {
-						$wish_details = mysqli_query($wishlist_info, "SELECT * FROM wishlist.$wish_user uw JOIN product.product_item pi ON uw.wp_detail = pi.id WHERE uw.wp_detail AND pi.id ");
-						while ($wish_fetch = mysqli_fetch_assoc($wish_details)) {
-					?>
-							<li class="header-cart-item flex-w flex-t m-b-12">
-								<div class="header-cart-item-img">
-									<img src="image/product/<?php echo $wish_fetch['product_img']; ?>" alt="IMG">
-								</div>
-
-								<div class="header-cart-item-txt p-t-8">
-									<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-										<?php echo $wish_fetch['product_name']; ?>
-									</a>
-
-									<span class="header-cart-item-info">
-										₹ <?php echo $wish_fetch['product_price']; ?>
-									</span>
-								</div>
-							</li>
-						<?php
-						}
-						?>
+				<ul class="header-wishlist-wrapitem w-full">
 				</ul>
-			<?php
-					} else {
-			?>
-				<h1>Add Product</h1>
-			<?php
-					}
-			?>
 			</div>
 		</div>
 	</div>
@@ -550,7 +390,6 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 		]);
 
 		$orderId = $order['id'];
-		echo json_encode(['status' => 'success', 'order_id' => $orderId]);
 	} catch (Exception $e) {
 		die(json_encode(['status' => 'failure', 'error' => $e->getMessage()]));
 	}
@@ -799,6 +638,99 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				}
 			});
 		});
+	</script>
+	<script>
+		function fetchWishlistData() {
+				$.ajax({
+					url: 'wishlist-data-config.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							$('.noti-wish').attr('data-notify', response.count);
+							var wishlistItems = response.data;
+							var wishlistHTML = '';
+
+							wishlistItems.forEach(function(item) {
+								wishlistHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+							});
+							$('.header-wishlist-wrapitem').html(wishlistHTML);
+						} else if (response.status === 'empty') {
+							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-wish').attr('data-notify', 0);
+						}
+					},
+					error: function() {
+						console.error('Error fetching wishlist data');
+					}
+				});
+			}
+			setInterval(fetchWishlistData, 2000);
+
+			function fetchCartData() {
+				$.ajax({
+					url: 'cart-data-config.php', // PHP script for fetching cart data
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							// Update cart count
+							$('.noti-cart').attr('data-notify', response.count);
+
+							// Build the cart items HTML
+							var cartItems = response.data;
+							var cartHTML = '';
+
+							cartItems.forEach(function(item) {
+								cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+							});
+
+							// Update cart items in the DOM
+							$('.header-cart-wrapitem').html(cartHTML);
+						} else if (response.status === 'empty') {
+							// Display "Add Product" message when cart is empty
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+						}
+					},
+					error: function() {
+						console.error('Error fetching cart data');
+					}
+				});
+			}
+
+			setInterval(fetchCartData, 2000);
+
+			$(document).ready(function() {
+				fetchCartData();
+				fetchWishlistData();
+			});
 	</script>
 	<script src="js/main.js"></script>
 	<script>

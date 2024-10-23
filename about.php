@@ -35,6 +35,8 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
@@ -100,11 +102,19 @@
 						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</span>
-						<a href="logout.php"
-							class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
-							<i class="zmdi zmdi-account-circle"></i>
-							<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-						</a>
+						<div class="dropdown">
+								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
+									<i class="zmdi zmdi-account-circle"></i>
+									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+								</div>
+								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
+									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
+									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
+									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
+									<div class="dropdown-divider"></div>
+									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
+								</div>
+							</div>
 					</div>
 				</nav>
 			</div>
