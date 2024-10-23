@@ -451,74 +451,36 @@
       <main class="h-full pb-16 overflow-y-auto">
         <div class="container px-6 mx-auto grid">
           <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Product Upload Here
+            Blog Upload Here
           </h2>
           <!-- General elements -->
           <form action="" method="POST" enctype="multipart/form-data">
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Product Name</span>
+                <span class="text-gray-700 dark:text-gray-400">Title</span>
                 <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="Product Name" name="productName" />
+                  placeholder="Blog Title" name="title" />
               </label>
-
-              <div class="mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Gender
-                </span>
-                <div class="mt-2">
-                  <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                    <input type="radio"
-                      class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                      name="gender" value="M" checked/>
-                    <span class="ml-2">Male</span>
-                  </label>
-                  <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                    <input type="radio"
-                      class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                      name="gender" value="F" />
-                    <span class="ml-2">Female</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap items-center justify-start">
                 <label class="block mt-4 text-sm">
                   <span class="text-gray-700 dark:text-gray-400">
-                    Product Category
+                    Blog Tags
                   </span>
-                  <select
-                    class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                    name="catg">
-                    <option>--Select-Your-Category--</option>
-                    <option value="1">Cloth</option>
-                    <option value="2">Watch</option>
-                    <option value="3">Shoe</option>
-                    <option value="4">Belt</option>
-                    <option value="5">Accessories</option>
-                    <option value="6">Other</option>
-                  </select>
+                  <input
+                  class="block w-1/2 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="Blog tags" name="tags" />
                 </label>
-                <label class="block mt-4 ml-4 text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">Product Price</span>
-                  <input type="number"
-                    class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                    placeholder="Product Price" name="price" />
-                </label>
-              </div>
               <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
-                <label
-                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture</label>
+                <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Title Image</label>
                 <input id="picture" type="file"
                   class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="product_img" accept="image/png, image/jpeg">
+                  name="blog_img" accept="image/png, image/jpeg">
               </div>
               <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Message</span>
+                <span class="text-gray-700 dark:text-gray-400">Story</span>
                 <textarea
                   class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  rows="3" placeholder="Enter some long form content." name="product_description"></textarea>
+                  rows="3" placeholder="Enter story content." name="story"></textarea>
               </label>
 
               <div class="flex mt-6 text-sm">
@@ -529,154 +491,14 @@
             </div>
           </form>
           <!-- Related -->
-          <?php
-  if (isset($_POST['sub'])) {
-    $pname = $_POST['productName'];
-    $gender = $_POST['gender'];
-    $price = $_POST['price'];
-    $catg = $_POST['catg'];
-    $product_description = $_POST['product_description'];
-    if (isset($_FILES['product_img'])) {
-      $directory = "../image/product/";
-      $product_img = $_FILES['product_img']['name'];
-      $temp_name = $_FILES['product_img']['tmp_name'];
-      $already_exist = $directory.$product_img;
-      if (!file_exists($already_exist)) {
-        if (move_uploaded_file($temp_name, "../image/product/$product_img")) 
-        {
-          ?>
-          <script>
-            $(document).ready(function () {
-              Swal.fire({
-                  title: "Data or file has been uploaded",
-                  html: "<font color='white'> Check this out and upload the related pictures of product</font>",
-                  icon: "success",
-                  showCloseButton: true,
-                  confirmButtonText: `Okay!`, 
-              })
-            })
-          </script>
-          <?php
-          mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 0");
-          $product_query = mysqli_query($product_info,"insert into product_item (product_name, product_img, product_price, gender, product_description,product_catg) values ('$pname','$product_img','$price','$gender','$product_description', $catg)");
-          mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 1");
-        }
-        ?>
-          <form action="" method="POST" enctype="multipart/form-data">
-            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <label class="block mt-4 text-sm">
-                  <span class="text-gray-700 dark:text-gray-400">
-                    Product Related Image
-                  </span>
-                  <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Product Name</span>
-                <?php
-                  $pro = mysqli_query($product_info, "SELECT * FROM product_item ORDER BY id DESC LIMIT 1");
-                  if($exe = mysqli_fetch_assoc($pro)){
-                ?>
-                <input
-                  class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="Product Name" value="<?php echo $exe['id']?>" name="update_catg" realonly/>
-                  <?php
-                  }
-                  ?>
-              </label>
-                </label>
-              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
-                <label
-                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 1</label>
-                <input id="picture" type="file"
-                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="product_img1" accept="image/png, image/jpeg">
-              </div>
-              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
-                <label
-                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 2</label>
-                <input id="picture" type="file"
-                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="product_img2" accept="image/png, image/jpeg">
-              </div>
-              <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
-                <label
-                  class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Picture 3</label>
-                <input id="picture" type="file"
-                  class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="product_img3" accept="image/png, image/jpeg">
-              </div>
-              <div class="flex mt-6 text-sm">
-                <input type="submit"
-                  class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                  name="update">
-              </div>
-            </div>
-            
-          </form>
-      <?php
-      }
-      else {
-        ?>
-        <script>
-          $(document).ready(function () {
-            Swal.fire({
-              title: "File or Data Already uploaded",
-              html: "<font color='white'> Please Upload the another file or data !</font>",
-              icon: "warning",
-              showCloseButton: true,
-              confirmButtonText: `Okay!`, 
-              
-            })
-          })
-          </script>
-        <?php
-      }
-    }
-  }
-}
-?>
-  <?php
-    if(isset($_POST['update'])){
-      $product_related = $_POST['update_catg'];
-      mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 0");
-      $a = mysqli_query( $product_info,"UPDATE product_item SET product_related_img = $product_related WHERE id=$product_related");
-      mysqli_query($product_info, "SET FOREIGN_KEY_CHECKS = 1");
-      if(isset($_FILES['product_img1'])){
-        $file_img1 = $_FILES['product_img1']['name'];
-        $file_tmp1 = $_FILES['product_img1']['tmp_name'];
-        move_uploaded_file($file_tmp1, "../image/product/pr_imgs/$file_img1");
-      }
-      if(isset($_FILES['product_img2'])){
-        $file_img2 = $_FILES['product_img2']['name'];
-        $file_tmp2 = $_FILES['product_img2']['tmp_name'];
-        move_uploaded_file($file_tmp2, "../image/product/pr_imgs/$file_img2");
-      }
-      if(isset($_FILES['product_img3'])){
-        $file_img3 = $_FILES['product_img3']['name'];
-        $file_tmp3 = $_FILES['product_img3']['tmp_name'];
-        move_uploaded_file($file_tmp3, "../image/product/pr_imgs/$file_img3");
-      }
-      $all_images = json_encode([$file_img1,$file_img2,$file_img3]);
-      $query_img3 = mysqli_query( $product_info,"insert into product_images (pr_id, pr_imgs) values ($product_related, '$all_images')");
-        ?>
-        <script>
-          $(document).ready(function () {
-            Swal.fire({
-                  title: "Related image uplaoded",
-                  html: "<font color='white'> WOW !</font>",
-                  icon: "success",
-                  showCloseButton: true,
-                  confirmButtonText: `Okay!`, 
-
-              })
-          })
-        </script>
-      <?php
-      }
-
-  ?>
         </div>
       </main>
     </div>
   </div>
+
+  <?php
+  }
+  ?>
   <script>
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
