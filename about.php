@@ -1,46 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<?php
-		session_start();
-		include('config.php');
-		$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
+	<?php
+	session_start();
+	include('config.php');
+	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
 		";
-		$wishlist_data = "select * from wishlist";
-		if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
+	$wishlist_data = "select * from wishlist";
+	if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 	?>
-	<title>About</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<title>About</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+		<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+		<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
+		<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+		<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+		<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+		<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+		<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+		<link rel="stylesheet" type="text/css" href="css/util.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
 </head>
+
 <body class="animsition">
-	
+
 	<!-- Header -->
 	<header class="header-v4">
 		<!-- Header desktop -->
@@ -103,18 +93,18 @@
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</span>
 						<div class="dropdown">
-								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
-									<i class="zmdi zmdi-account-circle"></i>
-									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-								</div>
-								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
-									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
-									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
-									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
-									<div class="dropdown-divider"></div>
-									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
-								</div>
+							<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
+								<i class="zmdi zmdi-account-circle"></i>
+								<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
 							</div>
+							<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
+								<a href="#" class="dropdown-item font-weight-bold">Profile</a>
+								<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
+								<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
+								<div class="dropdown-divider"></div>
+								<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
+							</div>
+						</div>
 					</div>
 				</nav>
 			</div>
@@ -155,51 +145,51 @@
 
 		<!-- Menu Mobile -->
 		<div class="menu-mobile">
-				<ul class="main-menu-m">
-					<li>
-						<a href="index.php">Home</a>
-						<span class="arrow-main-menu-m">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</span>
-					</li>
+			<ul class="main-menu-m">
+				<li>
+					<a href="index.php">Home</a>
+					<span class="arrow-main-menu-m">
+						<i class="fa fa-angle-right" aria-hidden="true"></i>
+					</span>
+				</li>
 
-					<li>
-						<a href="product.php">Shop</a>
-					</li>
+				<li>
+					<a href="product.php">Shop</a>
+				</li>
 
-					<li>
-						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
-					</li>
+				<li>
+					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
+				</li>
 
-					<li>
-						<a href="blog.php">Blog</a>
-					</li>
+				<li>
+					<a href="blog.php">Blog</a>
+				</li>
 
-					<li>
-						<a href="about.php">About</a>
-					</li>
+				<li>
+					<a href="about.php">About</a>
+				</li>
 
-					<li>
-						<a href="contact.php">Contact</a>
-					</li>
-					<li>
-					<li>
-						<!-- <a href="index.php">Home</a> -->
-						<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
-						<span class="h6"><?php echo $_SESSION['name']; ?></span>
-						<ul class="sub-menu-m">
-							<li><a href="index.php">Profile</a></li>
-							<li><a href="#">Your Orders</a></li>
-							<li><a href="#">Your Wishlist</a></li>
-							<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
-						</ul>
-						<span class="arrow-main-menu-m">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</span>
-					</li>
-					</li>
-				</ul>
-			</div>
+				<li>
+					<a href="contact.php">Contact</a>
+				</li>
+				<li>
+				<li>
+					<!-- <a href="index.php">Home</a> -->
+					<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
+					<span class="h6"><?php echo $_SESSION['name']; ?></span>
+					<ul class="sub-menu-m">
+						<li><a href="index.php">Profile</a></li>
+						<li><a href="#">Your Orders</a></li>
+						<li><a href="#">Your Wishlist</a></li>
+						<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
+					</ul>
+					<span class="arrow-main-menu-m">
+						<i class="fa fa-angle-right" aria-hidden="true"></i>
+					</span>
+				</li>
+				</li>
+			</ul>
+		</div>
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
@@ -268,7 +258,7 @@
 		<h2 class="ltext-105 cl0 txt-center">
 			About
 		</h2>
-	</section>	
+	</section>
 
 
 	<!-- Content page -->
@@ -278,19 +268,28 @@
 				<div class="col-md-7 col-lg-8">
 					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
-							Our Story
+							About Stark Store
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat consequat enim, non auctor massa ultrices non. Morbi sed odio massa. Quisque at vehicula tellus, sed tincidunt augue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas varius egestas diam, eu sodales metus scelerisque congue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas gravida justo eu arcu egestas convallis. Nullam eu erat bibendum, tempus ipsum eget, dictum enim. Donec non neque ut enim dapibus tincidunt vitae nec augue. Suspendisse potenti. Proin ut est diam. Donec condimentum euismod tortor, eget facilisis diam faucibus et. Morbi a tempor elit.
+							Welcome to Stark Store, your go-to destination for all things modern, stylish, and innovative. We’re more than just an e-commerce platform; we are a brand committed to bringing you products that elevate your everyday life with quality, value, and the latest trends. At Stark Store, we believe that shopping should be an experience—one that’s seamless, enjoyable, and tailored to you.
 						</p>
 
+						<h3 class="mtext-111 cl2 p-b-16">
+							Why Stark Store?
+						</h3>
 						<p class="stext-113 cl6 p-b-26">
-							Donec gravida lorem elit, quis condimentum ex semper sit amet. Fusce eget ligula magna. Aliquam aliquam imperdiet sodales. Ut fringilla turpis in vehicula vehicula. Pellentesque congue ac orci ut gravida. Aliquam erat volutpat. Donec iaculis lectus a arcu facilisis, eu sodales lectus sagittis. Etiam pellentesque, magna vel dictum rutrum, neque justo eleifend elit, vel tincidunt erat arcu ut sem. Sed rutrum, turpis ut commodo efficitur, quam velit convallis ipsum, et maximus enim ligula ac ligula. 
-						</p>
+							We understand that shopping online can sometimes be overwhelming. With countless options available, it’s often difficult to find what you need without sacrificing quality or affordability. That’s why Stark Store is committed to being different. Here’s what sets us apart:
 
+							<ul>
+								<li class="stext-10 cl6 p-b-26"><strong>Quality Assurance:</strong> We hand-pick every item in our store, ensuring that it meets our high standards for quality and durability. We work with trusted suppliers and manufacturers to bring you products that you can rely on.</li>
+								<li class="stext-10 cl6 p-b-26"><strong>Customer-Centric Approach:</strong> Your satisfaction is our priority. From the moment you land on our website to the time your package arrives, we are dedicated to providing an exceptional shopping experience. Our customer support team is always ready to assist with any questions or concerns.</li>
+								<li class="stext-10 cl6 p-b-26"><strong>Trendy and Innovative Products:</strong> We stay on top of the latest trends in fashion, technology, home decor, and more to ensure that Stark Store is always stocked with products that reflect the current style and innovation.</li>
+								<li class="stext-10 cl6 p-b-26"><strong>Secure and Convenient Shopping:</strong> We know how important it is to have a hassle-free shopping experience. Our platform is designed to be user-friendly and secure, offering multiple payment options and ensuring the privacy of your personal information.</li>
+							</ul>
+						</p>
 						<p class="stext-113 cl6 p-b-26">
-							Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879
+							Any questions? Let us know in store at <strong> Delhi, New Delhi, 110044 or call us on (+91) 9717XXXXX</strong>
 						</p>
 					</div>
 				</div>
@@ -303,7 +302,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
 					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
@@ -312,7 +311,7 @@
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							Mauris non lacinia magna. Sed nec lobortis dolor. Vestibulum rhoncus dignissim risus, sed consectetur erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam maximus mauris sit amet odio convallis, in pharetra magna gravida. Praesent sed nunc fermentum mi molestie tempor. Morbi vitae viverra odio. Pellentesque ac velit egestas, luctus arcu non, laoreet mauris. Sed in ipsum tempor, consequat odio in, porttitor ante. Ut mauris ligula, volutpat in sodales in, porta non odio. Pellentesque tempor urna vitae mi vestibulum, nec venenatis nulla lobortis. Proin at gravida ante. Mauris auctor purus at lacus maximus euismod. Pellentesque vulputate massa ut nisl hendrerit, eget elementum libero iaculis.
+						<strong>Stark Store</strong> was founded with a vision: to create an online store where quality meets convenience. Starting from humble beginnings, we’ve grown into a trusted name in the e-commerce space, with a wide range of products that cater to a diverse customer base. Our founders shared a common goal of building a store that offers something for everyone, whether it’s a trendy piece of clothing, the latest tech gadget, or a stylish home accessory. Over the years, we’ve evolved and expanded, but our core values have remained the same—quality, affordability, and customer satisfaction.
 						</p>
 
 						<div class="bor16 p-l-29 p-b-9 m-t-22">
@@ -321,7 +320,7 @@
 							</p>
 
 							<span class="stext-111 cl8">
-								- Steve Job’s 
+								- Steve Job’s
 							</span>
 						</div>
 					</div>
@@ -336,9 +335,9 @@
 				</div>
 			</div>
 		</div>
-	</section>	
-	
-		
+	</section>
+
+
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
@@ -390,7 +389,7 @@
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns 
+								Returns
 							</a>
 						</li>
 
@@ -477,8 +476,10 @@
 
 				<p class="stext-107 cl6 txt-center">
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;<script>
+						document.write(new Date().getFullYear());
+					</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 				</p>
 			</div>
@@ -493,56 +494,50 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</span>
 	</div>
 
-<!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
-		$(".js-select2").each(function(){
+		$(".js-select2").each(function() {
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
 			});
 		})
 	</script>
-<!--===============================================================================================-->
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
+		$('.js-pscroll').each(function() {
+			$(this).css('position', 'relative');
+			$(this).css('overflow', 'hidden');
 			var ps = new PerfectScrollbar(this, {
 				wheelSpeed: 1,
 				scrollingThreshold: 1000,
 				wheelPropagation: false,
 			});
 
-			$(window).on('resize', function(){
+			$(window).on('resize', function() {
 				ps.update();
 			})
 		});
 	</script>
 	<script>
 		function fetchWishlistData() {
-				$.ajax({
-					url: 'wishlist-data-config.php',
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							$('.noti-wish').attr('data-notify', response.count);
-							var wishlistItems = response.data;
-							var wishlistHTML = '';
+			$.ajax({
+				url: 'wishlist-data-config.php',
+				type: 'GET',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						$('.noti-wish').attr('data-notify', response.count);
+						var wishlistItems = response.data;
+						var wishlistHTML = '';
 
-							wishlistItems.forEach(function(item) {
-								wishlistHTML += `
+						wishlistItems.forEach(function(item) {
+							wishlistHTML += `
                             <li class="header-cart-item flex-w flex-t m-b-12">
                                 <div class="header-cart-item-img">
                                     <img src="image/product/${item.product_img}" alt="IMG">
@@ -556,79 +551,79 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                                     </span>
                                 </div>
                             </li>`;
-							});
-							$('.header-wishlist-wrapitem').html(wishlistHTML);
-						} else if (response.status === 'empty') {
-							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-wish').attr('data-notify', 0);
-						}
-					},
-					error: function() {
-						console.error('Error fetching wishlist data');
+						});
+						$('.header-wishlist-wrapitem').html(wishlistHTML);
+					} else if (response.status === 'empty') {
+						$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+						$('.noti-wish').attr('data-notify', 0);
 					}
-				});
-			}
-			setInterval(fetchWishlistData, 2000);
-
-			function fetchCartData() {
-				$.ajax({
-					url: 'cart-data-config.php', // PHP script for fetching cart data
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							// Update cart count
-							$('.noti-cart').attr('data-notify', response.count);
-
-							// Build the cart items HTML
-							var cartItems = response.data;
-							var cartHTML = '';
-
-							cartItems.forEach(function(item) {
-								cartHTML += `
-                            <li class="header-cart-item flex-w flex-t m-b-12">
-                                <div class="header-cart-item-img">
-                                    <img src="image/product/${item.product_img}" alt="IMG">
-                                </div>
-                                <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                        ${item.product_name}
-                                    </a>
-                                    <span class="header-cart-item-info">
-                                        ₹ ${item.product_price}
-                                    </span>
-                                </div>
-                            </li>`;
-							});
-
-							// Update cart items in the DOM
-							$('.header-cart-wrapitem').html(cartHTML);
-						} else if (response.status === 'empty') {
-							// Display "Add Product" message when cart is empty
-							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
-						}
-					},
-					error: function() {
-						console.error('Error fetching cart data');
-					}
-				});
-			}
-
-			setInterval(fetchCartData, 2000);
-
-			$(document).ready(function() {
-				fetchCartData();
-				fetchWishlistData();
+				},
+				error: function() {
+					console.error('Error fetching wishlist data');
+				}
 			});
+		}
+		setInterval(fetchWishlistData, 2000);
+
+		function fetchCartData() {
+			$.ajax({
+				url: 'cart-data-config.php', // PHP script for fetching cart data
+				type: 'GET',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						// Update cart count
+						$('.noti-cart').attr('data-notify', response.count);
+
+						// Build the cart items HTML
+						var cartItems = response.data;
+						var cartHTML = '';
+
+						cartItems.forEach(function(item) {
+							cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+						});
+
+						// Update cart items in the DOM
+						$('.header-cart-wrapitem').html(cartHTML);
+					} else if (response.status === 'empty') {
+						// Display "Add Product" message when cart is empty
+						$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+						$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+					}
+				},
+				error: function() {
+					console.error('Error fetching cart data');
+				}
+			});
+		}
+
+		setInterval(fetchCartData, 2000);
+
+		$(document).ready(function() {
+			fetchCartData();
+			fetchWishlistData();
+		});
 	</script>
-	<?php
-} else {
-	header('location: login.php');
-}
-	?>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
-	
+<?php
+	} else {
+		header('location: login.php');
+	}
+?>
+<script src="js/main.js"></script>
+
 </body>
+
 </html>
