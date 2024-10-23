@@ -126,16 +126,6 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 						<i class="zmdi zmdi-search"></i>
 					</div>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-					<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-					<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-						<i class="zmdi zmdi-account-circle"></i>
-						<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-					</a>
 				</div>
 
 				<!-- Button show menu -->
@@ -162,7 +152,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					</li>
 
 					<li>
-						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
+						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
 					<li>
@@ -175,6 +165,22 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 					<li>
 						<a href="contact.php">Contact</a>
+					</li>
+					<li>
+					<li>
+						<!-- <a href="index.php">Home</a> -->
+						<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
+						<span class="h6"><?php echo $_SESSION['name']; ?></span>
+						<ul class="sub-menu-m">
+							<li><a href="index.php">Profile</a></li>
+							<li><a href="#">Your Orders</a></li>
+							<li><a href="#">Your Wishlist</a></li>
+							<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
+						</ul>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
 					</li>
 				</ul>
 			</div>

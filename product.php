@@ -161,7 +161,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 					</li>
 
 					<li>
-						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
+						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
 					<li>
@@ -174,6 +174,22 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 					<li>
 						<a href="contact.php">Contact</a>
+					</li>
+					<li>
+					<li>
+						<!-- <a href="index.php">Home</a> -->
+						<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
+						<span class="h6"><?php echo $_SESSION['name']; ?></span>
+						<ul class="sub-menu-m">
+							<li><a href="index.php">Profile</a></li>
+							<li><a href="#">Your Orders</a></li>
+							<li><a href="#">Your Wishlist</a></li>
+							<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
+						</ul>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
 					</li>
 				</ul>
 			</div>

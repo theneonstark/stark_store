@@ -140,35 +140,51 @@
 
 		<!-- Menu Mobile -->
 		<div class="menu-mobile">
-			<ul class="main-menu-m">
-				<li>
-					<a href="index.php">Home</a>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
-				</li>
+				<ul class="main-menu-m">
+					<li>
+						<a href="index.php">Home</a>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
 
-				<li>
-					<a href="product.php">Shop</a>
-				</li>
+					<li>
+						<a href="product.php">Shop</a>
+					</li>
 
-				<li>
-					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
-				</li>
+					<li>
+						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
+					</li>
 
-				<li>
-					<a href="blog.php">Blog</a>
-				</li>
+					<li>
+						<a href="blog.php">Blog</a>
+					</li>
 
-				<li>
-					<a href="about.php">About</a>
-				</li>
+					<li>
+						<a href="about.php">About</a>
+					</li>
 
-				<li>
-					<a href="contact.php">Contact</a>
-				</li>
-			</ul>
-		</div>
+					<li>
+						<a href="contact.php">Contact</a>
+					</li>
+					<li>
+					<li>
+						<!-- <a href="index.php">Home</a> -->
+						<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
+						<span class="h6"><?php echo $_SESSION['name']; ?></span>
+						<ul class="sub-menu-m">
+							<li><a href="index.php">Profile</a></li>
+							<li><a href="#">Your Orders</a></li>
+							<li><a href="#">Your Wishlist</a></li>
+							<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
+						</ul>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
+					</li>
+				</ul>
+			</div>
 
 		<!-- Modal Search -->
 		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
