@@ -6,45 +6,6 @@ include ('config.php');
 $product = "select * from product_item";
 $wishlist_data = "select * from wishlist";
 if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-	if (isset($_POST['wish'])) {
-		$wish_product = $_POST['wish_product'];
-		$wish_data = $_POST['wish'];
-		$wish_table = mysqli_query($wishlist_info, "CREATE TABLE IF NOT EXISTS $wish_data (
-	w_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
-	user_name varchar(100),
-	wp_detail INT
-	)");
-		if ($wish_table) {
-			$database_name = 'wishlist';
-			$table_name = $wish_data;
-			$query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-			$query->bind_param("ss", $database_name, $table_name);
-			$query->execute();
-			$result = $query->get_result();
-			$row = $result->fetch_assoc();
-			if ($row['count'] > 0) {
-				$sql = "SELECT COUNT(*) as count FROM $table_name WHERE wp_detail = ?";
-				$table_row = $wishlist_info->prepare($sql);
-				$table_row->bind_param('s', $wish_product); 
-				$table_row->execute();
-				$checked = $table_row->get_result();
-				$check_row = $checked->fetch_assoc();
-				if (!$check_row['count'] > 0) {
-					$insert_stmt = $wishlist_info->prepare("INSERT INTO $wish_data (user_name, wp_detail) VALUES (?, ?)");
-					$insert_stmt->bind_param("si", $wish_data, $wish_product);
-					$insert_stmt->execute();
-					$insert_stmt->close();
-				} else {
-					echo 'already add';
-				}
-				$table_row->close();
-
-			} else {
-				echo "Table does not exist.";
-			}
-			$query->close();
-		}
-	}
 
 	if(isset($_POST['send'])){
 		$mail = $_POST['email'];
@@ -69,73 +30,73 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
 <body class="animsition">
 	
 	<!-- Header -->
-	<header class="header-v4">
-		<!-- Header desktop -->
-		<div class="container-menu-desktop">
-			<!-- Topbar -->
-			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
-					<div class="left-top-bar">
-						Free shipping for standard order over $100
+		<header class="header-v4">
+			<!-- Header desktop -->
+			<div class="container-menu-desktop">
+				<!-- Topbar -->
+				<div class="top-bar">
+					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
+						<div class="left-top-bar">
+							Free shipping for standard order over $100
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="wrap-menu-desktop">
-				<nav class="limiter-menu-desktop container">
+				<div class="wrap-menu-desktop">
+					<nav class="limiter-menu-desktop container">
 
-					<!-- Logo desktop -->
-					<a href="index.php" class="logo">
-						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
-					</a>
+						<!-- Logo desktop -->
+						<a href="index.php" class="logo">
+							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+						</a>
 
-					<!-- Menu desktop -->
-					<div class="menu-desktop">
-						<ul class="main-menu">
-							<li class="active-menu">
-								<a href="index.php">Home</a>
-							</li>
+						<!-- Menu desktop -->
+						<div class="menu-desktop">
+							<ul class="main-menu">
+								<li>
+									<a href="index.php">Home</a>
+								</li>
 
-							<li>
-								<a href="product.php">Shop</a>
-							</li>
+								<li>
+									<a href="product.php">Shop</a>
+								</li>
 
-							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.php">Your Cart</a>
-							</li>
+								<li class="label1" data-label1="hot">
+									<a href="shoping-cart.php">Your Cart</a>
+								</li>
 
-							<li>
-								<a href="blog.php">Blog</a>
-							</li>
+								<li>
+									<a href="blog.php">Blog</a>
+								</li>
 
-							<li>
-								<a href="about.php">About</a>
-							</li>
+								<li>
+									<a href="about.php">About</a>
+								</li>
 
-							<li>
-								<a href="contact.php">Contact</a>
-							</li>
-						</ul>
-					</div>
-
-					<!-- Icon header -->
-					<div class="wrap-icon-header flex-w flex-r-m">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
+								<li  class="active-menu">
+									<a href="contact.php">Contact</a>
+								</li>
+							</ul>
 						</div>
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
-						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</span>
-						<div class="dropdown">
+
+						<!-- Icon header -->
+						<div class="wrap-icon-header flex-w flex-r-m">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+								<i class="zmdi zmdi-search"></i>
+							</div>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+							<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</span>
+							<div class="dropdown">
 								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
 									<i class="zmdi zmdi-account-circle"></i>
 									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
@@ -148,46 +109,37 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
 								</div>
 							</div>
+
+						</div>
+					</nav>
+				</div>
+			</div>
+
+			<!-- Header Mobile -->
+			<div class="wrap-header-mobile">
+				<!-- Logo moblie -->
+				<div class="logo-mobile">
+					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+				</div>
+
+				<!-- Icon header -->
+				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+						<i class="zmdi zmdi-search"></i>
 					</div>
-				</nav>
-			</div>
-		</div>
-
-		<!-- Header Mobile -->
-		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
-			<div class="logo-mobile">
-				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-			</div>
-
-			<!-- Icon header -->
-			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-					<i class="zmdi zmdi-search"></i>
 				</div>
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-					<i class="zmdi zmdi-shopping-cart"></i>
+
+				<!-- Button show menu -->
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
 				</div>
-				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-					<i class="zmdi zmdi-favorite-outline"></i>
-				</span>
-				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-					<i class="zmdi zmdi-account-circle"></i>
-					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-				</a>
 			</div>
 
-			<!-- Button show menu -->
-			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
-				</span>
-			</div>
-		</div>
 
-
-		<!-- Menu Mobile -->
-		<div class="menu-mobile">
+			<!-- Menu Mobile -->
+			<div class="menu-mobile">
 				<ul class="main-menu-m">
 					<li>
 						<a href="index.php">Home</a>
@@ -234,22 +186,22 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 				</ul>
 			</div>
 
-		<!-- Modal Search -->
-		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-			<div class="container-search-header">
-				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-					<img src="images/icons/icon-close2.png" alt="CLOSE">
-				</button>
-
-				<form class="wrap-search-header flex-w p-l-15">
-					<button class="flex-c-m trans-04">
-						<i class="zmdi zmdi-search"></i>
+			<!-- Modal Search -->
+			<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+				<div class="container-search-header">
+					<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+						<img src="images/icons/icon-close2.png" alt="CLOSE">
 					</button>
-					<input class="plh3" type="text" name="search" placeholder="Search...">
-				</form>
+
+					<form class="wrap-search-header flex-w p-l-15">
+						<button class="flex-c-m trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+						<input class="plh3" type="text" name="search" placeholder="Search...">
+					</form>
+				</div>
 			</div>
-		</div>
-	</header>
+		</header>
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
@@ -540,15 +492,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
-<!--===============================================================================================-->	
+	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
 		$(".js-select2").each(function(){
@@ -558,9 +506,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			});
 		})
 	</script>
-<!--===============================================================================================-->
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
 		$('.js-pscroll').each(function(){
@@ -577,7 +523,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			})
 		});
 	</script>
-<!--===============================================================================================-->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes"></script>
 	<script src="js/map-custom.js"></script>
 	<script>
@@ -673,7 +618,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				fetchWishlistData();
 			});
 </script>
-<!--===============================================================================================-->
 	<script src="js/main.js"></script>
 	<?php
 }

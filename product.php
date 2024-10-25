@@ -34,7 +34,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 	<body class="animsition">
 
-		<!-- Header  -->
+		<!-- Header -->
 		<header class="header-v4">
 			<!-- Header desktop -->
 			<div class="container-menu-desktop">
@@ -58,11 +58,11 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 						<!-- Menu desktop -->
 						<div class="menu-desktop">
 							<ul class="main-menu">
-								<li class="active-menu">
+								<li>
 									<a href="index.php">Home</a>
 								</li>
 
-								<li>
+								<li class="active-menu">
 									<a href="product.php">Shop</a>
 								</li>
 
@@ -108,6 +108,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
 								</div>
 							</div>
+
 						</div>
 					</nav>
 				</div>
@@ -125,16 +126,6 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 						<i class="zmdi zmdi-search"></i>
 					</div>
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-						<i class="zmdi zmdi-shopping-cart"></i>
-					</div>
-					<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-						<i class="zmdi zmdi-favorite-outline"></i>
-					</span>
-					<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-						<i class="zmdi zmdi-account-circle"></i>
-						<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-					</a>
 				</div>
 
 				<!-- Button show menu -->

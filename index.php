@@ -1136,14 +1136,13 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				});
 			});
 			$('.cartForm').on('submit', function(e) {
-				e.preventDefault(); // Prevent the form from submitting the traditional way
-
+				e.preventDefault();
 				$.ajax({
 					type: 'POST',
 					url: $(this).attr('action'),
 					data: $(this).serialize(),
 					success: function(response) {
-						if (response == "") {
+						if (response == "Product Added") {
 							swal('Your Product', 'is added to Cart !', 'success');
 						} else if (response == "already add") {
 							swal('Your Product', 'already added to Cart !', 'warning');
@@ -1151,8 +1150,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 
 					},
-					error: function(xhr, status, error) {
-						alert('An error occurred: ' + error);
+					error: function(err) {
+						alert('An error occurred: ');
+						console.log('An error occurred: ' + err.responseText);
 					}
 				});
 			});
@@ -1218,15 +1218,12 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 			function fetchCartData() {
 				$.ajax({
-					url: 'cart-data-config.php', // PHP script for fetching cart data
+					url: 'cart-data-config.php',
 					type: 'GET',
 					dataType: 'json',
 					success: function(response) {
 						if (response.status === 'success') {
-							// Update cart count
 							$('.noti-cart').attr('data-notify', response.count);
-
-							// Build the cart items HTML
 							var cartItems = response.data;
 							var cartHTML = '';
 
@@ -1250,9 +1247,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							// Update cart items in the DOM
 							$('.header-cart-wrapitem').html(cartHTML);
 						} else if (response.status === 'empty') {
-							// Display "Add Product" message when cart is empty
 							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+							$('.noti-cart').attr('data-notify', 0);
 						}
 					},
 					error: function() {

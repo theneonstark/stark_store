@@ -91,59 +91,41 @@ session_start();
 						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</span>
-						<div class="dropdown">
-								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
-									<i class="zmdi zmdi-account-circle"></i>
-									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-								</div>
-								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
-									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
-									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
-									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
-									<div class="dropdown-divider"></div>
-									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
-								</div>
-							</div>
+						<a href="logout.php"
+							class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22">
+							<i class="zmdi zmdi-account-circle"></i>
+							<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+						</a>
 					</div>
 				</nav>
 			</div>
 		</div>
 
 		<!-- Header Mobile -->
-		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
-			<div class="logo-mobile">
-				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-			</div>
-
-			<!-- Icon header -->
-			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-					<i class="zmdi zmdi-search"></i>
+			<div class="wrap-header-mobile">
+				<!-- Logo moblie -->
+				<div class="logo-mobile">
+					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 				</div>
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-					<i class="zmdi zmdi-shopping-cart"></i>
+
+				<!-- Icon header -->
+				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+						<i class="zmdi zmdi-search"></i>
+					</div>
 				</div>
-				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-					<i class="zmdi zmdi-favorite-outline"></i>
-				</span>
-				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-					<i class="zmdi zmdi-account-circle"></i>
-					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-				</a>
+
+				<!-- Button show menu -->
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
 			</div>
 
-			<!-- Button show menu -->
-			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
-				</span>
-			</div>
-		</div>
 
-
-		<!-- Menu Mobile -->
-		<div class="menu-mobile">
+			<!-- Menu Mobile -->
+			<div class="menu-mobile">
 				<ul class="main-menu-m">
 					<li>
 						<a href="index.php">Home</a>
@@ -1354,10 +1336,10 @@ session_start();
 					url: $(this).attr('action'),
 					data: $(this).serialize(),
 					success: function(response) {
-						if (response == "") {
-							swal('Your Product', 'is added to wishlist !', 'success');
+						if (response == "Product Added") {
+							swal('Your Product', 'is added to Cart !', 'success');
 						} else if (response == "already add") {
-							swal('Your Product', 'already added to wishlist !', 'warning');
+							swal('Your Product', 'already added to Cart !', 'warning');
 						}
 
 
@@ -1481,9 +1463,8 @@ session_start();
 						// Update cart items in the DOM
 						$('.header-cart-wrapitem').html(cartHTML);
 					} else if (response.status === 'empty') {
-						// Display "Add Product" message when cart is empty
 						$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-						$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+						$('.noti-cart').attr('data-notify', 0);
 					}
 				},
 				error: function() {
