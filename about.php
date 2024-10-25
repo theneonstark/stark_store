@@ -1,212 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<?php
-	session_start();
-	include('config.php');
-	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
+<?php
+		session_start();
+		include('config.php');
+		$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
 		";
-	$wishlist_data = "select * from wishlist";
-	if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
+		$wishlist_data = "select * from wishlist";
+		if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 	?>
-		<title>About</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="icon" type="image/png" href="images/icons/favicon.png" />
-		<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-		<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-		<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-		<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-		<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-		<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-		<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-		<link rel="stylesheet" type="text/css" href="css/util.css">
-		<link rel="stylesheet" type="text/css" href="css/main.css">
+	<title>About</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
-
 <body class="animsition">
-
+	
 	<!-- Header -->
-	<header class="header-v4">
-		<!-- Header desktop -->
-		<div class="container-menu-desktop">
-			<!-- Topbar -->
-			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
-					<div class="left-top-bar">
-						Free shipping for standard order over $100
+		<header class="header-v4">
+			<!-- Header desktop -->
+			<div class="container-menu-desktop">
+				<!-- Topbar -->
+				<div class="top-bar">
+					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
+						<div class="left-top-bar">
+							Free shipping for standard order over $100
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="wrap-menu-desktop">
-				<nav class="limiter-menu-desktop container">
+				<div class="wrap-menu-desktop">
+					<nav class="limiter-menu-desktop container">
 
-					<!-- Logo desktop -->
-					<a href="index.php" class="logo">
-						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
-					</a>
+						<!-- Logo desktop -->
+						<a href="index.php" class="logo">
+							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+						</a>
 
-					<!-- Menu desktop -->
-					<div class="menu-desktop">
-						<ul class="main-menu">
-							<li class="active-menu">
-								<a href="index.php">Home</a>
-							</li>
+						<!-- Menu desktop -->
+						<div class="menu-desktop">
+							<ul class="main-menu">
+								<li>
+									<a href="index.php">Home</a>
+								</li>
 
-							<li>
-								<a href="product.php">Shop</a>
-							</li>
+								<li>
+									<a href="product.php">Shop</a>
+								</li>
 
-							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.php">Your Cart</a>
-							</li>
+								<li class="label1" data-label1="hot">
+									<a href="shoping-cart.php">Your Cart</a>
+								</li>
 
-							<li>
-								<a href="blog.php">Blog</a>
-							</li>
+								<li>
+									<a href="blog.php">Blog</a>
+								</li>
 
-							<li>
-								<a href="about.php">About</a>
-							</li>
+								<li class="active-menu">
+									<a href="about.php">About</a>
+								</li>
 
-							<li>
-								<a href="contact.php">Contact</a>
-							</li>
-						</ul>
-					</div>
-
-					<!-- Icon header -->
-					<div class="wrap-icon-header flex-w flex-r-m">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
+								<li>
+									<a href="contact.php">Contact</a>
+								</li>
+							</ul>
 						</div>
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
-						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</span>
-						<div class="dropdown">
-							<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
-								<i class="zmdi zmdi-account-circle"></i>
-								<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+
+						<!-- Icon header -->
+						<div class="wrap-icon-header flex-w flex-r-m">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+								<i class="zmdi zmdi-search"></i>
 							</div>
-							<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
-								<a href="#" class="dropdown-item font-weight-bold">Profile</a>
-								<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
-								<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
-								<div class="dropdown-divider"></div>
-								<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+								<i class="zmdi zmdi-shopping-cart"></i>
 							</div>
+							<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</span>
+							<div class="dropdown">
+								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
+									<i class="zmdi zmdi-account-circle"></i>
+									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+								</div>
+								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
+									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
+									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
+									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
+									<div class="dropdown-divider"></div>
+									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
+								</div>
+							</div>
+
 						</div>
-					</div>
-				</nav>
-			</div>
-		</div>
-
-		<!-- Header Mobile -->
-		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
-			<div class="logo-mobile">
-				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-			</div>
-
-			<!-- Icon header -->
-			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-					<i class="zmdi zmdi-search"></i>
+					</nav>
 				</div>
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-					<i class="zmdi zmdi-shopping-cart"></i>
+			</div>
+
+			<!-- Header Mobile -->
+			<div class="wrap-header-mobile">
+				<!-- Logo moblie -->
+				<div class="logo-mobile">
+					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
 				</div>
-				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-					<i class="zmdi zmdi-favorite-outline"></i>
-				</span>
-				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-					<i class="zmdi zmdi-account-circle"></i>
-					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-				</a>
-			</div>
 
-			<!-- Button show menu -->
-			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
-				</span>
-			</div>
-		</div>
-
-
-		<!-- Menu Mobile -->
-		<div class="menu-mobile">
-			<ul class="main-menu-m">
-				<li>
-					<a href="index.php">Home</a>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
-				</li>
-
-				<li>
-					<a href="product.php">Shop</a>
-				</li>
-
-				<li>
-					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
-				</li>
-
-				<li>
-					<a href="blog.php">Blog</a>
-				</li>
-
-				<li>
-					<a href="about.php">About</a>
-				</li>
-
-				<li>
-					<a href="contact.php">Contact</a>
-				</li>
-				<li>
-				<li>
-					<!-- <a href="index.php">Home</a> -->
-					<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
-					<span class="h6"><?php echo $_SESSION['name']; ?></span>
-					<ul class="sub-menu-m">
-						<li><a href="index.php">Profile</a></li>
-						<li><a href="#">Your Orders</a></li>
-						<li><a href="#">Your Wishlist</a></li>
-						<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
-					</ul>
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
-				</li>
-				</li>
-			</ul>
-		</div>
-
-		<!-- Modal Search -->
-		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-			<div class="container-search-header">
-				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-					<img src="images/icons/icon-close2.png" alt="CLOSE">
-				</button>
-
-				<form class="wrap-search-header flex-w p-l-15">
-					<button class="flex-c-m trans-04">
+				<!-- Icon header -->
+				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
 						<i class="zmdi zmdi-search"></i>
-					</button>
-					<input class="plh3" type="text" name="search" placeholder="Search...">
-				</form>
+					</div>
+				</div>
+
+				<!-- Button show menu -->
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+				</div>
 			</div>
-		</div>
-	</header>
+
+
+			<!-- Menu Mobile -->
+			<div class="menu-mobile">
+				<ul class="main-menu-m">
+					<li>
+						<a href="index.php">Home</a>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
+
+					<li>
+						<a href="product.php">Shop</a>
+					</li>
+
+					<li>
+						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
+					</li>
+
+					<li>
+						<a href="blog.php">Blog</a>
+					</li>
+
+					<li>
+						<a href="about.php">About</a>
+					</li>
+
+					<li>
+						<a href="contact.php">Contact</a>
+					</li>
+					<li>
+					<li>
+						<!-- <a href="index.php">Home</a> -->
+						<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
+						<span class="h6"><?php echo $_SESSION['name']; ?></span>
+						<ul class="sub-menu-m">
+							<li><a href="index.php">Profile</a></li>
+							<li><a href="#">Your Orders</a></li>
+							<li><a href="#">Your Wishlist</a></li>
+							<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
+						</ul>
+						<span class="arrow-main-menu-m">
+							<i class="fa fa-angle-right" aria-hidden="true"></i>
+						</span>
+					</li>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Modal Search -->
+			<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+				<div class="container-search-header">
+					<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+						<img src="images/icons/icon-close2.png" alt="CLOSE">
+					</button>
+
+					<form class="wrap-search-header flex-w p-l-15">
+						<button class="flex-c-m trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+						<input class="plh3" type="text" name="search" placeholder="Search...">
+					</form>
+				</div>
+			</div>
+		</header>
 
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
@@ -258,7 +247,7 @@
 		<h2 class="ltext-105 cl0 txt-center">
 			About
 		</h2>
-	</section>
+	</section>	
 
 
 	<!-- Content page -->
@@ -303,7 +292,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row p-b-148">
 				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
 					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
@@ -334,15 +323,67 @@
 					</div>
 				</div>
 			</div>
+
+            <div class="row p-b-148">
+				<div class="col-md-7 col-lg-8">
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Stark Store's Founder & Dev. (Mohd Shahid)
+						</h3>
+
+						<p class="stext-113 cl6 p-b-26">
+							<ul>
+                                <li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is an innovative and dynamic e-commerce platform designed to offer customers a seamless, convenient, and enjoyable online shopping experience. Powered by cutting-edge technologies like HTML, CSS, JavaScript, PHP, MySQL, Bootstrap, Tailwind, jQuery, AJAX, and more, <strong>Stark Store</strong> stands out in the competitive digital marketplace. Whether you're searching for fashion, electronics, home goods, or lifestyle products, <strong>Stark Store</strong> has it all.</li>
+                                <li class="stext-10 cl6 p-b-26">One of the key features of <strong>Stark Store</strong> is its user-friendly interface, which is both responsive and visually appealing. The store ensures smooth navigation across devices, allowing users to browse, add to cart, and check out effortlessly. Behind the scenes, dynamic features such as Cart.js handle real-time cart updates, while Email.js ensures prompt communication for order confirmations and queries, providing a personalized customer experience.</li>
+                                <li class="stext-10 cl6 p-b-26">Security and performance are top priorities at <strong>Stark Store</strong>. The use of MySQL for robust database management guarantees the safe storage of customer data and transaction details. Additionally, the platform's integration with Swiper.js enhances product image galleries, offering customers a clear and interactive product view before making a purchase.</li>
+                                <li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> also includes tailored features such as wishlist options, secure payment gateways, and detailed product modals to ensure every customer has the tools they need for an informed purchase decision. With a clean design powered by Tailwind and Bootstrap, shoppers are treated to an aesthetically pleasing yet highly functional online shopping environment.</li>
+                                <li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is committed to staying ahead of e-commerce trends, continually upgrading its features and performance to provide a shopping experience that’s fast, secure, and satisfying for all.</li>
+                            </ul>
+						</p>
+					</div>
+				</div>
+
+				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
+					<div class="how-bor1 ">
+						<div class="hov-img0">
+							<img src="images/founder.jpeg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <div class="row p-b-148">
+				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
+					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Our Graphic Designer (Sahil Gautam)
+						</h3>
+
+						<p class="stext-113 cl6 p-b-26">
+						<strong>Sahil</strong>, the talented graphic designer behind <strong>Stark Store</strong>, plays a pivotal role in crafting the visual identity of the website. His creativity is evident in the sleek and modern design, contributing to the overall user experience by making the site not only functional but visually appealing. <strong>Sahil</strong> ensures that each element of the website—from banners and product images to logos and icons—resonates with the brand’s identity and enhances the shopping experience. His designs are tailored to provide clarity and engage users, offering a seamless blend of aesthetics and usability.
+
+<strong>Sahil</strong>'s eye for detail ensures that every graphic aligns perfectly with the website's overall theme, creating a cohesive and professional appearance. His work complements the technical backbone of <strong>Stark Store</strong>, ensuring that it stands out in a competitive market with a memorable, polished look.
+						</p>
+					</div>
+				</div>
+
+				<div class="order-md-1 col-11 col-md-5 col-lg-4 m-lr-auto p-b-30">
+					<div class="how-bor2">
+						<div class="hov-img0">
+							<img src="images/Graphic.jpeg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</section>
-
-
+	</section>	
+	
+		
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
-			<div class="row">
+			<div class="row p-b-148">
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
 						Categories
@@ -389,7 +430,7 @@
 
 						<li class="p-b-10">
 							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns
+								Returns 
 							</a>
 						</li>
 
@@ -476,10 +517,8 @@
 
 				<p class="stext-107 cl6 txt-center">
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					Copyright &copy;<script>
-						document.write(new Date().getFullYear());
-					</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 				</p>
 			</div>
@@ -493,14 +532,14 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
+	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
-		$(".js-select2").each(function() {
+		$(".js-select2").each(function(){
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
@@ -510,34 +549,34 @@
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
-		$('.js-pscroll').each(function() {
-			$(this).css('position', 'relative');
-			$(this).css('overflow', 'hidden');
+		$('.js-pscroll').each(function(){
+			$(this).css('position','relative');
+			$(this).css('overflow','hidden');
 			var ps = new PerfectScrollbar(this, {
 				wheelSpeed: 1,
 				scrollingThreshold: 1000,
 				wheelPropagation: false,
 			});
 
-			$(window).on('resize', function() {
+			$(window).on('resize', function(){
 				ps.update();
 			})
 		});
 	</script>
 	<script>
 		function fetchWishlistData() {
-			$.ajax({
-				url: 'wishlist-data-config.php',
-				type: 'GET',
-				dataType: 'json',
-				success: function(response) {
-					if (response.status === 'success') {
-						$('.noti-wish').attr('data-notify', response.count);
-						var wishlistItems = response.data;
-						var wishlistHTML = '';
+				$.ajax({
+					url: 'wishlist-data-config.php',
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							$('.noti-wish').attr('data-notify', response.count);
+							var wishlistItems = response.data;
+							var wishlistHTML = '';
 
-						wishlistItems.forEach(function(item) {
-							wishlistHTML += `
+							wishlistItems.forEach(function(item) {
+								wishlistHTML += `
                             <li class="header-cart-item flex-w flex-t m-b-12">
                                 <div class="header-cart-item-img">
                                     <img src="image/product/${item.product_img}" alt="IMG">
@@ -551,36 +590,36 @@
                                     </span>
                                 </div>
                             </li>`;
-						});
-						$('.header-wishlist-wrapitem').html(wishlistHTML);
-					} else if (response.status === 'empty') {
-						$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
-						$('.noti-wish').attr('data-notify', 0);
+							});
+							$('.header-wishlist-wrapitem').html(wishlistHTML);
+						} else if (response.status === 'empty') {
+							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-wish').attr('data-notify', 0);
+						}
+					},
+					error: function() {
+						console.error('Error fetching wishlist data');
 					}
-				},
-				error: function() {
-					console.error('Error fetching wishlist data');
-				}
-			});
-		}
-		setInterval(fetchWishlistData, 2000);
+				});
+			}
+			setInterval(fetchWishlistData, 2000);
 
-		function fetchCartData() {
-			$.ajax({
-				url: 'cart-data-config.php', // PHP script for fetching cart data
-				type: 'GET',
-				dataType: 'json',
-				success: function(response) {
-					if (response.status === 'success') {
-						// Update cart count
-						$('.noti-cart').attr('data-notify', response.count);
+			function fetchCartData() {
+				$.ajax({
+					url: 'cart-data-config.php', // PHP script for fetching cart data
+					type: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						if (response.status === 'success') {
+							// Update cart count
+							$('.noti-cart').attr('data-notify', response.count);
 
-						// Build the cart items HTML
-						var cartItems = response.data;
-						var cartHTML = '';
+							// Build the cart items HTML
+							var cartItems = response.data;
+							var cartHTML = '';
 
-						cartItems.forEach(function(item) {
-							cartHTML += `
+							cartItems.forEach(function(item) {
+								cartHTML += `
                             <li class="header-cart-item flex-w flex-t m-b-12">
                                 <div class="header-cart-item-img">
                                     <img src="image/product/${item.product_img}" alt="IMG">
@@ -594,36 +633,35 @@
                                     </span>
                                 </div>
                             </li>`;
-						});
+							});
 
-						// Update cart items in the DOM
-						$('.header-cart-wrapitem').html(cartHTML);
-					} else if (response.status === 'empty') {
-						// Display "Add Product" message when cart is empty
-						$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-						$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+							// Update cart items in the DOM
+							$('.header-cart-wrapitem').html(cartHTML);
+						} else if (response.status === 'empty') {
+							// Display "Add Product" message when cart is empty
+							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+						}
+					},
+					error: function() {
+						console.error('Error fetching cart data');
 					}
-				},
-				error: function() {
-					console.error('Error fetching cart data');
-				}
+				});
+			}
+
+			setInterval(fetchCartData, 2000);
+
+			$(document).ready(function() {
+				fetchCartData();
+				fetchWishlistData();
 			});
-		}
-
-		setInterval(fetchCartData, 2000);
-
-		$(document).ready(function() {
-			fetchCartData();
-			fetchWishlistData();
-		});
 	</script>
-<?php
-	} else {
-		header('location: login.php');
-	}
-?>
-<script src="js/main.js"></script>
-
+	<?php
+} else {
+	header('location: login.php');
+}
+	?>
+	<script src="js/main.js"></script>
+	
 </body>
-
 </html>
