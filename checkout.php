@@ -37,118 +37,125 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 	<!-- Header -->
 	<header class="header-v4">
-		<!-- Header desktop -->
-		<div class="container-menu-desktop">
-			<!-- Topbar -->
-			<div class="top-bar">
-				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
-					<div class="left-top-bar">
-						Free shipping for standard order over $100
+			<!-- Header desktop -->
+			<div class="container-menu-desktop">
+				<!-- Topbar -->
+				<div class="top-bar">
+					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
+						<div class="left-top-bar">
+							Free shipping for standard order over $100
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="wrap-menu-desktop">
-				<nav class="limiter-menu-desktop container">
+				<div class="wrap-menu-desktop">
+					<nav class="limiter-menu-desktop container">
 
-					<!-- Logo desktop -->
-					<a href="index.php" class="logo">
-						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
-					</a>
+						<!-- Logo desktop -->
+						<a href="index.php" class="logo">
+							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+						</a>
 
-					<!-- Menu desktop -->
-					<div class="menu-desktop">
-						<ul class="main-menu">
-							<li class="active-menu">
-								<a href="index.php">Home</a>
-							</li>
+						<!-- Menu desktop -->
+						<div class="menu-desktop">
+							<ul class="main-menu">
+								<li class="active-menu">
+									<a href="index.php">Home</a>
+								</li>
 
-							<li>
-								<a href="product.php">Shop</a>
-							</li>
+								<li>
+									<a href="product.php">Shop</a>
+								</li>
 
-							<li class="label1" data-label1="hot">
-								<a href="shoping-cart.php">Your Cart</a>
-							</li>
+								<li class="label1" data-label1="hot">
+									<a href="shoping-cart.php">Your Cart</a>
+								</li>
 
-							<li>
-								<a href="blog.php">Blog</a>
-							</li>
+								<li>
+									<a href="blog.php">Blog</a>
+								</li>
 
-							<li>
-								<a href="about.php">About</a>
-							</li>
+								<li>
+									<a href="about.php">About</a>
+								</li>
 
-							<li>
-								<a href="contact.php">Contact</a>
-							</li>
-						</ul>
-					</div>
-
-					<!-- Icon header -->
-					<div class="wrap-icon-header flex-w flex-r-m">
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
+								<li>
+									<a href="contact.php">Contact</a>
+								</li>
+							</ul>
 						</div>
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-							<i class="zmdi zmdi-shopping-cart"></i>
-						</div>
-						<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</span>
-						<div class="dropdown">
+
+						<!-- Icon header -->
+						<div class="wrap-icon-header flex-w flex-r-m">
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+								<i class="zmdi zmdi-search"></i>
+							</div>
+                            <?php
+                                if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
+                            ?>
+							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
+								<i class="zmdi zmdi-shopping-cart"></i>
+							</div>
+							<div class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
+								<i class="zmdi zmdi-favorite-outline"></i>
+							</div>
+                            <?php
+                                }
+                            ?>
+							<div class="dropdown">
 								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
 									<i class="zmdi zmdi-account-circle"></i>
-									<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
+									<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
 								</div>
 								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
-									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
+									<?php
+                                        if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
+                                    ?>
+                                        <a href="#" class="dropdown-item font-weight-bold">Profile</a>
 									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
 									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
 									<div class="dropdown-divider"></div>
 									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
+                                    <?php
+                                        }else{
+                                    ?>
+                                    <a href="login.php" class="dropdown-item font-weight-bold">Login</a>
+                                    <?php
+                                        }
+                                    ?>
 								</div>
 							</div>
+
+						</div>
+					</nav>
+				</div>
+			</div>
+
+			<!-- Header Mobile -->
+			<div class="wrap-header-mobile">
+				<!-- Logo moblie -->
+				<div class="logo-mobile">
+					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+				</div>
+
+				<!-- Icon header -->
+				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+						<i class="zmdi zmdi-search"></i>
 					</div>
-				</nav>
-			</div>
-		</div>
-
-		<!-- Header Mobile -->
-		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->
-			<div class="logo-mobile">
-				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-			</div>
-
-			<!-- Icon header -->
-			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-					<i class="zmdi zmdi-search"></i>
 				</div>
-				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-					<i class="zmdi zmdi-shopping-cart"></i>
+
+				<!-- Button show menu -->
+				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
 				</div>
-				<span class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-					<i class="zmdi zmdi-favorite-outline"></i>
-				</span>
-				<a href="#" class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10">
-					<i class="zmdi zmdi-account-circle"></i>
-					<span class="h6 m-0 ml-2"><?php echo $_SESSION['name']; ?></span>
-				</a>
 			</div>
 
-			<!-- Button show menu -->
-			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-				<span class="hamburger-box">
-					<span class="hamburger-inner"></span>
-				</span>
-			</div>
-		</div>
 
-
-		<!-- Menu Mobile -->
-		<div class="menu-mobile">
+			<!-- Menu Mobile -->
+			<div class="menu-mobile">
 				<ul class="main-menu-m">
 					<li>
 						<a href="index.php">Home</a>
@@ -179,13 +186,23 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					<li>
 					<li>
 						<!-- <a href="index.php">Home</a> -->
-						<i class="zmdi zmdi-account-circle ml-3 mt-1"></i>
-						<span class="h6"><?php echo $_SESSION['name']; ?></span>
+						<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
 						<ul class="sub-menu-m">
-							<li><a href="index.php">Profile</a></li>
-							<li><a href="#">Your Orders</a></li>
-							<li><a href="#">Your Wishlist</a></li>
-							<li><a href="logout.php" class="text-danger font-weight-bold">Logout</a></li>
+							<?php
+                                        if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
+                                    ?>
+                                        <li><a href="#" class="dropdown-item font-weight-bold">Profile</a></li>
+									<li><a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a></li>
+									<li><a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a></li>
+									<div class="dropdown-divider"></div>
+									<li><a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a></li>
+                                    <?php
+                                        }else{
+                                    ?>
+                                    <li><a href="login.php" class="dropdown-item font-weight-bold">Login</a></li>
+                                    <?php
+                                        }
+                                    ?>
 						</ul>
 						<span class="arrow-main-menu-m">
 							<i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -195,22 +212,22 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 				</ul>
 			</div>
 
-		<!-- Modal Search -->
-		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-			<div class="container-search-header">
-				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-					<img src="images/icons/icon-close2.png" alt="CLOSE">
-				</button>
-
-				<form class="wrap-search-header flex-w p-l-15">
-					<button class="flex-c-m trans-04">
-						<i class="zmdi zmdi-search"></i>
+			<!-- Modal Search -->
+			<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+				<div class="container-search-header">
+					<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+						<img src="images/icons/icon-close2.png" alt="CLOSE">
 					</button>
-					<input class="plh3" type="text" name="search" placeholder="Search...">
-				</form>
+
+					<form class="wrap-search-header flex-w p-l-15">
+						<button class="flex-c-m trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+						<input class="plh3" type="text" name="search" placeholder="Search...">
+					</form>
+				</div>
 			</div>
-		</div>
-	</header>
+		</header>
 
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
