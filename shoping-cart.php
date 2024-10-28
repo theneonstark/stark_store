@@ -3,6 +3,7 @@
 <?php
 session_start();
 include('config.php');
+if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 ?>
 
 <head>
@@ -689,7 +690,11 @@ include('config.php');
 		})
 	</script>
 	<script src="js/main.js"></script>
-
+<?php
+}else{
+	header('location: login.php');
+}
+?>
 </body>
 
 </html>
