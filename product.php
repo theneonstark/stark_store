@@ -3,8 +3,12 @@
 <?php
 session_start();
 include('config.php');
-$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
-";
+if(isset($_GET['product_target'])){
+	$product_target = $_GET['product_target'];
+	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id where gender = '$product_target'";
+}else{
+	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id";
+}
 $wishlist_data = "select * from wishlist";
 ?>
 
@@ -557,7 +561,7 @@ $wishlist_data = "select * from wishlist";
 									<div class="block2-txt-child2 flex-r p-t-3">
 										<form action="wishlist_config.php" method="POST" class="wishlistForm">
 											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
+											<input type="hidden" value="<?php echo isset($_SESSION['wishlist']) ? $_SESSION['wishlist'] : "" ;?>" name="wish">
 											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">

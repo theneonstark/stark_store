@@ -433,7 +433,7 @@ session_start();
 
 											<form action="cart_config.php" method="POST" class="cartForm">
 												<input type="hidden" value="" name="cart_product" id="product_cart_details">
-												<input type="hidden" value="<?php echo $_SESSION['cart']; ?>" name="cart">
+												<input type="hidden" value="<?php echo isset($_SESSION['cart']) ? $_SESSION['cart'] : "" ; ?>" name="cart">
 												<button type="submit"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Add to cart
@@ -448,7 +448,7 @@ session_start();
 									<div class="flex-m bor9 p-r-10 m-r-11">
 									<form action="wishlist_config.php" method="POST" class="wishlistForm">
 											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
+											<input type="hidden" value="<?php echo isset($_SESSION['wishlist']) ? $_SESSION['wishlist'] : "" ; ?>" name="wish">
 											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">

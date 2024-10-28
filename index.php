@@ -282,7 +282,7 @@ $wishlist_data = "select * from wishlist";
 							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
 									<span class="ltext-101 cl2 respon2">
-										Women Collection 2018
+										Women Collection 2024
 									</span>
 								</div>
 
@@ -334,7 +334,7 @@ $wishlist_data = "select * from wishlist";
 								<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
 									data-delay="0">
 									<span class="ltext-101 cl2 respon2">
-										Men Collection 2018
+										Men Collection 2024
 									</span>
 								</div>
 
@@ -368,7 +368,7 @@ $wishlist_data = "select * from wishlist";
 						<div class="block1 wrap-pic-w">
 							<img src="images/banner-01.jpg" alt="IMG-BANNER">
 
-							<a href="product.php"
+							<a href="product.php?product_target=f"
 								class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 								<div class="block1-txt-child1 flex-col-l">
 									<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -376,7 +376,7 @@ $wishlist_data = "select * from wishlist";
 									</span>
 
 									<span class="block1-info stext-102 trans-04">
-										Spring 2018
+										Spring 2024
 									</span>
 								</div>
 
@@ -394,7 +394,7 @@ $wishlist_data = "select * from wishlist";
 						<div class="block1 wrap-pic-w">
 							<img src="images/banner-02.jpg" alt="IMG-BANNER">
 
-							<a href="product.php"
+							<a href="product.php?product_target=m"
 								class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 								<div class="block1-txt-child1 flex-col-l">
 									<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -402,7 +402,7 @@ $wishlist_data = "select * from wishlist";
 									</span>
 
 									<span class="block1-info stext-102 trans-04">
-										Spring 2018
+										Spring 2024
 									</span>
 								</div>
 
@@ -420,7 +420,7 @@ $wishlist_data = "select * from wishlist";
 						<div class="block1 wrap-pic-w">
 							<img src="images/banner-03.jpg" alt="IMG-BANNER">
 
-							<a href="product.php"
+							<a href="product.php?product_target=accessories"
 								class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
 								<div class="block1-txt-child1 flex-col-l">
 									<span class="block1-name ltext-102 trans-04 p-b-8">
@@ -741,7 +741,7 @@ $wishlist_data = "select * from wishlist";
 									<div class="block2-txt-child2 flex-r p-t-3">
 										<form action="wishlist_config.php" method="POST" class="wishlistForm">
 											<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
+											<input type="hidden" value="<?php echo isset($_SESSION['wishlist']) ? $_SESSION['wishlist'] : "" ;?>" name="wish">
 											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
@@ -911,9 +911,9 @@ $wishlist_data = "select * from wishlist";
 						<script>
 							document.write(new Date().getFullYear());
 						</script> All rights reserved | Made with <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
-							target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com"
-							target="_blank">ThemeWagon</a>
+							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
+							target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
+							target="_blank">Stark</a>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 					</p>
@@ -1066,7 +1066,7 @@ $wishlist_data = "select * from wishlist";
 
 											<form action="cart_config.php" method="POST" class="cartForm">
 												<input type="hidden" value="" name="cart_product" id="product_cart_details">
-												<input type="hidden" value="<?php echo $_SESSION['cart']; ?>" name="cart">
+												<input type="hidden" value="<?php echo isset($_SESSION['cart']) ? $_SESSION['cart'] : "" ;?>" name="cart">
 												<button type="submit"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Add to cart
@@ -1086,7 +1086,7 @@ $wishlist_data = "select * from wishlist";
 											<?php
 											}
 											?>
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
+											<input type="hidden" value="<?php echo isset($_SESSION['wishlist']) ? $_SESSION['wishlist'] : "" ;?>" name="wish">
 											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
