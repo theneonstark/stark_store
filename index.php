@@ -779,25 +779,25 @@ $wishlist_data = "select * from wishlist";
 
 						<ul>
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
 									Women
 								</a>
 							</li>
 
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
 									Men
 								</a>
 							</li>
 
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
 									Shoes
 								</a>
 							</li>
 
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
 									Watches
 								</a>
 							</li>
@@ -811,25 +811,25 @@ $wishlist_data = "select * from wishlist";
 
 						<ul>
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
 									Track Order
 								</a>
 							</li>
 
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
 									Returns
 								</a>
 							</li>
 
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
 									Shipping
 								</a>
 							</li>
 
 							<li class="p-b-10">
-								<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
 									FAQs
 								</a>
 							</li>
@@ -842,8 +842,8 @@ $wishlist_data = "select * from wishlist";
 						</h4>
 
 						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us
-							on (+1) 96 716 6879
+							Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044  or call us
+							on (+91) 9717201964
 						</p>
 
 						<div class="p-t-27">
@@ -883,28 +883,6 @@ $wishlist_data = "select * from wishlist";
 				</div>
 
 				<div class="p-t-40">
-					<div class="flex-c-m flex-w p-b-18">
-						<a href="#" class="m-all-1">
-							<img src="images/icons/icon-pay-01.png" alt="ICON-PAY">
-						</a>
-
-						<a href="#" class="m-all-1">
-							<img src="images/icons/icon-pay-02.png" alt="ICON-PAY">
-						</a>
-
-						<a href="#" class="m-all-1">
-							<img src="images/icons/icon-pay-03.png" alt="ICON-PAY">
-						</a>
-
-						<a href="#" class="m-all-1">
-							<img src="images/icons/icon-pay-04.png" alt="ICON-PAY">
-						</a>
-
-						<a href="#" class="m-all-1">
-							<img src="images/icons/icon-pay-05.png" alt="ICON-PAY">
-						</a>
-					</div>
-
 					<p class="stext-107 cl6 txt-center">
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						Copyright &copy;
@@ -997,16 +975,15 @@ $wishlist_data = "select * from wishlist";
 						<div class="col-md-6 col-lg-5 p-b-30">
 							<div class="p-r-50 p-t-5 p-lr-0-lg">
 								<h4 class="mtext-105 cl2 js-name-detail p-b-14" id="data_head">
-									Lightweight Jacket
+									
 								</h4>
 
 								<span class="mtext-106 cl2" id="data_price">
-									$58.79
+								
 								</span>
 
 								<p class="stext-102 cl3 p-t-23">
-									Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat
-									ornare feugiat.
+									
 								</p>
 
 								<!--  -->
