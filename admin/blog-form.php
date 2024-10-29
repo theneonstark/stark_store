@@ -3,6 +3,48 @@
   session_start();
   include('../config.php');
   if(isset($_SESSION['email'])){
+    if (isset($_POST['sub'])) {
+      $title = mysqli_real_escape_string($blog, $_POST['title']);
+      $tags = mysqli_real_escape_string($blog, $_POST['tags']);
+      
+      // Split the tags input into an array and convert to JSON format
+      $tagsArray = explode(',', $tags);
+      $tagsArray = array_map('trim', $tagsArray);
+      $jtags = json_encode($tagsArray);
+      
+      $posted = mysqli_real_escape_string($blog, $_POST['posted']);
+      $story = mysqli_real_escape_string($blog, $_POST['story']);
+  
+      if (isset($_FILES['blog_img'])) {
+          $directory = "../image/blog/";
+          $img = basename($_FILES['blog_img']['name']);
+          $t_img = $_FILES['blog_img']['tmp_name'];
+          $already_exist = $directory . $img;
+  
+          if (!file_exists($already_exist)) {
+              if (move_uploaded_file($t_img, $already_exist)) {
+                  $stmt = $blog->prepare("INSERT INTO posts (title, story, tags, posted_by, blog_img) VALUES (?, ?, ?, ?, ?)");
+                  $stmt->bind_param("sssis", $title, $story, $jtags, $posted, $img);
+  
+                  if ($stmt->execute()) {
+                      echo "Post successfully uploaded!";
+                  } else {
+                      echo "Error: " . $stmt->error;
+                  }
+                  
+                  $stmt->close();
+              } else {
+                  echo "Failed to upload the image.";
+              }
+          } else {
+              echo "An image with this name already exists.";
+          }
+      } else {
+          echo "No image file selected.";
+      }
+  }
+  
+  
 ?>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
@@ -471,11 +513,23 @@
                   placeholder="Blog tags" name="tags" />
                 </label>
               <div class=" mt-4 grid w-full max-w-xs items-center gap-1.5">
-                <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Title Image</label>
+                <label class="text-sm text-gray-400 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Title Image
                 <input id="picture" type="file"
                   class="flex h-10 w-full rounded-md border border-input  px-3 py-2 text-sm text-gray-400 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                   name="blog_img" accept="image/png, image/jpeg">
+                  </label>
               </div>
+              <label class="block mt-4 text-sm">
+                  <span class="text-gray-700 dark:text-gray-400">
+                    Posted By
+                  </span>
+                  <input
+                  class="block w-1/4 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="Blog tags" value="<?php echo $_SESSION['name']?>" readonly/>
+                  <input type="hidden"
+                  class="block w-1/4 mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  placeholder="Blog tags" name="posted" value="<?php echo $_SESSION['id']?>"/>
+                </label>
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-gray-400">Story</span>
                 <textarea

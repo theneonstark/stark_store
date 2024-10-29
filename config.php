@@ -6,4 +6,5 @@
   $cart_info = mysqli_connect("localhost","root","","usercart");
   $user_order = mysqli_connect("localhost","root","","user_order");
   $notification = mysqli_connect("localhost","root","","notification");
+  $blog = mysqli_connect("localhost","root","","blogs");
 ?>
