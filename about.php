@@ -280,6 +280,7 @@
 	<!-- Content page -->
 	<section class="bg0 p-t-75 p-b-120">
 		<div class="container">
+			<!-- About StarK Store -->
 			<div class="row p-b-148">
 				<div class="col-md-7 col-lg-8">
 					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
@@ -318,7 +319,114 @@
 					</div>
 				</div>
 			</div>
+			<!-- Founder -->
+			<div class="row p-b-148">
+				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
+					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Stark Store's Founder & Dev. (Mohd Shahid)
+						</h3>
 
+						<p class="stext-113 cl6 p-b-26">
+						<ul>
+							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is an innovative and dynamic e-commerce platform designed to offer customers a seamless, convenient, and enjoyable online shopping experience. Powered by cutting-edge technologies like HTML, CSS, JavaScript, PHP, MySQL, Bootstrap, Tailwind, jQuery, AJAX, and more, <strong>Stark Store</strong> stands out in the competitive digital marketplace. Whether you're searching for fashion, electronics, home goods, or lifestyle products, <strong>Stark Store</strong> has it all.</li>
+							<li class="stext-10 cl6 p-b-26">One of the key features of <strong>Stark Store</strong> is its user-friendly interface, which is both responsive and visually appealing. The store ensures smooth navigation across devices, allowing users to browse, add to cart, and check out effortlessly. Behind the scenes, dynamic features such as Cart.js handle real-time cart updates, while Email.js ensures prompt communication for order confirmations and queries, providing a personalized customer experience.</li>
+							<li class="stext-10 cl6 p-b-26">Security and performance are top priorities at <strong>Stark Store</strong>. The use of MySQL for robust database management guarantees the safe storage of customer data and transaction details. Additionally, the platform's integration with Swiper.js enhances product image galleries, offering customers a clear and interactive product view before making a purchase.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> also includes tailored features such as wishlist options, secure payment gateways, and detailed product modals to ensure every customer has the tools they need for an informed purchase decision. With a clean design powered by Tailwind and Bootstrap, shoppers are treated to an aesthetically pleasing yet highly functional online shopping environment.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is committed to staying ahead of e-commerce trends, continually upgrading its features and performance to provide a shopping experience that’s fast, secure, and satisfying for all.</li>
+						</ul>
+						</p>
+					</div>
+				</div>
+
+				<div class="order-md-1 col-11 col-md-5 col-lg-4 m-lr-auto p-b-30">
+					<div class="how-bor2">
+						<div class="hov-img0">
+							<img src="images/founder.jpeg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Graphics -->
+			<div class="row p-b-148">
+				<div class="col-md-7 col-lg-8">
+					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Our Graphic Designer (Sahil Gautam)
+						</h3>
+
+						<p class="stext-113 cl6 p-b-26">
+							<strong>Sahil</strong>, the talented graphic designer behind <strong>Stark Store</strong>, plays a pivotal role in crafting the visual identity of the website. His creativity is evident in the sleek and modern design, contributing to the overall user experience by making the site not only functional but visually appealing. <strong>Sahil</strong> ensures that each element of the website—from banners and product images to logos and icons—resonates with the brand’s identity and enhances the shopping experience. His designs are tailored to provide clarity and engage users, offering a seamless blend of aesthetics and usability.
+
+							<strong>Sahil</strong>'s eye for detail ensures that every graphic aligns perfectly with the website's overall theme, creating a cohesive and professional appearance. His work complements the technical backbone of <strong>Stark Store</strong>, ensuring that it stands out in a competitive market with a memorable, polished look.
+						</p>
+					</div>
+				</div>
+
+				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
+					<div class="how-bor1 ">
+						<div class="hov-img0">
+							<img src="images/Graphic.jpeg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Analytics manager -->
+			<div class="row p-b-148">
+				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
+					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
+						<h3 class="mtext-111 cl2 p-b-16">
+							Analytics manager (Punit Nigam)
+						</h3>
+
+						<p class="stext-113 cl6 p-b-26">
+						<ul>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>The Role of an Analytics Manager for Stark Store</strong>
+								The analytics manager for the Stark Store website plays a pivotal role in ensuring the success of the e-commerce platform by leveraging data-driven insights to inform strategic decisions. This position encompasses various responsibilities focused on data collection, analysis, and reporting, ultimately contributing to the optimization of marketing efforts, user experience, and overall business performance.
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>Data Collection and Management</strong>
+								A primary responsibility of the analytics manager is the implementation and management of data collection tools. Utilizing platforms like Google Analytics, Adobe Analytics, or similar tools, the manager ensures the website effectively captures relevant data, such as user behavior, traffic sources, conversion rates, and demographic information. This involves configuring tracking codes, setting up event tracking for specific user interactions, and maintaining data integrity to ensure accuracy.
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>Performance Analysis</strong>
+								Once data is collected, the analytics manager analyzes it to extract meaningful insights. Key performance indicators (KPIs) such as page views, bounce rates, and average session durations are scrutinized to gauge website performance. By identifying trends and patterns in user behavior, the manager can determine which products or marketing campaigns are performing well and which areas may need improvement. This analysis helps in understanding customer preferences, leading to more targeted marketing strategies.
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>Reporting</strong>
+								An essential function of the analytics manager is to create and present reports that communicate insights to various stakeholders, including product managers, marketing teams, and executives. These reports are crafted to be clear and actionable, often featuring visualizations and dashboards that make complex data more accessible. Regular reporting not only tracks performance but also aids in making informed decisions based on real-time data.
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>Conversion Rate Optimization (CRO)</strong>
+								The analytics manager also plays a critical role in conversion rate optimization. By conducting A/B tests and multivariate tests, they evaluate different elements of the website to determine what drives higher conversion rates. Collaborating with the marketing team, the manager can implement changes based on these findings, optimizing landing pages, product descriptions, and call-to-action buttons to enhance the user experience and increase sales..
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>User Experience (UX) Insights</strong>
+								Understanding the user journey is crucial for the success of any e-commerce website. The analytics manager gathers data on user interactions to identify pain points and obstacles in the purchasing process. By analyzing user flows and drop-off rates, they can provide actionable recommendations for improving website usability, thus enhancing the overall shopping experience..
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>Market Research</strong>
+								In addition to analyzing internal data, the analytics manager conducts market research to understand competitor performance and emerging market trends. This research can inform product development and marketing strategies, identifying new opportunities for growth based on data-driven insights.
+							</li>
+							<li class="stext-10 cl6 p-b-26">
+								<strong>Collaboration and Communication</strong>
+								Effective collaboration is key in the role of an analytics manager. Working closely with marketing, product management, and IT teams, the manager ensures that analytics strategies align with overall business objectives. Their expertise supports data-driven decision-making across the organization, fostering a culture of continuous improvement.</li>
+						</ul>
+						</p>
+					</div>
+				</div>
+
+				<div class="order-md-1 col-11 col-md-5 col-lg-4 m-lr-auto p-b-30">
+					<div class="how-bor2">
+						<div class="hov-img0">
+							<img src="images/Analytics.jpeg" alt="IMG">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Product Manager -->
+			<!-- Our Mission -->
 			<div class="row p-b-148">
 				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
 					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
@@ -350,58 +458,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="row p-b-148">
-				<div class="col-md-7 col-lg-8">
-					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
-						<h3 class="mtext-111 cl2 p-b-16">
-							Stark Store's Founder & Dev. (Mohd Shahid)
-						</h3>
-
-						<p class="stext-113 cl6 p-b-26">
-						<ul>
-							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is an innovative and dynamic e-commerce platform designed to offer customers a seamless, convenient, and enjoyable online shopping experience. Powered by cutting-edge technologies like HTML, CSS, JavaScript, PHP, MySQL, Bootstrap, Tailwind, jQuery, AJAX, and more, <strong>Stark Store</strong> stands out in the competitive digital marketplace. Whether you're searching for fashion, electronics, home goods, or lifestyle products, <strong>Stark Store</strong> has it all.</li>
-							<li class="stext-10 cl6 p-b-26">One of the key features of <strong>Stark Store</strong> is its user-friendly interface, which is both responsive and visually appealing. The store ensures smooth navigation across devices, allowing users to browse, add to cart, and check out effortlessly. Behind the scenes, dynamic features such as Cart.js handle real-time cart updates, while Email.js ensures prompt communication for order confirmations and queries, providing a personalized customer experience.</li>
-							<li class="stext-10 cl6 p-b-26">Security and performance are top priorities at <strong>Stark Store</strong>. The use of MySQL for robust database management guarantees the safe storage of customer data and transaction details. Additionally, the platform's integration with Swiper.js enhances product image galleries, offering customers a clear and interactive product view before making a purchase.</li>
-							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> also includes tailored features such as wishlist options, secure payment gateways, and detailed product modals to ensure every customer has the tools they need for an informed purchase decision. With a clean design powered by Tailwind and Bootstrap, shoppers are treated to an aesthetically pleasing yet highly functional online shopping environment.</li>
-							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is committed to staying ahead of e-commerce trends, continually upgrading its features and performance to provide a shopping experience that’s fast, secure, and satisfying for all.</li>
-						</ul>
-						</p>
-					</div>
-				</div>
-
-				<div class="col-11 col-md-5 col-lg-4 m-lr-auto">
-					<div class="how-bor1 ">
-						<div class="hov-img0">
-							<img src="images/founder.jpeg" alt="IMG">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row p-b-148">
-				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
-					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
-						<h3 class="mtext-111 cl2 p-b-16">
-							Our Graphic Designer (Sahil Gautam)
-						</h3>
-
-						<p class="stext-113 cl6 p-b-26">
-							<strong>Sahil</strong>, the talented graphic designer behind <strong>Stark Store</strong>, plays a pivotal role in crafting the visual identity of the website. His creativity is evident in the sleek and modern design, contributing to the overall user experience by making the site not only functional but visually appealing. <strong>Sahil</strong> ensures that each element of the website—from banners and product images to logos and icons—resonates with the brand’s identity and enhances the shopping experience. His designs are tailored to provide clarity and engage users, offering a seamless blend of aesthetics and usability.
-
-							<strong>Sahil</strong>'s eye for detail ensures that every graphic aligns perfectly with the website's overall theme, creating a cohesive and professional appearance. His work complements the technical backbone of <strong>Stark Store</strong>, ensuring that it stands out in a competitive market with a memorable, polished look.
-						</p>
-					</div>
-				</div>
-
-				<div class="order-md-1 col-11 col-md-5 col-lg-4 m-lr-auto p-b-30">
-					<div class="how-bor2">
-						<div class="hov-img0">
-							<img src="images/Graphic.jpeg" alt="IMG">
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</section>
 
@@ -409,134 +465,134 @@
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Categories
-						</h4>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
 
-						<ul>
-							<li class="p-b-10">
-								<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
-									Women
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
-									Men
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shoes
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Watches
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Help
-						</h4>
-
-						<ul>
-							<li class="p-b-10">
-								<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Track Order
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Returns
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shipping
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
-									FAQs
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							GET IN TOUCH
-						</h4>
-
-						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044  or call us
-							on (+91) 9717201964
-						</p>
-
-						<div class="p-t-27">
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-facebook"></i>
+					<ul>
+						<li class="p-b-10">
+							<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
+								Women
 							</a>
+						</li>
 
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-instagram"></i>
+						<li class="p-b-10">
+							<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
+								Men
 							</a>
+						</li>
 
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-pinterest-p"></i>
+						<li class="p-b-10">
+							<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Shoes
 							</a>
-						</div>
-					</div>
+						</li>
 
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Newsletter
-						</h4>
+						<li class="p-b-10">
+							<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Watches
+							</a>
+						</li>
+					</ul>
+				</div>
 
-						<form>
-							<div class="wrap-input1 w-full p-b-4">
-								<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
-									placeholder="email@example.com">
-								<div class="focus-input1 trans-04"></div>
-							</div>
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Help
+					</h4>
 
-							<div class="p-t-18">
-								<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									Subscribe
-								</button>
-							</div>
-						</form>
+					<ul>
+						<li class="p-b-10">
+							<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Track Order
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Returns
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Shipping
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
+								FAQs
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044 or call us
+						on (+91) 9717201964
+					</p>
+
+					<div class="p-t-27">
+						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fa fa-facebook"></i>
+						</a>
+
+						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fa fa-instagram"></i>
+						</a>
+
+						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fa fa-pinterest-p"></i>
+						</a>
 					</div>
 				</div>
 
-				<div class="p-t-40">
-					<p class="stext-107 cl6 txt-center">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script> All rights reserved | Made with <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
-							target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
-							target="_blank">Stark</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
 
-					</p>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+								placeholder="email@example.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
 				</div>
 			</div>
-		</footer>
+
+			<div class="p-t-40">
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;
+					<script>
+						document.write(new Date().getFullYear());
+					</script> All rights reserved | Made with <i
+						class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
+						target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
+						target="_blank">Stark</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+				</p>
+			</div>
+		</div>
+	</footer>
 
 
 	<!-- Back to top -->
