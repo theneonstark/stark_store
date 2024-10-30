@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<?php
+		session_start();
+		include('config.php');
+		if(isset($_GET['id'])){
+			$id = $_GET['id'];
+            $title = $_GET['tlt'];
+            $story = $_GET['str'];
+            $image = $_GET['im'];
+            $date = $_GET['crt'];
+		}
+	?>	
 	<title>Blog Detail</title>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
 	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">	
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
 </head>
 <body class="animsition">
 	
@@ -325,7 +324,7 @@
 			</a>
 
 			<span class="stext-109 cl4">
-				8 Inspiring Ways to Wear Dresses in the Winter
+				<?php echo $title?>
 			</span>
 		</div>
 	</div>
@@ -335,19 +334,31 @@
 	<section class="bg0 p-t-52 p-b-20">
 		<div class="container">
 			<div class="row">
+				<?php
+					$blog_details = mysqli_query($blog, "SELECT posts.*, admins.name, admins.office, department.dept_name FROM blogs.posts AS posts LEFT JOIN user.admins AS admins ON posts.posted_by = admins.id LEFT JOIN user.department AS department ON admins.office = department.dept_id");
+					if($blog_item = mysqli_fetch_assoc($blog_details)){
+						$tags = json_decode($blog_item['tags']);
+					}
+				?>
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg">
 						<!--  -->
 						<div class="wrap-pic-w how-pos5-parent">
-							<img src="images/blog-04.jpg" alt="IMG-BLOG">
+							<img src="image/blog/<?php echo $blog_item['blog_img']?>" alt="IMG-BLOG">
 
 							<div class="flex-col-c-m size-123 bg9 how-pos5">
 								<span class="ltext-107 cl2 txt-center">
-									22
+								<?php
+											$date = strtotime($blog_item['created_at']);
+											echo date('d',$date);
+										?>
 								</span>
 
 								<span class="stext-109 cl3 txt-center">
-									Jan 2018
+								<?php
+											$date = strtotime($blog_item['created_at']);
+											echo date('M Y',$date);
+										?>
 								</span>
 							</div>
 						</div>
@@ -355,17 +366,27 @@
 						<div class="p-t-32">
 							<span class="flex-w flex-m stext-111 cl2 p-b-19">
 								<span>
-									<span class="cl4">By</span> Admin  
+									<span class="cl4">By</span> <?php echo $blog_item['dept_name'];?> (<?php echo $blog_item['name'];?>)
 									<span class="cl12 m-l-4 m-r-6">|</span>
 								</span>
 
 								<span>
-									22 Jan, 2018
+								<?php
+											$date = strtotime($blog_item['created_at']);
+											echo date('d M, Y',$date);
+										?>
 									<span class="cl12 m-l-4 m-r-6">|</span>
 								</span>
 
 								<span>
-									StreetStyle, Fashion, Couple  
+								<?php
+											for ($i = 0; $i < count($tags); $i++) {
+												echo htmlspecialchars($tags[$i]);
+												if ($i < count($tags) - 1) {
+													echo '<span>, </span>';
+												}
+											}
+										?>
 									<span class="cl12 m-l-4 m-r-6">|</span>
 								</span>
 
@@ -375,15 +396,15 @@
 							</span>
 
 							<h4 class="ltext-109 cl2 p-b-28">
-								8 Inspiring Ways to Wear Dresses in the Winter
+								<?php echo $title?>
 							</h4>
 
 							<p class="stext-117 cl6 p-b-26">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet est vel orci luctus sollicitudin. Duis eleifend vestibulum justo, varius semper lacus condimentum dictum. Donec pulvinar a magna ut malesuada. In posuere felis diam, vel sodales metus accumsan in. Duis viverra dui eu pharetra pellentesque. Donec a eros leo. Quisque sed ligula vitae lorem efficitur faucibus. Praesent sit amet imperdiet ante. Nulla id tellus auctor, dictum libero a, malesuada nisi. Nulla in porta nibh, id vestibulum ipsum. Praesent dapibus tempus erat quis aliquet. Donec ac purus id sapien condimentum feugiat.
-							</p>
-
-							<p class="stext-117 cl6 p-b-26">
-								Praesent vel mi bibendum, finibus leo ac, condimentum arcu. Pellentesque sem ex, tristique sit amet suscipit in, mattis imperdiet enim. Integer tempus justo nec velit fringilla, eget eleifend neque blandit. Sed tempor magna sed congue auctor. Mauris eu turpis eget tortor ultricies elementum. Phasellus vel placerat orci, a venenatis justo. Phasellus faucibus venenatis nisl vitae vestibulum. Praesent id nibh arcu. Vivamus sagittis accumsan felis, quis vulputate
+								<?php
+									$normalizedText = stripslashes($story);
+									$normalizedText = str_replace(["\\r\\n", "\\n", "\\r", "rnrn"], "\n", $normalizedText);
+									echo nl2br(htmlspecialchars($normalizedText));								
+								?>
 							</p>
 						</div>
 
@@ -393,13 +414,16 @@
 							</span>
 
 							<div class="flex-w size-217">
+								<?php
+									for ($i = 0; $i < count($tags); $i++) {	
+								?>
 								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Streetstyle
+									<?php echo htmlspecialchars($tags[$i]);?>
 								</a>
 
-								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-									Crafts
-								</a>
+								<?php
+									}
+								?>
 							</div>
 						</div>
 
@@ -819,15 +843,11 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-
-<!--===============================================================================================-->	
+	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
 		$(".js-select2").each(function(){
@@ -837,9 +857,7 @@
 			});
 		})
 	</script>
-<!--===============================================================================================-->
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-<!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
 		$('.js-pscroll').each(function(){
@@ -856,7 +874,6 @@
 			})
 		});
 	</script>
-<!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
 </body>

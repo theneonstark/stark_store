@@ -1,226 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<?php
-		session_start();
-		include('config.php');
-		$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
+	session_start();
+	include('config.php');
+	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
 		";
-		$wishlist_data = "select * from wishlist";
+	$wishlist_data = "select * from wishlist";
 	?>
 	<title>Blog</title>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">	
-	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">	
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
+
 <body class="animsition">
-	
+
 	<!-- Header -->
 	<header class="header-v4">
-			<!-- Header desktop -->
-			<div class="container-menu-desktop">
-				<!-- Topbar -->
-				<div class="top-bar">
-					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
-						<div class="left-top-bar">
-							Free shipping for standard order over $100
-						</div>
+		<!-- Header desktop -->
+		<div class="container-menu-desktop">
+			<!-- Topbar -->
+			<div class="top-bar">
+				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
+					<div class="left-top-bar">
+						Free shipping for standard order over $100
 					</div>
 				</div>
+			</div>
 
-				<div class="wrap-menu-desktop">
-					<nav class="limiter-menu-desktop container">
+			<div class="wrap-menu-desktop">
+				<nav class="limiter-menu-desktop container">
 
-						<!-- Logo desktop -->
-						<a href="index.php" class="logo">
-							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
-						</a>
+					<!-- Logo desktop -->
+					<a href="index.php" class="logo">
+						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+					</a>
 
-						<!-- Menu desktop -->
-						<div class="menu-desktop">
-							<ul class="main-menu">
-								<li class="active-menu">
-									<a href="index.php">Home</a>
-								</li>
+					<!-- Menu desktop -->
+					<div class="menu-desktop">
+						<ul class="main-menu">
+							<li class="active-menu">
+								<a href="index.php">Home</a>
+							</li>
 
-								<li>
-									<a href="product.php">Shop</a>
-								</li>
+							<li>
+								<a href="product.php">Shop</a>
+							</li>
 
-								<li class="label1" data-label1="hot">
-									<a href="shoping-cart.php">Your Cart</a>
-								</li>
+							<li class="label1" data-label1="hot">
+								<a href="shoping-cart.php">Your Cart</a>
+							</li>
 
-								<li>
-									<a href="blog.php">Blog</a>
-								</li>
+							<li>
+								<a href="blog.php">Blog</a>
+							</li>
 
-								<li>
-									<a href="about.php">About</a>
-								</li>
+							<li>
+								<a href="about.php">About</a>
+							</li>
 
-								<li>
-									<a href="contact.php">Contact</a>
-								</li>
-							</ul>
+							<li>
+								<a href="contact.php">Contact</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Icon header -->
+					<div class="wrap-icon-header flex-w flex-r-m">
+						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+							<i class="zmdi zmdi-search"></i>
 						</div>
-
-						<!-- Icon header -->
-						<div class="wrap-icon-header flex-w flex-r-m">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-								<i class="zmdi zmdi-search"></i>
-							</div>
-                            <?php
-                                if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
-                            ?>
+						<?php
+						if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
+						?>
 							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
 								<i class="zmdi zmdi-shopping-cart"></i>
 							</div>
 							<div class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
 								<i class="zmdi zmdi-favorite-outline"></i>
 							</div>
-                            <?php
-                                }
-                            ?>
-							<div class="dropdown">
-								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
-									<i class="zmdi zmdi-account-circle"></i>
-									<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
-								</div>
-								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
-									<?php
-                                        if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
-                                    ?>
-                                        <a href="#" class="dropdown-item font-weight-bold">Profile</a>
+						<?php
+						}
+						?>
+						<div class="dropdown">
+							<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
+								<i class="zmdi zmdi-account-circle"></i>
+								<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
+							</div>
+							<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
+								<?php
+								if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
+								?>
+									<a href="#" class="dropdown-item font-weight-bold">Profile</a>
 									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
 									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
 									<div class="dropdown-divider"></div>
 									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
-                                    <?php
-                                        }else{
-                                    ?>
-                                    <a href="login.php" class="dropdown-item font-weight-bold">Login</a>
-                                    <?php
-                                        }
-                                    ?>
-								</div>
+								<?php
+								} else {
+								?>
+									<a href="login.php" class="dropdown-item font-weight-bold">Login</a>
+								<?php
+								}
+								?>
 							</div>
-
 						</div>
-					</nav>
-				</div>
-			</div>
 
-			<!-- Header Mobile -->
-			<div class="wrap-header-mobile">
-				<!-- Logo moblie -->
-				<div class="logo-mobile">
-					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-				</div>
-
-				<!-- Icon header -->
-				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-						<i class="zmdi zmdi-search"></i>
 					</div>
-				</div>
+				</nav>
+			</div>
+		</div>
 
-				<!-- Button show menu -->
-				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
+		<!-- Header Mobile -->
+		<div class="wrap-header-mobile">
+			<!-- Logo moblie -->
+			<div class="logo-mobile">
+				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+			</div>
+
+			<!-- Icon header -->
+			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
+				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+					<i class="zmdi zmdi-search"></i>
+				</div>
+			</div>
+
+			<!-- Button show menu -->
+			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
+				<span class="hamburger-box">
+					<span class="hamburger-inner"></span>
+				</span>
+			</div>
+		</div>
+
+
+		<!-- Menu Mobile -->
+		<div class="menu-mobile">
+			<ul class="main-menu-m">
+				<li>
+					<a href="index.php">Home</a>
+					<span class="arrow-main-menu-m">
+						<i class="fa fa-angle-right" aria-hidden="true"></i>
 					</span>
-				</div>
-			</div>
+				</li>
 
+				<li>
+					<a href="product.php">Shop</a>
+				</li>
 
-			<!-- Menu Mobile -->
-			<div class="menu-mobile">
-				<ul class="main-menu-m">
-					<li>
-						<a href="index.php">Home</a>
-						<span class="arrow-main-menu-m">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</span>
-					</li>
+				<li>
+					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
+				</li>
 
-					<li>
-						<a href="product.php">Shop</a>
-					</li>
+				<li>
+					<a href="blog.php">Blog</a>
+				</li>
 
-					<li>
-						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
-					</li>
+				<li>
+					<a href="about.php">About</a>
+				</li>
 
-					<li>
-						<a href="blog.php">Blog</a>
-					</li>
+				<li>
+					<a href="contact.php">Contact</a>
+				</li>
+				<li>
+				<li>
+					<!-- <a href="index.php">Home</a> -->
+					<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
+					<ul class="sub-menu-m">
+						<?php
+						if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
+						?>
+							<li><a href="#" class="dropdown-item font-weight-bold">Profile</a></li>
+							<li><a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a></li>
+							<li><a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a></li>
+							<div class="dropdown-divider"></div>
+							<li><a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a></li>
+						<?php
+						} else {
+						?>
+							<li><a href="login.php" class="dropdown-item font-weight-bold">Login</a></li>
+						<?php
+						}
+						?>
+					</ul>
+					<span class="arrow-main-menu-m">
+						<i class="fa fa-angle-right" aria-hidden="true"></i>
+					</span>
+				</li>
+				</li>
+			</ul>
+		</div>
 
-					<li>
-						<a href="about.php">About</a>
-					</li>
+		<!-- Modal Search -->
+		<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
+			<div class="container-search-header">
+				<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
+					<img src="images/icons/icon-close2.png" alt="CLOSE">
+				</button>
 
-					<li>
-						<a href="contact.php">Contact</a>
-					</li>
-					<li>
-					<li>
-						<!-- <a href="index.php">Home</a> -->
-						<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
-						<ul class="sub-menu-m">
-							<?php
-                                        if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
-                                    ?>
-                                        <li><a href="#" class="dropdown-item font-weight-bold">Profile</a></li>
-									<li><a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a></li>
-									<li><a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a></li>
-									<div class="dropdown-divider"></div>
-									<li><a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a></li>
-                                    <?php
-                                        }else{
-                                    ?>
-                                    <li><a href="login.php" class="dropdown-item font-weight-bold">Login</a></li>
-                                    <?php
-                                        }
-                                    ?>
-						</ul>
-						<span class="arrow-main-menu-m">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</span>
-					</li>
-					</li>
-				</ul>
-			</div>
-
-			<!-- Modal Search -->
-			<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-				<div class="container-search-header">
-					<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-						<img src="images/icons/icon-close2.png" alt="CLOSE">
+				<form class="wrap-search-header flex-w p-l-15">
+					<button class="flex-c-m trans-04">
+						<i class="zmdi zmdi-search"></i>
 					</button>
-
-					<form class="wrap-search-header flex-w p-l-15">
-						<button class="flex-c-m trans-04">
-							<i class="zmdi zmdi-search"></i>
-						</button>
-						<input class="plh3" type="text" name="search" placeholder="Search...">
-					</form>
-				</div>
+					<input class="plh3" type="text" name="search" placeholder="Search...">
+				</form>
 			</div>
-		</header>
+		</div>
+	</header>
 
 	<!-- Cart -->
 	<div class="wrap-header-cart js-panel-cart">
@@ -272,7 +274,7 @@
 		<h2 class="ltext-105 cl0 txt-center">
 			Blog
 		</h2>
-	</section>	
+	</section>
 
 
 	<!-- Content page -->
@@ -282,50 +284,73 @@
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg">
 						<!-- item blog -->
+						 <?php
+						 	$blog_details = mysqli_query($blog, "SELECT posts.*, admins.name, admins.office, department.dept_name FROM blogs.posts AS posts LEFT JOIN user.admins AS admins ON posts.posted_by = admins.id LEFT JOIN user.department AS department ON admins.office = department.dept_id");
+							while($blog_data = mysqli_fetch_assoc($blog_details)){
+								$tags = json_decode($blog_data['tags']);
+						 ?>
 						<div class="p-b-63">
-							<a href="blog-detail.php" class="hov-img0 how-pos5-parent">
-								<img src="images/blog-04.jpg" alt="IMG-BLOG">
+							<a href="blog-detail.php?id=<?php echo $blog_data['id']?>&tlt=<?php echo $blog_data['title']?>&str=<?php echo $blog_data['story']?>&&crt=<?php echo $blog_data['created_at']?>&im=<?php echo $blog_data['blog_img']?>" class="hov-img0 how-pos5-parent">
+								<img src="image/blog/<?php echo $blog_data['blog_img']?>" alt="IMG-BLOG">
 
 								<div class="flex-col-c-m size-123 bg9 how-pos5">
 									<span class="ltext-107 cl2 txt-center">
-										22
+										<?php
+											$date = strtotime($blog_data['created_at']);
+											echo date('d',$date);
+										?>
 									</span>
 
 									<span class="stext-109 cl3 txt-center">
-										Jan 2018
+									<?php
+											$date = strtotime($blog_data['created_at']);
+											echo date('M Y',$date);
+										?>
 									</span>
 								</div>
 							</a>
 
 							<div class="p-t-32">
 								<h4 class="p-b-15">
-									<a href="blog-detail.php" class="ltext-108 cl2 hov-cl1 trans-04">
-										8 Inspiring Ways to Wear Dresses in the Winter
+									<a href="blog-detail.php?id=<?php echo $blog_data['id']?>&tlt=<?php echo $blog_data['title']?>&str=<?php echo $blog_data['story']?>&&crt=<?php echo $blog_data['created_at']?>&im=<?php echo $blog_data['blog_img']?>" class="ltext-108 cl2 hov-cl1 trans-04">
+										<?php echo $blog_data['title']?>
 									</a>
 								</h4>
-
-								<p class="stext-117 cl6">
-									Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius
+								<p class="stext-117 cl6 text-truncate" style="max-height: 50px;">
+									<?php 
+										$normalizedText = stripslashes($blog_data['story']);
+										$normalizedText = str_replace(["\\r\\n", "\\n", "\\r", "rnrn"], "\n", $normalizedText);
+										echo nl2br(htmlspecialchars($normalizedText));									
+									?>
 								</p>
 
 								<div class="flex-w flex-sb-m p-t-18">
 									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
 										<span>
-											<span class="cl4">By</span> Admin  
+											<span class="cl4">By</span> <?php echo $blog_data['dept_name']?>
 											<span class="cl12 m-l-4 m-r-6">|</span>
 										</span>
 
 										<span>
-											StreetStyle, Fashion, Couple  
-											<span class="cl12 m-l-4 m-r-6">|</span>
+										<?php
+											for ($i = 0; $i < count($tags); $i++) {
+												echo htmlspecialchars($tags[$i]);
+												if ($i < count($tags) - 1) {
+													echo '<span>, </span>';
+												}
+											}
+										?>
+										<span class="cl12 m-l-4 m-r-6">
+											 | 
 										</span>
-
+										</span>
+										
 										<span>
 											8 Comments
 										</span>
 									</span>
 
-									<a href="blog-detail.php" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
+									<a href="blog-detail.php?id=<?php echo $blog_data['id']?>&tlt=<?php echo $blog_data['title']?>&str=<?php echo $blog_data['story']?>&&crt=<?php echo $blog_data['created_at']?>&im=<?php echo $blog_data['blog_img']?>" class="stext-101 cl2 hov-cl1 trans-04 m-tb-10">
 										Continue Reading
 
 										<i class="fa fa-long-arrow-right m-l-9"></i>
@@ -333,7 +358,9 @@
 								</div>
 							</div>
 						</div>
-
+						<?php 
+					}
+					?>
 						<!-- item blog -->
 						<div class="p-b-63">
 							<a href="blog-detail.php" class="hov-img0 how-pos5-parent">
@@ -353,7 +380,7 @@
 							<div class="p-t-32">
 								<h4 class="p-b-15">
 									<a href="blog-detail.php" class="ltext-108 cl2 hov-cl1 trans-04">
-										The Great Big List of Men’s Gifts for the Holidays 
+										The Great Big List of Men’s Gifts for the Holidays
 									</a>
 								</h4>
 
@@ -364,12 +391,12 @@
 								<div class="flex-w flex-sb-m p-t-18">
 									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
 										<span>
-											<span class="cl4">By</span> Admin  
+											<span class="cl4">By</span> Admin
 											<span class="cl12 m-l-4 m-r-6">|</span>
 										</span>
 
 										<span>
-											StreetStyle, Fashion, Couple  
+											StreetStyle, Fashion, Couple
 											<span class="cl12 m-l-4 m-r-6">|</span>
 										</span>
 
@@ -417,12 +444,12 @@
 								<div class="flex-w flex-sb-m p-t-18">
 									<span class="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
 										<span>
-											<span class="cl4">By</span> Admin  
+											<span class="cl4">By</span> Admin
 											<span class="cl12 m-l-4 m-r-6">|</span>
 										</span>
 
 										<span>
-											StreetStyle, Fashion, Couple  
+											StreetStyle, Fashion, Couple
 											<span class="cl12 m-l-4 m-r-6">|</span>
 										</span>
 
@@ -602,7 +629,7 @@
 								<li class="p-b-7">
 									<a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
 										<span>
-											April  2018
+											April 2018
 										</span>
 
 										<span>
@@ -692,140 +719,140 @@
 				</div>
 			</div>
 		</div>
-	</section>	
-	
-		
+	</section>
+
+
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Categories
-						</h4>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Categories
+					</h4>
 
-						<ul>
-							<li class="p-b-10">
-								<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
-									Women
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
-									Men
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shoes
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Watches
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Help
-						</h4>
-
-						<ul>
-							<li class="p-b-10">
-								<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Track Order
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Returns
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shipping
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
-									FAQs
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							GET IN TOUCH
-						</h4>
-
-						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044  or call us
-							on (+91) 9717201964
-						</p>
-
-						<div class="p-t-27">
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-facebook"></i>
+					<ul>
+						<li class="p-b-10">
+							<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
+								Women
 							</a>
+						</li>
 
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-instagram"></i>
+						<li class="p-b-10">
+							<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
+								Men
 							</a>
+						</li>
 
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-pinterest-p"></i>
+						<li class="p-b-10">
+							<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Shoes
 							</a>
-						</div>
-					</div>
+						</li>
 
-					<div class="col-sm-6 col-lg-3 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Newsletter
-						</h4>
+						<li class="p-b-10">
+							<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Watches
+							</a>
+						</li>
+					</ul>
+				</div>
 
-						<form>
-							<div class="wrap-input1 w-full p-b-4">
-								<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
-									placeholder="email@example.com">
-								<div class="focus-input1 trans-04"></div>
-							</div>
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Help
+					</h4>
 
-							<div class="p-t-18">
-								<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									Subscribe
-								</button>
-							</div>
-						</form>
+					<ul>
+						<li class="p-b-10">
+							<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Track Order
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Returns
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Shipping
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
+								FAQs
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						GET IN TOUCH
+					</h4>
+
+					<p class="stext-107 cl7 size-201">
+						Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044 or call us
+						on (+91) 9717201964
+					</p>
+
+					<div class="p-t-27">
+						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fa fa-facebook"></i>
+						</a>
+
+						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fa fa-instagram"></i>
+						</a>
+
+						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
+							<i class="fa fa-pinterest-p"></i>
+						</a>
 					</div>
 				</div>
 
-				<div class="p-t-40">
-					<p class="stext-107 cl6 txt-center">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script> All rights reserved | Made with <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
-							target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
-							target="_blank">Stark</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-30">
+						Newsletter
+					</h4>
 
-					</p>
+					<form>
+						<div class="wrap-input1 w-full p-b-4">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+								placeholder="email@example.com">
+							<div class="focus-input1 trans-04"></div>
+						</div>
+
+						<div class="p-t-18">
+							<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
+								Subscribe
+							</button>
+						</div>
+					</form>
 				</div>
 			</div>
-		</footer>
+
+			<div class="p-t-40">
+				<p class="stext-107 cl6 txt-center">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;
+					<script>
+						document.write(new Date().getFullYear());
+					</script> All rights reserved | Made with <i
+						class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
+						target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
+						target="_blank">Stark</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+				</p>
+			</div>
+		</div>
+	</footer>
 
 
 	<!-- Back to top -->
@@ -834,14 +861,14 @@
 			<i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
-	
+
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 	<script src="vendor/bootstrap/js/popper.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="vendor/select2/select2.min.js"></script>
 	<script>
-		$(".js-select2").each(function(){
+		$(".js-select2").each(function() {
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
@@ -851,34 +878,34 @@
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
+		$('.js-pscroll').each(function() {
+			$(this).css('position', 'relative');
+			$(this).css('overflow', 'hidden');
 			var ps = new PerfectScrollbar(this, {
 				wheelSpeed: 1,
 				scrollingThreshold: 1000,
 				wheelPropagation: false,
 			});
 
-			$(window).on('resize', function(){
+			$(window).on('resize', function() {
 				ps.update();
 			})
 		});
 	</script>
 	<script>
 		function fetchWishlistData() {
-				$.ajax({
-					url: 'wishlist-data-config.php',
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							$('.noti-wish').attr('data-notify', response.count);
-							var wishlistItems = response.data;
-							var wishlistHTML = '';
+			$.ajax({
+				url: 'wishlist-data-config.php',
+				type: 'GET',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						$('.noti-wish').attr('data-notify', response.count);
+						var wishlistItems = response.data;
+						var wishlistHTML = '';
 
-							wishlistItems.forEach(function(item) {
-								wishlistHTML += `
+						wishlistItems.forEach(function(item) {
+							wishlistHTML += `
                             <li class="header-cart-item flex-w flex-t m-b-12">
                                 <div class="header-cart-item-img">
                                     <img src="image/product/${item.product_img}" alt="IMG">
@@ -892,73 +919,74 @@
                                     </span>
                                 </div>
                             </li>`;
-							});
-							$('.header-wishlist-wrapitem').html(wishlistHTML);
-						} else if (response.status === 'empty') {
-							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-wish').attr('data-notify', 0);
-						}
-					},
-					error: function() {
-						console.error('Error fetching wishlist data');
+						});
+						$('.header-wishlist-wrapitem').html(wishlistHTML);
+					} else if (response.status === 'empty') {
+						$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
+						$('.noti-wish').attr('data-notify', 0);
 					}
-				});
-			}
-			setInterval(fetchWishlistData, 2000);
-
-			function fetchCartData() {
-				$.ajax({
-					url: 'cart-data-config.php', // PHP script for fetching cart data
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							// Update cart count
-							$('.noti-cart').attr('data-notify', response.count);
-
-							// Build the cart items HTML
-							var cartItems = response.data;
-							var cartHTML = '';
-
-							cartItems.forEach(function(item) {
-								cartHTML += `
-                            <li class="header-cart-item flex-w flex-t m-b-12">
-                                <div class="header-cart-item-img">
-                                    <img src="image/product/${item.product_img}" alt="IMG">
-                                </div>
-                                <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                        ${item.product_name}
-                                    </a>
-                                    <span class="header-cart-item-info">
-                                        ₹ ${item.product_price}
-                                    </span>
-                                </div>
-                            </li>`;
-							});
-
-							// Update cart items in the DOM
-							$('.header-cart-wrapitem').html(cartHTML);
-						} else if (response.status === 'empty') {
-							// Display "Add Product" message when cart is empty
-							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
-						}
-					},
-					error: function() {
-						console.error('Error fetching cart data');
-					}
-				});
-			}
-
-			setInterval(fetchCartData, 2000);
-
-			$(document).ready(function() {
-				fetchCartData();
-				fetchWishlistData();
+				},
+				error: function() {
+					console.error('Error fetching wishlist data');
+				}
 			});
+		}
+		setInterval(fetchWishlistData, 2000);
+
+		function fetchCartData() {
+			$.ajax({
+				url: 'cart-data-config.php', // PHP script for fetching cart data
+				type: 'GET',
+				dataType: 'json',
+				success: function(response) {
+					if (response.status === 'success') {
+						// Update cart count
+						$('.noti-cart').attr('data-notify', response.count);
+
+						// Build the cart items HTML
+						var cartItems = response.data;
+						var cartHTML = '';
+
+						cartItems.forEach(function(item) {
+							cartHTML += `
+                            <li class="header-cart-item flex-w flex-t m-b-12">
+                                <div class="header-cart-item-img">
+                                    <img src="image/product/${item.product_img}" alt="IMG">
+                                </div>
+                                <div class="header-cart-item-txt p-t-8">
+                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                                        ${item.product_name}
+                                    </a>
+                                    <span class="header-cart-item-info">
+                                        ₹ ${item.product_price}
+                                    </span>
+                                </div>
+                            </li>`;
+						});
+
+						// Update cart items in the DOM
+						$('.header-cart-wrapitem').html(cartHTML);
+					} else if (response.status === 'empty') {
+						// Display "Add Product" message when cart is empty
+						$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
+						$('.noti-cart').attr('data-notify', 0); // Set notify to 0
+					}
+				},
+				error: function() {
+					console.error('Error fetching cart data');
+				}
+			});
+		}
+
+		setInterval(fetchCartData, 2000);
+
+		$(document).ready(function() {
+			fetchCartData();
+			fetchWishlistData();
+		});
 	</script>
 	<script src="js/main.js"></script>
 
 </body>
+
 </html>
