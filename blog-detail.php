@@ -4,6 +4,7 @@
 	<?php
 		session_start();
 		include('config.php');
+		mysqli_set_charset($blog, "utf8mb4");
 		if(isset($_GET['id'])){
 			$id = $_GET['id'];
             $title = $_GET['tlt'];
