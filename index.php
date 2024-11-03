@@ -3,6 +3,8 @@
 <?php
 session_start();
 include('config.php');
+$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
+";
 $wishlist_data = "select * from wishlist";
 ?>
 
@@ -764,7 +766,11 @@ $wishlist_data = "select * from wishlist";
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
 										<a href="product-detail.php?id=<?php echo $fetch_product['id'] ?>&&name=<?php echo $fetch_product['product_name'] ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
-											<?php echo $fetch_product['product_name'] ?>
+											<?php
+												$normalizedText = stripslashes($fetch_product['product_name']);
+												$normalizedText = str_replace(["\\r\\n", "\\n", "\\r", "rnrn"], "\n", $normalizedText);
+												echo nl2br(htmlspecialchars($normalizedText));	
+											?>
 										</a>
 
 										<span class="stext-105 cl3">
