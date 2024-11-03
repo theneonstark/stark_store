@@ -3,8 +3,6 @@
 <?php
 session_start();
 include('config.php');
-$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
-";
 $wishlist_data = "select * from wishlist";
 ?>
 
