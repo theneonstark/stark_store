@@ -552,7 +552,7 @@ $wishlist_data = "select * from wishlist";
 								</div>
 								<ul>
 									<li class="p-b-6">
-										<a href="index.php?sort_by=default&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'default' ? $cls : null; ?>">
+										<a href="index.php?sort_by=default&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'default' ? $cls : null; ?>">
 											Default
 										</a>
 									</li>
@@ -570,19 +570,19 @@ $wishlist_data = "select * from wishlist";
 									</li> -->
 									<!-- filter-link-active -->
 									<li class="p-b-6">
-										<a href="index.php?sort_by=Newness&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Newness' ? $cls : null;?>">
+										<a href="index.php?sort_by=Newness&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Newness' ? $cls : null;?>">
 											Newness
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="index.php?sort_by=Low to High&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Low to High' ? $cls : null;?>">
+										<a href="index.php?sort_by=Low to High&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Low to High' ? $cls : null;?>">
 											Price: Low to High
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="index.php?sort_by=High to Low&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'High to Low' ? $cls : null;?>">
+										<a href="index.php?sort_by=High to Low&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'High to Low' ? $cls : null;?>">
 											Price: High to Low
 										</a>
 									</li>
