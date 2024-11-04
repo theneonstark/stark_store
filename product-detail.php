@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 include('config.php');
+mysqli_set_charset($product_info, "utf8mb4");
 session_start();
 ?>
 

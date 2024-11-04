@@ -3,6 +3,7 @@
 <?php
 session_start();
 include('config.php');
+mysqli_set_charset($product_info, "utf8mb4");
 $wishlist_data = "select * from wishlist";
 ?>
 
@@ -743,7 +744,12 @@ $wishlist_data = "select * from wishlist";
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
 						$pr_img = json_decode($fetch_product['pr_imgs']);
 					?>
-						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $fetch_product['pc_name'] ?>">
+						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php 
+							$normalizedText = stripslashes($fetch_product['product_name']);
+							$normalizedText = str_replace(["\\r\\n", "\\n", "\\r", "rnrn"], "\n", $normalizedText);
+							$normalizedText = str_replace('"', '″', $normalizedText);
+							echo nl2br(htmlspecialchars($normalizedText));
+						?>">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
