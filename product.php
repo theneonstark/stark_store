@@ -339,10 +339,12 @@ $wishlist_data = "select * from wishlist";
 							$price_low = $_GET['price_low'];
                             $price_high = $_GET['price_high'];
                             $price = "product_price BETWEEN $price_low AND $price_high";
+							echo "<script>alert('OKAY')</script>";
 						}else{
 							$price_low = "";
                             $price_high = "";
                             $price = "product_price BETWEEN 0 AND 100000";
+							echo "<script>alert('NOT OKAY')</script>";
 						}
 
 						switch($sort_by){
@@ -364,9 +366,9 @@ $wishlist_data = "select * from wishlist";
 
 					 	if(isset($_GET['product_target'])){
 							$product_target = $_GET['product_target'];
-							$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id where gender = '$product_target' and $price";
+							$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id where gender = '$product_target' and $price $products";
 						}else{
-							$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id #WHERE $price";
+							$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id WHERE $price $products";
 						}
 					 ?>
 					<div class="dis-none panel-filter w-full p-t-10">
@@ -377,7 +379,7 @@ $wishlist_data = "select * from wishlist";
 								</div>
 								<ul>
 									<li class="p-b-6">
-										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=default&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'default' ? $cls : null; ?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=default&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'default' ? $cls : null; ?>">
 											Default
 										</a>
 									</li>
@@ -395,19 +397,19 @@ $wishlist_data = "select * from wishlist";
 									</li> -->
 									<!-- filter-link-active -->
 									<li class="p-b-6">
-										<a href="product.php?product_target=<?php echo $product_target?>&sort_by=Newness&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Newness' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=Newness&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Newness' ? $cls : null;?>">
 											Newness
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=Low to High&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Low to High' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=Low to High&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Low to High' ? $cls : null;?>">
 											Price: Low to High
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=High to Low&cls=filter-link-active&price_low=<?php echo $price_low?>&price_high=<?php echo $price_high?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'High to Low' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=High to Low&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'High to Low' ? $cls : null;?>">
 											Price: High to Low
 										</a>
 									</li>
@@ -421,37 +423,37 @@ $wishlist_data = "select * from wishlist";
 
 								<ul>
 									<li class="p-b-6">
-										<a href="product.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price=all" class="filter-link stext-106 trans-04 <?php echo isset($_GET['price']) == 'all' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=<?php echo $sort_by?>&cls=filter-link-active&price=all" class="filter-link stext-106 trans-04 <?php echo isset($_GET['price']) == 'all' ? $cls : null;?>">
 											All
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=0&price_high=199" class="filter-link stext-106 trans-04 <?php echo $price_low == '0' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=0&price_high=199" class="filter-link stext-106 trans-04 <?php echo $price_low == '0' ? $cls : null;?>">
 											₹0.00 - ₹199.00
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=201&price_high=499" class="filter-link stext-106 trans-04 <?php echo $price_low == '201' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=201&price_high=499" class="filter-link stext-106 trans-04 <?php echo $price_low == '201' ? $cls : null;?>">
 											₹201.00 - ₹499.00
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=501&price_high=1499" class="filter-link stext-106 trans-04 <?php echo $price_low == '501' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=501&price_high=1499" class="filter-link stext-106 trans-04 <?php echo $price_low == '501' ? $cls : null;?>">
 											₹501.00 - ₹1499.00
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=1501&price_high=2499" class="filter-link stext-106 trans-04 <?php echo $price_low == '1501' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=1501&price_high=2499" class="filter-link stext-106 trans-04 <?php echo $price_low == '1501' ? $cls : null;?>">
 											₹1501.00 - ₹2499.00
 										</a>
 									</li>
 
 									<li class="p-b-6">
-										<a href="product.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=2501&price_high=100000" class="filter-link stext-106 trans-04 <?php echo $price_low == '2501' ? $cls : null;?>">
+										<a href="product.php?<?php echo isset($product_target) ? 'product_target='.$product_target : null;?>&sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=2501&price_high=100000" class="filter-link stext-106 trans-04 <?php echo $price_low == '2501' ? $cls : null;?>">
 											₹2501.00+
 										</a>
 									</li>
