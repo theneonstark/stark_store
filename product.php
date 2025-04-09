@@ -345,7 +345,6 @@ $wishlist_data = "select * from wishlist";
 							$price_low = "";
                             $price_high = "";
                             $price = "product_price BETWEEN 0 AND 100000";
-							echo "<script>alert('NOT OKAY')</script>";
 						}
 
 						switch($sort_by){
