@@ -5,7 +5,7 @@ session_start();
 include ('config.php');
 $product = "select * from product_item";
 $wishlist_data = "select * from wishlist";
-if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
+// if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 
 	if(isset($_POST['send'])){
 		$mail = $_POST['email'];
@@ -632,7 +632,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
 </script>
 	<script src="js/main.js"></script>
 	<?php
-}
+// }
 ?>
  <script>
     if (window.history.replaceState) {
