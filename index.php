@@ -8,7 +8,7 @@ $wishlist_data = "select * from wishlist";
 ?>
 
 	<head>
-		<title>Home - Stark Store </title>
+		<title>Home - PeHunt </title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" type="image/png" href="images/icons/favicon.png" />
@@ -886,8 +886,8 @@ $wishlist_data = "select * from wishlist";
 						</h4>
 
 						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044  or call us
-							on (+91) 9717201964
+							Any questions? Let us know in store at Noida  or call us
+							on (+91) 
 						</p>
 
 						<div class="p-t-27">
@@ -933,8 +933,8 @@ $wishlist_data = "select * from wishlist";
 						<script>
 							document.write(new Date().getFullYear());
 						</script> All rights reserved | Made with <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
-							target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
+							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
+							target="_blank"></a> &amp; distributed by <a href="#"
 							target="_blank">Stark</a>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 

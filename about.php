@@ -280,28 +280,28 @@
 	<!-- Content page -->
 	<section class="bg0 p-t-75 p-b-120">
 		<div class="container">
-			<!-- About StarK Store -->
+			<!-- About PeHunt -->
 			<div class="row p-b-148">
 				<div class="col-md-7 col-lg-8">
 					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
-							About Stark Store
+							About PeHunt
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							Welcome to Stark Store, your go-to destination for all things modern, stylish, and innovative. We’re more than just an e-commerce platform; we are a brand committed to bringing you products that elevate your everyday life with quality, value, and the latest trends. At Stark Store, we believe that shopping should be an experience—one that’s seamless, enjoyable, and tailored to you.
+							Welcome to PeHunt, your go-to destination for all things modern, stylish, and innovative. We’re more than just an e-commerce platform; we are a brand committed to bringing you products that elevate your everyday life with quality, value, and the latest trends. At PeHunt, we believe that shopping should be an experience—one that’s seamless, enjoyable, and tailored to you.
 						</p>
 
 						<h3 class="mtext-111 cl2 p-b-16">
-							Why Stark Store?
+							Why PeHunt?
 						</h3>
 						<p class="stext-113 cl6 p-b-26">
-							We understand that shopping online can sometimes be overwhelming. With countless options available, it’s often difficult to find what you need without sacrificing quality or affordability. That’s why Stark Store is committed to being different. Here’s what sets us apart:
+							We understand that shopping online can sometimes be overwhelming. With countless options available, it’s often difficult to find what you need without sacrificing quality or affordability. That’s why PeHunt is committed to being different. Here’s what sets us apart:
 
 						<ul>
 							<li class="stext-10 cl6 p-b-26"><strong>Quality Assurance:</strong> We hand-pick every item in our store, ensuring that it meets our high standards for quality and durability. We work with trusted suppliers and manufacturers to bring you products that you can rely on.</li>
 							<li class="stext-10 cl6 p-b-26"><strong>Customer-Centric Approach:</strong> Your satisfaction is our priority. From the moment you land on our website to the time your package arrives, we are dedicated to providing an exceptional shopping experience. Our customer support team is always ready to assist with any questions or concerns.</li>
-							<li class="stext-10 cl6 p-b-26"><strong>Trendy and Innovative Products:</strong> We stay on top of the latest trends in fashion, technology, home decor, and more to ensure that Stark Store is always stocked with products that reflect the current style and innovation.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>Trendy and Innovative Products:</strong> We stay on top of the latest trends in fashion, technology, home decor, and more to ensure that PeHunt is always stocked with products that reflect the current style and innovation.</li>
 							<li class="stext-10 cl6 p-b-26"><strong>Secure and Convenient Shopping:</strong> We know how important it is to have a hassle-free shopping experience. Our platform is designed to be user-friendly and secure, offering multiple payment options and ensuring the privacy of your personal information.</li>
 						</ul>
 						</p>
@@ -324,16 +324,16 @@
 				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
 					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
-							Stark Store's Founder & Dev. (Mohd Shahid)
+							PeHunt's Founder & Dev. ()
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
 						<ul>
-							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is an innovative and dynamic e-commerce platform designed to offer customers a seamless, convenient, and enjoyable online shopping experience. Powered by cutting-edge technologies like HTML, CSS, JavaScript, PHP, MySQL, Bootstrap, Tailwind, jQuery, AJAX, and more, <strong>Stark Store</strong> stands out in the competitive digital marketplace. Whether you're searching for fashion, electronics, home goods, or lifestyle products, <strong>Stark Store</strong> has it all.</li>
-							<li class="stext-10 cl6 p-b-26">One of the key features of <strong>Stark Store</strong> is its user-friendly interface, which is both responsive and visually appealing. The store ensures smooth navigation across devices, allowing users to browse, add to cart, and check out effortlessly. Behind the scenes, dynamic features such as Cart.js handle real-time cart updates, while Email.js ensures prompt communication for order confirmations and queries, providing a personalized customer experience.</li>
-							<li class="stext-10 cl6 p-b-26">Security and performance are top priorities at <strong>Stark Store</strong>. The use of MySQL for robust database management guarantees the safe storage of customer data and transaction details. Additionally, the platform's integration with Swiper.js enhances product image galleries, offering customers a clear and interactive product view before making a purchase.</li>
-							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> also includes tailored features such as wishlist options, secure payment gateways, and detailed product modals to ensure every customer has the tools they need for an informed purchase decision. With a clean design powered by Tailwind and Bootstrap, shoppers are treated to an aesthetically pleasing yet highly functional online shopping environment.</li>
-							<li class="stext-10 cl6 p-b-26"><strong>Stark Store</strong> is committed to staying ahead of e-commerce trends, continually upgrading its features and performance to provide a shopping experience that’s fast, secure, and satisfying for all.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>PeHunt</strong> is an innovative and dynamic e-commerce platform designed to offer customers a seamless, convenient, and enjoyable online shopping experience. Powered by cutting-edge technologies like HTML, CSS, JavaScript, PHP, MySQL, Bootstrap, Tailwind, jQuery, AJAX, and more, <strong>PeHunt</strong> stands out in the competitive digital marketplace. Whether you're searching for fashion, electronics, home goods, or lifestyle products, <strong>PeHunt</strong> has it all.</li>
+							<li class="stext-10 cl6 p-b-26">One of the key features of <strong>PeHunt</strong> is its user-friendly interface, which is both responsive and visually appealing. The store ensures smooth navigation across devices, allowing users to browse, add to cart, and check out effortlessly. Behind the scenes, dynamic features such as Cart.js handle real-time cart updates, while Email.js ensures prompt communication for order confirmations and queries, providing a personalized customer experience.</li>
+							<li class="stext-10 cl6 p-b-26">Security and performance are top priorities at <strong>PeHunt</strong>. The use of MySQL for robust database management guarantees the safe storage of customer data and transaction details. Additionally, the platform's integration with Swiper.js enhances product image galleries, offering customers a clear and interactive product view before making a purchase.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>PeHunt</strong> also includes tailored features such as wishlist options, secure payment gateways, and detailed product modals to ensure every customer has the tools they need for an informed purchase decision. With a clean design powered by Tailwind and Bootstrap, shoppers are treated to an aesthetically pleasing yet highly functional online shopping environment.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>PeHunt</strong> is committed to staying ahead of e-commerce trends, continually upgrading its features and performance to provide a shopping experience that’s fast, secure, and satisfying for all.</li>
 						</ul>
 						</p>
 					</div>
@@ -356,9 +356,9 @@
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							<strong>Sahil</strong>, the talented graphic designer behind <strong>Stark Store</strong>, plays a pivotal role in crafting the visual identity of the website. His creativity is evident in the sleek and modern design, contributing to the overall user experience by making the site not only functional but visually appealing. <strong>Sahil</strong> ensures that each element of the website—from banners and product images to logos and icons—resonates with the brand’s identity and enhances the shopping experience. His designs are tailored to provide clarity and engage users, offering a seamless blend of aesthetics and usability.
+							<strong>Sahil</strong>, the talented graphic designer behind <strong>PeHunt</strong>, plays a pivotal role in crafting the visual identity of the website. His creativity is evident in the sleek and modern design, contributing to the overall user experience by making the site not only functional but visually appealing. <strong>Sahil</strong> ensures that each element of the website—from banners and product images to logos and icons—resonates with the brand’s identity and enhances the shopping experience. His designs are tailored to provide clarity and engage users, offering a seamless blend of aesthetics and usability.
 
-							<strong>Sahil</strong>'s eye for detail ensures that every graphic aligns perfectly with the website's overall theme, creating a cohesive and professional appearance. His work complements the technical backbone of <strong>Stark Store</strong>, ensuring that it stands out in a competitive market with a memorable, polished look.
+							<strong>Sahil</strong>'s eye for detail ensures that every graphic aligns perfectly with the website's overall theme, creating a cohesive and professional appearance. His work complements the technical backbone of <strong>PeHunt</strong>, ensuring that it stands out in a competitive market with a memorable, polished look.
 						</p>
 					</div>
 				</div>
@@ -382,8 +382,8 @@
 						<p class="stext-113 cl6 p-b-26">
 						<ul>
 							<li class="stext-10 cl6 p-b-26">
-								<strong>The Role of an Analytics Manager for Stark Store</strong>
-								The analytics manager for the Stark Store website plays a pivotal role in ensuring the success of the e-commerce platform by leveraging data-driven insights to inform strategic decisions. This position encompasses various responsibilities focused on data collection, analysis, and reporting, ultimately contributing to the optimization of marketing efforts, user experience, and overall business performance.
+								<strong>The Role of an Analytics Manager for PeHunt</strong>
+								The analytics manager for the PeHunt website plays a pivotal role in ensuring the success of the e-commerce platform by leveraging data-driven insights to inform strategic decisions. This position encompasses various responsibilities focused on data collection, analysis, and reporting, ultimately contributing to the optimization of marketing efforts, user experience, and overall business performance.
 							</li>
 							<li class="stext-10 cl6 p-b-26">
 								<strong>Data Collection and Management</strong>
@@ -435,7 +435,7 @@
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							<strong>Stark Store</strong> was founded with a vision: to create an online store where quality meets convenience. Starting from humble beginnings, we’ve grown into a trusted name in the e-commerce space, with a wide range of products that cater to a diverse customer base. Our founders shared a common goal of building a store that offers something for everyone, whether it’s a trendy piece of clothing, the latest tech gadget, or a stylish home accessory. Over the years, we’ve evolved and expanded, but our core values have remained the same—quality, affordability, and customer satisfaction.
+							<strong>PeHunt</strong> was founded with a vision: to create an online store where quality meets convenience. Starting from humble beginnings, we’ve grown into a trusted name in the e-commerce space, with a wide range of products that cater to a diverse customer base. Our founders shared a common goal of building a store that offers something for everyone, whether it’s a trendy piece of clothing, the latest tech gadget, or a stylish home accessory. Over the years, we’ve evolved and expanded, but our core values have remained the same—quality, affordability, and customer satisfaction.
 						</p>
 
 						<div class="bor16 p-l-29 p-b-9 m-t-22">
@@ -537,8 +537,8 @@
 					</h4>
 
 					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know in store at Delhi, New Delhi, INDIA, ND 110044 or call us
-						on (+91) 9717201964
+						Any questions? Let us know in store at Noida or call us
+						on (+91) 
 					</p>
 
 					<div class="p-t-27">
@@ -584,8 +584,8 @@
 					<script>
 						document.write(new Date().getFullYear());
 					</script> All rights reserved | Made with <i
-						class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.linkedin.com/in/mohdshahidk/"
-						target="_blank">Mohd Shahid</a> &amp; distributed by <a href="https://github.com/theneonstark"
+						class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
+						target="_blank"></a> &amp; distributed by <a href="#"
 						target="_blank">Stark</a>
 					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 

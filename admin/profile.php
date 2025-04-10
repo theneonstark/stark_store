@@ -42,7 +42,7 @@ if (isset($_SESSION['email'])) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile - Stark Store</title>
+    <title>Profile - PeHunt</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -60,7 +60,7 @@ if (isset($_SESSION['email'])) {
       <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
         <div class="py-4 text-gray-500 dark:text-gray-400">
           <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-            Stark Store
+            PeHunt
           </a>
           <ul class="mt-6">
             <li class="relative px-6 py-3">
@@ -201,7 +201,7 @@ if (isset($_SESSION['email'])) {
         @keydown.escape="closeSideMenu">
         <div class="py-4 text-gray-500 dark:text-gray-400">
           <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-            Stark Store
+            PeHunt
           </a>
           <ul class="mt-6">
             <li class="relative px-6 py-3">
