@@ -299,7 +299,7 @@
 											<?php
 											$product_ids = json_decode($order_row['product_id']);
 											for ($i = 0; $i <= count($product_ids); $i++) {
-												$order_product = mysqli_query($user_order, "SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
+												$order_product = mysqli_query($user_order, "SELECT * FROM pehunt_user_order.user_order uo JOIN pehunt_product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
 												if ($row = mysqli_fetch_assoc($order_product)) {
 											?>
 													<tr>
