@@ -294,7 +294,7 @@
 						<div class="w-full px-3 min-[400px]:px-6">
 							<?php
 							for ($i = 0; $i < count($product_ids); $i++) {
-								$order_product = mysqli_query($user_order, "SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
+								$order_product = mysqli_query($user_order, "SELECT * FROM pehunt_user_order.user_order uo JOIN pehunt_product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
 								while ($row = mysqli_fetch_assoc($order_product)) {
 							?>
 									<div class="flex flex-col lg:flex-row items-center py-6 border-b border-gray-200 gap-6 w-full">
@@ -406,8 +406,8 @@
 							</li>
 
 							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Returns
+								<a href="return-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
+									Return Policy
 								</a>
 							</li>
 
@@ -418,8 +418,8 @@
 							</li>
 
 							<li class="p-b-10">
-								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
-									FAQs
+								<a href="terms-of-use-and-condition.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Terms and Condition
 								</a>
 							</li>
 						</ul>
