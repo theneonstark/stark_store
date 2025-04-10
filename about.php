@@ -67,7 +67,7 @@
 							</li>
 
 							<li>
-								<a href="#">Blog</a>
+								<!-- <a href="#">Blog</a> -->
 							</li>
 
 							<li>
@@ -168,7 +168,7 @@
 				</li>
 
 				<li>
-					<a href="#">Blog</a>
+					<!-- <a href="#">Blog</a> -->
 				</li>
 
 				<li>
@@ -306,7 +306,7 @@
 						</ul>
 						</p>
 						<p class="stext-113 cl6 p-b-26">
-							Any questions? Let us know in store at <strong> Noida  9717XXXXX</strong>
+							Any questions? Let us know in store at <strong> Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301  </strong>
 						</p>
 					</div>
 				</div>
@@ -537,7 +537,7 @@
 					</h4>
 
 					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know in store at Noida   
+						Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301   
 					</p>
 
 					<div class="p-t-27">

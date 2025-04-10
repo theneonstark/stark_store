@@ -72,7 +72,7 @@ $wishlist_data = "select * from wishlist";
 								</li>
 
 								<li>
-									<a href="#">Blog</a>
+									<!-- <a href="#">Blog</a> -->
 								</li>
 
 								<li>
@@ -173,7 +173,7 @@ $wishlist_data = "select * from wishlist";
 					</li>
 
 					<li>
-						<a href="#">Blog</a>
+						<!-- <a href="#">Blog</a> -->
 					</li>
 
 					<li>
@@ -311,15 +311,15 @@ $wishlist_data = "select * from wishlist";
 							<!-- <span class="lnr lnr-map-marker"></span> -->
 						</span>
 
-						<!-- <div class="size-212 p-t-2">
+						<div class="size-212 p-t-2">
 							<span class="mtext-110 cl2">
 								Address
 							</span>
 
 							<p class="stext-115 cl6 size-213 p-t-18">
-								Coza Store Center 8th floor, 379 Hudson St, New York, NY 10018 US
+							Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301
 							</p>
-						</div> -->
+						</div>
 					</div>
 
 					<!-- <div class="flex-w w-full p-b-42">
@@ -440,7 +440,7 @@ $wishlist_data = "select * from wishlist";
 						</h4>
 
 						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Noida
+							Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301
 						</p>
 
 						<div class="p-t-27">

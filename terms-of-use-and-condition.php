@@ -60,7 +60,7 @@
                             </li>
 
                             <li>
-                                <a href="#">Blog</a>
+                                <!-- <a href="#">Blog</a> -->
                             </li>
 
                             <li>
@@ -141,7 +141,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Blog</a>
+                    <!-- <a href="#">Blog</a> -->
                 </li>
 
                 <li>
@@ -248,8 +248,8 @@
         <h2>15. Contact Information</h2>
         <p>If you have any questions or concerns regarding these Terms, or if you need assistance with your account or order, please contact our customer support team at:</p>
         <ul>
-            <li><strong>Email:</strong> info@Pehunt.com</li>
-            <li><strong>Phone:</strong> 9717XXXXX</li>
+            <li><strong>Email:</strong> care@Pehunt.com</li>
+            <!-- <li><strong>Phone:</strong> 9717XXXXX</li> -->
             <li><strong>Address:</strong> New Delhi - 110077, India</li>
         </ul>
     </div>

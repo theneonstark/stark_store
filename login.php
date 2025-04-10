@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <body>
   <form class="form_container" method="POST">
     <div class="logo_container">
-      <img src="https://i.ibb.co/strrDmp/logo-01.png" alt="">
+      <!-- <img src="https://i.ibb.co/strrDmp/logo-01.png" alt=""> -->
     </div>
     <div class="title_container">
       <p class="title">Login to your Account</p>

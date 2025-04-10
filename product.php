@@ -69,7 +69,7 @@ $wishlist_data = "select * from wishlist";
 								</li>
 
 								<li>
-									<a href="#">Blog</a>
+									<!-- <a href="#">Blog</a> -->
 								</li>
 
 								<li>
@@ -170,7 +170,7 @@ $wishlist_data = "select * from wishlist";
 					</li>
 
 					<li>
-						<a href="#">Blog</a>
+						<!-- <a href="#">Blog</a> -->
 					</li>
 
 					<li>
@@ -705,7 +705,7 @@ $wishlist_data = "select * from wishlist";
 						</h4>
 
 						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Noida
+							Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301
 						</p>
 
 						<div class="p-t-27">

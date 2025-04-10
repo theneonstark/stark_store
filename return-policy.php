@@ -60,7 +60,7 @@
                             </li>
 
                             <li>
-                                <a href="#">Blog</a>
+                                <!-- <a href="#">Blog</a> -->
                             </li>
 
                             <li>
@@ -141,7 +141,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Blog</a>
+                    <!-- <a href="#">Blog</a> -->
                 </li>
 
                 <li>
@@ -175,7 +175,7 @@
         <p>If you wish to return an item, you must initiate a return request through one of the following methods:</p>
         <ul>
             <li>Log into your account on our website, navigate to the "Order History" section, and select the option to request a return for the relevant order.</li>
-            <li>Contact our customer support team at info@Pehunt.com or 9717XXXXX to assist you with the return process.</li>
+            <li>Contact our customer support team at care@Pehunt.com to assist you with the return process.</li>
         </ul>
         <p>When initiating a return, please provide the following information:</p>
         <ul>
@@ -270,8 +270,8 @@
         <h2>10. Contact Us</h2>
         <p>If you have any questions or need assistance with your return, please contact our customer support team:</p>
         <ul>
-            <li><strong>Email:</strong> info@Pehunt.com</li>
-            <li><strong>Phone:</strong> 9717XXXXX</li>
+            <li><strong>Email:</strong> care@Pehunt.com</li>
+            <!-- <li><strong>Phone:</strong> 9717XXXXX</li> -->
             <li><strong>Address:</strong> New Delhi - 110077, India</li>
         </ul>
         <p>We are committed to providing excellent customer service and will do our best to resolve any issues promptly and fairly.</p>
