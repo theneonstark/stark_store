@@ -322,7 +322,7 @@ $wishlist_data = "select * from wishlist";
 						</div>
 					</div>
 
-					<!-- <div class="flex-w w-full p-b-42">
+					<div class="flex-w w-full p-b-42">
 						<span class="fs-18 cl5 txt-center size-211">
 							<span class="lnr lnr-phone-handset"></span>
 						</span>
@@ -333,10 +333,10 @@ $wishlist_data = "select * from wishlist";
 							</span>
 
 							<p class="stext-115 cl1 size-213 p-t-18">
-								+1 800 1236879
+								+91 9220747031
 							</p>
 						</div>
-					</div> -->
+					</div>
 
 					<div class="flex-w w-full">
 						<span class="fs-18 cl5 txt-center size-211">
