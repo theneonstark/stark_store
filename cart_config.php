@@ -12,7 +12,7 @@ if (isset($_POST['cart']) && isset($_POST['cart_product'])) {
 	cp_detail INT
 	)");
         if ($cart_table) {
-            $database_name = 'usercart';
+            $database_name = 'pehunt_usercart';
             $table_name = $cart_data;
             $query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
             $query->bind_param("ss", $database_name, $table_name);
