@@ -172,9 +172,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
-					<li>
-						<!-- <a href="#">Blog</a> -->
-					</li>
+					<!-- <li>
+						<a href="#">Blog</a>
+					</li> -->
 
 					<li>
 						<a href="about.php">About</a>

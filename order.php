@@ -166,9 +166,9 @@
 						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
-					<li>
-						<!-- <a href="#">Blog</a> -->
-					</li>
+					<!-- <li>
+						<a href="#">Blog</a>
+					</li> -->
 
 					<li>
 						<a href="about.php">About</a>
@@ -290,7 +290,7 @@
 					<div class="w-full px-3 min-[400px]:px-6">
 						<?php
 						for ($i = 0; $i < count($product_ids); $i++) {
-							$order_product = mysqli_query($user_order, "SELECT * FROM user_order.user_order uo JOIN product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
+							$order_product = mysqli_query($user_order, "SELECT * FROM pehunt_user_order.user_order uo JOIN pehunt_product.product_item pi ON CAST(JSON_UNQUOTE(JSON_EXTRACT(uo.product_id, '$[$i]')) AS UNSIGNED) = pi.id ORDER BY uo.id DESC LIMIT 1;");
 							while ($row = mysqli_fetch_assoc($order_product)) {
 						?>
 								<div class="flex flex-col lg:flex-row items-center py-6 border-b border-gray-200 gap-6 w-full">
