@@ -308,7 +308,7 @@ $wishlist_data = "select * from wishlist";
 				<div class="size-210 bor10 flex-w flex-col-m p-lr-93 p-tb-30 p-lr-15-lg w-full-md">
 					<div class="flex-w w-full p-b-42">
 						<span class="fs-18 cl5 txt-center size-211">
-							<!-- <span class="lnr lnr-map-marker"></span> -->
+							<span class="lnr lnr-map-marker"></span>
 						</span>
 
 						<div class="size-212 p-t-2">
