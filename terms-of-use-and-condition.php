@@ -156,12 +156,12 @@
     </header>
     <div class="container px-5 py-5">
         <h1>Terms of Use & Conditions</h1>
-        <p>Welcome to <strong>StarK-Store</strong>! The following document outlines the Terms of Use & Conditions (referred to as "Terms") under which you may access and use our website, products, and services. By using this website, you acknowledge and agree to be bound by these Terms, which are legally binding. If you do not agree with these Terms, please refrain from using this website or any of its services. These Terms apply to all users, including those who browse the website, make purchases, or engage with any content or services we offer.</p>
+        <p>Welcome to <strong>Pehunt</strong>! The following document outlines the Terms of Use & Conditions (referred to as "Terms") under which you may access and use our website, products, and services. By using this website, you acknowledge and agree to be bound by these Terms, which are legally binding. If you do not agree with these Terms, please refrain from using this website or any of its services. These Terms apply to all users, including those who browse the website, make purchases, or engage with any content or services we offer.</p>
 
         <p>We reserve the right to change, modify, or update these Terms at any time without prior notice. It is your responsibility to review these Terms regularly, as continued use of the website will constitute your acceptance of any revisions made.</p>
 
         <h2>1. Acceptance of Terms</h2>
-        <p>By accessing or using any part of our website, creating an account, or making a purchase, you indicate your understanding, acknowledgment, and acceptance of these Terms. You are also agreeing to comply with any guidelines, rules, or disclaimers posted on the website, as well as any applicable laws and regulations. These Terms form a contract between you and <strong>StarK-Store</strong> and govern your use of all services, content, and functionality provided on or through our platform.</p>
+        <p>By accessing or using any part of our website, creating an account, or making a purchase, you indicate your understanding, acknowledgment, and acceptance of these Terms. You are also agreeing to comply with any guidelines, rules, or disclaimers posted on the website, as well as any applicable laws and regulations. These Terms form a contract between you and <strong>Pehunt</strong> and govern your use of all services, content, and functionality provided on or through our platform.</p>
 
         <p>Failure to adhere to these Terms could result in the suspension or termination of your account, restriction of access, and other actions as deemed necessary to protect the integrity of our website and business.</p>
 
@@ -219,17 +219,17 @@
         <p>Certain items may not be eligible for return due to their nature, such as perishable goods, custom-made products, or items marked as "Final Sale." Please refer to our <a href="return-policy.php">Return Policy</a> for a complete list of non-returnable items.</p>
 
         <h2>8. Intellectual Property</h2>
-        <p>All content on the website, including but not limited to text, graphics, images, logos, videos, software, and other materials, is the property of <strong>StarK-Store</strong> or its content suppliers and is protected by copyright, trademark, and other intellectual property laws. You are granted a limited, non-exclusive license to access and use the content for personal, non-commercial purposes only.</p>
+        <p>All content on the website, including but not limited to text, graphics, images, logos, videos, software, and other materials, is the property of <strong>Pehunt</strong> or its content suppliers and is protected by copyright, trademark, and other intellectual property laws. You are granted a limited, non-exclusive license to access and use the content for personal, non-commercial purposes only.</p>
 
         <p>You may not copy, modify, distribute, reproduce, or create derivative works from any content on the website without our prior written consent. Unauthorized use of our intellectual property may result in civil or criminal liability.</p>
 
         <h2>9. Limitation of Liability</h2>
-        <p>To the fullest extent permitted by law, <strong>StarK-Store</strong>, its affiliates, and its officers, directors, employees, and agents shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from or related to your use of the website or its services, including but not limited to loss of profits, data, or goodwill, even if we have been advised of the possibility of such damages.</p>
+        <p>To the fullest extent permitted by law, <strong>Pehunt</strong>, its affiliates, and its officers, directors, employees, and agents shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from or related to your use of the website or its services, including but not limited to loss of profits, data, or goodwill, even if we have been advised of the possibility of such damages.</p>
 
         <p>In jurisdictions where limitations on liability are not permitted, our liability shall be limited to the maximum extent allowed by law.</p>
 
         <h2>10. Third-Party Links</h2>
-        <p>Our website may contain links to third-party websites or services that are not owned or controlled by <strong>StarK-Store</strong>. These links are provided for your convenience, and we do not endorse or assume responsibility for the content, privacy practices, or other aspects of those third-party websites. When you access third-party websites, you do so at your own risk and subject to their terms and conditions.</p>
+        <p>Our website may contain links to third-party websites or services that are not owned or controlled by <strong>Pehunt</strong>. These links are provided for your convenience, and we do not endorse or assume responsibility for the content, privacy practices, or other aspects of those third-party websites. When you access third-party websites, you do so at your own risk and subject to their terms and conditions.</p>
 
         <p>We encourage you to review the privacy policies and terms of use of any third-party websites you visit through links provided on our website.</p>
 
@@ -248,7 +248,7 @@
         <h2>15. Contact Information</h2>
         <p>If you have any questions or concerns regarding these Terms, or if you need assistance with your account or order, please contact our customer support team at:</p>
         <ul>
-            <li><strong>Email:</strong> info@stark-store.com</li>
+            <li><strong>Email:</strong> info@Pehunt.com</li>
             <li><strong>Phone:</strong> 9717XXXXX</li>
             <li><strong>Address:</strong> New Delhi - 110077, India</li>
         </ul>

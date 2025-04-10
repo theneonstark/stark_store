@@ -156,9 +156,9 @@
     </header>
     <div class="container px-5 py-5">
         <h1>Return Policy</h1>
-        <p>At Stark-Store, we strive to provide you with the best possible shopping experience. However, we understand that sometimes things may not go as expected. Whether you’ve received a damaged product, an incorrect order, or you simply changed your mind, we are here to help with our comprehensive return policy.</p>
+        <p>At Pehunt, we strive to provide you with the best possible shopping experience. However, we understand that sometimes things may not go as expected. Whether you’ve received a damaged product, an incorrect order, or you simply changed your mind, we are here to help with our comprehensive return policy.</p>
 
-        <p>Please read our return policy carefully to understand the process, eligibility, timelines, and exceptions related to returning or exchanging a product. By purchasing from Stark-Store, you agree to the terms outlined in this return policy.</p>
+        <p>Please read our return policy carefully to understand the process, eligibility, timelines, and exceptions related to returning or exchanging a product. By purchasing from Pehunt, you agree to the terms outlined in this return policy.</p>
 
         <h2>1. General Eligibility for Returns</h2>
         <p>Products purchased from our website can generally be returned under the following conditions:</p>
@@ -175,7 +175,7 @@
         <p>If you wish to return an item, you must initiate a return request through one of the following methods:</p>
         <ul>
             <li>Log into your account on our website, navigate to the "Order History" section, and select the option to request a return for the relevant order.</li>
-            <li>Contact our customer support team at info@stark-store.com or 9717XXXXX to assist you with the return process.</li>
+            <li>Contact our customer support team at info@Pehunt.com or 9717XXXXX to assist you with the return process.</li>
         </ul>
         <p>When initiating a return, please provide the following information:</p>
         <ul>
@@ -270,7 +270,7 @@
         <h2>10. Contact Us</h2>
         <p>If you have any questions or need assistance with your return, please contact our customer support team:</p>
         <ul>
-            <li><strong>Email:</strong> info@stark-store.com</li>
+            <li><strong>Email:</strong> info@Pehunt.com</li>
             <li><strong>Phone:</strong> 9717XXXXX</li>
             <li><strong>Address:</strong> New Delhi - 110077, India</li>
         </ul>
