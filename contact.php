@@ -360,14 +360,14 @@ $wishlist_data = "select * from wishlist";
 	
 	
 	<!-- Map -->
-	<div class="map">
+	<!-- <div class="map">
 		<div class="size-303" id="google_map" data-map-x="40.691446" data-map-y="-73.886787" data-pin="images/icons/pin.png" data-scrollwhell="0" data-draggable="1" data-zoom="11"></div>
-	</div>
+	</div> -->
 
 
 
 	<!-- Footer -->
-	<<footer class="bg3 p-t-75 p-b-32">
+	<footer class="bg3 p-t-75 p-b-32">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6 col-lg-3 p-b-50">
