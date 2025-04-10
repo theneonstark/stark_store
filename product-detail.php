@@ -68,7 +68,7 @@ session_start();
 								</li>
 
 								<li>
-									<a href="blog.php">Blog</a>
+									<a href="#">Blog</a>
 								</li>
 
 								<li>
@@ -169,7 +169,7 @@ session_start();
 					</li>
 
 					<li>
-						<a href="blog.php">Blog</a>
+						<a href="#">Blog</a>
 					</li>
 
 					<li>

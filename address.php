@@ -81,7 +81,7 @@ if (isset($_POST['new_address'])) {
 								</li>
 
 								<li>
-									<a href="blog.php">Blog</a>
+									<a href="#">Blog</a>
 								</li>
 
 								<li>
@@ -182,7 +182,7 @@ if (isset($_POST['new_address'])) {
 					</li>
 
 					<li>
-						<a href="blog.php">Blog</a>
+						<a href="#">Blog</a>
 					</li>
 
 					<li>

@@ -69,7 +69,7 @@ $wishlist_data = "select * from wishlist";
 								</li>
 
 								<li>
-									<a href="blog.php">Blog</a>
+									<a href="#">Blog</a>
 								</li>
 
 								<li>
@@ -170,7 +170,7 @@ $wishlist_data = "select * from wishlist";
 					</li>
 
 					<li>
-						<a href="blog.php">Blog</a>
+						<a href="#">Blog</a>
 					</li>
 
 					<li>

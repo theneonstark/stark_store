@@ -68,7 +68,7 @@
 								</li>
 
 								<li>
-									<a href="blog.php">Blog</a>
+									<a href="#">Blog</a>
 								</li>
 
 								<li>
@@ -169,7 +169,7 @@
 					</li>
 
 					<li>
-						<a href="blog.php">Blog</a>
+						<a href="#">Blog</a>
 					</li>
 
 					<li>
@@ -319,7 +319,7 @@
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>
 
-			<a href="blog.php" class="stext-109 cl8 hov-cl1 trans-04">
+			<a href="#" class="stext-109 cl8 hov-cl1 trans-04">
 				Blog
 				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 			</a>

@@ -66,7 +66,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 								</li>
 
 								<li>
-									<a href="blog.php">Blog</a>
+									<a href="#">Blog</a>
 								</li>
 
 								<li>
@@ -151,7 +151,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 					</li>
 
 					<li>
-						<a href="blog.php">Blog</a>
+						<a href="#">Blog</a>
 					</li>
 
 					<li>

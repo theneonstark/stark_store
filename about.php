@@ -67,7 +67,7 @@
 							</li>
 
 							<li>
-								<a href="blog.php">Blog</a>
+								<a href="#">Blog</a>
 							</li>
 
 							<li>
@@ -168,7 +168,7 @@
 				</li>
 
 				<li>
-					<a href="blog.php">Blog</a>
+					<a href="#">Blog</a>
 				</li>
 
 				<li>
@@ -320,7 +320,7 @@
 				</div>
 			</div>
 			<!-- Founder -->
-			<div class="row p-b-148">
+			<!-- <div class="row p-b-148">
 				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
 					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
@@ -346,9 +346,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- Graphics -->
-			<div class="row p-b-148">
+			<!-- <div class="row p-b-148">
 				<div class="col-md-7 col-lg-8">
 					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
@@ -370,9 +370,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- Analytics manager -->
-			<div class="row p-b-148">
+			<!-- <div class="row p-b-148">
 				<div class="order-md-2 col-md-7 col-lg-8 p-b-30">
 					<div class="p-t-7 p-l-85 p-l-15-lg p-l-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
@@ -424,7 +424,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<!-- Product Manager -->
 			<!-- Our Mission -->
 			<div class="row p-b-148">
