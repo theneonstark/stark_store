@@ -1172,8 +1172,6 @@ $wishlist_data = "select * from wishlist";
 						} else if (response == "already add") {
 							swal('Your Product', 'already added to wishlist !', 'warning');
 						}
-
-
 					},
 					error: function(xhr, status, error) {
 						alert('An error occurred: ' + error);
@@ -1192,8 +1190,6 @@ $wishlist_data = "select * from wishlist";
 						} else if (response == "already add") {
 							swal('Your Product', 'already added to Cart !', 'warning');
 						}
-
-
 					},
 					error: function(err) {
 						alert('An error occurred: ');

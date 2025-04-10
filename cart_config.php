@@ -41,10 +41,10 @@ if (isset($_POST['cart']) && isset($_POST['cart_product'])) {
             }
             $query->close();
         } else{
-            echo "Product Added";
+            echo "Product NOT Added";
         }
     }else{
-        echo "Product Added";
+        echo "Product Not Added";
     }
 }
 ?>
