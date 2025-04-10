@@ -767,8 +767,8 @@
 							</li>
 
 							<li class="p-b-10">
-								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
-									FAQs
+								<a href="terms-of-use-and-condition.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Terms and Condition
 								</a>
 							</li>
 						</ul>
