@@ -537,8 +537,7 @@
 					</h4>
 
 					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know in store at Noida  us
-						on (+91) 
+						Any questions? Let us know in store at Noida   
 					</p>
 
 					<div class="p-t-27">
