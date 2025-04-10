@@ -3,7 +3,7 @@ session_start();
 include 'config.php'; // Database connection
 
 $cart_user = $_SESSION['cart']; // Assuming this session stores the cart table name
-$cart_db = "usercart";
+$cart_db = "pehut_usercart";
 
 // Check if the cart table exists
 $cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
@@ -14,7 +14,7 @@ $cart_table_row = $cart_table_result->fetch_assoc();
 
 if ($cart_table_row['count'] > 0) {
     // Fetch cart product details
-    $cart_details = mysqli_query($con, "SELECT * FROM usercart.$cart_user uw 
+    $cart_details = mysqli_query($con, "SELECT * FROM pehunt_usercart.$cart_user uw 
                                         JOIN product.product_item pi ON uw.cp_detail = pi.id");
     $cart_count = mysqli_query($con, "SELECT COUNT(*) as total FROM usercart.$cart_user");
     $cart_row = mysqli_fetch_assoc($cart_count);
