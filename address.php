@@ -80,9 +80,9 @@ if (isset($_POST['new_address'])) {
 									<a href="shoping-cart.php">Your Cart</a>
 								</li>
 
-								<li>
-									<!-- <a href="#">Blog</a> -->
-								</li>
+								<!-- <li>
+									<a href="#">Blog</a>
+								</li> -->
 
 								<li>
 									<a href="about.php">About</a>
@@ -181,9 +181,9 @@ if (isset($_POST['new_address'])) {
 						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
-					<li>
-						<!-- <a href="#">Blog</a> -->
-					</li>
+					<!-- <li>
+						<a href="#">Blog</a>
+					</li> -->
 
 					<li>
 						<a href="about.php">About</a>

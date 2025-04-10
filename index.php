@@ -68,9 +68,9 @@ $wishlist_data = "select * from wishlist";
 									<a href="shoping-cart.php">Your Cart</a>
 								</li>
 
-								<li>
+								<!-- <li>
 									<a href="#">Blog</a>
-								</li>
+								</li> -->
 
 								<li>
 									<a href="about.php">About</a>
@@ -169,9 +169,9 @@ $wishlist_data = "select * from wishlist";
 						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
-					<li>
+					<!-- <li>
 						<a href="#">Blog</a>
-					</li>
+					</li> -->
 
 					<li>
 						<a href="about.php">About</a>

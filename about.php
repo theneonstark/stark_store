@@ -66,9 +66,9 @@
 								<a href="shoping-cart.php">Your Cart</a>
 							</li>
 
-							<li>
-								<!-- <a href="#">Blog</a> -->
-							</li>
+							<!-- <li>
+								<a href="#">Blog</a>
+							</li> -->
 
 							<li>
 								<a href="about.php">About</a>

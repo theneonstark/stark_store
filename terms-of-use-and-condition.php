@@ -59,9 +59,9 @@
                                 <a href="shoping-cart.php">Your Cart</a>
                             </li>
 
-                            <li>
-                                <!-- <a href="#">Blog</a> -->
-                            </li>
+                            <!-- <li>
+                                <a href="#">Blog</a>
+                            </li> -->
 
                             <li>
                                 <a href="about.php">About</a>
@@ -140,9 +140,9 @@
                     <a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
                 </li>
 
-                <li>
-                    <!-- <a href="#">Blog</a> -->
-                </li>
+                <!-- <li>
+                    <a href="#">Blog</a>
+                </li> -->
 
                 <li>
                     <a href="about.php">About</a>

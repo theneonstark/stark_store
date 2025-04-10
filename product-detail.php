@@ -67,9 +67,9 @@ session_start();
 									<a href="shoping-cart.php">Your Cart</a>
 								</li>
 
-								<li>
-									<!-- <a href="#">Blog</a> -->
-								</li>
+								<!-- <li>
+									<a href="#">Blog</a>
+								</li> -->
 
 								<li>
 									<a href="about.php">About</a>
@@ -168,9 +168,9 @@ session_start();
 						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 					</li>
 
-					<li>
-						<!-- <a href="#">Blog</a> -->
-					</li>
+					<!-- <li>
+						<a href="#">Blog</a>
+					</li> -->
 
 					<li>
 						<a href="about.php">About</a>
