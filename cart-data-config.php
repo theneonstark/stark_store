@@ -3,7 +3,7 @@ session_start();
 include 'config.php'; // Database connection
 
 $cart_user = $_SESSION['cart']; // Assuming this session stores the cart table name
-$cart_db = "pehut_usercart";
+$cart_db = "pehunt_usercart";
 
 // Check if the cart table exists
 $cart_table_query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
