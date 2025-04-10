@@ -349,7 +349,7 @@ $wishlist_data = "select * from wishlist";
 							</span>
 
 							<p class="stext-115 cl1 size-213 p-t-18">
-								contact@example.com
+								care@pehunt.com
 							</p>
 						</div>
 					</div>
@@ -489,7 +489,7 @@ $wishlist_data = "select * from wishlist";
 						</script> All rights reserved | Made with <i
 							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
 							target="_blank"></a> &amp; distributed by <a href="#"
-							target="_blank">Stark</a>
+							target="_blank">PeHunt</a>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 					</p>

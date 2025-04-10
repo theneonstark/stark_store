@@ -2,7 +2,7 @@
 session_start();
 $google_oauth_client_id = 'ID';
 $google_oauth_client_secret = 'secret';
-$google_oauth_redirect_uri = 'http://localhost/stark_store/google_auth.php';
+$google_oauth_redirect_uri = 'http://localhost/PeHunt_store/google_auth.php';
 $google_oauth_version = 'v3';
 
 if (isset($_GET['code']) && !empty($_GET['code'])) {

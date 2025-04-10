@@ -42,7 +42,7 @@ CREATE TABLE `admin_notify` (
 --
 
 INSERT INTO `admin_notify` (`id`, `notify_name`, `notify_email`, `notify_username`, `notify_img`, `active`, `notify_active`) VALUES
-(1, 'Shahid', ' mohd47149@gmail.com', 'neonstark', 'user_profile.jpg', 1, 0),
+(1, 'Shahid', ' mohd47149@gmail.com', 'neonPeHunt', 'user_profile.jpg', 1, 0),
 (12, 'Shahid', ' mohd47149@gmail.com', 'Shamohd4sh98', 'user_profile.jpg', 1, 0);
 
 --

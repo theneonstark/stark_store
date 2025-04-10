@@ -44,7 +44,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `username`, `email`, `password`, `created_at`, `updated_at`, `profile_img`, `office`) VALUES
-(1, 'Shahid', 'neonstark', 'admin@starkstore.com', 'admin123', '2024-08-03 10:17:53', '2024-08-05 04:50:16', 'user_profile.jpg', 1);
+(1, 'Shahid', 'neonPeHunt', 'admin@PeHuntstore.com', 'admin123', '2024-08-03 10:17:53', '2024-08-05 04:50:16', 'user_profile.jpg', 1);
 
 -- --------------------------------------------------------
 

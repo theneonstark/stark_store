@@ -1,4 +1,4 @@
-# stark_store
+# PeHunt_store
 Project Summary: E-commerce Website
 Technologies Used:
 
