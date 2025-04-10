@@ -16,7 +16,7 @@ if ($cart_table_row['count'] > 0) {
     // Fetch cart product details
     $cart_details = mysqli_query($con, "SELECT * FROM pehunt_usercart.$cart_user uw 
                                         JOIN product.product_item pi ON uw.cp_detail = pi.id");
-    $cart_count = mysqli_query($con, "SELECT COUNT(*) as total FROM usercart.$cart_user");
+    $cart_count = mysqli_query($con, "SELECT COUNT(*) as total FROM pehunt_usercart.$cart_user");
     $cart_row = mysqli_fetch_assoc($cart_count);
 
     $cart_items = [];
