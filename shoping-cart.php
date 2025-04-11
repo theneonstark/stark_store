@@ -450,7 +450,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 							GET IN TOUCH
 						</h4>
 						<p class="stext-107 cl7 size-201">
-							care@pehunt.com
+							care@pehunt.in
 						</p>
 
 						<p class="stext-107 cl7 size-201">

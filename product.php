@@ -704,7 +704,7 @@ $wishlist_data = "select * from wishlist";
 							GET IN TOUCH
 						</h4>
 						<p class="stext-107 cl7 size-201">
-							care@pehunt.com
+							care@pehunt.in
 						</p>
 						<p class="stext-107 cl7 size-201">
 							Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301

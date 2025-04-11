@@ -175,7 +175,7 @@
         <p>If you wish to return an item, you must initiate a return request through one of the following methods:</p>
         <ul>
             <li>Log into your account on our website, navigate to the "Order History" section, and select the option to request a return for the relevant order.</li>
-            <li>Contact our customer support team at care@Pehunt.com to assist you with the return process.</li>
+            <li>Contact our customer support team at care@pehunt.in to assist you with the return process.</li>
         </ul>
         <p>When initiating a return, please provide the following information:</p>
         <ul>
@@ -270,7 +270,7 @@
         <h2>10. Contact Us</h2>
         <p>If you have any questions or need assistance with your return, please contact our customer support team:</p>
         <ul>
-            <li><strong>Email:</strong> care@Pehunt.com</li>
+            <li><strong>Email:</strong> care@pehunt.in</li>
             <!-- <li><strong>Phone:</strong> 9717XXXXX</li> -->
             <li><strong>Address:</strong> Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301 </li>
         </ul>

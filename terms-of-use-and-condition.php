@@ -248,7 +248,7 @@
         <h2>15. Contact Information</h2>
         <p>If you have any questions or concerns regarding these Terms, or if you need assistance with your account or order, please contact our customer support team at:</p>
         <ul>
-            <li><strong>Email:</strong> care@Pehunt.com</li>
+            <li><strong>Email:</strong> care@pehunt.in</li>
             <!-- <li><strong>Phone:</strong> 9717XXXXX</li> -->
             <li><strong>Address:</strong> Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301 </li>
         </ul>
