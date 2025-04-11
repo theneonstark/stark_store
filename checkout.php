@@ -546,6 +546,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						<p class="stext-107 cl7 size-201">
 							Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301
 						</p>
+						<li>
+								<a href="about.php">About</a>
+							</li>
 
 						<div class="p-t-27">
 							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
