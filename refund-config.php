@@ -16,14 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $api = new Api($apiKey, $apiSecret);
 
     // Query to check if the order exists
-    $query = "SELECT * FROM user_order.user_order WHERE razorpay_order_id = ? AND user_id = ?";
+    $query = "SELECT * FROM pehunt_user_order.user_order WHERE razorpay_order_id = ? AND user_id = ?";
     $stmt = $user_order->prepare($query);
     $stmt->bind_param("si", $order_id, $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $updateQuery = "UPDATE user_order.user_order SET status = 'Canceled' WHERE razorpay_order_id = ? AND user_id = ?";
+        $updateQuery = "UPDATE pehunt_user_order.user_order SET status = 'Canceled' WHERE razorpay_order_id = ? AND user_id = ?";
         $updateStmt = $user_order->prepare($updateQuery);
         $updateStmt->bind_param("si", $order_id, $user_id);
 
