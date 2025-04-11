@@ -329,12 +329,22 @@
 
 													</div>
 													<div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
-														<div class="flex gap-3 lg:block">
-															<p class="font-medium text-sm whitespace-nowrap leading-6 text-black">
-																Expected Delivery</p>
-															<p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
-																7 to 10 Days</p>
-														</div>
+													<div class="flex gap-3 lg:block">
+														<p class="font-medium text-sm whitespace-nowrap leading-6 text-black">
+															Expected Delivery Time</p>
+															<?php
+																$createdAt = new DateTime($row['created_at']);
+																$minDelivery = clone $createdAt;
+																$maxDelivery = clone $createdAt;
+															
+																$minDelivery->add(new DateInterval('P7D')); // 7 days
+																$maxDelivery->add(new DateInterval('P10D')); // 10 days
+															?>
+														<p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
+															<?php
+																echo $minDelivery->format('d M Y') . ' - ' . $maxDelivery->format('d M Y');
+															?></p>
+													</div>
 
 													</div>
 												</div>

@@ -512,7 +512,16 @@ if (isset($_SESSION['email'])) {
                         <div class="md:text-right">
                           <p class="text-lg font-semibold text-blue-600"><?php echo $row['product_price'] ?></p>
                           <p class="text-sm bg-green-100 text-green-600 px-2 py-1 inline-block rounded-md">Ready for Delivery</p>
-                          <p class="text-sm text-gray-500 dark:text-gray-400">Expected Delivery: 7 to 10 Days</p>
+                          <p class="text-sm text-gray-500 dark:text-gray-400"><?php
+																$createdAt = new DateTime($row['created_at']);
+																$minDelivery = clone $createdAt;
+																$maxDelivery = clone $createdAt;
+															
+																$minDelivery->add(new DateInterval('P7D')); // 7 days
+																$maxDelivery->add(new DateInterval('P10D')); // 10 days
+																echo $minDelivery->format('d M Y') . ' - ' . $maxDelivery->format('d M Y');
+															?>
+                              </p>
                         </div>
                       </div>
                     <?php
