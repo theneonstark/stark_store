@@ -432,12 +432,20 @@ session_start();
 												</div>
 											</div>
 
-											<form action="cart_config.php" method="POST" class="cartForm">
+											<!-- <form action="cart_config.php" method="POST" class="cartForm">
 												<input type="hidden" value="" name="cart_product" id="product_cart_details">
 												<input type="hidden" value="<?php echo isset($_SESSION['cart']) ? $_SESSION['cart'] : "" ; ?>" name="cart">
 												<button type="submit"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Add to cart
+												</button>
+											</form> -->
+											<form action="checkout.php" method="POST">
+												<input type="hidden" value="" name="check_id[]" id="product_buy_details">
+												<input type="hidden" value="" name="check_price[]" id="product_buy_price">
+												<button name="checkout"
+													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+													Buy Now
 												</button>
 											</form>
 										</div>
@@ -688,20 +696,20 @@ session_start();
 	?>
 
 	<!-- Related Products -->
-	<section class="sec-relate-product bg0 p-t-45 p-b-105">
+	<!-- <section class="sec-relate-product bg0 p-t-45 p-b-105">
 		<div class="container">
 			<div class="p-b-45">
 				<h3 class="ltext-106 cl5 txt-center">
 					Related Products
 				</h3>
-			</div>
+			</div> -->
 
 			<!-- Slide2 -->
-			<div class="wrap-slick2">
+			<!-- <div class="wrap-slick2">
 				<div class="slick2">
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-01.jpg" alt="IMG-PRODUCT">
 
@@ -733,11 +741,11 @@ session_start();
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-02.jpg" alt="IMG-PRODUCT">
 
@@ -768,12 +776,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> -->
+					<!-- </div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-03.jpg" alt="IMG-PRODUCT">
 
@@ -804,12 +812,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> -->
+					<!-- </div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-04.jpg" alt="IMG-PRODUCT">
 
@@ -840,12 +848,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> -->
+					<!-- </div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-05.jpg" alt="IMG-PRODUCT">
 
@@ -876,12 +884,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> -->
+					<!-- </div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-06.jpg" alt="IMG-PRODUCT">
 
@@ -912,12 +920,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> -->
+					<!-- </div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-07.jpg" alt="IMG-PRODUCT">
 
@@ -948,12 +956,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> -->
+					<!-- </div> -->
 
-					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
+					<!-- <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15"> -->
 						<!-- Block2 -->
-						<div class="block2">
+						<!-- <div class="block2">
 							<div class="block2-pic hov-img0">
 								<img src="images/product-08.jpg" alt="IMG-PRODUCT">
 
@@ -984,12 +992,12 @@ session_start();
 									</a>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+						</div> -->
+					<!-- </div> -->
+				<!-- </div> -->
+			<!-- </div> -->
+		<!-- </div> -->
+	<!-- </section> -->
 
 
 	<!-- Footer -->
