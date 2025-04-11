@@ -703,13 +703,16 @@ $wishlist_data = "select * from wishlist";
 						<h4 class="stext-301 cl0 p-b-30">
 							GET IN TOUCH
 						</h4>
-
+						<p class="stext-107 cl7 size-201">
+							care@gmail.com
+						</p>
 						<p class="stext-107 cl7 size-201">
 							Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301
 						</p>
 						<li>
 								<a href="about.php">About</a>
 							</li>
+
 
 						<div class="p-t-27">
 							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
