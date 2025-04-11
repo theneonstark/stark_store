@@ -1,11 +1,10 @@
 
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PeHunt</title>
+  <title>Stark Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -32,6 +31,10 @@
       $delete_cart_table = mysqli_query($cart_info, "DROP TABLE IF EXISTS $delete_cart");
       $delete_wishlist_table = mysqli_query($wishlist_info, "DROP TABLE IF EXISTS $delete_wishlist");
       $del_row = mysqli_query($con, "DELETE FROM users WHERE id = '$delete_id'");
+      $google_user_check = mysqli_query($con,"SELECT * FROM google_user WHERE email = '$del_email'");
+      if(mysqli_num_rows($google_user_check) > 0){
+        $del_google_row = mysqli_query($con, "DELETE FROM google_user WHERE email = '$del_email'");
+      }
       if($del_row){
         echo "<script>alert('User deleted successfully')</script>";
       }else{
@@ -199,7 +202,7 @@
       @keydown.escape="closeSideMenu">
       <div class="py-4 text-gray-500 dark:text-gray-400">
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-          PeHunt
+          Stark Store
         </a>
         <ul class="mt-6">
           <li class="relative px-6 py-3">
@@ -685,6 +688,7 @@
                         <form method="POST">
                           <input type="hidden" value="<?php echo $person['cart']?>" name="cart">
                           <input type="hidden" value="<?php echo $person['wishlist']?>" name="wishlist">
+                          <input type="hidden" value="<?php echo $person['email']?>" name='del_email'>
                         <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                           aria-label="Delete" value="<?php echo $person['id']?>" name="delete">
