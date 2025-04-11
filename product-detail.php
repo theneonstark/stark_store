@@ -441,8 +441,8 @@ session_start();
 												</button>
 											</form> -->
 											<form action="checkout.php" method="POST">
-												<input type="hidden" value="<?php $product_details['id'] ?>" name="check_id[]" id="product_buy_details">
-												<input type="hidden" value="<?php $product_details['product_price'] ?>" name="check_price[]" id="product_buy_price">
+												<input type="hidden" value="<?php echo $product_details['id'] ?>" name="check_id[]" id="product_buy_details">
+												<input type="hidden" value="<?php echo $product_details['product_price'] ?>" name="check_price[]" id="product_buy_price">
 												<button name="checkout"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Buy Now
