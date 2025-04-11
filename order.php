@@ -329,7 +329,7 @@
 														<p class="font-medium text-sm whitespace-nowrap leading-6 text-black">
 															Expected Delivery Time</p>
 														<p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
-															23rd March 2021</p>
+															7 to 10 Days</p>
 													</div>
 
 												</div>

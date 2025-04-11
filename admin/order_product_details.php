@@ -490,9 +490,9 @@ if (isset($_SESSION['email'])) {
                         <p class="text-lg font-semibold text-blue-500">Order Id: <?php echo $order_id ?></p>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Order Payment: <?php echo $order_details['created_at'] ?></p>
                       </div>
-                      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                      <!-- <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
                         Track Your Order
-                      </button>
+                      </button> -->
                     </div>
 
                     <?php
@@ -512,7 +512,7 @@ if (isset($_SESSION['email'])) {
                         <div class="md:text-right">
                           <p class="text-lg font-semibold text-blue-600"><?php echo $row['product_price'] ?></p>
                           <p class="text-sm bg-green-100 text-green-600 px-2 py-1 inline-block rounded-md">Ready for Delivery</p>
-                          <p class="text-sm text-gray-500 dark:text-gray-400">Expected Delivery Time: 23rd March 2021</p>
+                          <p class="text-sm text-gray-500 dark:text-gray-400">Expected Delivery: 7 to 10 Days</p>
                         </div>
                       </div>
                     <?php

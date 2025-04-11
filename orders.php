@@ -288,7 +288,7 @@
                                     echo '<span class="text-gray-500">Order Canceled</span>';
                                 }?>
 							<a href="order_details.php?order_id=<?php echo $exe['razorpay_order_id'] ?>&&id=<?php echo $exe['id'] ?>&&user=<?php echo $exe['user_id'] ?>"
-								class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400">Track Your Order</a>
+								class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400"></a>
 							</div>
 						</div>
 						<div class="w-full px-3 min-[400px]:px-6">
