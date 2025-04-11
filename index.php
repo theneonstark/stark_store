@@ -1094,9 +1094,9 @@ $wishlist_data = "select * from wishlist";
 													Add to cart
 												</button>
 											</form>
-											<form action="checkout.php" method="POST" class="cartForm">
+											<form action="checkout.php" method="POST">
 												<input type="hidden" value="<?php ?>" name="check_id" id="product_buy_details">
-												<button type="submit"
+												<button name="checkout"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Buy Now
 												</button>
