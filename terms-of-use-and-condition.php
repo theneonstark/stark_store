@@ -250,7 +250,7 @@
         <ul>
             <li><strong>Email:</strong> care@Pehunt.com</li>
             <!-- <li><strong>Phone:</strong> 9717XXXXX</li> -->
-            <li><strong>Address:</strong> New Delhi - 110077, India</li>
+            <li><strong>Address:</strong> Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301 </li>
         </ul>
     </div>
 </body>
