@@ -1085,6 +1085,7 @@ $wishlist_data = "select * from wishlist";
 												</div>
 											</div>
 
+											<div class="dis-flex">
 											<form action="cart_config.php" method="POST" class="cartForm">
 												<input type="hidden" value="" name="cart_product" id="product_cart_details">
 												<input type="hidden" value="<?php echo isset($_SESSION['cart']) ? $_SESSION['cart'] : "" ;?>" name="cart">
@@ -1093,6 +1094,14 @@ $wishlist_data = "select * from wishlist";
 													Add to cart
 												</button>
 											</form>
+											<form action="checkout.php" method="POST" class="cartForm">
+												<input type="hidden" value="<?php ?>" name="check_id" id="product_buy_details">
+												<button type="submit"
+													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+													Buy Now
+												</button>
+											</form>
+											</div>
 										</div>
 									</div>
 								</div>
