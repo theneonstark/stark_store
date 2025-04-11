@@ -75,9 +75,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 									<!-- <a href="#">Blog</a> -->
 								</li>
 
-								<li>
+								<!-- <li>
 									<a href="about.php">About</a>
-								</li>
+								</li> -->
 
 								<li>
 									<a href="contact.php">Contact</a>
@@ -176,9 +176,9 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						<a href="#">Blog</a>
 					</li> -->
 
-					<li>
+					<!-- <li>
 						<a href="about.php">About</a>
-					</li>
+					</li> -->
 
 					<li>
 						<a href="contact.php">Contact</a>
@@ -562,7 +562,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						</div>
 					</div>
 
-					<div class="col-sm-6 col-lg-3 p-b-50">
+					<!-- <div class="col-sm-6 col-lg-3 p-b-50">
 						<h4 class="stext-301 cl0 p-b-30">
 							Newsletter
 						</h4>
@@ -580,7 +580,7 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 								</button>
 							</div>
 						</form>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="p-t-40">

@@ -75,9 +75,9 @@ $wishlist_data = "select * from wishlist";
 									<!-- <a href="#">Blog</a> -->
 								</li>
 
-								<li>
+								<!-- <li>
 									<a href="about.php">About</a>
-								</li>
+								</li> -->
 
 								<li>
 									<a href="contact.php">Contact</a>
@@ -176,9 +176,9 @@ $wishlist_data = "select * from wishlist";
 						<!-- <a href="#">Blog</a> -->
 					</li>
 
-					<li>
+					<!-- <li>
 						<a href="about.php">About</a>
-					</li>
+					</li> -->
 
 					<li>
 						<a href="contact.php">Contact</a>
@@ -458,7 +458,7 @@ $wishlist_data = "select * from wishlist";
 						</div>
 					</div>
 
-					<div class="col-sm-6 col-lg-3 p-b-50">
+					<!-- <div class="col-sm-6 col-lg-3 p-b-50">
 						<h4 class="stext-301 cl0 p-b-30">
 							Newsletter
 						</h4>
@@ -476,7 +476,7 @@ $wishlist_data = "select * from wishlist";
 								</button>
 							</div>
 						</form>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="p-t-40">

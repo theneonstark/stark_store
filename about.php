@@ -70,9 +70,9 @@
 								<a href="#">Blog</a>
 							</li> -->
 
-							<li>
+							<!-- <li>
 								<a href="about.php">About</a>
-							</li>
+							</li> -->
 
 							<li>
 								<a href="contact.php">Contact</a>
@@ -167,13 +167,13 @@
 					<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
 				</li>
 
-				<li>
-					<!-- <a href="#">Blog</a> -->
-				</li>
+				<!-- <li>
+					<a href="#">Blog</a>
+				</li> -->
 
-				<li>
+				<!-- <li>
 					<a href="about.php">About</a>
-				</li>
+				</li> -->
 
 				<li>
 					<a href="contact.php">Contact</a>
@@ -540,6 +540,10 @@
 						Any questions? Let us know in store at Pehunt soultion OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301   
 					</p>
 
+					<li>
+								<a href="about.php">About</a>
+							</li>
+
 					<div class="p-t-27">
 						<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 							<i class="fa fa-facebook"></i>
@@ -555,7 +559,7 @@
 					</div>
 				</div>
 
-				<div class="col-sm-6 col-lg-3 p-b-50">
+				<!-- <div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
 						Newsletter
 					</h4>
@@ -573,7 +577,7 @@
 							</button>
 						</div>
 					</form>
-				</div>
+				</div> -->
 			</div>
 
 			<div class="p-t-40">
