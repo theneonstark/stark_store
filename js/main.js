@@ -302,6 +302,7 @@
         let pr_img2 = $(this).closest('.block2-pic').find('.pr_img2').val();
         let pr_img3 = $(this).closest('.block2-pic').find('.pr_img3').val();
         let product_details = $(this).closest('.block2-pic').find('.product_details').val();
+        let product_price = $(this).closest('.block2-pic').find('.product_price').val();
         let img = $(this).prev('img').attr('src');
         $('#data_head').text(head);
         $('#data_price').text(price);
@@ -315,6 +316,7 @@
         $('#pr_href3').attr('href', pr_img3);
         $('#product_cart_details').attr('value', product_details);
         $('#product_buy_details').attr('value', product_details);
+        $('#product_buy_price').attr('value', product_price);
         $('.js-modal1').addClass('show-modal1');  
         $('.wrap-slick3').each(function() {
             let $slickElement = $(this).find('.slick3');

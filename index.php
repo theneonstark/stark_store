@@ -752,6 +752,7 @@ $wishlist_data = "select * from wishlist";
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[1] ?>" class="pr_img2">
 									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[2] ?>" class="pr_img3">
 									<input type="hidden" value="<?php echo $fetch_product['id'] ?>" class="product_details">
+									<input type="hidden" value="<?php echo $fetch_product['product_price'] ?>" class="product_price">
 									<img src="image/product/<?php echo $fetch_product['product_img'] ?>" alt="IMG-PRODUCT">
 									<a href="#"
 										class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
@@ -1095,7 +1096,8 @@ $wishlist_data = "select * from wishlist";
 												</button>
 											</form>
 											<form action="checkout.php" method="POST">
-												<input type="hidden" value="<?php ?>" name="check_id" id="product_buy_details">
+												<input type="hidden" value="" name="check_id" id="product_buy_details">
+												<input type="hidden" value="" name="check_price" id="product_buy_price">
 												<button name="checkout"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Buy Now
