@@ -511,14 +511,7 @@ session_start();
 								<div class="tab-pane fade show active" id="description" role="tabpanel">
 									<div class="how-pos2 p-lr-15-md">
 										<p class="stext-102 cl6">
-											Aenean sit amet gravida nisi. Nam fermentum est felis, quis feugiat nunc fringilla
-											sit amet. Ut in blandit ipsum. Quisque luctus dui at ante aliquet, in hendrerit
-											lectus interdum. Morbi elementum sapien rhoncus pretium maximus. Nulla lectus enim,
-											cursus et elementum sed, sodales vitae eros. Ut ex quam, porta consequat interdum
-											in, faucibus eu velit. Quisque rhoncus ex ac libero varius molestie. Aenean tempor
-											sit amet orci nec iaculis. Cras sit amet nulla libero. Curabitur dignissim, nunc nec
-											laoreet consequat, purus nunc porta lacus, vel efficitur tellus augue in ipsum. Cras
-											in arcu sed metus rutrum iaculis. Nulla non tempor erat. Duis in egestas nunc.
+										Discover the perfect blend of quality, style, and value with this must-have item. Designed to meet your everyday needs, this product offers exceptional performance and durability, making it a great addition to your lifestyle. Whether you're shopping for yourself or looking for the perfect gift, this product delivers satisfaction with every use. Crafted with care and precision, it complements a wide range of preferences and purposes. Shop now and experience the difference!
 										</p>
 									</div>
 								</div>
@@ -593,7 +586,7 @@ session_start();
 														<img src="images/avatar-01.jpg" alt="AVATAR">
 													</div>
 
-													<div class="size-207">
+													<!-- <div class="size-207">
 														<div class="flex-w flex-sb-m p-b-17">
 															<span class="mtext-107 cl2 p-r-20">
 																Ariana Grande
@@ -612,7 +605,7 @@ session_start();
 															Quod autem in homine praestantissimum atque optimum est, id
 															deseruit. Apud ceteros autem philosophos
 														</p>
-													</div>
+													</div> -->
 												</div>
 
 												<!-- Add review -->
@@ -1055,7 +1048,7 @@ session_start();
 							</li>
 
 							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
 									Shipping
 								</a>
 							</li>

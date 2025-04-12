@@ -761,8 +761,8 @@
 							</li>
 
 							<li class="p-b-10">
-								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shipping
+								<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
+									Shipping Policy
 								</a>
 							</li>
 
