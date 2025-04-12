@@ -333,8 +333,8 @@
 																$minDelivery = clone $createdAt;
 																$maxDelivery = clone $createdAt;
 															
-																$minDelivery->add(new DateInterval('P7D')); // 7 days
-																$maxDelivery->add(new DateInterval('P10D')); // 10 days
+																$minDelivery->add(new DateInterval('P3D')); // 7 days
+																$maxDelivery->add(new DateInterval('P5D')); // 10 days
 															?>
 														<p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
 															<?php
