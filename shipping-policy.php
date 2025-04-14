@@ -161,8 +161,9 @@
         <h2>Shipping Duration:</h2>
         <p>All orders are processed and shipped within 3 to 5 business days from the date of purchase. Delivery times may vary depending on your location and local courier availability, but we strive to ensure timely deliveries.</p>
 
-        <h2>Order Processing:</h2>
-        <p>Orders are typically processed within 24 hours of confirmation (excluding weekends and public holidays). Once your order has been shipped, you will receive a confirmation email with tracking details.</p>
+        <h2>Order Delivery:</h2>
+        <p>Orders are typically delivered within 3 to 5 days of confirmation (excluding weekends and public holidays). Once your order has been delivered, you will receive a confirmation email with tracking details.</p>
+
 
         <h2>Shipping Charges:</h2>
         <p>Shipping charges, if applicable, will be calculated at checkout and displayed before you complete your purchase.</p>

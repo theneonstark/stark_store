@@ -445,7 +445,7 @@
 								<a href="about.php">About</a>
 							</li>
 
-						<div class="p-t-27">
+						<!-- <div class="p-t-27">
 							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 								<i class="fa fa-facebook"></i>
 							</a>
@@ -457,7 +457,7 @@
 							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
 								<i class="fa fa-pinterest-p"></i>
 							</a>
-						</div>
+						</div> -->
 					</div>
 
 					<!-- <div class="col-sm-6 col-lg-4 p-b-50">
