@@ -326,13 +326,13 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 						}
 
 						$checking_price = array_sum($product_prices);
-						$shipping = 60;
+						$shipping = 0;
 
 						// Calculate shipping based on the checking price
 						if ($checking_price > 3000) {
 							$shipping = 0;
 						} elseif ($checking_price > 1500) {
-							$shipping = 40;
+							$shipping = 0;
 						}
 
 						$total = $checking_price + $shipping;
