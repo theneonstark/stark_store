@@ -13,8 +13,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 $user_id = $_SESSION['id'];
-$keyId = 'rzp_test_kBREEooxYkKLPo'; 
-$keySecret = 'P5NsdNUNPas0c0C74oCjkk1Y';
+$keyId = 'rzp_live_RZ695j5VbYE6fI'; 
+$keySecret = '8vAbxasZlsrqRlapFCdl9eam';
 
 $api = new Api($keyId, $keySecret);
 $payment_id = $_POST['payment_id'];
