@@ -405,8 +405,8 @@ if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
 
 	use Razorpay\Api\Api;
 
-	$keyId = 'rzp_test_kBREEooxYkKLPo';
-	$keySecret = 'P5NsdNUNPas0c0C74oCjkk1Y';
+	$keyId = 'rzp_live_RZ695j5VbYE6fI';
+	$keySecret = '8vAbxasZlsrqRlapFCdl9eam';
 
 	$api = new Api($keyId, $keySecret);
 
