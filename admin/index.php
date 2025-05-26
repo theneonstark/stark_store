@@ -18,7 +18,7 @@
 <?php
   session_start();
   include('../config.php');
-  if(isset($_SESSION['email'])){ 
+  // if(isset($_SESSION['email'])){ 
     $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
     $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
     $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
@@ -808,7 +808,7 @@
           }
         </script>
 <?php
-  }
+  // }
 ?>
 <script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="./assets/js/main.js"></script>
