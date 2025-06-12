@@ -306,7 +306,7 @@
 						</ul>
 						</p>
 						<p class="stext-113 cl6 p-b-26">
-							Any questions? Let us know in store at <strong> Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301  </strong>
+							Any questions? Let us know in store at <strong> Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Gautambudha nagar, Sector 63 Noida UP 201301  </strong>
 						</p>
 					</div>
 				</div>
@@ -540,7 +540,7 @@
 						</p>
 
 					<p class="stext-107 cl7 size-201">
-						Any questions? Let us know in store at Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301   
+						Any questions? Let us know in store at Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Gautambudha nagar, Sector 63 Noida UP 201301   
 					</p>
 
 					<li>

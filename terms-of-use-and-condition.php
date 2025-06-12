@@ -250,7 +250,7 @@
         <ul>
             <li><strong>Email:</strong> care@pehunt.in</li>
             <!-- <li><strong>Phone:</strong> 9717XXXXX</li> -->
-            <li><strong>Address:</strong> Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Sector 63 Noida UP 201301 </li>
+            <li><strong>Address:</strong> Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Gautambudha nagar, Sector 63 Noida UP 201301 </li>
         </ul>
     </div>
 </body>
