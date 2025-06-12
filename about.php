@@ -285,23 +285,23 @@
 				<div class="col-md-7 col-lg-8">
 					<div class="p-t-7 p-r-85 p-r-15-lg p-r-0-md">
 						<h3 class="mtext-111 cl2 p-b-16">
-							About PeHunt
+							About PeHunt Solution OPC Pvt. Ltd.
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							Welcome to PeHunt, your go-to destination for all things modern, stylish, and innovative. We’re more than just an e-commerce platform; we are a brand committed to bringing you products that elevate your everyday life with quality, value, and the latest trends. At PeHunt, we believe that shopping should be an experience—one that’s seamless, enjoyable, and tailored to you.
+							Welcome to PeHunt Solution OPC Pvt. Ltd., your go-to destination for all things modern, stylish, and innovative. We’re more than just an e-commerce platform; we are a brand committed to bringing you products that elevate your everyday life with quality, value, and the latest trends. At PeHunt Solution OPC Pvt. Ltd., we believe that shopping should be an experience—one that’s seamless, enjoyable, and tailored to you.
 						</p>
 
 						<h3 class="mtext-111 cl2 p-b-16">
-							Why PeHunt?
+							Why PeHunt Solution OPC Pvt. Ltd.?
 						</h3>
 						<p class="stext-113 cl6 p-b-26">
-							We understand that shopping online can sometimes be overwhelming. With countless options available, it’s often difficult to find what you need without sacrificing quality or affordability. That’s why PeHunt is committed to being different. Here’s what sets us apart:
+							We understand that shopping online can sometimes be overwhelming. With countless options available, it’s often difficult to find what you need without sacrificing quality or affordability. That’s why PeHunt Solution OPC Pvt. Ltd. is committed to being different. Here’s what sets us apart:
 
 						<ul>
 							<li class="stext-10 cl6 p-b-26"><strong>Quality Assurance:</strong> We hand-pick every item in our store, ensuring that it meets our high standards for quality and durability. We work with trusted suppliers and manufacturers to bring you products that you can rely on.</li>
 							<li class="stext-10 cl6 p-b-26"><strong>Customer-Centric Approach:</strong> Your satisfaction is our priority. From the moment you land on our website to the time your package arrives, we are dedicated to providing an exceptional shopping experience. Our customer support team is always ready to assist with any questions or concerns.</li>
-							<li class="stext-10 cl6 p-b-26"><strong>Trendy and Innovative Products:</strong> We stay on top of the latest trends in fashion, technology, home decor, and more to ensure that PeHunt is always stocked with products that reflect the current style and innovation.</li>
+							<li class="stext-10 cl6 p-b-26"><strong>Trendy and Innovative Products:</strong> We stay on top of the latest trends in fashion, technology, home decor, and more to ensure that PeHunt Solution OPC Pvt. Ltd. is always stocked with products that reflect the current style and innovation.</li>
 							<li class="stext-10 cl6 p-b-26"><strong>Secure and Convenient Shopping:</strong> We know how important it is to have a hassle-free shopping experience. Our platform is designed to be user-friendly and secure, offering multiple payment options and ensuring the privacy of your personal information.</li>
 						</ul>
 						</p>
@@ -435,7 +435,7 @@
 						</h3>
 
 						<p class="stext-113 cl6 p-b-26">
-							<strong>PeHunt</strong> was founded with a vision: to create an online store where quality meets convenience. Starting from humble beginnings, we’ve grown into a trusted name in the e-commerce space, with a wide range of products that cater to a diverse customer base. Our founders shared a common goal of building a store that offers something for everyone, whether it’s a trendy piece of clothing, the latest tech gadget, or a stylish home accessory. Over the years, we’ve evolved and expanded, but our core values have remained the same—quality, affordability, and customer satisfaction.
+							<strong>PeHunt Solution OPC Pvt. Ltd.</strong> was founded with a vision: to create an online store where quality meets convenience. Starting from humble beginnings, we’ve grown into a trusted name in the e-commerce space, with a wide range of products that cater to a diverse customer base. Our founders shared a common goal of building a store that offers something for everyone, whether it’s a trendy piece of clothing, the latest tech gadget, or a stylish home accessory. Over the years, we’ve evolved and expanded, but our core values have remained the same—quality, affordability, and customer satisfaction.
 						</p>
 
 						<div class="bor16 p-l-29 p-b-9 m-t-22">
