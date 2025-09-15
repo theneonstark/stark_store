@@ -435,7 +435,7 @@
 							GET IN TOUCH
 						</h4>
 						<p class="stext-107 cl7 size-201">
-							care@pehunt.in
+							<!-- care@pehunt.in -->
 						</p>
 
 						<p class="stext-107 cl7 size-201">
