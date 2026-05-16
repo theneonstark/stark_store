@@ -1448,7 +1448,7 @@ session_start();
 				}
 			});
 		}
-		setInterval(fetchWishlistData, 2000);
+		// setInterval(fetchWishlistData, 2000);
 
 		function fetchCartData() {
 			$.ajax({
@@ -1494,7 +1494,7 @@ session_start();
 			});
 		}
 
-		setInterval(fetchCartData, 2000);
+		// setInterval(fetchCartData, 2000);
 
 		$(document).ready(function() {
 			fetchCartData();

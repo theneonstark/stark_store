@@ -937,7 +937,7 @@
 				}
 			});
 		}
-		setInterval(fetchWishlistData, 2000);
+		// setInterval(fetchWishlistData, 2000);
 
 		function fetchCartData() {
 			$.ajax({
@@ -984,7 +984,7 @@
 			});
 		}
 
-		setInterval(fetchCartData, 2000);
+		// setInterval(fetchCartData, 2000);
 
 		$(document).ready(function() {
 			fetchCartData();

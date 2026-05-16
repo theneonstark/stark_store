@@ -1268,7 +1268,7 @@ $wishlist_data = "select * from wishlist";
 					}
 				});
 			}
-			setInterval(fetchWishlistData, 2000);
+			// setInterval(fetchWishlistData, 2000);
 
 			function fetchCartData() {
 				$.ajax({
@@ -1311,7 +1311,7 @@ $wishlist_data = "select * from wishlist";
 				});
 			}
 
-			setInterval(fetchCartData, 2000);
+			// setInterval(fetchCartData, 2000);
 
 			$(document).ready(function() {
 				fetchCartData();
