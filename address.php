@@ -45,6 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_address'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipping Address - Stark Store</title>
     <link rel="icon" type="image/png" href="images/icons/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
@@ -56,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_address'])) {
     <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/modern-stark.css">
     <link rel="stylesheet" type="text/css" href="css/address.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -70,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_address'])) {
         <div class="top-bar">
             <div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
                 <div class="left-top-bar">
-                    Free shipping for orders over ₹1500
+                    Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ 100% Secure Checkout
                 </div>
             </div>
         </div>
@@ -78,8 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_address'])) {
         <div class="wrap-menu-desktop">
             <nav class="limiter-menu-desktop container">
                 <!-- Logo desktop -->
-                <a href="index.php" class="logo">
-                    <img src="images/icons/logo-01.png" alt="IMG-LOGO">
+                <a href="index.php" class="stark-brand-logo">
+                    <span class="brand-icon"><i class="fa fa-bolt"></i></span>
+                    <span class="brand-text">STARK</span>
+                    <span class="brand-badge">STORE</span>
                 </a>
 
                 <!-- Menu desktop -->

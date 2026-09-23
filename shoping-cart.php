@@ -63,6 +63,9 @@ $grand_total = $cart_subtotal + $shipping_fee;
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
@@ -74,6 +77,7 @@ $grand_total = $cart_subtotal + $shipping_fee;
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/modern-stark.css">
 	<link rel="stylesheet" type="text/css" href="css/product-add.css">
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -128,8 +132,10 @@ $grand_total = $cart_subtotal + $shipping_fee;
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
 					<!-- Logo desktop -->
-					<a href="index.php" class="logo">
-						<img src="images/icons/logo-01.png" alt="STARK STORE">
+					<a href="index.php" class="stark-brand-logo">
+						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+						<span class="brand-text">STARK</span>
+						<span class="brand-badge">STORE</span>
 					</a>
 
 					<!-- Menu desktop -->
@@ -190,7 +196,10 @@ $grand_total = $cart_subtotal + $shipping_fee;
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
 			<div class="logo-mobile">
-				<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+				<a href="index.php" class="stark-brand-logo">
+					<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+					<span class="brand-text">STARK</span>
+				</a>
 			</div>
 			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
 				<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
@@ -442,32 +451,120 @@ $grand_total = $cart_subtotal + $shipping_fee;
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-6 col-lg-4 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">Categories</h4>
-					<ul>
-						<li class="p-b-10"><a href="product.php?catg=1" class="stext-107 cl7 hov-cl1 trans-04">Clothing</a></li>
-						<li class="p-b-10"><a href="product.php?catg=2" class="stext-107 cl7 hov-cl1 trans-04">Watches</a></li>
-						<li class="p-b-10"><a href="product.php?catg=3" class="stext-107 cl7 hov-cl1 trans-04">Shoes</a></li>
-						<li class="p-b-10"><a href="product.php?catg=4" class="stext-107 cl7 hov-cl1 trans-04">Belts</a></li>
-					</ul>
-				</div>
-				<div class="col-sm-6 col-lg-4 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">Customer Support</h4>
-					<p class="stext-107 cl7 size-201">
-						Any questions? Contact our team anytime or reach out via our contact page.
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<a href="index.php" class="stark-brand-logo mb-3" style="color: #fff !important;">
+						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+						<span class="brand-text" style="background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STARK</span>
+						<span class="brand-badge" style="background: rgba(99,102,241,0.2); color: #818cf8;">STORE</span>
+					</a>
+					<p class="stext-107 cl7 m-b-20" style="line-height: 1.6;">
+						Premium fashion, streetwear & modern lifestyle essentials. Engineered for maximum comfort, cutting-edge style, and daily confidence.
 					</p>
+					<div class="d-flex align-items-center">
+						<a href="#" class="stark-social-link"><i class="fa fa-instagram"></i></a>
+						<a href="#" class="stark-social-link"><i class="fa fa-twitter"></i></a>
+						<a href="#" class="stark-social-link"><i class="fa fa-facebook"></i></a>
+						<a href="#" class="stark-social-link"><i class="fa fa-youtube-play"></i></a>
+					</div>
 				</div>
-				<div class="col-sm-6 col-lg-4 p-b-50">
-					<h4 class="stext-301 cl0 p-b-30">Quick Links</h4>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-25">
+						Collections
+					</h4>
+
 					<ul>
-						<li class="p-b-10"><a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">Track Orders</a></li>
-						<li class="p-b-10"><a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">Contact Us</a></li>
-						<li class="p-b-10"><a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">Browse Store</a></li>
+						<li class="p-b-10">
+							<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
+								Women's Apparel
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
+								Men's Streetwear
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="product.php?product_target=O" class="stext-107 cl7 hov-cl1 trans-04">
+								Accessories & Bags
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
+								New Season Drops
+							</a>
+						</li>
 					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-25">
+						Customer Support
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Track My Orders
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="return-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Returns & Refunds
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Shipping & Delivery
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="terms-of-use-and-condition.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Terms of Service
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Contact Support
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-25">
+						Stay in the Loop
+					</h4>
+					<p class="stext-107 cl7 m-b-15">
+						Subscribe for exclusive drops, private sale invites and 15% off your first purchase.
+					</p>
+					<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Stark VIP Club!', 'success');">
+						<input type="email" placeholder="Enter your email" required>
+						<button type="submit">Join <i class="fa fa-paper-plane ml-1"></i></button>
+					</form>
 				</div>
 			</div>
-			<div class="p-t-40 text-center stext-107 cl6">
-				Copyright &copy; <?php echo date('Y'); ?> Stark Store. All rights reserved.
+
+			<div class="p-t-30 p-b-10" style="border-top: 1px solid rgba(255,255,255,0.08);">
+				<div class="d-flex flex-wrap justify-content-between align-items-center">
+					<p class="stext-107 cl6 m-0">
+						&copy; <?php echo date('Y'); ?> <strong>Stark Store</strong>. All rights reserved. Built with precision & modern aesthetics.
+					</p>
+					<div class="flex-c-m flex-w p-t-4">
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-01.png" alt="PAYPAL"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-02.png" alt="VISA"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-03.png" alt="MASTERCARD"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-04.png" alt="EXPRESS"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-05.png" alt="DISCOVER"></a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</footer>

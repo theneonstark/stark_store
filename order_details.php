@@ -48,12 +48,16 @@ $unique_ids = array_keys($product_counts);
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Order #<?php echo htmlspecialchars($order['razorpay_order_id'] ?: $order['id']); ?> - Stark Store</title>
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/modern-stark.css">
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -65,15 +69,17 @@ $unique_ids = array_keys($product_counts);
 			<div class="top-bar">
 				<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 					<div class="left-top-bar">
-						Free shipping for standard orders over ₹1500
+						Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ 100% Secure Checkout
 					</div>
 				</div>
 			</div>
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					<a href="index.php" class="logo">
-						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+					<a href="index.php" class="stark-brand-logo">
+						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+						<span class="brand-text">STARK</span>
+						<span class="brand-badge">STORE</span>
 					</a>
 
 					<div class="menu-desktop">

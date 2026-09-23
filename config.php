@@ -6,6 +6,10 @@
 // Disable error reporting output in production, enable in development
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 ini_set('display_errors', 0);
+if (function_exists('mysqli_report')) {
+    mysqli_report(MYSQLI_REPORT_OFF);
+}
+
 
 // Database connection parameters
 // You can customize these constants or override them via environment variables

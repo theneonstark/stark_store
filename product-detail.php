@@ -8,10 +8,13 @@ include('config.php');
 <html lang="en">
 
 <head>
-	<title>Product Detail</title>
+	<title><?php echo isset($product_details['product_name']) ? htmlspecialchars($product_details['product_name']) . ' - Stark Store' : 'Product Details - Stark Store'; ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
@@ -26,6 +29,7 @@ include('config.php');
 	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/modern-stark.css">
 	<link rel="stylesheet" type="text/css" href="css/swiper.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -40,7 +44,7 @@ include('config.php');
 				<div class="top-bar">
 					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 						<div class="left-top-bar">
-							Free shipping for standard order over $100
+							Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ Use Code: <strong>STARK15</strong> for 15% OFF
 						</div>
 					</div>
 				</div>
@@ -49,18 +53,20 @@ include('config.php');
 					<nav class="limiter-menu-desktop container">
 
 						<!-- Logo desktop -->
-						<a href="index.php" class="logo">
-							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+						<a href="index.php" class="stark-brand-logo">
+							<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+							<span class="brand-text">STARK</span>
+							<span class="brand-badge">STORE</span>
 						</a>
 
 						<!-- Menu desktop -->
 						<div class="menu-desktop">
 							<ul class="main-menu">
-								<li class="active-menu">
+								<li>
 									<a href="index.php">Home</a>
 								</li>
 
-								<li>
+								<li class="active-menu">
 									<a href="product.php">Shop</a>
 								</li>
 
@@ -130,9 +136,12 @@ include('config.php');
 
 			<!-- Header Mobile -->
 			<div class="wrap-header-mobile">
-				<!-- Logo moblie -->
+				<!-- Logo mobile -->
 				<div class="logo-mobile">
-					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+					<a href="index.php" class="stark-brand-logo">
+						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+						<span class="brand-text">STARK</span>
+					</a>
 				</div>
 
 				<!-- Icon header -->
@@ -380,22 +389,50 @@ include('config.php');
 
 						<div class="col-md-6 col-lg-5 p-b-30">
 							<div class="p-r-50 p-t-5 p-lr-0-lg">
-								<h4 class="mtext-105 cl2 js-name-detail p-b-14 font-weight-bold">
+								<div class="d-flex align-items-center gap-2 mb-2">
+									<span class="stark-badge stark-badge-success">
+										<i class="zmdi zmdi-check-circle"></i> In Stock
+									</span>
+									<span class="stark-badge stark-badge-primary">
+										<i class="zmdi zmdi-flash"></i> Fast Delivery
+									</span>
+								</div>
+
+								<h4 class="mtext-105 cl2 js-name-detail p-b-10 font-weight-bold" style="font-size: 28px; letter-spacing: -0.02em;">
 									<?php echo htmlspecialchars($product_details['product_name']); ?>
 								</h4>
 
-								<span class="mtext-106 cl1 font-weight-bold" style="font-size: 24px;">
-									₹ <?php echo number_format($product_details['product_price'], 2); ?>
-								</span>
+								<div class="d-flex align-items-center mb-3">
+									<div class="fs-14 cl11 m-r-10" style="color: #f59e0b;">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star-half"></i>
+									</div>
+									<span class="stext-102 text-muted">(4.8 / 5.0 Rating &bull; 128 Reviews)</span>
+								</div>
 
-								<p class="stext-102 cl3 p-t-23">
+								<div class="d-flex align-items-baseline gap-3 mb-3">
+									<span class="mtext-106 font-weight-bold" style="font-size: 30px; color: var(--stark-primary);">
+										₹ <?php echo number_format($product_details['product_price'], 2); ?>
+									</span>
+									<span class="text-muted text-decoration-line-through ml-2" style="font-size: 16px;">
+										₹ <?php echo number_format($product_details['product_price'] * 1.25, 2); ?>
+									</span>
+									<span class="stark-badge ml-2" style="background: rgba(244,63,94,0.1); color: #f43f5e; font-weight: 800;">
+										20% OFF
+									</span>
+								</div>
+
+								<p class="stext-102 cl3 p-t-10 p-b-20" style="line-height: 1.6; color: #475569;">
 									<?php echo nl2br(htmlspecialchars($product_details['product_description'])); ?>
 								</p>
 
 								<!-- Options & Actions -->
-								<div class="p-t-33">
+								<div class="p-t-15 p-b-20" style="border-top: 1px solid var(--stark-border); border-bottom: 1px solid var(--stark-border);">
 									<div class="flex-w flex-r-m p-b-10">
-										<div class="size-203 flex-c-m respon6">
+										<div class="size-203 flex-c-m respon6 font-weight-bold" style="font-size: 14px;">
 											Size
 										</div>
 
@@ -414,7 +451,7 @@ include('config.php');
 									</div>
 
 									<div class="flex-w flex-r-m p-b-10">
-										<div class="size-203 flex-c-m respon6">
+										<div class="size-203 flex-c-m respon6 font-weight-bold" style="font-size: 14px;">
 											Quantity
 										</div>
 
@@ -437,7 +474,7 @@ include('config.php');
 									<div class="flex-w flex-r-m p-t-15 p-b-10">
 										<div class="size-204 flex-w flex-m respon6-next" style="gap: 12px;">
 											<button type="button" id="btn-add-to-cart"
-												class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 shadow-sm" style="border-radius: 25px;">
+												class="stark-btn-primary" style="padding: 13px 28px !important;">
 												<i class="zmdi zmdi-shopping-cart m-r-8"></i> Add to Cart
 											</button>
 
@@ -445,8 +482,8 @@ include('config.php');
 												<input type="hidden" value="<?php echo $product_details['id']; ?>" name="check_id[]">
 												<input type="hidden" value="<?php echo $product_details['product_price']; ?>" name="check_price[]">
 												<button type="submit" name="checkout"
-													class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04 shadow-sm" style="border-radius: 25px;">
-													Buy Now
+													class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04" style="border-radius: 9999px; background: #0f172a; font-weight: 700;">
+													⚡ Buy Now
 												</button>
 											</form>
 										</div>
@@ -1000,140 +1037,125 @@ include('config.php');
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Categories
-						</h4>
-
-						<ul>
-							<li class="p-b-10">
-								<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
-									Women
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
-									Men
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shoes
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Watches
-								</a>
-							</li>
-						</ul>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<a href="index.php" class="stark-brand-logo mb-3" style="color: #fff !important;">
+						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+						<span class="brand-text" style="background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STARK</span>
+						<span class="brand-badge" style="background: rgba(99,102,241,0.2); color: #818cf8;">STORE</span>
+					</a>
+					<p class="stext-107 cl7 m-b-20" style="line-height: 1.6;">
+						Premium fashion, streetwear & modern lifestyle essentials. Engineered for maximum comfort, cutting-edge style, and daily confidence.
+					</p>
+					<div class="d-flex align-items-center">
+						<a href="#" class="stark-social-link"><i class="fa fa-instagram"></i></a>
+						<a href="#" class="stark-social-link"><i class="fa fa-twitter"></i></a>
+						<a href="#" class="stark-social-link"><i class="fa fa-facebook"></i></a>
+						<a href="#" class="stark-social-link"><i class="fa fa-youtube-play"></i></a>
 					</div>
-
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Help
-						</h4>
-
-						<ul>
-							<li class="p-b-10">
-								<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Track Order
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="return-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Return Policy
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shipping
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="terms-of-use-and-condition.php" class="stext-107 cl7 hov-cl1 trans-04">
-								Terms and Condition
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							GET IN TOUCH
-						</h4>
-						<p class="stext-107 cl7 size-201">
-							<!-- care@pehunt.in -->
-						</p>
-
-						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Gautambudha nagar, Sector 63 Noida UP 201301
-						</p>
-						<li>
-								<a href="about.php">About</a>
-							</li>
-
-						<!-- <div class="p-t-27">
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-facebook"></i>
-							</a>
-
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-instagram"></i>
-							</a>
-
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-pinterest-p"></i>
-							</a>
-						</div> -->
-					</div>
-
-					<!-- <div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Newsletter
-						</h4>
-
-						<form>
-							<div class="wrap-input1 w-full p-b-4">
-								<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
-									placeholder="email@example.com">
-								<div class="focus-input1 trans-04"></div>
-							</div>
-
-							<div class="p-t-18">
-								<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									Subscribe
-								</button>
-							</div>
-						</form>
-					</div> -->
 				</div>
 
-				<div class="p-t-40">
-					<p class="stext-107 cl6 txt-center">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script> All rights reserved | Pehunt solution OPC Pvt Ltd 
-						<!-- <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
-							target="_blank"></a> &amp; distributed by <a href="#"
-							target="_blank">PeHunt</a> -->
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-25">
+						Collections
+					</h4>
 
+					<ul>
+						<li class="p-b-10">
+							<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
+								Women's Apparel
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
+								Men's Streetwear
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="product.php?product_target=O" class="stext-107 cl7 hov-cl1 trans-04">
+								Accessories & Bags
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
+								New Season Drops
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-25">
+						Customer Support
+					</h4>
+
+					<ul>
+						<li class="p-b-10">
+							<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Track My Orders
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="return-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Returns & Refunds
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Shipping & Delivery
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="terms-of-use-and-condition.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Terms of Service
+							</a>
+						</li>
+
+						<li class="p-b-10">
+							<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
+								Contact Support
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-6 col-lg-3 p-b-50">
+					<h4 class="stext-301 cl0 p-b-25">
+						Stay in the Loop
+					</h4>
+					<p class="stext-107 cl7 m-b-15">
+						Subscribe for exclusive drops, private sale invites and 15% off your first purchase.
 					</p>
+					<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Stark VIP Club!', 'success');">
+						<input type="email" placeholder="Enter your email" required>
+						<button type="submit">Join <i class="fa fa-paper-plane ml-1"></i></button>
+					</form>
 				</div>
 			</div>
-		</footer>
+
+			<div class="p-t-30 p-b-10" style="border-top: 1px solid rgba(255,255,255,0.08);">
+				<div class="d-flex flex-wrap justify-content-between align-items-center">
+					<p class="stext-107 cl6 m-0">
+						&copy; <?php echo date('Y'); ?> <strong>Stark Store</strong>. All rights reserved. Built with precision & modern aesthetics.
+					</p>
+					<div class="flex-c-m flex-w p-t-4">
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-01.png" alt="PAYPAL"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-02.png" alt="VISA"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-03.png" alt="MASTERCARD"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-04.png" alt="EXPRESS"></a>
+						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-05.png" alt="DISCOVER"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 
 
 	<!-- Back to top -->

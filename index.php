@@ -9,10 +9,13 @@ stark_ensure_tables($con);
 <html lang="en">
 
 	<head>
-		<title>Home - PeHunt </title>
+		<title>Stark Store - Modern Fashion & Lifestyle</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
@@ -27,9 +30,9 @@ stark_ensure_tables($con);
 		<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
 		<link rel="stylesheet" type="text/css" href="css/util.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/modern-stark.css">
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
 	</head>
 
 	<body class="animsition">
@@ -41,7 +44,7 @@ stark_ensure_tables($con);
 				<div class="top-bar">
 					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 						<div class="left-top-bar">
-							Free shipping for standard order over $100
+							Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ Use Code: <strong>STARK15</strong> for 15% OFF
 						</div>
 					</div>
 				</div>
@@ -50,8 +53,10 @@ stark_ensure_tables($con);
 					<nav class="limiter-menu-desktop container">
 
 						<!-- Logo desktop -->
-						<a href="index.php" class="logo">
-							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
+						<a href="index.php" class="stark-brand-logo">
+							<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+							<span class="brand-text">STARK</span>
+							<span class="brand-badge">STORE</span>
 						</a>
 
 						<!-- Menu desktop -->
@@ -131,9 +136,12 @@ stark_ensure_tables($con);
 
 			<!-- Header Mobile -->
 			<div class="wrap-header-mobile">
-				<!-- Logo moblie -->
+				<!-- Logo mobile -->
 				<div class="logo-mobile">
-					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
+					<a href="index.php" class="stark-brand-logo">
+						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+						<span class="brand-text">STARK</span>
+					</a>
 				</div>
 
 				<!-- Icon header -->
@@ -281,21 +289,20 @@ stark_ensure_tables($con);
 						<div class="container h-full">
 							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-									<span class="ltext-101 cl2 respon2">
-										Women Collection 2024
-									</span>
+									<div class="stark-hero-badge">
+										<i class="fa fa-sparkles"></i> NEW COLLECTION 2026
+									</div>
 								</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
-									<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
-										NEW SEASON
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="600">
+									<h2 class="stark-hero-title">
+										UNMATCHED<br>ELEGANCE & STYLE
 									</h2>
 								</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-									<a href="product.php"
-										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-										Shop Now
+								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1200">
+									<a href="product.php" class="stark-btn-primary">
+										Shop Collection <i class="fa fa-arrow-right ml-2"></i>
 									</a>
 								</div>
 							</div>
@@ -305,23 +312,21 @@ stark_ensure_tables($con);
 					<div class="item-slick1" style="background-image: url(images/slide-02.jpg);">
 						<div class="container h-full">
 							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-								<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
-									<span class="ltext-101 cl2 respon2">
-										Men New-Season
-									</span>
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
+									<div class="stark-hero-badge">
+										<i class="fa fa-fire"></i> URBAN STREETWEAR
+									</div>
 								</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn"
-									data-delay="800">
-									<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
-										Jackets & Coats
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="600">
+									<h2 class="stark-hero-title">
+										JACKETS, HOODIES<br>& OVERSIZED FITS
 									</h2>
 								</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
-									<a href="product.php"
-										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-										Shop Now
+								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1200">
+									<a href="product.php?product_target=m" class="stark-btn-primary">
+										Explore Men <i class="fa fa-arrow-right ml-2"></i>
 									</a>
 								</div>
 							</div>
@@ -331,24 +336,21 @@ stark_ensure_tables($con);
 					<div class="item-slick1" style="background-image: url(images/slide-03.jpg);">
 						<div class="container h-full">
 							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-								<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft"
-									data-delay="0">
-									<span class="ltext-101 cl2 respon2">
-										Men Collection 2024
-									</span>
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
+									<div class="stark-hero-badge">
+										<i class="fa fa-diamond"></i> TRENDING ACCESSORIES
+									</div>
 								</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight"
-									data-delay="800">
-									<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
-										New arrivals
+								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="600">
+									<h2 class="stark-hero-title">
+										ACCESSORIZE<br>YOUR AESTHETIC
 									</h2>
 								</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
-									<a href="product.php"
-										class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-										Shop Now
+								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1200">
+									<a href="product.php?product_target=O" class="stark-btn-primary">
+										Discover Accessories <i class="fa fa-arrow-right ml-2"></i>
 									</a>
 								</div>
 							</div>
@@ -360,7 +362,7 @@ stark_ensure_tables($con);
 
 
 		<!-- Banner -->
-		<div class="sec-banner bg0 p-t-80 p-b-50">
+		<div class="sec-banner bg0 p-t-80 p-b-30">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
@@ -376,13 +378,13 @@ stark_ensure_tables($con);
 									</span>
 
 									<span class="block1-info stext-102 trans-04">
-										Spring 2024
+										Trending & Chic
 									</span>
 								</div>
 
 								<div class="block1-txt-child2 p-b-4 trans-05">
 									<div class="block1-link stext-101 cl0 trans-09">
-										Shop Now
+										Explore Now &rarr;
 									</div>
 								</div>
 							</a>
@@ -402,13 +404,13 @@ stark_ensure_tables($con);
 									</span>
 
 									<span class="block1-info stext-102 trans-04">
-										Spring 2024
+										Streetwear & Casual
 									</span>
 								</div>
 
 								<div class="block1-txt-child2 p-b-4 trans-05">
 									<div class="block1-link stext-101 cl0 trans-09">
-										Shop Now
+										Explore Now &rarr;
 									</div>
 								</div>
 							</a>
@@ -428,13 +430,13 @@ stark_ensure_tables($con);
 									</span>
 
 									<span class="block1-info stext-102 trans-04">
-										New Trend
+										Watches, Bags & More
 									</span>
 								</div>
 
 								<div class="block1-txt-child2 p-b-4 trans-05">
 									<div class="block1-link stext-101 cl0 trans-09">
-										Shop Now
+										Explore Now &rarr;
 									</div>
 								</div>
 							</a>
@@ -444,14 +446,69 @@ stark_ensure_tables($con);
 			</div>
 		</div>
 
+		<!-- Trust / Value Propositions Banner -->
+		<div class="container m-b-30">
+			<div class="stark-features-banner">
+				<div class="row">
+					<div class="col-sm-6 col-lg-3 p-b-10">
+						<div class="stark-feature-card">
+							<div class="stark-feature-icon">
+								<i class="zmdi zmdi-truck"></i>
+							</div>
+							<div>
+								<div class="stark-feature-title">Free Express Delivery</div>
+								<div class="stark-feature-desc">Fast nationwide shipping on orders over ₹999</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-lg-3 p-b-10">
+						<div class="stark-feature-card">
+							<div class="stark-feature-icon">
+								<i class="zmdi zmdi-shield-check"></i>
+							</div>
+							<div>
+								<div class="stark-feature-title">100% Secure Checkout</div>
+								<div class="stark-feature-desc">Razorpay, UPI, Cards & Cash on Delivery</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-lg-3 p-b-10">
+						<div class="stark-feature-card">
+							<div class="stark-feature-icon">
+								<i class="zmdi zmdi-refresh-sync"></i>
+							</div>
+							<div>
+								<div class="stark-feature-title">7-Day Easy Returns</div>
+								<div class="stark-feature-desc">Hassle-free replacement & doorstep pickup</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 col-lg-3 p-b-10">
+						<div class="stark-feature-card">
+							<div class="stark-feature-icon">
+								<i class="zmdi zmdi-headset-mic"></i>
+							</div>
+							<div>
+								<div class="stark-feature-title">24/7 Dedicated Support</div>
+								<div class="stark-feature-desc">Instant customer assistance anytime</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- Product -->
 		<section class="bg0 p-t-23 p-b-140">
 			<div class="container">
-				<div class="p-b-10">
-					<h3 class="ltext-103 cl5">
-						Product Overview
-					</h3>
+				<div class="p-b-25 d-flex flex-wrap justify-content-between align-items-end">
+					<div>
+						<span class="stark-badge stark-badge-primary mb-2">🔥 Trending Right Now</span>
+						<h3 class="ltext-103 cl5" style="font-weight: 800; font-size: 32px; letter-spacing: -0.03em;">
+							Featured Collection
+						</h3>
+						<p class="text-muted m-0" style="font-size: 14.5px;">Curated modern essentials built with precision, comfort and premium materials.</p>
+					</div>
 				</div>
 
 				<div class="flex-w flex-sb-m p-b-52">
@@ -810,135 +867,120 @@ stark_ensure_tables($con);
 		<footer class="bg3 p-t-75 p-b-32">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Categories
+					<div class="col-sm-6 col-lg-3 p-b-50">
+						<a href="index.php" class="stark-brand-logo mb-3" style="color: #fff !important;">
+							<span class="brand-icon"><i class="fa fa-bolt"></i></span>
+							<span class="brand-text" style="background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STARK</span>
+							<span class="brand-badge" style="background: rgba(99,102,241,0.2); color: #818cf8;">STORE</span>
+						</a>
+						<p class="stext-107 cl7 m-b-20" style="line-height: 1.6;">
+							Premium fashion, streetwear & modern lifestyle essentials. Engineered for maximum comfort, cutting-edge style, and daily confidence.
+						</p>
+						<div class="d-flex align-items-center">
+							<a href="#" class="stark-social-link"><i class="fa fa-instagram"></i></a>
+							<a href="#" class="stark-social-link"><i class="fa fa-twitter"></i></a>
+							<a href="#" class="stark-social-link"><i class="fa fa-facebook"></i></a>
+							<a href="#" class="stark-social-link"><i class="fa fa-youtube-play"></i></a>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-lg-3 p-b-50">
+						<h4 class="stext-301 cl0 p-b-25">
+							Collections
 						</h4>
 
 						<ul>
 							<li class="p-b-10">
 								<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
-									Women
+									Women's Apparel
 								</a>
 							</li>
 
 							<li class="p-b-10">
 								<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
-									Men
+									Men's Streetwear
+								</a>
+							</li>
+
+							<li class="p-b-10">
+								<a href="product.php?product_target=O" class="stext-107 cl7 hov-cl1 trans-04">
+									Accessories & Bags
 								</a>
 							</li>
 
 							<li class="p-b-10">
 								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shoes
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Watches
+									New Season Drops
 								</a>
 							</li>
 						</ul>
 					</div>
 
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Help
+					<div class="col-sm-6 col-lg-3 p-b-50">
+						<h4 class="stext-301 cl0 p-b-25">
+							Customer Support
 						</h4>
 
 						<ul>
 							<li class="p-b-10">
-								<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Track Order
+								<a href="orders.php" class="stext-107 cl7 hov-cl1 trans-04">
+									Track My Orders
 								</a>
 							</li>
 
 							<li class="p-b-10">
 								<a href="return-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Return Policy
+									Returns & Refunds
 								</a>
 							</li>
 
 							<li class="p-b-10">
 								<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shipping Policy
+									Shipping & Delivery
 								</a>
 							</li>
 
 							<li class="p-b-10">
 								<a href="terms-of-use-and-condition.php" class="stext-107 cl7 hov-cl1 trans-04">
-								Terms and Condition
+									Terms of Service
+								</a>
+							</li>
+
+							<li class="p-b-10">
+								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
+									Contact Support
 								</a>
 							</li>
 						</ul>
 					</div>
 
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							GET IN TOUCH
+					<div class="col-sm-6 col-lg-3 p-b-50">
+						<h4 class="stext-301 cl0 p-b-25">
+							Stay in the Loop
 						</h4>
-						<p class="stext-107 cl7 size-201">
-							<!-- care@pehunt.in -->
+						<p class="stext-107 cl7 m-b-15">
+							Subscribe for exclusive drops, private sale invites and 15% off your first purchase.
 						</p>
-
-						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Gautambudha nagar, Sector 63 Noida UP 201301
-						</p>
-						<li>
-								<a href="about.php">About</a>
-							</li>
-
-						<!-- <div class="p-t-27">
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-facebook"></i>
-							</a>
-
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-instagram"></i>
-							</a>
-
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-pinterest-p"></i>
-							</a>
-						</div> -->
-					</div>
-
-					<!-- <div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Newsletter
-						</h4>
-
-						<form>
-							<div class="wrap-input1 w-full p-b-4">
-								<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
-									placeholder="email@example.com">
-								<div class="focus-input1 trans-04"></div>
-							</div>
-
-							<div class="p-t-18">
-								<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									Subscribe
-								</button>
-							</div>
+						<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Stark VIP Club!', 'success');">
+							<input type="email" placeholder="Enter your email" required>
+							<button type="submit">Join <i class="fa fa-paper-plane ml-1"></i></button>
 						</form>
-					</div> -->
+					</div>
 				</div>
 
-				<div class="p-t-40">
-					<p class="stext-107 cl6 txt-center">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script> All rights reserved | Pehunt solution OPC Pvt Ltd 
-						<!-- <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
-							target="_blank"></a> &amp; distributed by <a href="#"
-							target="_blank">PeHunt</a> -->
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-
-					</p>
+				<div class="p-t-30 p-b-10" style="border-top: 1px solid rgba(255,255,255,0.08);">
+					<div class="d-flex flex-wrap justify-content-between align-items-center">
+						<p class="stext-107 cl6 m-0">
+							&copy; <?php echo date('Y'); ?> <strong>Stark Store</strong>. All rights reserved. Built with precision & modern aesthetics.
+						</p>
+						<div class="flex-c-m flex-w p-t-4">
+							<a href="#" class="m-all-1"><img src="images/icons/icon-pay-01.png" alt="PAYPAL"></a>
+							<a href="#" class="m-all-1"><img src="images/icons/icon-pay-02.png" alt="VISA"></a>
+							<a href="#" class="m-all-1"><img src="images/icons/icon-pay-03.png" alt="MASTERCARD"></a>
+							<a href="#" class="m-all-1"><img src="images/icons/icon-pay-04.png" alt="EXPRESS"></a>
+							<a href="#" class="m-all-1"><img src="images/icons/icon-pay-05.png" alt="DISCOVER"></a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</footer>
