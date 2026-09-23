@@ -1,760 +1,426 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
-session_start();
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include('config.php');
-if (isset($_SESSION['email']) || isset($_SESSION['google_email'])) {
-	if ($_SERVER["REQUEST_METHOD"] != "POST") {
-		header('location: shoping-cart.php');
-	}
+
+if (!isset($_SESSION['email']) && !isset($_SESSION['google_email'])) {
+    header('Location: login.php');
+    exit;
+}
+
+$user_id    = $_SESSION['id'] ?? null;
+$session_id = session_id();
+
+if (!$user_id) {
+    header('Location: login.php');
+    exit;
+}
+
+stark_ensure_tables($con);
+
+// Fetch user address
+$addr_query = mysqli_query($con, "SELECT * FROM users WHERE id = $user_id");
+$user_data  = mysqli_fetch_assoc($addr_query);
+
+$has_address = !empty($user_data['address']) && !empty($user_data['city']);
+$full_address = $has_address ? trim($user_data['address'] . ', ' . ($user_data['landmark'] ? $user_data['landmark'] . ', ' : '') . $user_data['city'] . ' - ' . $user_data['zip'] . ', ' . $user_data['state']) : '';
+$_SESSION['address'] = $full_address;
+
+// Determine products in checkout
+$checkout_items = [];
+$subtotal = 0;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['check_id'])) {
+    // Products submitted via form (e.g. from shoping-cart.php or Buy Now)
+    $product_ids = (array)$_POST['check_id'];
+    foreach ($product_ids as $pid) {
+        $pid = intval($pid);
+        $p_res = mysqli_query($con, "SELECT id, product_name, product_price, product_img FROM product_item WHERE id = $pid");
+        if ($p_row = mysqli_fetch_assoc($p_res)) {
+            $checkout_items[] = [
+                'id'       => $p_row['id'],
+                'name'     => $p_row['product_name'],
+                'price'    => intval($p_row['product_price']),
+                'img'      => $p_row['product_img'],
+                'quantity' => 1
+            ];
+            $subtotal += intval($p_row['product_price']);
+        }
+    }
 } else {
-	header('location: login.php');
+    // Fetch directly from user_cart
+    $cart_stmt = $con->prepare("
+        SELECT uc.product_id, uc.quantity, pi.product_name, pi.product_price, pi.product_img
+        FROM user_cart uc
+        JOIN product_item pi ON uc.product_id = pi.id
+        WHERE uc.user_id = ? OR uc.session_id = ?
+    ");
+    $cart_stmt->bind_param("is", $user_id, $session_id);
+    $cart_stmt->execute();
+    $cart_res = $cart_stmt->get_result();
+
+    while ($c_row = $cart_res->fetch_assoc()) {
+        $qty = max(1, intval($c_row['quantity']));
+        $checkout_items[] = [
+            'id'       => $c_row['product_id'],
+            'name'     => $c_row['product_name'],
+            'price'    => intval($c_row['product_price']),
+            'img'      => $c_row['product_img'],
+            'quantity' => $qty
+        ];
+        $subtotal += intval($c_row['product_price']) * $qty;
+    }
+    $cart_stmt->close();
+}
+
+if (empty($checkout_items)) {
+    header('Location: shoping-cart.php');
+    exit;
+}
+
+// Shipping calculation (free over ₹1500, otherwise ₹50)
+$shipping = ($subtotal > 1500 || $subtotal == 0) ? 0 : 50;
+$total = $subtotal + $shipping;
+
+// Save session values for payment verification
+$_SESSION['total_price'] = $total;
+$_SESSION['product_id'] = array_column($checkout_items, 'id');
+
+// Setup Razorpay order ID if online payment is initiated
+$razorpay_order_id = '';
+$razorpay_error = '';
+$keyId = defined('RAZORPAY_KEY_ID') ? RAZORPAY_KEY_ID : 'rzp_test_kBREEooxYkKLPo';
+$keySecret = defined('RAZORPAY_KEY_SECRET') ? RAZORPAY_KEY_SECRET : 'P5NsdNUNPas0c0C74oCjkk1Y';
+
+if (file_exists('./razorpay/Razorpay.php')) {
+    require_once './razorpay/Razorpay.php';
+    try {
+        $api = new \Razorpay\Api\Api($keyId, $keySecret);
+        $order = $api->order->create([
+            'amount'          => $total * 100,
+            'currency'        => 'INR',
+            'receipt'         => 'rcpt_' . $user_id . '_' . time(),
+            'payment_capture' => 1
+        ]);
+        $razorpay_order_id = $order['id'];
+    } catch (Exception $e) {
+        $razorpay_error = $e->getMessage();
+    }
 }
 ?>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Checkout</title>
-	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout - Stark Store</title>
+    <link rel="icon" type="image/png" href="images/icons/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
 
-<body class="animsition">
+<body class="animsition bg-gray-50">
 
-	<!-- Header -->
-	<header class="header-v4">
-			<!-- Header desktop -->
-			<div class="container-menu-desktop">
-				<!-- Topbar -->
-				<div class="top-bar">
-					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
-						<div class="left-top-bar">
-							Free shipping for standard order over $100
-						</div>
-					</div>
-				</div>
+    <!-- Header -->
+    <header class="header-v4">
+        <div class="container-menu-desktop">
+            <div class="top-bar">
+                <div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
+                    <div class="left-top-bar">
+                        Free shipping for standard orders over ₹1500
+                    </div>
+                </div>
+            </div>
 
-				<div class="wrap-menu-desktop">
-					<nav class="limiter-menu-desktop container">
+            <div class="wrap-menu-desktop">
+                <nav class="limiter-menu-desktop container">
+                    <a href="index.php" class="logo">
+                        <img src="images/icons/logo-01.png" alt="IMG-LOGO">
+                    </a>
 
-						<!-- Logo desktop -->
-						<a href="index.php" class="logo">
-							<img src="images/icons/logo-01.png" alt="IMG-LOGO">
-						</a>
+                    <div class="menu-desktop">
+                        <ul class="main-menu">
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="product.php">Shop</a></li>
+                            <li class="label1" data-label1="hot"><a href="shoping-cart.php">Your Cart</a></li>
+                            <li><a href="contact.php">Contact</a></li>
+                        </ul>
+                    </div>
 
-						<!-- Menu desktop -->
-						<div class="menu-desktop">
-							<ul class="main-menu">
-								<li class="active-menu">
-									<a href="index.php">Home</a>
-								</li>
+                    <div class="wrap-icon-header flex-w flex-r-m">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
+                            <i class="zmdi zmdi-search"></i>
+                        </div>
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart" data-notify="0">
+                            <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+                        <div class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist" data-notify="0">
+                            <i class="zmdi zmdi-favorite-outline"></i>
+                        </div>
+                        <div class="dropdown">
+                            <div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
+                                <i class="zmdi zmdi-account-circle"></i>
+                                <span class="h6 m-0 ml-2"><?php echo htmlspecialchars($_SESSION['name'] ?? 'User'); ?></span>
+                            </div>
+                            <div class="dropdown-menu border-0 rounded px-3 py-3 shadow" style="background: rgba(255, 255, 255, 0.95); min-width: 180px;">
+                                <li><a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a></li>
+                                <li><a href="address.php" class="dropdown-item font-weight-bold">Address Details</a></li>
+                                <div class="dropdown-divider"></div>
+                                <li><a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a></li>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-								<li>
-									<a href="product.php">Shop</a>
-								</li>
+    <!-- Main Checkout Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex items-center space-x-2 text-sm text-gray-500 mb-8">
+            <a href="index.php" class="hover:text-gray-800">Home</a>
+            <span>/</span>
+            <a href="shoping-cart.php" class="hover:text-gray-800">Shopping Cart</a>
+            <span>/</span>
+            <span class="text-gray-900 font-semibold">Checkout</span>
+        </div>
 
-								<li class="label1" data-label1="hot">
-									<a href="shoping-cart.php">Your Cart</a>
-								</li>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column: Shipping & Payment Method (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Delivery Address Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                    <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">1</div>
+                            <h2 class="text-lg font-bold text-gray-900">Delivery Address</h2>
+                        </div>
+                        <a href="address.php" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800">
+                            <?php echo $has_address ? 'Change Address' : '+ Add Address'; ?>
+                        </a>
+                    </div>
 
-								<li>
-									<!-- <a href="#">Blog</a> -->
-								</li>
+                    <div class="mt-4">
+                        <?php if ($has_address): ?>
+                            <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                                <p class="font-bold text-gray-900"><?php echo htmlspecialchars($user_data['name']); ?></p>
+                                <p class="text-sm text-gray-700 mt-1"><?php echo htmlspecialchars($user_data['address']); ?></p>
+                                <?php if (!empty($user_data['landmark'])): ?>
+                                    <p class="text-xs text-gray-500">Landmark: <?php echo htmlspecialchars($user_data['landmark']); ?></p>
+                                <?php endif; ?>
+                                <p class="text-sm font-semibold text-gray-800 mt-1">
+                                    <?php echo htmlspecialchars($user_data['city'] . ' - ' . $user_data['zip'] . ', ' . $user_data['state']); ?>
+                                </p>
+                                <p class="text-xs text-gray-500 mt-2">Mobile: <?php echo htmlspecialchars($user_data['Mobile'] ?? 'N/A'); ?></p>
+                            </div>
+                        <?php else: ?>
+                            <div class="p-5 rounded-xl border border-dashed border-amber-300 bg-amber-50 text-amber-800">
+                                <p class="text-sm font-semibold">No delivery address saved!</p>
+                                <p class="text-xs mt-1 text-amber-700">Please provide your delivery address before placing an order.</p>
+                                <a href="address.php" class="mt-3 inline-block px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition">
+                                    Enter Address Now &rarr;
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
 
-								<!-- <li>
-									<a href="about.php">About</a>
-								</li> -->
+                <!-- Payment Method Selection Card -->
+                <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                    <div class="flex items-center space-x-3 pb-4 border-b border-gray-100">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">2</div>
+                        <h2 class="text-lg font-bold text-gray-900">Payment Method</h2>
+                    </div>
 
-								<li>
-									<a href="contact.php">Contact</a>
-								</li>
-							</ul>
-						</div>
+                    <div class="mt-4 space-y-3">
+                        <!-- COD Option -->
+                        <label class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-indigo-400 cursor-pointer transition bg-white has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
+                            <div class="flex items-center space-x-3">
+                                <input type="radio" name="pay_option" value="cod" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4" checked>
+                                <div>
+                                    <p class="font-bold text-sm text-gray-900">Cash on Delivery (COD)</p>
+                                    <p class="text-xs text-gray-500">Pay cash directly when your parcel is delivered to your doorstep</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-green-100 text-green-800">Recommended</span>
+                        </label>
 
-						<!-- Icon header -->
-						<div class="wrap-icon-header flex-w flex-r-m">
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-								<i class="zmdi zmdi-search"></i>
-							</div>
-                            <?php
-                                if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
-                            ?>
-							<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti noti-cart js-show-cart">
-								<i class="zmdi zmdi-shopping-cart"></i>
-							</div>
-							<div class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti noti-wish js-show-wishlist">
-								<i class="zmdi zmdi-favorite-outline"></i>
-							</div>
-                            <?php
+                        <!-- Razorpay Online Option -->
+                        <label class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-indigo-400 cursor-pointer transition bg-white has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
+                            <div class="flex items-center space-x-3">
+                                <input type="radio" name="pay_option" value="razorpay" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
+                                <div>
+                                    <p class="font-bold text-sm text-gray-900">Online Payment (UPI, Cards, NetBanking)</p>
+                                    <p class="text-xs text-gray-500">Fast, encrypted payment powered by Razorpay</p>
+                                </div>
+                            </div>
+                            <div class="flex space-x-1">
+                                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-700">UPI</span>
+                                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-100 text-purple-700">Cards</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Place Order Actions -->
+                    <div class="mt-6">
+                        <?php if ($has_address): ?>
+                            <!-- COD Form -->
+                            <form id="codForm" action="place_order.php" method="POST">
+                                <input type="hidden" name="payment_method" value="Cash on Delivery">
+                                <?php foreach ($checkout_items as $ci): ?>
+                                    <input type="hidden" name="check_id[]" value="<?php echo $ci['id']; ?>">
+                                <?php endforeach; ?>
+                                <button type="submit" id="codButton" class="w-full py-4 px-6 rounded-xl bg-gray-900 hover:bg-gray-800 text-white font-bold text-base transition shadow-xl shadow-gray-900/10 flex items-center justify-center space-x-2">
+                                    <span>Place Order (Cash on Delivery)</span>
+                                    <span>&bull;</span>
+                                    <span>₹<?php echo number_format($total, 2); ?></span>
+                                </button>
+                            </form>
+
+                            <!-- Razorpay Button -->
+                            <button id="rzpButton" class="hidden w-full py-4 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base transition shadow-xl shadow-indigo-600/20 flex items-center justify-center space-x-2">
+                                <span>Pay Now via Razorpay</span>
+                                <span>&bull;</span>
+                                <span>₹<?php echo number_format($total, 2); ?></span>
+                            </button>
+                        <?php else: ?>
+                            <a href="address.php" class="block text-center w-full py-4 px-6 rounded-xl bg-gray-400 text-white font-bold text-base cursor-not-allowed">
+                                Add Delivery Address to Place Order
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Order Summary (5 cols) -->
+            <div class="lg:col-span-5">
+                <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm sticky top-28">
+                    <h2 class="text-lg font-bold text-gray-900 pb-4 border-b border-gray-100">Order Summary</h2>
+
+                    <!-- Items List -->
+                    <div class="mt-4 space-y-4 max-h-80 overflow-y-auto pr-1">
+                        <?php foreach ($checkout_items as $item): ?>
+                            <div class="flex items-center space-x-4 py-2 border-b border-gray-100 last:border-b-0">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
+                                    <img src="image/product/<?php echo htmlspecialchars($item['img']); ?>" alt="" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-semibold text-gray-900 truncate"><?php echo htmlspecialchars($item['name']); ?></h4>
+                                    <p class="text-xs text-gray-500 mt-0.5">Qty: <?php echo $item['quantity']; ?></p>
+                                    <p class="text-sm font-bold text-indigo-600 mt-1">₹<?php echo number_format($item['price'], 2); ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Price Breakdown -->
+                    <div class="mt-6 pt-4 border-t border-gray-100 space-y-3">
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>Subtotal</span>
+                            <span class="font-semibold text-gray-900">₹<?php echo number_format($subtotal, 2); ?></span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>Shipping</span>
+                            <?php if ($shipping === 0): ?>
+                                <span class="font-semibold text-emerald-600">FREE</span>
+                            <?php else: ?>
+                                <span class="font-semibold text-gray-900">₹<?php echo number_format($shipping, 2); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="pt-3 border-t border-gray-100 flex justify-between items-center">
+                            <span class="text-base font-bold text-gray-900">Total Payable</span>
+                            <span class="text-2xl font-black text-gray-900">₹<?php echo number_format($total, 2); ?></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 p-3.5 bg-gray-50 rounded-xl border border-gray-200 text-xs text-gray-500 flex items-center space-x-2">
+                        <i class="zmdi zmdi-shield-check text-xl text-emerald-500"></i>
+                        <span>100% Safe & Secure Checkout with SSL encryption.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <script>
+        // Toggle payment button based on selected payment radio
+        $('input[name="pay_option"]').on('change', function() {
+            if ($(this).val() === 'razorpay') {
+                $('#codButton').addClass('hidden');
+                $('#rzpButton').removeClass('hidden');
+            } else {
+                $('#codButton').removeClass('hidden');
+                $('#rzpButton').addClass('hidden');
+            }
+        });
+
+        // Razorpay Payment Handler
+        var rzpBtn = document.getElementById('rzpButton');
+        if (rzpBtn) {
+            rzpBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                <?php if (!empty($razorpay_order_id)): ?>
+                var options = {
+                    "key": "<?php echo $keyId; ?>",
+                    "amount": "<?php echo $total * 100; ?>",
+                    "currency": "INR",
+                    "name": "Stark Store",
+                    "description": "Order Payment",
+                    "image": "images/icons/logo-01.png",
+                    "order_id": "<?php echo $razorpay_order_id; ?>",
+                    "handler": function(response) {
+                        // Send AJAX verification and ONLY navigate after server confirmation
+                        $.ajax({
+                            url: "verify_payment.php",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                payment_id: response.razorpay_payment_id,
+                                order_id: response.razorpay_order_id,
+                                signature: response.razorpay_signature
+                            },
+                            success: function(res) {
+                                if (res.status === 'success') {
+                                    window.location.href = res.redirect || "order.php";
+                                } else {
+                                    alert("Payment verification failed: " + (res.error || "Unknown error"));
                                 }
-                            ?>
-							<div class="dropdown">
-								<div class="dis-block d-flex align-items-center icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-22 dropdown-toggle" data-bs-toggle="dropdown">
-									<i class="zmdi zmdi-account-circle"></i>
-									<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
-								</div>
-								<div class="dropdown-menu border-0 rounded px-3 py-3" style="background: rgba(255, 255, 255, 0.5);">
-									<?php
-                                        if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
-                                    ?>
-                                        <a href="#" class="dropdown-item font-weight-bold">Profile</a>
-									<a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a>
-									<a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a>
-									<div class="dropdown-divider"></div>
-									<a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a>
-                                    <?php
-                                        }else{
-                                    ?>
-                                    <a href="login.php" class="dropdown-item font-weight-bold">Login</a>
-                                    <?php
-                                        }
-                                    ?>
-								</div>
-							</div>
-
-						</div>
-					</nav>
-				</div>
-			</div>
-
-			<!-- Header Mobile -->
-			<div class="wrap-header-mobile">
-				<!-- Logo moblie -->
-				<div class="logo-mobile">
-					<a href="index.php"><img src="images/icons/logo-01.png" alt="IMG-LOGO"></a>
-				</div>
-
-				<!-- Icon header -->
-				<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-					<div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
-						<i class="zmdi zmdi-search"></i>
-					</div>
-				</div>
-
-				<!-- Button show menu -->
-				<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
-				</div>
-			</div>
-
-
-			<!-- Menu Mobile -->
-			<div class="menu-mobile">
-				<ul class="main-menu-m">
-					<li>
-						<a href="index.php">Home</a>
-						<span class="arrow-main-menu-m">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</span>
-					</li>
-
-					<li>
-						<a href="product.php">Shop</a>
-					</li>
-
-					<li>
-						<a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Cart</a>
-					</li>
-
-					<!-- <li>
-						<a href="#">Blog</a>
-					</li> -->
-
-					<!-- <li>
-						<a href="about.php">About</a>
-					</li> -->
-
-					<li>
-						<a href="contact.php">Contact</a>
-					</li>
-					<li>
-					<li>
-						<!-- <a href="index.php">Home</a> -->
-						<span class="h6 m-0 ml-2"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : "User"; ?></span>
-						<ul class="sub-menu-m">
-							<?php
-                                        if(isset($_SESSION['email']) || isset($_SESSION['google_email'])){
-                                    ?>
-                                        <li><a href="#" class="dropdown-item font-weight-bold">Profile</a></li>
-									<li><a href="orders.php" class="dropdown-item font-weight-bold">Your Orders</a></li>
-									<li><a href="#" class="dropdown-item font-weight-bold">Your Wishlist</a></li>
-									<div class="dropdown-divider"></div>
-									<li><a href="logout.php" class="dropdown-item text-danger font-weight-bold">Logout</a></li>
-                                    <?php
-                                        }else{
-                                    ?>
-                                    <li><a href="login.php" class="dropdown-item font-weight-bold">Login</a></li>
-                                    <?php
-                                        }
-                                    ?>
-						</ul>
-						<span class="arrow-main-menu-m">
-							<i class="fa fa-angle-right" aria-hidden="true"></i>
-						</span>
-					</li>
-					</li>
-				</ul>
-			</div>
-
-			<!-- Modal Search -->
-			<div class="modal-search-header flex-c-m trans-04 js-hide-modal-search">
-				<div class="container-search-header">
-					<button class="flex-c-m btn-hide-modal-search trans-04 js-hide-modal-search">
-						<img src="images/icons/icon-close2.png" alt="CLOSE">
-					</button>
-
-					<form class="wrap-search-header flex-w p-l-15">
-						<button class="flex-c-m trans-04">
-							<i class="zmdi zmdi-search"></i>
-						</button>
-						<input class="plh3" type="text" name="search" placeholder="Search...">
-					</form>
-				</div>
-			</div>
-		</header>
-
-	<!-- Cart -->
-	<div class="wrap-header-cart js-panel-cart">
-		<div class="s-full js-hide-cart"></div>
-
-		<div class="header-cart flex-col-l p-l-65 p-r-25">
-			<div class="header-cart-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-					Your Cart
-				</span>
-
-				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-					<i class="zmdi zmdi-close"></i>
-				</div>
-			</div>
-
-			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-cart-wrapitem w-full">
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<!-- Wishlist -->
-	<div class="wrap-header-wishlist js-panel-wishlist">
-		<div class="s-full js-hide-wishlist"></div>
-
-		<div class="header-wishlist flex-col-l p-l-65 p-r-25">
-			<div class="header-wishlist-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-					Your Wishlist
-				</span>
-
-				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-wishlist">
-					<i class="zmdi zmdi-close"></i>
-				</div>
-			</div>
-
-			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-wishlist-wrapitem w-full">
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<div class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 py-16">
-		<div class="px-4 pt-8">
-			<p class="text-xl font-medium">Address Details</p>
-			<p class="text-gray-400">Check your Address. And select a suitable shipping Address.</p>
-			<div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-				<?php
-				$address_id = $_SESSION['id'];
-				$fetch_address = mysqli_query($con, "SELECT * FROM users WHERE id = $address_id");
-				while ($row = mysqli_fetch_assoc($fetch_address)) {
-					$_SESSION['address'] = $row['address'] . ',' . $row['landmark'] . ',' . $row['city'] . ',' . $row['zip'] . '-' . $row['state'];
-					echo $_SESSION['address'];
-				?>
-					<div class="flex flex-col rounded-lg bg-white sm:flex-row">
-						<div class="flex w-full flex-col px-4 py-4">
-							<span class="font-semibold"><?php echo $row['address']; ?></span>
-							<span class="float-right text-gray-400"><?php echo $row['landmark']; ?></span>
-							<p class="text-lg font-bold"><?php echo $row['city'] . '-' . $row['zip'] . ',' . $row['state']; ?></p>
-						</div>
-					</div>
-				<?php
-				}
-
-				?>
-			</div>
-			<div class="flex flex-col rounded-lg bg-white sm:flex-row">
-				<div class="flex w-full flex-col px-4 py-4">
-					<a href="address.php" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">Add Address</a>
-				</div>
-			</div>
-		</div>
-		<div class="px-4 pt-8">
-			<p class="text-xl font-medium">Order Summary</p>
-			<p class="text-gray-400">Check your items</p>
-			<div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-				<?php
-
-				if ($_SERVER["REQUEST_METHOD"] == "POST") {
-					try {
-						// Check if POST data is set
-						if (!isset($_POST['check_id']) || !isset($_POST['check_price'])) {
-							throw new Exception("Error: No cart data found!");
-						}
-
-						$product_id = $_POST['check_id'];
-						$product_ids = $_POST['check_id'];
-						$product_prices = $_POST['check_price'];
-
-						// Validate that product_prices is an array and the lengths match
-						if (!is_array($product_prices) || count($product_ids) !== count($product_prices)) {
-							throw new Exception("Error: Product IDs and prices do not match.");
-						}
-
-						$checking_price = array_sum($product_prices);
-						$shipping = 0;
-
-						// Calculate shipping based on the checking price
-						if ($checking_price > 3000) {
-							$shipping = 0;
-						} elseif ($checking_price > 1500) {
-							$shipping = 0;
-						}
-
-						$total = $checking_price + $shipping;
-
-						// Iterate through product IDs and fetch details from the database
-						foreach ($product_ids as $index => $product_id) {
-							$cart_details = mysqli_query($product_info, "SELECT * FROM product_item WHERE id = $product_id");
-
-							if (!$cart_details) {
-								throw new Exception("Error: Could not retrieve product details. " . mysqli_error($product_info));
-							}
-
-							// Check if product exists
-							if (mysqli_num_rows($cart_details) > 0) {
-								while ($checkout_data = mysqli_fetch_assoc($cart_details)) {
-				?>
-									<div class="flex flex-col rounded-lg bg-white sm:flex-row">
-										<div class="m-2 h-24 w-28 rounded-md border object-cover object-center">
-											<img class="w-auto h-auto" src="image/product/<?php echo htmlspecialchars($checkout_data['product_img']) ?>" alt="" />
-										</div>
-										<div class="flex w-full flex-col px-4 py-4">
-											<span class="font-semibold"><?php echo htmlspecialchars($checkout_data['product_name']) ?></span>
-											<p class="text-lg font-bold"><?php echo htmlspecialchars($product_prices[$index]) ?></p>
-										</div>
-									</div>
-				<?php
-								}
-							} else {
-								throw new Exception("Error: Product with ID $product_id not found.");
-							}
-						}
-					} catch (Exception $e) {
-						echo $e->getMessage();
-					}
-				} else {
-					echo "Error: Invalid request method.";
-				}
-				?>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="sm:px-10 lg:px-20 xl:px-32">
-		<p class="text-xl font-medium">Payment Details</p>
-		<p class="text-gray-400">Complete your order by providing your payment details.</p>
-		<div class="mt-6 border-t border-b py-2">
-			<div class="flex items-center justify-between">
-				<p class="text-sm font-medium text-gray-900">Subtotal</p>
-				<p class="font-semibold text-gray-900"><?php echo $checking_price ?>.00</p>
-			</div>
-			<div class="flex items-center justify-between">
-				<p class="text-sm font-medium text-gray-900">Shipping</p>
-				<p class="font-semibold text-gray-900"><?php echo $shipping ?>.00</p>
-			</div>
-		</div>
-		<div class="mt-6 flex items-center justify-between">
-			<p class="text-sm font-medium text-gray-900">Total</p>
-			<p class="text-2xl font-semibold text-gray-900"><?php echo $total ?>.00</p>
-		</div>
-		<!-- <form action=""> -->
-		<button id="button" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
-		<!-- </form> -->
-	</div>
-	</div>
-	</div>
-	</div>
-	<?php
-	require_once './razorpay/Razorpay.php';
-
-	use Razorpay\Api\Api;
-
-	$keyId = 'rzp_live_RZ695j5VbYE6fI';
-	$keySecret = '8vAbxasZlsrqRlapFCdl9eam';
-
-	$api = new Api($keyId, $keySecret);
-
-	$_SESSION['total_price'] = $total;
-	$_SESSION['product_id'] = $product_ids;
-	$_SESSION['product_check'] = $product_prices;
-
-	try {
-		$order = $api->order->create([
-			'amount' => $total * 100,
-			'currency' => 'INR',
-			'receipt' => 'order_rcptid_' . $_SESSION['id'],
-			'payment_capture' => 1
-		]);
-
-		$orderId = $order['id'];
-	} catch (Exception $e) {
-		die(json_encode(['status' => 'failure', 'error' => $e->getMessage()]));
-	}
-
-	?>
-	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-	<script>
-		let button = document.getElementById('button')
-		button.addEventListener('click', function(e) {
-			e.preventDefault();
-
-			var options = {
-				"key": "<?php echo $keyId; ?>",
-				"amount": "<?php echo ($checking_price + $shipping) * 100; ?>",
-				"currency": "INR",
-				"name": "PeHunt",
-				"description": "Purchase Description",
-				"image": "./images/icons/logo-01.png",
-				"order_id": "<?php echo $orderId; ?>",
-				"handler": function(response) {
-					window.location.href = "order.php";
-
-					$.ajax({
-						url: "verify_payment.php",
-						type: "POST",
-						data: {
-							payment_id: response.razorpay_payment_id,
-							order_id: response.razorpay_order_id,
-							signature: response.razorpay_signature
-						},
-						success: function(data) {
-							alert('Payment verified successfully!' + data);
-						},
-						error: function(err) {
-							alert('Payment verification failed!');
-						}
-					});
-				},
-				"theme": {
-					"color": "#3399cc"
-				}
-			};
-
-			var rzp = new Razorpay(options);
-			rzp.open();
-		});
-	</script>
-
-<footer class="bg3 p-t-75 p-b-32">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Categories
-						</h4>
-
-						<ul>
-							<li class="p-b-10">
-								<a href="product.php?product_target=f" class="stext-107 cl7 hov-cl1 trans-04">
-									Women
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php?product_target=m" class="stext-107 cl7 hov-cl1 trans-04">
-									Men
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shoes
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="product.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Watches
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Help
-						</h4>
-
-						<ul>
-							<li class="p-b-10">
-								<a href="order_details.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Track Order
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="return-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Return policy
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="shipping-policy.php" class="stext-107 cl7 hov-cl1 trans-04">
-									Shipping Policy
-								</a>
-							</li>
-
-							<li class="p-b-10">
-								<a href="contact.php" class="stext-107 cl7 hov-cl1 trans-04">
-									FAQs
-								</a>
-							</li>
-						</ul>
-					</div>
-
-					<div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							GET IN TOUCH
-						</h4>
-						<p class="stext-107 cl7 size-201">
-							<!-- care@pehunt.in -->
-						</p>
-
-						<p class="stext-107 cl7 size-201">
-							Any questions? Let us know in store at Pehunt solution OPC Pvt Ltd , Office No GF-05, H73, Gautambudha nagar, Sector 63 Noida UP 201301
-						</p>
-						<li>
-								<a href="about.php">About</a>
-							</li>
-
-						<!-- <div class="p-t-27">
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-facebook"></i>
-							</a>
-
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-instagram"></i>
-							</a>
-
-							<a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-								<i class="fa fa-pinterest-p"></i>
-							</a>
-						</div> -->
-					</div>
-
-					<!-- <div class="col-sm-6 col-lg-4 p-b-50">
-						<h4 class="stext-301 cl0 p-b-30">
-							Newsletter
-						</h4>
-
-						<form>
-							<div class="wrap-input1 w-full p-b-4">
-								<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
-									placeholder="email@example.com">
-								<div class="focus-input1 trans-04"></div>
-							</div>
-
-							<div class="p-t-18">
-								<button class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04">
-									Subscribe
-								</button>
-							</div>
-						</form>
-					</div> -->
-				</div>
-
-				<div class="p-t-40">
-					<p class="stext-107 cl6 txt-center">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script> All rights reserved | Pehunt solution OPC Pvt Ltd 
-						<!-- <i
-							class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#"
-							target="_blank"></a> &amp; distributed by <a href="#"
-							target="_blank">PeHunt</a> -->
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-
-					</p>
-				</div>
-			</div>
-		</footer>
-	<div class="btn-back-to-top" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="zmdi zmdi-chevron-up"></i>
-		</span>
-	</div>
-
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="vendor/animsition/js/animsition.min.js"></script>
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="vendor/select2/select2.min.js"></script>
-	<script>
-		$(".js-select2").each(function() {
-			$(this).select2({
-				minimumResultsForSearch: 20,
-				dropdownParent: $(this).next('.dropDownSelect2')
-			});
-		})
-	</script>
-	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function() {
-			$(this).css('position', 'relative');
-			$(this).css('overflow', 'hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed: 1,
-				scrollingThreshold: 1000,
-				wheelPropagation: false,
-			});
-
-			$(window).on('resize', function() {
-				ps.update();
-			})
-		});
-	</script>
-	<script>
-		$(document).ready(function() {
-			$("#cardPayment").slideUp(10);
-			// Listen for changes on payment method radio buttons
-			$(".peer").on("change", function() {
-				if ($("#Card").is(':checked')) {
-					$("#cardPayment").slideDown();
-				} else {
-					$("#cardPayment").slideDown();
-
-				}
-			});
-		});
-	</script>
-	<script>
-		function fetchWishlistData() {
-				$.ajax({
-					url: 'wishlist-data-config.php',
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							$('.noti-wish').attr('data-notify', response.count);
-							var wishlistItems = response.data;
-							var wishlistHTML = '';
-
-							wishlistItems.forEach(function(item) {
-								wishlistHTML += `
-                            <li class="header-cart-item flex-w flex-t m-b-12">
-                                <div class="header-cart-item-img">
-                                    <img src="image/product/${item.product_img}" alt="IMG">
-                                </div>
-                                <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                        ${item.product_name}
-                                    </a>
-                                    <span class="header-cart-item-info">
-                                        ₹ ${item.product_price}
-                                    </span>
-                                </div>
-                            </li>`;
-							});
-							$('.header-wishlist-wrapitem').html(wishlistHTML);
-						} else if (response.status === 'empty') {
-							$('.header-wishlist-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-wish').attr('data-notify', 0);
-						}
-					},
-					error: function() {
-						console.error('Error fetching wishlist data');
-					}
-				});
-			}
-			// setInterval(fetchWishlistData, 2000);
-
-			function fetchCartData() {
-				$.ajax({
-					url: 'cart-data-config.php', // PHP script for fetching cart data
-					type: 'GET',
-					dataType: 'json',
-					success: function(response) {
-						if (response.status === 'success') {
-							// Update cart count
-							$('.noti-cart').attr('data-notify', response.count);
-
-							// Build the cart items HTML
-							var cartItems = response.data;
-							var cartHTML = '';
-
-							cartItems.forEach(function(item) {
-								cartHTML += `
-                            <li class="header-cart-item flex-w flex-t m-b-12">
-                                <div class="header-cart-item-img">
-                                    <img src="image/product/${item.product_img}" alt="IMG">
-                                </div>
-                                <div class="header-cart-item-txt p-t-8">
-                                    <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                        ${item.product_name}
-                                    </a>
-                                    <span class="header-cart-item-info">
-                                        ₹ ${item.product_price}
-                                    </span>
-                                </div>
-                            </li>`;
-							});
-
-							// Update cart items in the DOM
-							$('.header-cart-wrapitem').html(cartHTML);
-						} else if (response.status === 'empty') {
-							// Display "Add Product" message when cart is empty
-							$('.header-cart-wrapitem').html('<h1>Add Product</h1>');
-							$('.noti-cart').attr('data-notify', 0); // Set notify to 0
-						}
-					},
-					error: function() {
-						console.error('Error fetching cart data');
-					}
-				});
-			}
-
-			// setInterval(fetchCartData, 2000);
-
-			$(document).ready(function() {
-				fetchCartData();
-				fetchWishlistData();
-			});
-	</script>
-	<script src="js/main.js"></script>
-	<script>
-		// if (window.history.replaceState) {
-		// 	window.history.replaceState(null, null, window.location.href);
-		// }
-	</script>
+                            },
+                            error: function(err) {
+                                alert("Failed to communicate with verification server.");
+                            }
+                        });
+                    },
+                    "prefill": {
+                        "name": "<?php echo htmlspecialchars($user_data['name'] ?? ''); ?>",
+                        "email": "<?php echo htmlspecialchars($user_data['email'] ?? ''); ?>",
+                        "contact": "<?php echo htmlspecialchars($user_data['Mobile'] ?? ''); ?>"
+                    },
+                    "theme": {
+                        "color": "#4f46e5"
+                    }
+                };
+                var rzp = new Razorpay(options);
+                rzp.open();
+                <?php else: ?>
+                alert("Razorpay is currently in offline mode. Please choose Cash on Delivery (COD) to complete your order.");
+                <?php endif; ?>
+            });
+        }
+    </script>
 </body>
-
 </html>

@@ -1,10 +1,11 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include('config.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
-<?php
-include('config.php');
-mysqli_set_charset($product_info, "utf8mb4");
-session_start();
-?>
 
 <head>
 	<title>Product Detail</title>
@@ -248,17 +249,56 @@ session_start();
 	</div>
 
 	<?php
-	if (isset($_GET['id']) && isset($_GET['name'])) {
-		$product_id = $_GET['id'];
-		$product_name = $_GET['name'];
-		$query = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id WHERE product_item.id = ?";
-		$stmt = $product_info->prepare($query);
+	$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+	$product_name = isset($_GET['name']) ? trim($_GET['name']) : '';
+
+	$product_details = null;
+	if ($product_id > 0) {
+		$stmt = $con->prepare("
+			SELECT pi.*, img.pr_imgs, pc.pc_name 
+			FROM product_item pi 
+			LEFT JOIN product_images img ON pi.product_related_img = img.pr_id OR pi.id = img.pr_id 
+			LEFT JOIN product_category pc ON pi.product_catg = pc.pc_id 
+			WHERE pi.id = ? LIMIT 1
+		");
 		$stmt->bind_param('i', $product_id);
 		$stmt->execute();
-		$result = $stmt->get_result();
-		$product_details = $result->fetch_assoc();
-		if ($product_details) {
-			$pr_img = json_decode($product_details['pr_imgs']);
+		$res = $stmt->get_result();
+		$product_details = $res->fetch_assoc();
+		$stmt->close();
+	} elseif (!empty($product_name)) {
+		$stmt = $con->prepare("
+			SELECT pi.*, img.pr_imgs, pc.pc_name 
+			FROM product_item pi 
+			LEFT JOIN product_images img ON pi.product_related_img = img.pr_id OR pi.id = img.pr_id 
+			LEFT JOIN product_category pc ON pi.product_catg = pc.pc_id 
+			WHERE pi.product_name = ? LIMIT 1
+		");
+		$stmt->bind_param('s', $product_name);
+		$stmt->execute();
+		$res = $stmt->get_result();
+		$product_details = $res->fetch_assoc();
+		$stmt->close();
+	}
+
+	if ($product_details) {
+		$gallery_imgs = [];
+		if (!empty($product_details['product_img'])) {
+			$gallery_imgs[] = 'image/product/' . $product_details['product_img'];
+		}
+		if (!empty($product_details['pr_imgs'])) {
+			$decoded_imgs = json_decode($product_details['pr_imgs'], true);
+			if (is_array($decoded_imgs)) {
+				foreach ($decoded_imgs as $g_file) {
+					if (!empty($g_file)) {
+						$gallery_imgs[] = 'image/product/pr_imgs/' . $g_file;
+					}
+				}
+			}
+		}
+		if (empty($gallery_imgs)) {
+			$gallery_imgs[] = 'images/product-placeholder.jpg';
+		}
 	?>
 			<!-- breadcrumb -->
 			<div class="container">
@@ -269,36 +309,30 @@ session_start();
 					</a>
 
 					<a href="product.php" class="stext-109 cl8 hov-cl1 trans-04">
-						Men
+						<?php echo htmlspecialchars($product_details['pc_name'] ?? 'Shop'); ?>
 						<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 					</a>
 
 					<span class="stext-109 cl4">
-						<?php echo $product_details['product_name'] ?>
+						<?php echo htmlspecialchars($product_details['product_name']); ?>
 					</span>
 				</div>
 			</div>
 
 			<div class="wrap-header-wishlist js-panel-wishlist">
-		<div class="s-full js-hide-wishlist"></div>
-
-		<div class="header-wishlist flex-col-l p-l-65 p-r-25">
-			<div class="header-wishlist-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-					Your Wishlist
-				</span>
-
-				<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-wishlist">
-					<i class="zmdi zmdi-close"></i>
+				<div class="s-full js-hide-wishlist"></div>
+				<div class="header-wishlist flex-col-l p-l-65 p-r-25">
+					<div class="header-wishlist-title flex-w flex-sb-m p-b-8">
+						<span class="mtext-103 cl2">Your Wishlist</span>
+						<div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-wishlist">
+							<i class="zmdi zmdi-close"></i>
+						</div>
+					</div>
+					<div class="header-cart-content flex-w js-pscroll">
+						<ul class="header-wishlist-wrapitem w-full"></ul>
+					</div>
 				</div>
 			</div>
-
-			<div class="header-cart-content flex-w js-pscroll">
-				<ul class="header-wishlist-wrapitem w-full">
-				</ul>
-			</div>
-		</div>
-	</div>
 
 			<!-- Product Detail -->
 			<section class="sec-product-detail bg0 p-t-65 p-b-60">
@@ -306,39 +340,22 @@ session_start();
 					<div class="row">
 						<div class="col-md-6 col-lg-7 p-b-30">
 							<div class="p-l-25 p-r-30 p-lr-0-lg">
-								<div class="swiper mySwiper2">
+								<div class="swiper mySwiper2 rounded-3 overflow-hidden shadow-sm" style="max-height: 520px;">
 									<div class="swiper-wrapper">
-										<div class="swiper-slide">
-											<img src="image/product/<?php echo $product_details['product_img'] ?>" />
+										<?php foreach ($gallery_imgs as $g_path): ?>
+										<div class="swiper-slide text-center bg-light">
+											<img src="<?php echo htmlspecialchars($g_path); ?>" class="img-fluid" style="max-height: 500px; object-fit: contain;" onerror="this.src='images/product-placeholder.jpg'" />
 										</div>
-										<div class="swiper-slide">
-											<img src="image/product/pr_imgs/<?php echo $pr_img[0] ?>" />
-										</div>
-										<div class="swiper-slide">
-											<img src="image/product/pr_imgs/<?php echo $pr_img[1] ?>" />
-										</div>
-										<div class="swiper-slide">
-											<img src="image/product/pr_imgs/<?php echo $pr_img[2] ?>" />
-										</div>
+										<?php endforeach; ?>
 									</div>
 								</div>
-								<div class="swiper mySwiper">
+								<div class="swiper mySwiper m-t-15">
 									<div class="swiper-wrapper">
-										<div class="swiper-zoom-container">
-											<img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+										<?php foreach ($gallery_imgs as $g_path): ?>
+										<div class="swiper-slide rounded overflow-hidden" style="cursor: pointer; border: 2px solid #eee;">
+											<img src="<?php echo htmlspecialchars($g_path); ?>" style="height: 80px; width: 100%; object-fit: cover;" onerror="this.src='images/product-placeholder.jpg'" />
 										</div>
-										<div class="swiper-slide">
-											<img src="image/product/<?php echo $product_details['product_img'] ?>" />
-										</div>
-										<div class="swiper-slide">
-											<img src="image/product/pr_imgs/<?php echo $pr_img[0] ?>" />
-										</div>
-										<div class="swiper-slide">
-											<img src="image/product/pr_imgs/<?php echo $pr_img[1] ?>" />
-										</div>
-										<div class="swiper-slide">
-											<img src="image/product/pr_imgs/<?php echo $pr_img[2] ?>" />
-										</div>
+										<?php endforeach; ?>
 									</div>
 								</div>
 								<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -346,14 +363,12 @@ session_start();
 								<!-- Initialize Swiper -->
 								<script>
 									var swiper = new Swiper(".mySwiper", {
-										loop: true,
 										spaceBetween: 10,
 										slidesPerView: 4,
 										freeMode: true,
 										watchSlidesProgress: true,
 									});
 									var swiper2 = new Swiper(".mySwiper2", {
-										loop: true,
 										spaceBetween: 10,
 										thumbs: {
 											swiper: swiper,
@@ -365,19 +380,19 @@ session_start();
 
 						<div class="col-md-6 col-lg-5 p-b-30">
 							<div class="p-r-50 p-t-5 p-lr-0-lg">
-								<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-									<?php echo $product_details['product_name'] ?>
+								<h4 class="mtext-105 cl2 js-name-detail p-b-14 font-weight-bold">
+									<?php echo htmlspecialchars($product_details['product_name']); ?>
 								</h4>
 
-								<span class="mtext-106 cl2">
-									<?php echo $product_details['product_price'] ?>
+								<span class="mtext-106 cl1 font-weight-bold" style="font-size: 24px;">
+									₹ <?php echo number_format($product_details['product_price'], 2); ?>
 								</span>
 
 								<p class="stext-102 cl3 p-t-23">
-									<?php echo $product_details['product_description'] ?>
+									<?php echo nl2br(htmlspecialchars($product_details['product_description'])); ?>
 								</p>
 
-								<!--  -->
+								<!-- Options & Actions -->
 								<div class="p-t-33">
 									<div class="flex-w flex-r-m p-b-10">
 										<div class="size-203 flex-c-m respon6">
@@ -386,10 +401,10 @@ session_start();
 
 										<div class="size-204 respon6-next">
 											<div class="rs1-select2 bor8 bg0">
-												<select class="js-select2" name="time">
-													<option>Choose an option</option>
+												<select class="js-select2" name="size">
+													<option>Select Size</option>
 													<option>Size S</option>
-													<option>Size M</option>
+													<option selected>Size M</option>
 													<option>Size L</option>
 													<option>Size XL</option>
 												</select>
@@ -400,51 +415,37 @@ session_start();
 
 									<div class="flex-w flex-r-m p-b-10">
 										<div class="size-203 flex-c-m respon6">
-											Color
+											Quantity
 										</div>
 
 										<div class="size-204 respon6-next">
-											<div class="rs1-select2 bor8 bg0">
-												<select class="js-select2" name="time">
-													<option>Choose an option</option>
-													<option>Red</option>
-													<option>Blue</option>
-													<option>White</option>
-													<option>Grey</option>
-												</select>
-												<div class="dropDownSelect2"></div>
-											</div>
-										</div>
-									</div>
-
-									<div class="flex-w flex-r-m p-b-10">
-										<div class="size-204 flex-w flex-m respon6-next">
-											<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+											<div class="wrap-num-product flex-w m-tb-10">
+												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" style="cursor: pointer;">
 													<i class="fs-16 zmdi zmdi-minus"></i>
 												</div>
 
 												<input class="mtext-104 cl3 txt-center num-product" type="number"
-													name="num-product" value="1">
+													name="num-product" value="1" min="1">
 
-												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" style="cursor: pointer;">
 													<i class="fs-16 zmdi zmdi-plus"></i>
 												</div>
 											</div>
+										</div>
+									</div>
 
-											<!-- <form action="cart_config.php" method="POST" class="cartForm">
-												<input type="hidden" value="" name="cart_product" id="product_cart_details">
-												<input type="hidden" value="<?php echo isset($_SESSION['cart']) ? $_SESSION['cart'] : "" ; ?>" name="cart">
-												<button type="submit"
-													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-													Add to cart
-												</button>
-											</form> -->
-											<form action="checkout.php" method="POST">
-												<input type="hidden" value="<?php echo $product_details['id'] ?>" name="check_id[]" id="product_buy_details">
-												<input type="hidden" value="<?php echo $product_details['product_price'] ?>" name="check_price[]" id="product_buy_price">
-												<button name="checkout"
-													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+									<div class="flex-w flex-r-m p-t-15 p-b-10">
+										<div class="size-204 flex-w flex-m respon6-next" style="gap: 12px;">
+											<button type="button" id="btn-add-to-cart"
+												class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 shadow-sm" style="border-radius: 25px;">
+												<i class="zmdi zmdi-shopping-cart m-r-8"></i> Add to Cart
+											</button>
+
+											<form action="checkout.php" method="POST" style="margin: 0;">
+												<input type="hidden" value="<?php echo $product_details['id']; ?>" name="check_id[]">
+												<input type="hidden" value="<?php echo $product_details['product_price']; ?>" name="check_price[]">
+												<button type="submit" name="checkout"
+													class="flex-c-m stext-101 cl0 size-101 bg3 bor14 hov-btn3 p-lr-15 trans-04 shadow-sm" style="border-radius: 25px;">
 													Buy Now
 												</button>
 											</form>
@@ -679,13 +680,17 @@ session_start();
 			</section>
 
 	<?php
-
 		} else {
-			echo "Product not found.";
+	?>
+			<div class="container p-t-80 p-b-80 text-center">
+				<h3 class="mtext-109 cl2 p-b-16">Product Not Found</h3>
+				<p class="stext-115 cl6 p-b-30">The product you are looking for may have been removed or the link is incorrect.</p>
+				<a href="product.php" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 m-lr-auto rounded-pill" style="max-width: 220px;">
+					Browse Shop
+				</a>
+			</div>
+	<?php
 		}
-	} else {
-		echo "Product ID or name not provided.";
-	}
 	?>
 
 	<!-- Related Products -->
@@ -1350,44 +1355,43 @@ session_start();
 	<!--===============================================================================================-->
 	<script src="vendor/sweetalert/sweetalert.min.js"></script>
 	<script>
-		$('.wishlistForm').on('submit', function(e) {
-				e.preventDefault();
-				$.ajax({
-					type: 'POST',
-					url: $(this).attr('action'),
-					data: $(this).serialize(),
-					success: function(response) {
-						if (response == "Product Added") {
-							swal('Your Product', 'is added to Cart !', 'success');
-						} else if (response == "already add") {
-							swal('Your Product', 'already added to Cart !', 'warning');
-						}
+		$(document).on('click', '#btn-add-to-cart', function(e) {
+			e.preventDefault();
+			var pid = <?php echo intval($product_details['id'] ?? 0); ?>;
+			var qty = parseInt($('input[name="num-product"]').val()) || 1;
+			var pname = <?php echo json_encode($product_details['product_name'] ?? 'Product'); ?>;
 
+			if (pid <= 0) return;
 
-					},
-					error: function(xhr, status, error) {
-						alert('An error occurred: ' + error);
-					}
-				});
+			$.ajax({
+				type: 'POST',
+				url: 'cart_config.php',
+				data: {
+					cart_product: pid,
+					'num-product': qty
+				},
+				success: function(response) {
+					swal(pname, "is added to cart !", "success");
+					fetchCartData();
+				},
+				error: function(xhr, status, error) {
+					swal("Error", "Could not add product to cart: " + error, "error");
+				}
 			});
-		$('.cartForm').on('submit', function(e) {
-			e.preventDefault(); // Prevent the form from submitting the traditional way
+		});
 
+		$('.wishlistForm').on('submit', function(e) {
+			e.preventDefault();
 			$.ajax({
 				type: 'POST',
 				url: $(this).attr('action'),
 				data: $(this).serialize(),
 				success: function(response) {
-					if (response == "") {
-						swal('Your Product', 'is added to Cart !', 'success');
-					} else if (response == "already add") {
-						swal('Your Product', 'already added to Cart !', 'warning');
-					}
-
-
+					swal('Success', 'Product updated in Wishlist!', 'success');
+					fetchWishlistData();
 				},
 				error: function(xhr, status, error) {
-					alert('An error occurred: ' + error);
+					swal("Error", "Could not update wishlist", "error");
 				}
 			});
 		});

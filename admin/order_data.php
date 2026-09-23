@@ -1,10 +1,26 @@
+<?php
+require_once __DIR__ . '/auth_check.php';
+
+if (isset($_POST['delete_order_id'])) {
+  $del_id = intval($_POST['delete_order_id']);
+  mysqli_query($con, "DELETE FROM user_order WHERE id = $del_id");
+}
+
+$users_details = mysqli_query($con, "SELECT * FROM department RIGHT JOIN users ON users.office = department.dept_id");
+$admins_details = mysqli_query($con, "SELECT * FROM admins LEFT JOIN department ON admins.id = department.dept_id");
+$order_details = mysqli_query($con, "SELECT * FROM user_order ORDER BY id DESC");
+$users_date_filters = mysqli_query($con, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
+$users_month_filters = mysqli_query($con, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
+$user_order_price = mysqli_query($con, "SELECT SUM(amount) AS total_amount FROM user_order");
+$user_order_count = mysqli_query($con, "SELECT COUNT(*) AS total_count FROM user_order");
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PeHunt</title>
+  <title>Orders Management - PeHunt</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -15,19 +31,6 @@
   <script src="./assets/js/charts-pie.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<?php
-session_start();
-include('../config.php');
-if (isset($_SESSION['email'])) {
-  $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
-    $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
-  $order_details = mysqli_query($user_order, "SELECT * FROM user_order");
-  $users_date_filters = mysqli_query($user_order, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
-  $users_month_filters = mysqli_query($user_order, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
-  $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
-  $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
-?>
 
   <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
@@ -514,8 +517,10 @@ if (isset($_SESSION['email'])) {
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   ₹ <?php
-                    if($price = mysqli_fetch_assoc($user_order_price)){
-                      echo $price["SUM(amount)"]; 
+                    if ($price = mysqli_fetch_assoc($user_order_price)) {
+                      echo number_format((float)($price["total_amount"] ?? 0), 2); 
+                    } else {
+                      echo "0.00";
                     }
                   ?>
                 </p>
@@ -536,8 +541,10 @@ if (isset($_SESSION['email'])) {
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                 <?php
-                    if($count = mysqli_fetch_assoc($user_order_count)){
-                      echo $count["COUNT(*)"];
+                    if ($count = mysqli_fetch_assoc($user_order_count)) {
+                      echo intval($count["total_count"] ?? 0);
+                    } else {
+                      echo "0";
                     }
                   ?>
                 </p>
@@ -558,8 +565,9 @@ if (isset($_SESSION['email'])) {
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                    $fetch_queries = mysqli_query($fandq_info , "SELECT COUNT(*) FROM queries");
-                    echo mysqli_num_rows($fetch_queries);
+                    $fetch_queries = mysqli_query($con, "SELECT COUNT(*) AS total_q FROM queries");
+                    $q_row = mysqli_fetch_assoc($fetch_queries);
+                    echo intval($q_row['total_q'] ?? 0);
                   ?>
                 </p>
               </div>
@@ -615,89 +623,85 @@ if (isset($_SESSION['email'])) {
                   <thead>
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                      <th class="px-4 py-3">Id</th>
-                      <th class="px-4 py-3">User Id</th>
+                      <th class="px-4 py-3">Order #</th>
+                      <th class="px-4 py-3">Customer</th>
                       <th class="px-4 py-3">Amount</th>
-                      <th class="px-4 py-3">Product</th>
-                      <th class="px-4 py-3">Order Id</th>
-                      <th class="px-4 py-3">Payment Id</th>
+                      <th class="px-4 py-3">Status</th>
+                      <th class="px-4 py-3">Order ID</th>
+                      <th class="px-4 py-3">Payment ID</th>
                       <th class="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     <?php
                     while ($order_row = mysqli_fetch_assoc($order_details)) {
-                      $product_ids = json_decode($order_row['product_id']);
+                      $status = $order_row['status'] ?? 'Delivered';
+                      $status_color = 'green';
+                      if (strtolower($status) == 'pending' || strtolower($status) == 'processing') {
+                        $status_color = 'orange';
+                      } elseif (strtolower($status) == 'canceled' || strtolower($status) == 'cancelled') {
+                        $status_color = 'red';
+                      } elseif (strtolower($status) == 'in transit') {
+                        $status_color = 'blue';
+                      }
+
+                      $customer_name = 'Guest User';
+                      if (!empty($order_row['user_id'])) {
+                        $uid = intval($order_row['user_id']);
+                        $u_res = mysqli_query($con, "SELECT name, email FROM users WHERE id = $uid LIMIT 1");
+                        if ($u_row = mysqli_fetch_assoc($u_res)) {
+                          $customer_name = htmlspecialchars($u_row['name'] ?: $u_row['email']);
+                        }
+                      }
                     ?>
                       <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-4 py-3">
-                          <div class="flex items-center text-sm">
-                            <div>
-                              <p class="font-semibold"><?php echo $order_row['id'] ?></p>
-                              <p class="text-xs text-gray-600 dark:text-gray-400">
-                                <?php echo $order_row['user_id'] ?>
-                              </p>
-                            </div>
-                          </div>
+                        <td class="px-4 py-3 font-semibold text-sm">
+                          #<?php echo $order_row['id']; ?>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                          <?php
-                          if ($order_row['user_id']) {
-                            $user_details = mysqli_query($con, "SELECT * FROM users WHERE id = " . $order_row['user_id']);
-                            $user_info = mysqli_fetch_assoc($user_details);
-                            echo $user_info['name'];
-                          }
-                          ?>
+                          <p class="font-semibold text-gray-800 dark:text-gray-200"><?php echo $customer_name; ?></p>
+                          <p class="text-xs text-gray-500">User ID: <?php echo $order_row['user_id'] ?: 'Guest'; ?></p>
                         </td>
-                        <td class="px-4 py-3 text-sm">
-                          <?php echo $order_row['amount'] ?>
-                        </td>
-                        <td class="px-4 py-3 text-sm w-5 truncate">
-                          <a href="order_product_details.php?orders=<?php echo $order_row['razorpay_order_id']?>" class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                            aria-label="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path>
-                              <path d="M11 11h2v6h-2zm0-4h2v2h-2z"></path>
-                            </svg>
-                          </a>
+                        <td class="px-4 py-3 text-sm font-semibold">
+                          ₹<?php echo number_format((float)$order_row['amount'], 2); ?>
                         </td>
                         <td class="px-4 py-3 text-xs">
-                          <span
-                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                            <?php
-                            echo $order_row['razorpay_order_id'];
-                            ?>
+                          <span class="px-2.5 py-1 font-semibold text-xs rounded-full 
+                            <?php 
+                              if ($status_color === 'green') echo 'bg-green-100 text-green-700 dark:bg-green-700 dark:text-green-100';
+                              elseif ($status_color === 'orange') echo 'bg-orange-100 text-orange-700 dark:bg-orange-600 dark:text-white';
+                              elseif ($status_color === 'red') echo 'bg-red-100 text-red-700 dark:bg-red-600 dark:text-white';
+                              else echo 'bg-blue-100 text-blue-700 dark:bg-blue-700 dark:text-blue-100';
+                            ?>">
+                            <?php echo htmlspecialchars($status); ?>
+                          </span>
+                        </td>
+                        <td class="px-4 py-3 text-xs font-mono">
+                          <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-gray-700 dark:text-gray-300">
+                            <?php echo htmlspecialchars($order_row['razorpay_order_id']); ?>
+                          </span>
+                        </td>
+                        <td class="px-4 py-3 text-xs font-mono">
+                          <span class="px-2 py-1 bg-purple-50 dark:bg-purple-900 rounded text-purple-700 dark:text-purple-300">
+                            <?php echo htmlspecialchars($order_row['razorpay_payment_id']); ?>
                           </span>
                         </td>
                         <td class="px-4 py-3 text-sm">
-                          <span
-                            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                            <?php
-                            echo $order_row['razorpay_payment_id'];
-                            ?>
-                          </span>
-                        </td>
-                        <td class="px-4 py-3">
-                          <div class="flex items-center space-x-4 text-sm">
-                            <a href="user_profile_details.php?id=<?php echo $order_row['razorpay_order_id']?>">
-                              <button
-                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                aria-label="Edit" value="" name="naam">
-                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                  <path
-                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                                  </path>
-                                </svg>
-                              </button>
+                          <div class="flex items-center space-x-2">
+                            <a href="order_product_details.php?orders=<?php echo urlencode($order_row['razorpay_order_id']); ?>" 
+                              title="View Items"
+                              class="p-2 text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
                             </a>
-                            <form method="POST">
-                              <button
-                                class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                aria-label="Delete" value="<?php echo $person['id'] ?>" name="delete">
-                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fill-rule="evenodd"
-                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"></path>
+                            <form method="POST" onsubmit="return confirm('Are you sure you want to delete order #<?php echo $order_row['id']; ?>?');" class="inline">
+                              <input type="hidden" name="delete_order_id" value="<?php echo $order_row['id']; ?>">
+                              <button type="submit" title="Delete Order"
+                                class="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
                               </button>
                             </form>
@@ -809,9 +813,6 @@ if (isset($_SESSION['email'])) {
         window.history.replaceState(null, null, window.location.href);
       }
     </script>
-  <?php
-}
-  ?>
   </body>
 
 </html>

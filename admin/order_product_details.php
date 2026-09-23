@@ -1,30 +1,21 @@
+<?php
+require_once __DIR__ . '/auth_check.php';
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PeHunt</title>
+  <title>Order Product Details - PeHunt</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
   <script src="./assets/js/init-alpine.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-  <script src="./assets/js/charts-lines.js" defer></script>
-  <script src="./assets/js/charts-pie.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<?php
-session_start();
-include('../config.php');
-if (isset($_SESSION['email'])) {
-
-  $order_details = mysqli_query($user_order, "SELECT * FROM user_order");
-  $users_date_filters = mysqli_query($user_order, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
-  $users_month_filters = mysqli_query($user_order, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
-?>
 
   <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
@@ -477,82 +468,75 @@ if (isset($_SESSION['email'])) {
             <div class="container">
               <!-- Order Summary Card -->
               <?php
-              if (isset($_GET['orders'])) {
-                $order_id = $_GET['orders'];
-                // Fetch order details
-                $order_query = mysqli_query($user_order, "SELECT * FROM user_order WHERE razorpay_order_id = '$order_id'");
+              $order_param = mysqli_real_escape_string($con, $_GET['orders'] ?? '');
+              if (!empty($order_param)) {
+                $order_query = mysqli_query($con, "SELECT * FROM user_order WHERE razorpay_order_id = '$order_param' OR id = " . intval($order_param) . " LIMIT 1");
                 if ($order_details = mysqli_fetch_assoc($order_query)) {
-                  $product_ids = json_decode($order_details['product_id']);
+                  $product_ids = json_decode($order_details['product_id'], true) ?: [];
+                  $item_counts = array_count_values(array_map('strval', $product_ids));
+                  $unique_ids = array_keys($item_counts);
               ?>
                   <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 space-y-6">
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-wrap justify-between items-center gap-4 pb-4 border-b dark:border-gray-700">
                       <div>
-                        <p class="text-lg font-semibold text-blue-500">Order Id: <?php echo $order_id ?></p>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Order Payment: <?php echo $order_details['created_at'] ?></p>
+                        <p class="text-xl font-bold text-purple-600 dark:text-purple-400">Order #<?php echo $order_details['id']; ?> (<?php echo htmlspecialchars($order_details['razorpay_order_id']); ?>)</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Date: <?php echo date('M d, Y - h:i A', strtotime($order_details['created_at'])); ?></p>
+                        <p class="text-xs text-gray-400">Payment ID: <?php echo htmlspecialchars($order_details['razorpay_payment_id']); ?></p>
                       </div>
-                      <!-- <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
-                        Track Your Order
-                      </button> -->
+                      <div>
+                        <span class="px-3 py-1 font-semibold text-xs rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300">
+                          Status: <?php echo htmlspecialchars($order_details['status'] ?? 'Delivered'); ?>
+                        </span>
+                      </div>
                     </div>
 
                     <?php
-                    // Fetch all products in a single query
-                    $product_ids_list = implode(",", array_map('intval', $product_ids)); // Convert JSON array to SQL-friendly format
-                    $order_product_query = mysqli_query($user_order, "SELECT pi.*, uo.product_id FROM product.product_item pi 
-                    JOIN user_order.user_order uo ON pi.id IN ($product_ids_list) 
-                    WHERE uo.razorpay_order_id = '$order_id'");
-                    while ($row = mysqli_fetch_assoc($order_product_query)) {
+                    if (!empty($unique_ids)) {
+                      $ids_list = implode(",", array_map('intval', $unique_ids));
+                      $items_query = mysqli_query($con, "SELECT * FROM product_item WHERE id IN ($ids_list)");
+                      while ($item = mysqli_fetch_assoc($items_query)) {
+                        $qty = $item_counts[strval($item['id'])] ?? 1;
+                        $sub = $qty * floatval($item['product_price']);
                     ?>
-                      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 border-b pb-4">
-                        <img src="../image/product/<?php echo $row['product_img'] ?>" alt="Product Image" class="w-full h-auto md:w-32">
+                      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 border-b dark:border-gray-700 pb-4 items-center">
+                        <img src="../image/product/<?php echo htmlspecialchars($item['product_img']); ?>" alt="<?php echo htmlspecialchars($item['product_name']); ?>" 
+                             class="w-24 h-24 object-cover rounded-lg shadow-sm"
+                             onerror="this.src='../images/product-placeholder.jpg'">
                         <div class="col-span-2">
-                          <h3 class="font-bold text-lg"><?php echo $row['product_name'] ?></h3>
-                          <!-- <p class="text-sm text-gray-500 dark:text-gray-400">Qty: </p> -->
+                          <h3 class="font-bold text-gray-800 dark:text-gray-200 text-lg"><?php echo htmlspecialchars($item['product_name']); ?></h3>
+                          <p class="text-sm text-gray-500 dark:text-gray-400">Unit Price: ₹<?php echo number_format((float)$item['product_price'], 2); ?></p>
+                          <p class="text-sm font-semibold text-purple-600">Quantity: <?php echo $qty; ?> item(s)</p>
                         </div>
                         <div class="md:text-right">
-                          <p class="text-lg font-semibold text-blue-600"><?php echo $row['product_price'] ?></p>
-                          <p class="text-sm bg-green-100 text-green-600 px-2 py-1 inline-block rounded-md">Ready for Delivery</p>
-                          <p class="text-sm text-gray-500 dark:text-gray-400"><?php
-																$createdAt = new DateTime($row['created_at']);
-																$minDelivery = clone $createdAt;
-																$maxDelivery = clone $createdAt;
-															
-																$minDelivery->add(new DateInterval('P7D')); // 7 days
-																$maxDelivery->add(new DateInterval('P10D')); // 10 days
-																echo $minDelivery->format('d M Y') . ' - ' . $maxDelivery->format('d M Y');
-															?>
-                              </p>
+                          <p class="text-lg font-bold text-gray-800 dark:text-gray-200">₹<?php echo number_format($sub, 2); ?></p>
+                          <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full inline-block mt-1">Confirmed</span>
                         </div>
                       </div>
                     <?php
+                      }
+                    } else {
+                      echo "<p class='text-gray-500 py-4'>No product items found in this order.</p>";
                     }
                     ?>
 
-                    <!-- Footer Section -->
-                    <div class="flex justify-end items-center">
+                    <!-- Summary Section -->
+                    <div class="flex justify-between items-center pt-2">
+                      <a href="order_data.php" class="text-sm text-purple-600 hover:underline inline-flex items-center">
+                        &larr; Back to Orders List
+                      </a>
                       <div class="text-right">
-                        <p class="text-lg font-bold text-blue-600">Total Price: <?php echo $order_details['amount'] ?></p>
+                        <p class="text-xl font-bold text-purple-600 dark:text-purple-400">Total: ₹<?php echo number_format((float)$order_details['amount'], 2); ?></p>
                       </div>
                     </div>
                   </div>
-
               <?php
+                } else {
+                  echo "<div class='p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md'><p class='text-red-500'>Order not found.</p><a href='order_data.php' class='text-purple-600 mt-2 inline-block'>&larr; Back to orders</a></div>";
                 }
+              } else {
+                echo "<div class='p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md'><p class='text-gray-500'>No order specified.</p><a href='order_data.php' class='text-purple-600 mt-2 inline-block'>&larr; Back to orders</a></div>";
               }
               ?>
-
-            </div>
-        </main>
-      </div>
-    </div>
-    <script>
-      if (window.history.replaceState) {
-        window.history.replaceState(null, null, window.location.href);
-      }
-    </script>
-  <?php
-}
-  ?>
   </body>
 
 </html>

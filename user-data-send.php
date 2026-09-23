@@ -1,55 +1,73 @@
 <?php
-session_start();
+/**
+ * Stark Store - User Registration Data Ingestion & Auto-Login
+ */
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once "config.php";
-$name = $_SESSION['name'];
-$email = $_SESSION['email'];
-$num = $_SESSION['num'];
-$password = $_SESSION['pass'];
 
-$uname = substr($name, 0, 3);
-$umail = substr($email, 0, 5);
-$upass = substr($password, 0, 2);
-$unum = substr($num, 0, 2);
-$username = $uname . $umail . $upass . $unum;
+$name     = $_SESSION['reg_name']   ?? ($_SESSION['name'] ?? '');
+$email    = $_SESSION['reg_email']  ?? ($_SESSION['email'] ?? '');
+$num      = $_SESSION['reg_number'] ?? ($_SESSION['num'] ?? '');
+$password = $_SESSION['reg_pass']   ?? ($_SESSION['pass'] ?? '');
 
-    $query = mysqli_query($con, "INSERT INTO users (name, email, Mobile, password, username) VALUES ('$name','$email','$num','$password', '$username')");
+if (empty($name) || empty($email) || empty($password)) {
+    header('Location: signup.php');
+    exit;
+}
 
-    if ($query) {
-        $fetch_details = mysqli_query($con, "SELECT * FROM users WHERE email = '$email'");
-        
-        if ($fetch = mysqli_fetch_array($fetch_details)) {
-            foreach (['id', 'name', 'email', 'Mobile', 'password', 'profile_img', 'department', 'office', 'username', 'wishlist', 'cart'] as $key) {
-                $_SESSION[$key] = $fetch[$key];
-            }
+stark_ensure_tables($con);
 
-            if ($_SESSION['wishlist'] == 'user_wishlist') {
-              $id = $_SESSION['id'];
-              $name = $_SESSION['name'];
-              $wish = '_wishlist';
-  
-              $update_stmt = $con->prepare("UPDATE users SET wishlist = ? WHERE id = ?");
-              $new_wishlist = $id . $name . $wish;
-              $update_stmt->bind_param("si", $new_wishlist, $id);
-              $update_stmt->execute();
-              $update_stmt->close();
-  
-              $_SESSION['wishlist'] = $new_wishlist;
-          }
+// Generate unique username
+$clean_name = preg_replace('/[^a-zA-Z0-9]/', '', $name);
+$username = substr($clean_name, 0, 6) . rand(100, 999);
 
-          if ($_SESSION['cart'] == 'user_cart') {
-            $id = $_SESSION['id'];
-            $name = $_SESSION['name'];
-            $cart = '_cart';
+// Check if user already exists
+$check = $con->prepare("SELECT id FROM users WHERE email = ?");
+$check->bind_param("s", $email);
+$check->execute();
+$check_res = $check->get_result();
 
-            $update_stmt = $con->prepare("UPDATE users SET cart = ? WHERE id = ?");
-            $new_cart = $id . $name . $cart;
-            $update_stmt->bind_param("si", $new_cart, $id);
-            $update_stmt->execute();
-            $update_stmt->close();
+if ($check_res->num_rows > 0) {
+    $existing = $check_res->fetch_assoc();
+    $user_id = $existing['id'];
+} else {
+    // Insert new user
+    $stmt = $con->prepare("INSERT INTO users (name, email, Mobile, password, username, office, wishlist, cart) VALUES (?, ?, ?, ?, ?, 2, 'user_wishlist', 'user_cart')");
+    $stmt->bind_param("sssss", $name, $email, $num, $password, $username);
+    $stmt->execute();
+    $user_id = $stmt->insert_id;
+    $stmt->close();
 
-            $_SESSION['cart'] = $new_cart;
-            header('location: notification-send.php');
-        }
-        }
-        exit(); 
-    }
+    // Insert admin notification
+    $notify_stmt = $con->prepare("INSERT INTO admin_notify (notify_name, notify_email, notify_username, notify_img, active, notify_active) VALUES (?, ?, ?, 'user_profile.jpg', 1, 1)");
+    $notify_stmt->bind_param("sss", $name, $email, $username);
+    @$notify_stmt->execute();
+    @$notify_stmt->close();
+}
+$check->close();
+
+// Log user in automatically
+$_SESSION['id']          = $user_id;
+$_SESSION['name']        = $name;
+$_SESSION['email']       = $email;
+$_SESSION['Mobile']      = $num;
+$_SESSION['office']      = 2;
+$_SESSION['username']    = $username;
+$_SESSION['profile_img'] = 'user_profile.jpg';
+$_SESSION['is_admin']    = false;
+
+// Merge session cart & wishlist items
+$session_id = session_id();
+@mysqli_query($con, "UPDATE user_cart SET user_id = $user_id WHERE session_id = '$session_id'");
+@mysqli_query($con, "UPDATE user_wishlist SET user_id = $user_id WHERE session_id = '$session_id'");
+
+// Clear registration temp sessions
+unset($_SESSION['reg_name'], $_SESSION['reg_email'], $_SESSION['reg_number'], $_SESSION['reg_pass'], $_SESSION['OTP']);
+
+// Redirect to home or checkout
+header('Location: index.php');
+exit;
+?>

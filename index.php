@@ -1,11 +1,12 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include('config.php');
+stark_ensure_tables($con);
+?>
 <!DOCTYPE html>
 <html lang="en">
-<?php
-session_start();
-include('config.php');
-mysqli_set_charset($product_info, "utf8mb4");
-$wishlist_data = "select * from wishlist";
-?>
 
 	<head>
 		<title>Home - PeHunt </title>
@@ -216,11 +217,11 @@ $wishlist_data = "select * from wishlist";
 						<img src="images/icons/icon-close2.png" alt="CLOSE">
 					</button>
 
-					<form class="wrap-search-header flex-w p-l-15">
-						<button class="flex-c-m trans-04">
+					<form action="product.php" method="GET" class="wrap-search-header flex-w p-l-15">
+						<button type="submit" class="flex-c-m trans-04">
 							<i class="zmdi zmdi-search"></i>
 						</button>
-						<input class="plh3" type="text" name="search" placeholder="Search...">
+						<input class="plh3" type="text" name="search" placeholder="Search products...">
 					</form>
 				</div>
 			</div>
@@ -497,14 +498,14 @@ $wishlist_data = "select * from wishlist";
 
 					<!-- Search product -->
 					<div class="dis-none panel-search w-full p-t-10 p-b-15">
-						<div class="bor8 dis-flex p-l-15">
-							<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+						<form action="product.php" method="GET" class="bor8 dis-flex p-l-15 w-full">
+							<button type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
 								<i class="zmdi zmdi-search"></i>
 							</button>
 
-							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"
-								placeholder="Search">
-						</div>
+							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search"
+								placeholder="Search products...">
+						</form>
 					</div>
 					<?php
 						if(isset($_GET['sort_by'] )){
@@ -740,41 +741,38 @@ $wishlist_data = "select * from wishlist";
 
 				<div class="row isotope-grid">
 					<?php
-					$product_data = mysqli_query($product_info, $product);
+					$product_data = mysqli_query($con, $product);
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
-						$pr_img = json_decode($fetch_product['pr_imgs']);
+						$pr_img_arr = !empty($fetch_product['pr_imgs']) ? json_decode($fetch_product['pr_imgs'], true) : [];
+						$main_pic = !empty($fetch_product['product_img']) ? 'image/product/' . $fetch_product['product_img'] : 'images/product-placeholder.jpg';
+						$img1 = !empty($pr_img_arr[0]) ? 'image/product/pr_imgs/' . $pr_img_arr[0] : $main_pic;
+						$img2 = !empty($pr_img_arr[1]) ? 'image/product/pr_imgs/' . $pr_img_arr[1] : $img1;
+						$img3 = !empty($pr_img_arr[2]) ? 'image/product/pr_imgs/' . $pr_img_arr[2] : $img1;
 					?>
-						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $fetch_product['pc_name'] ?>">
+						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo htmlspecialchars($fetch_product['pc_name'] ?? ''); ?>">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
-									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[0] ?>" class="pr_img1">
-									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[1] ?>" class="pr_img2">
-									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[2] ?>" class="pr_img3">
-									<input type="hidden" value="<?php echo $fetch_product['id'] ?>" class="product_details">
-									<input type="hidden" value="<?php echo $fetch_product['product_price'] ?>" class="product_price">
-									<img src="image/product/<?php echo $fetch_product['product_img'] ?>" alt="IMG-PRODUCT">
+									<input type="hidden" value="<?php echo htmlspecialchars($img1); ?>" class="pr_img1">
+									<input type="hidden" value="<?php echo htmlspecialchars($img2); ?>" class="pr_img2">
+									<input type="hidden" value="<?php echo htmlspecialchars($img3); ?>" class="pr_img3">
+									<input type="hidden" value="<?php echo $fetch_product['id']; ?>" class="product_details">
+									<input type="hidden" value="<?php echo $fetch_product['product_price']; ?>" class="product_price">
+									<img src="<?php echo htmlspecialchars($main_pic); ?>" alt="<?php echo htmlspecialchars($fetch_product['product_name']); ?>" onerror="this.src='images/product-placeholder.jpg'">
 									<a href="#"
 										class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 										Quick View
 									</a>
 								</div>
-								<?php
-
-								?>
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="product-detail.php?id=<?php echo $fetch_product['id'] ?>&&name=<?php echo $fetch_product['product_name'] ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
-											<?php
-												$normalizedText = stripslashes($fetch_product['product_name']);
-												$normalizedText = str_replace(["\\r\\n", "\\n", "\\r", "rnrn"], "\n", $normalizedText);
-												echo nl2br(htmlspecialchars($normalizedText));	
-											?>
+										<a href="product-detail.php?id=<?php echo $fetch_product['id']; ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name font-weight-bold">
+											<?php echo htmlspecialchars($fetch_product['product_name']); ?>
 										</a>
 
 										<span class="stext-105 cl3">
-											<b>₹ <?php echo $fetch_product['product_price'] ?></b>
+											<b>₹ <?php echo number_format($fetch_product['product_price'], 2); ?></b>
 										</span>
 									</div>
 
@@ -1111,16 +1109,8 @@ $wishlist_data = "select * from wishlist";
 								<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 									<div class="flex-m bor9 p-r-10 m-r-11">
 										<form action="wishlist_config.php" method="POST" class="wishlistForm">
-											<?php
-											$product_data = mysqli_query($product_info, $product);
-											while ($fetch_product = mysqli_fetch_array($product_data)) {
-											?>
-												<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<?php
-											}
-											?>
-											<input type="hidden" value="<?php echo isset($_SESSION['wishlist']) ? $_SESSION['wishlist'] : "" ;?>" name="wish">
-											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+											<input type="hidden" value="" name="wish_product" id="product_wish_details">
+											<button type="submit" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" title="Add to Wishlist">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
 												<img class="icon-heart2 dis-block trans-04 ab-t-l"
@@ -1128,7 +1118,7 @@ $wishlist_data = "select * from wishlist";
 											</button>
 										</form>
 									</div>
-									<p>Add in you wishlist</p>
+									<p>Add to your wishlist</p>
 								</div>
 							</div>
 						</div>

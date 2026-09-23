@@ -1,10 +1,31 @@
 
+<?php
+  require_once __DIR__ . '/auth_check.php';
+
+  $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
+  $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
+  $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
+  $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
+  
+  if(isset($_POST['delete'])){
+    $delete_id = intval($_POST['delete']);
+    // Clean up cart & wishlist records for this user
+    mysqli_query($con, "DELETE FROM user_cart WHERE user_id = $delete_id");
+    mysqli_query($con, "DELETE FROM user_wishlist WHERE user_id = $delete_id");
+    $del_row = mysqli_query($con, "DELETE FROM users WHERE id = $delete_id");
+    if($del_row){
+      echo "<script>alert('User deleted successfully')</script>";
+    } else {
+      echo "<script>alert('Failed to delete user')</script>";
+    }
+  }
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stark Store</title>
+  <title>Store Admin - Stark Store</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -14,34 +35,6 @@
   <script src="./assets/js/charts-lines.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<?php
-  session_start();
-  include('../config.php');
-  // if(isset($_SESSION['email'])){ 
-    $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
-    $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
-    $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
-    $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
-    
-    if(isset($_POST['delete'])){
-      $delete_id = $_POST['delete'];
-      $delete_cart = $_POST['cart'];
-      $delete_wishlist = $_POST['wishlist'];
-      $delete_cart_table = mysqli_query($cart_info, "DROP TABLE IF EXISTS $delete_cart");
-      $delete_wishlist_table = mysqli_query($wishlist_info, "DROP TABLE IF EXISTS $delete_wishlist");
-      $del_row = mysqli_query($con, "DELETE FROM users WHERE id = '$delete_id'");
-      $google_user_check = mysqli_query($con,"SELECT * FROM google_user WHERE email = '$del_email'");
-      if(mysqli_num_rows($google_user_check) > 0){
-        $del_google_row = mysqli_query($con, "DELETE FROM google_user WHERE email = '$del_email'");
-      }
-      if($del_row){
-        echo "<script>alert('User deleted successfully')</script>";
-      }else{
-        echo "<script>alert(' $delete_id Failed to delete user')</script>";
-      }
-    }
-?>
 <body>
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
     <!-- Desktop sidebar -->

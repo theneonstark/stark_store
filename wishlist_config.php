@@ -1,50 +1,48 @@
 <?php
-include('config.php');
-// wishlist.php or the file handling the AJAX request
-if (isset($_POST['wish']) && isset($_POST['wish_product'])) {
+/**
+ * Stark Store - Wishlist Toggle Processor
+ */
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-    if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-        $wish_product = $_POST['wish_product'];
-        $wish_data = $_POST['wish'];
-        $wish_table = mysqli_query($wishlist_info, "CREATE TABLE IF NOT EXISTS $wish_data (
-	w_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
-	user_name varchar(100),
-	wp_detail INT
-	)");
-        if ($wish_table) {
-            $database_name = 'wishlist';
-            $table_name = $wish_data;
-            $query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-            $query->bind_param("ss", $database_name, $table_name);
-            $query->execute();
-            $result = $query->get_result();
-            $row = $result->fetch_assoc();
-            if ($row['count'] > 0) {
-                $sql = "SELECT COUNT(*) as count FROM $table_name WHERE wp_detail = ?";
-                $table_row = $wishlist_info->prepare($sql);
-                $table_row->bind_param('s', $wish_product);
-                $table_row->execute();
-                $checked = $table_row->get_result();
-                $check_row = $checked->fetch_assoc();
-                if (!$check_row['count'] > 0) {
-                    $insert_stmt = $wishlist_info->prepare("INSERT INTO $wish_data (user_name, wp_detail) VALUES (?, ?)");
-                    $insert_stmt->bind_param("si", $wish_data, $wish_product);
-                    $insert_stmt->execute();
-                    $insert_stmt->close();
-                } else {
-                    echo 'already add';
-                }
-                $table_row->close();
-
-            }else{
-                echo "Table Does Not Exist";
-            }
-            $query->close();
-        } else{
-            echo "Error creating table: ";
-        }
-    }else{
-        echo "Product Added";
-    }
 }
+include('config.php');
+
+$wish_product = isset($_POST['wish_product']) ? intval($_POST['wish_product']) : (isset($_POST['product_id']) ? intval($_POST['product_id']) : 0);
+
+if ($wish_product <= 0) {
+    echo "Invalid Product";
+    exit;
+}
+
+$user_id    = $_SESSION['id'] ?? null;
+$session_id = session_id();
+
+stark_ensure_tables($con);
+
+// Check if already in wishlist
+if ($user_id) {
+    $check_stmt = $con->prepare("SELECT id FROM user_wishlist WHERE (user_id = ? OR session_id = ?) AND product_id = ?");
+    $check_stmt->bind_param("isi", $user_id, $session_id, $wish_product);
+} else {
+    $check_stmt = $con->prepare("SELECT id FROM user_wishlist WHERE session_id = ? AND product_id = ?");
+    $check_stmt->bind_param("si", $session_id, $wish_product);
+}
+
+$check_stmt->execute();
+$res = $check_stmt->get_result();
+
+if ($res->fetch_assoc()) {
+    echo "already add";
+} else {
+    $insert_stmt = $con->prepare("INSERT INTO user_wishlist (user_id, session_id, product_id) VALUES (?, ?, ?)");
+    $insert_stmt->bind_param("isi", $user_id, $session_id, $wish_product);
+    if ($insert_stmt->execute()) {
+        echo "Product Added";
+    } else {
+        echo "Error adding product";
+    }
+    $insert_stmt->close();
+}
+
+$check_stmt->close();
 ?>

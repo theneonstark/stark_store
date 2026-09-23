@@ -1,11 +1,12 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include('config.php');
+stark_ensure_tables($con);
+?>
 <!DOCTYPE html>
 <html lang="en">
-<?php
-session_start();
-include('config.php');
-mysqli_set_charset($product_info, "utf8mb4");
-$wishlist_data = "select * from wishlist";
-?>
 
 	<head>
 		<title>Product</title>
@@ -316,61 +317,73 @@ $wishlist_data = "select * from wishlist";
 
 					<!-- Search product -->
 					<div class="dis-none panel-search w-full p-t-10 p-b-15">
-						<div class="bor8 dis-flex p-l-15">
-							<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+						<form action="product.php" method="GET" class="bor8 dis-flex p-l-15 w-full">
+							<button type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
 								<i class="zmdi zmdi-search"></i>
 							</button>
 
-							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"
-								placeholder="Search">
-						</div>
+							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search"
+								value="<?php echo htmlspecialchars($_GET['search'] ?? ($_GET['search-product'] ?? '')); ?>"
+								placeholder="Search products by name or description...">
+						</form>
 					</div>
 
 					<!-- Filter -->
-					 <?php
-					 	if(isset($_GET['sort_by'] )){
-							$sort_by = $_GET['sort_by'];
-                            $cls = $_GET['cls'];
-						}else{
-                            $sort_by = "";
-                            $cls = "";
-                        }
+					<?php
+					$conditions = [];
 
-						if(isset($_GET['price_low']) || isset($_GET['price_high'])){
-							$price_low = $_GET['price_low'];
-                            $price_high = $_GET['price_high'];
-                            $price = "product_price BETWEEN $price_low AND $price_high";
-							echo "<script>alert('OKAY')</script>";
-						}else{
-							$price_low = "";
-                            $price_high = "";
-                            $price = "product_price BETWEEN 0 AND 100000";
-						}
+					// Search keyword
+					$search_val = trim($_GET['search'] ?? ($_GET['search-product'] ?? ''));
+					if (!empty($search_val)) {
+						$clean_search = mysqli_real_escape_string($con, $search_val);
+						$conditions[] = "(product_item.product_name LIKE '%$clean_search%' OR product_item.product_description LIKE '%$clean_search%')";
+					}
 
-						switch($sort_by){
-							case "default":
-                                $products = null;
-                                break;
-                            case "Newness":
-                               	$products = "ORDER BY added_at DESC";
-                                break;
-                            case "Low to High":
-                                $products = "ORDER BY product_price ASC";
-                                break;
-                            case "High to Low":
-                                $products = "ORDER BY product_price DESC";
-                                break;
-							default:
-								$products = null;
-						}
+					// Category filter
+					if (!empty($_GET['catg'])) {
+						$catg_id = intval($_GET['catg']);
+						$conditions[] = "product_item.product_catg = $catg_id";
+					}
 
-					 	if(isset($_GET['product_target'])){
-							$product_target = $_GET['product_target'];
-							$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id where gender = '$product_target' and $price $products";
-						}else{
-							$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id WHERE $price $products";
-						}
-					 ?>
+					// Gender filter
+					$product_target = isset($_GET['product_target']) ? mysqli_real_escape_string($con, $_GET['product_target']) : '';
+					if (!empty($product_target)) {
+						$conditions[] = "product_item.gender = '$product_target'";
+					}
+
+					// Price filter
+					$price_low = isset($_GET['price_low']) && is_numeric($_GET['price_low']) ? floatval($_GET['price_low']) : 0;
+					$price_high = isset($_GET['price_high']) && is_numeric($_GET['price_high']) ? floatval($_GET['price_high']) : 0;
+					if ($price_high > 0) {
+						$conditions[] = "product_item.product_price BETWEEN $price_low AND $price_high";
+					}
+
+					$where_sql = !empty($conditions) ? "WHERE " . implode(" AND ", $conditions) : "";
+
+					// Sort
+					$sort_by = $_GET['sort_by'] ?? 'default';
+					$cls = $_GET['cls'] ?? 'filter-link-active';
+
+					$sort_sql = "ORDER BY product_item.id DESC";
+					switch ($sort_by) {
+						case "Newness":
+							$sort_sql = "ORDER BY product_item.id DESC";
+							break;
+						case "Low to High":
+							$sort_sql = "ORDER BY product_item.product_price ASC";
+							break;
+						case "High to Low":
+							$sort_sql = "ORDER BY product_item.product_price DESC";
+							break;
+					}
+
+					$product = "SELECT product_item.*, product_images.pr_imgs, product_category.pc_name 
+								FROM product_item 
+								LEFT JOIN product_images ON (product_item.product_related_img = product_images.pr_id OR product_item.id = product_images.pr_id) 
+								LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id 
+								$where_sql 
+								$sort_sql";
+					?>
 					<div class="dis-none panel-filter w-full p-t-10">
 						<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
 							<div class="filter-col1 p-r-15 p-b-27">
@@ -566,24 +579,25 @@ $wishlist_data = "select * from wishlist";
 
 				<div class="row isotope-grid">
 					<?php
-					$product_data = mysqli_query($product_info, $product);
+					$product_data = mysqli_query($con, $product);
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
-						$pr_img = json_decode($fetch_product['pr_imgs']);
+						$pr_img_arr = !empty($fetch_product['pr_imgs']) ? json_decode($fetch_product['pr_imgs'], true) : [];
+						$main_pic = !empty($fetch_product['product_img']) ? 'image/product/' . $fetch_product['product_img'] : 'images/product-placeholder.jpg';
+						$img1 = !empty($pr_img_arr[0]) ? 'image/product/pr_imgs/' . $pr_img_arr[0] : $main_pic;
+						$img2 = !empty($pr_img_arr[1]) ? 'image/product/pr_imgs/' . $pr_img_arr[1] : $img1;
+						$img3 = !empty($pr_img_arr[2]) ? 'image/product/pr_imgs/' . $pr_img_arr[2] : $img1;
+						$category_class = htmlspecialchars($fetch_product['pc_name'] ?? '');
 					?>
-						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php 
-							$normalizedText = stripslashes($fetch_product['pc_name']);
-							$normalizedText = str_replace(["\\r\\n", "\\n", "\\r", "rnrn"], "\n", $normalizedText);
-							$normalizedText = str_replace('"', '″', $normalizedText);
-							echo nl2br(htmlspecialchars($normalizedText));
-						?>">
+						<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item <?php echo $category_class; ?>">
 							<!-- Block2 -->
 							<div class="block2">
 								<div class="block2-pic hov-img0">
-									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[0] ?>" class="pr_img1">
-									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[1] ?>" class="pr_img2">
-									<input type="hidden" value="image/product/pr_imgs/<?php echo $pr_img[2] ?>" class="pr_img3">
-									<input type="hidden" value="<?php echo $fetch_product['id'] ?>" class="product_details">
-									<img src="image/product/<?php echo $fetch_product['product_img'] ?>" alt="IMG-PRODUCT">
+									<input type="hidden" value="<?php echo htmlspecialchars($img1); ?>" class="pr_img1">
+									<input type="hidden" value="<?php echo htmlspecialchars($img2); ?>" class="pr_img2">
+									<input type="hidden" value="<?php echo htmlspecialchars($img3); ?>" class="pr_img3">
+									<input type="hidden" value="<?php echo $fetch_product['id']; ?>" class="product_details">
+									<input type="hidden" value="<?php echo $fetch_product['product_price']; ?>" class="product_price">
+									<img src="<?php echo htmlspecialchars($main_pic); ?>" alt="<?php echo htmlspecialchars($fetch_product['product_name']); ?>" onerror="this.src='images/product-placeholder.jpg'">
 									<a href="#"
 										class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 										Quick View
@@ -592,12 +606,12 @@ $wishlist_data = "select * from wishlist";
 
 								<div class="block2-txt flex-w flex-t p-t-14">
 									<div class="block2-txt-child1 flex-col-l ">
-										<a href="product-detail.php?id=<?php echo $fetch_product['id'] ?>&&name=<?php echo $fetch_product['product_name'] ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
-											<?php echo $fetch_product['product_name'] ?>
+										<a href="product-detail.php?id=<?php echo $fetch_product['id']; ?>" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6 product_name">
+											<?php echo htmlspecialchars($fetch_product['product_name']); ?>
 										</a>
 
 										<span class="stext-105 cl3">
-											<b>₹ <?php echo $fetch_product['product_price'] ?></b>
+											<b>₹ <?php echo number_format($fetch_product['product_price'], 2); ?></b>
 										</span>
 									</div>
 
@@ -912,7 +926,6 @@ $wishlist_data = "select * from wishlist";
 											</div>
 											<form action="cart_config.php" method="POST" class="cartForm">
 												<input type="hidden" value="" name="cart_product" id="product_cart_details">
-												<input type="hidden" value="<?php echo $_SESSION['cart']; ?>" name="cart">
 												<button type="submit"
 													class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 													Add to cart
@@ -924,16 +937,8 @@ $wishlist_data = "select * from wishlist";
 								<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 									<div class="flex-m bor9 p-r-10 m-r-11">
 										<form action="wishlist_config.php" method="POST" class="wishlistForm">
-											<?php
-											$product_data = mysqli_query($product_info, $product);
-											while ($fetch_product = mysqli_fetch_array($product_data)) {
-											?>
-												<input type="hidden" value="<?php echo $fetch_product['id'] ?>" name="wish_product">
-											<?php
-											}
-											?>
-											<input type="hidden" value="<?php echo $_SESSION['wishlist'] ?>" name="wish">
-											<button class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+											<input type="hidden" value="" name="wish_product" id="product_wish_details">
+											<button type="submit" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" title="Add to Wishlist">
 												<img class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png"
 													alt="ICON">
 												<img class="icon-heart2 dis-block trans-04 ab-t-l"
@@ -941,7 +946,7 @@ $wishlist_data = "select * from wishlist";
 											</button>
 										</form>
 									</div>
-									<p>Add in you wishlist</p>
+									<p>Add to your wishlist</p>
 								</div>
 							</div>
 						</div>

@@ -315,6 +315,7 @@
         $('#pr_img3').attr('src', pr_img3);
         $('#pr_href3').attr('href', pr_img3);
         $('#product_cart_details').attr('value', product_details);
+        $('#product_wish_details').attr('value', product_details);
         $('#product_buy_details').attr('value', product_details);
         $('#product_buy_price').attr('value', product_price);
         $('.js-modal1').addClass('show-modal1');  

@@ -1,50 +1,57 @@
 <?php
-include('config.php');
-// wishlist.php or the file handling the AJAX request
-if (isset($_POST['cart']) && isset($_POST['cart_product'])) {
+/**
+ * Stark Store - Add to Cart Processor
+ */
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-    if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-        $cart_product = $_POST['cart_product'];
-        $cart_data = $_POST['cart'];
-        $cart_table = mysqli_query($cart_info, "CREATE TABLE IF NOT EXISTS $cart_data (
-	c_id INT AUTO_INCREMENT UNIQUE PRIMARY KEY,
-	user_name varchar(100),
-	cp_detail INT
-	)");
-        if ($cart_table) {
-            $database_name = 'pehunt_usercart';
-            $table_name = $cart_data;
-            $query = $con->prepare("SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = ? AND table_name = ?");
-            $query->bind_param("ss", $database_name, $table_name);
-            $query->execute();
-            $result = $query->get_result();
-            $row = $result->fetch_assoc();
-            if ($row['count'] > 0) {
-                $sql = "SELECT COUNT(*) as count FROM $table_name WHERE cp_detail = ?";
-                $table_row = $cart_info->prepare($sql);
-                $table_row->bind_param('s', $cart_product);
-                $table_row->execute();
-                $checked = $table_row->get_result();
-                $check_row = $checked->fetch_assoc();
-                if (!$check_row['count'] > 0) {
-                    $insert_stmt = $cart_info->prepare("INSERT INTO $cart_data (user_name, cp_detail) VALUES (?, ?)");
-                    $insert_stmt->bind_param("si", $cart_data, $cart_product);
-                    $insert_stmt->execute();
-                    $insert_stmt->close();
-                } else {
-                    echo 'already add';
-                }
-                $table_row->close();
-
-            }else{
-                echo "Product Added";
-            }
-            $query->close();
-        } else{
-            echo "Product NOT Added";
-        }
-    }else{
-        echo "Product Not Added";
-    }
 }
+include('config.php');
+
+$product_id = isset($_POST['cart_product']) ? intval($_POST['cart_product']) : (isset($_POST['product_id']) ? intval($_POST['product_id']) : 0);
+$quantity   = isset($_POST['num-product']) ? max(1, intval($_POST['num-product'])) : 1;
+
+if ($product_id <= 0) {
+    echo "Invalid Product";
+    exit;
+}
+
+$user_id    = $_SESSION['id'] ?? null;
+$session_id = session_id();
+
+// Ensure user_cart table exists
+stark_ensure_tables($con);
+
+// Check if product already exists in user's cart
+if ($user_id) {
+    $check_stmt = $con->prepare("SELECT id, quantity FROM user_cart WHERE (user_id = ? OR session_id = ?) AND product_id = ?");
+    $check_stmt->bind_param("isi", $user_id, $session_id, $product_id);
+} else {
+    $check_stmt = $con->prepare("SELECT id, quantity FROM user_cart WHERE session_id = ? AND product_id = ?");
+    $check_stmt->bind_param("si", $session_id, $product_id);
+}
+
+$check_stmt->execute();
+$res = $check_stmt->get_result();
+
+if ($row = $res->fetch_assoc()) {
+    // Already in cart - update quantity or return already added
+    $new_qty = $row['quantity'] + $quantity;
+    $update_stmt = $con->prepare("UPDATE user_cart SET quantity = ?, user_id = COALESCE(?, user_id) WHERE id = ?");
+    $update_stmt->bind_param("iii", $new_qty, $user_id, $row['id']);
+    $update_stmt->execute();
+    $update_stmt->close();
+    echo "Product Added";
+} else {
+    // Insert new cart item
+    $insert_stmt = $con->prepare("INSERT INTO user_cart (user_id, session_id, product_id, quantity) VALUES (?, ?, ?, ?)");
+    $insert_stmt->bind_param("isii", $user_id, $session_id, $product_id, $quantity);
+    if ($insert_stmt->execute()) {
+        echo "Product Added";
+    } else {
+        echo "Product NOT Added";
+    }
+    $insert_stmt->close();
+}
+
+$check_stmt->close();
 ?>
