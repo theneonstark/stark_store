@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In - Stark Store</title>
+  <title>Sign In - Pehunt</title>
   <link rel="icon" type="image/png" href="images/icons/favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -84,9 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
   <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 sm:p-10 border border-slate-100">
     <!-- Brand Header -->
     <div class="text-center mb-8">
-      <a href="index.php" class="inline-flex items-center space-x-2.5 mb-3">
-        <span class="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-600/30">S</span>
-        <span class="text-2xl font-black tracking-tight text-slate-900">STARK STORE</span>
+      <a href="index.php" class="inline-block mb-3">
+        <img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" class="h-10 mx-auto" style="height: 40px; width: auto; object-fit: contain;">
       </a>
       <h1 class="text-xl font-bold text-slate-900 mt-2">Welcome Back</h1>
       <p class="text-xs text-slate-500 mt-1">Sign in to manage orders, wishlist and profile</p>
@@ -109,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             name="enum" 
             id="email_field" 
             value="<?php echo htmlspecialchars($_POST['enum'] ?? ''); ?>"
-            placeholder="e.g. sahil@gmail.com or 7418529630" 
+            placeholder="name@example.com or phone number" 
             required
             class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm outline-none transition bg-slate-50/50"
           >
@@ -141,17 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       </button>
     </form>
 
-    <!-- Demo Credentials Helper -->
-    <div class="mt-8 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs space-y-2">
-      <div class="font-bold text-slate-700 flex items-center justify-between">
-        <span>Demo Credentials</span>
-        <span class="text-[10px] px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-semibold">Ready to test</span>
-      </div>
-      <div class="text-slate-600 space-y-1">
-        <p><strong>Admin:</strong> <code class="text-indigo-600 font-mono">admin@PeHuntstore.com</code> / <code class="text-indigo-600 font-mono">admin123</code></p>
-        <p><strong>Customer:</strong> <code class="text-indigo-600 font-mono">sahil@gmail.com</code> / <code class="text-indigo-600 font-mono">sahil123</code></p>
-      </div>
-    </div>
 
     <!-- Registration Link -->
     <div class="mt-6 text-center text-xs text-slate-500">

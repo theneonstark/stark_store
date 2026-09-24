@@ -21,7 +21,7 @@ if (!$user_id) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Your Orders - Stark Store</title>
+	<title>Your Orders - Pehunt</title>
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,10 +53,8 @@ if (!$user_id) {
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container">
-					<a href="index.php" class="stark-brand-logo">
-						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-						<span class="brand-text">STARK</span>
-						<span class="brand-badge">STORE</span>
+					<a href="index.php" class="logo d-flex align-items-center">
+						<img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" style="height: 42px; width: auto; max-width: 175px; object-fit: contain;">
 					</a>
 
 					<div class="menu-desktop">
@@ -262,7 +260,7 @@ if (!$user_id) {
 
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container text-center text-gray-400 text-sm">
-			<p>&copy; <?php echo date('Y'); ?> Stark Store. All rights reserved.</p>
+			<p>&copy; <?php echo date('Y'); ?> Pehunt. All rights reserved.</p>
 		</div>
 	</footer>
 

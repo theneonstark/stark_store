@@ -122,7 +122,30 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.1) !important;
 }
 
-/* Modern Logo Text / Styling */
+/* Modern Logo Styling */
+.logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: auto !important;
+  max-height: 52px !important;
+}
+.logo img {
+  height: 42px !important;
+  width: auto !important;
+  max-width: 175px !important;
+  object-fit: contain !important;
+  transition: transform 0.25s ease !important;
+}
+.logo:hover img {
+  transform: scale(1.04) !important;
+}
+.logo-mobile img {
+  height: 34px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  object-fit: contain !important;
+}
+
 .stark-brand-logo {
   display: inline-flex;
   align-items: center;
@@ -943,3 +966,320 @@ footer ul li a:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
 }
+
+/* ==========================================================================
+   Modern Infinite Marquee Ribbon
+   ========================================================================== */
+.stark-marquee-wrapper {
+  overflow: hidden;
+  background: linear-gradient(90deg, #090d16 0%, #1e1b4b 50%, #090d16 100%);
+  color: #e2e8f0;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+.stark-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: starkMarqueeAnim 26s linear infinite;
+}
+.stark-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-main);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0 24px;
+}
+.stark-marquee-item .sep {
+  color: var(--stark-primary-light);
+  font-size: 12px;
+}
+@keyframes starkMarqueeAnim {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ==========================================================================
+   Category Story Highlights Bar
+   ========================================================================== */
+.stark-stories-container {
+  padding: 30px 0 10px;
+}
+.stark-stories-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  overflow-x: auto;
+  padding: 10px 4px 18px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 768px) {
+  .stark-stories-scroll {
+    justify-content: flex-start;
+    gap: 20px;
+  }
+}
+.stark-stories-scroll::-webkit-scrollbar {
+  display: none;
+}
+.stark-story-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none !important;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.stark-story-item:hover {
+  transform: translateY(-4px);
+}
+.stark-story-ring {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f59e0b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px -4px rgba(99, 102, 241, 0.35);
+  position: relative;
+  transition: all 0.3s ease;
+}
+.stark-story-item:hover .stark-story-ring {
+  box-shadow: 0 12px 25px -4px rgba(236, 72, 153, 0.45);
+  transform: scale(1.05);
+}
+.stark-story-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+  background: #f1f5f9;
+}
+.stark-story-title {
+  margin-top: 8px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--stark-dark);
+  text-align: center;
+}
+.stark-story-badge {
+  position: absolute;
+  bottom: -2px;
+  background: var(--stark-rose);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: var(--stark-radius-full);
+  letter-spacing: 0.05em;
+  border: 1.5px solid #fff;
+}
+
+/* ==========================================================================
+   Editorial Bento Grid Showcase (Replacing the 3 old banners)
+   ========================================================================== */
+.stark-bento-section {
+  padding: 40px 0 50px;
+}
+.stark-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+.bento-card {
+  position: relative;
+  border-radius: var(--stark-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--stark-shadow-md);
+  border: 1px solid var(--stark-border);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 280px;
+  text-decoration: none !important;
+}
+.bento-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--stark-shadow-lg), var(--stark-shadow-glow);
+  border-color: var(--stark-primary-light);
+}
+.bento-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-card:hover .bento-card-bg {
+  transform: scale(1.08);
+}
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.85) 85%);
+  pointer-events: none;
+}
+.bento-content {
+  position: relative;
+  z-index: 2;
+  padding: 32px 28px;
+}
+.bento-large {
+  grid-column: span 7;
+  min-height: 480px;
+}
+.bento-stack {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.bento-stack .bento-card {
+  min-height: 228px;
+}
+@media (max-width: 991px) {
+  .bento-large {
+    grid-column: span 12;
+    min-height: 380px;
+  }
+  .bento-stack {
+    grid-column: span 12;
+  }
+}
+.bento-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-family: var(--font-main);
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: var(--stark-radius-full);
+  margin-bottom: 12px;
+}
+.bento-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.15;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+.bento-desc {
+  font-family: var(--font-main);
+  color: #cbd5e1;
+  font-size: 13.5px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.bento-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: var(--stark-dark) !important;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: var(--stark-radius-full);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+}
+.bento-card:hover .bento-btn {
+  background: var(--stark-primary);
+  color: #ffffff !important;
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   Flash Deal Countdown Card
+   ========================================================================== */
+.stark-flash-deal {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
+  border-radius: var(--stark-radius-xl);
+  padding: 28px 36px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px -5px rgba(67, 56, 202, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 45px;
+}
+.stark-flash-deal::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.flash-countdown-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.countdown-pill {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--stark-radius-md);
+  padding: 8px 14px;
+  text-align: center;
+  min-width: 58px;
+}
+.countdown-number {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+.countdown-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+.coupon-tag {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  padding: 6px 14px;
+  border-radius: var(--stark-radius-full);
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fbcfe8;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.coupon-tag:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+

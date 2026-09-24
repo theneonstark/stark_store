@@ -115,7 +115,7 @@ if (file_exists('./razorpay/Razorpay.php')) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Checkout - Stark Store</title>
+    <title>Secure Checkout - Pehunt</title>
     <link rel="icon" type="image/png" href="images/icons/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,10 +147,8 @@ if (file_exists('./razorpay/Razorpay.php')) {
 
             <div class="wrap-menu-desktop">
                 <nav class="limiter-menu-desktop container">
-                    <a href="index.php" class="stark-brand-logo">
-                        <span class="brand-icon"><i class="fa fa-bolt"></i></span>
-                        <span class="brand-text">STARK</span>
-                        <span class="brand-badge">STORE</span>
+                    <a href="index.php" class="logo d-flex align-items-center">
+                        <img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" style="height: 42px; width: auto; max-width: 175px; object-fit: contain;">
                     </a>
 
                     <div class="menu-desktop">

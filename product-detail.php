@@ -8,7 +8,7 @@ include('config.php');
 <html lang="en">
 
 <head>
-	<title><?php echo isset($product_details['product_name']) ? htmlspecialchars($product_details['product_name']) . ' - Stark Store' : 'Product Details - Stark Store'; ?></title>
+	<title><?php echo isset($product_details['product_name']) ? htmlspecialchars($product_details['product_name']) . ' - Pehunt' : 'Product Details - Pehunt'; ?></title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
@@ -44,7 +44,7 @@ include('config.php');
 				<div class="top-bar">
 					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 						<div class="left-top-bar">
-							Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ Use Code: <strong>STARK15</strong> for 15% OFF
+							Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ Use Code: <strong>PEHUNT15</strong> for 15% OFF
 						</div>
 					</div>
 				</div>
@@ -53,10 +53,8 @@ include('config.php');
 					<nav class="limiter-menu-desktop container">
 
 						<!-- Logo desktop -->
-						<a href="index.php" class="stark-brand-logo">
-							<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-							<span class="brand-text">STARK</span>
-							<span class="brand-badge">STORE</span>
+						<a href="index.php" class="logo d-flex align-items-center">
+							<img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" style="height: 42px; width: auto; max-width: 175px; object-fit: contain;">
 						</a>
 
 						<!-- Menu desktop -->
@@ -138,10 +136,7 @@ include('config.php');
 			<div class="wrap-header-mobile">
 				<!-- Logo mobile -->
 				<div class="logo-mobile">
-					<a href="index.php" class="stark-brand-logo">
-						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-						<span class="brand-text">STARK</span>
-					</a>
+					<a href="index.php"><img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" style="height: 34px; width: auto; object-fit: contain;"></a>
 				</div>
 
 				<!-- Icon header -->
@@ -1040,10 +1035,8 @@ include('config.php');
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 p-b-50">
-					<a href="index.php" class="stark-brand-logo mb-3" style="color: #fff !important;">
-						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-						<span class="brand-text" style="background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STARK</span>
-						<span class="brand-badge" style="background: rgba(99,102,241,0.2); color: #818cf8;">STORE</span>
+					<a href="index.php" class="d-inline-block mb-3">
+						<img src="images/icons/logo-01.png" alt="PEHUNT" style="height: 40px; width: auto; max-width: 180px; object-fit: contain;">
 					</a>
 					<p class="stext-107 cl7 m-b-20" style="line-height: 1.6;">
 						Premium fashion, streetwear & modern lifestyle essentials. Engineered for maximum comfort, cutting-edge style, and daily confidence.
@@ -1133,7 +1126,7 @@ include('config.php');
 					<p class="stext-107 cl7 m-b-15">
 						Subscribe for exclusive drops, private sale invites and 15% off your first purchase.
 					</p>
-					<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Stark VIP Club!', 'success');">
+					<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Pehunt VIP Club!', 'success');">
 						<input type="email" placeholder="Enter your email" required>
 						<button type="submit">Join <i class="fa fa-paper-plane ml-1"></i></button>
 					</form>
@@ -1143,7 +1136,7 @@ include('config.php');
 			<div class="p-t-30 p-b-10" style="border-top: 1px solid rgba(255,255,255,0.08);">
 				<div class="d-flex flex-wrap justify-content-between align-items-center">
 					<p class="stext-107 cl6 m-0">
-						&copy; <?php echo date('Y'); ?> <strong>Stark Store</strong>. All rights reserved. Built with precision & modern aesthetics.
+						&copy; <?php echo date('Y'); ?> <strong>Pehunt</strong>. All rights reserved. Built with precision & modern aesthetics.
 					</p>
 					<div class="flex-c-m flex-w p-t-4">
 						<a href="#" class="m-all-1"><img src="images/icons/icon-pay-01.png" alt="PAYPAL"></a>

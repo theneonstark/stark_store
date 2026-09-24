@@ -9,7 +9,7 @@ stark_ensure_tables($con);
 <html lang="en">
 
 	<head>
-		<title>Stark Store - Modern Fashion & Lifestyle</title>
+		<title>Pehunt - Modern Fashion & Lifestyle</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" type="image/png" href="images/icons/favicon.png" />
@@ -37,14 +37,14 @@ stark_ensure_tables($con);
 
 	<body class="animsition">
 		<!-- Header -->
-		<header>
+		<header class="header-v4">
 			<!-- Header desktop -->
 			<div class="container-menu-desktop">
 				<!-- Topbar -->
 				<div class="top-bar">
 					<div class="content-topbar flex-sb-m h-full container dis-flex justify-content-center">
 						<div class="left-top-bar">
-							Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ Use Code: <strong>STARK15</strong> for 15% OFF
+							Free Express Shipping on Orders Over ₹999 &nbsp;|&nbsp; ⚡ Use Code: <strong>PEHUNT15</strong> for 15% OFF
 						</div>
 					</div>
 				</div>
@@ -53,10 +53,8 @@ stark_ensure_tables($con);
 					<nav class="limiter-menu-desktop container">
 
 						<!-- Logo desktop -->
-						<a href="index.php" class="stark-brand-logo">
-							<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-							<span class="brand-text">STARK</span>
-							<span class="brand-badge">STORE</span>
+						<a href="index.php" class="logo d-flex align-items-center">
+							<img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" style="height: 42px; width: auto; max-width: 175px; object-fit: contain;">
 						</a>
 
 						<!-- Menu desktop -->
@@ -138,10 +136,7 @@ stark_ensure_tables($con);
 			<div class="wrap-header-mobile">
 				<!-- Logo mobile -->
 				<div class="logo-mobile">
-					<a href="index.php" class="stark-brand-logo">
-						<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-						<span class="brand-text">STARK</span>
-					</a>
+					<a href="index.php"><img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" style="height: 34px; width: auto; object-fit: contain;"></a>
 				</div>
 
 				<!-- Icon header -->
@@ -281,164 +276,195 @@ stark_ensure_tables($con);
 
 
 
-		<!-- Slider -->
-		<section class="section-slide">
-			<div class="wrap-slick1">
-				<div class="slick1">
-					<div class="item-slick1" style="background-image: url(images/slide-01.jpg);">
-						<div class="container h-full">
-							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-									<div class="stark-hero-badge">
-										<i class="fa fa-sparkles"></i> NEW COLLECTION 2026
-									</div>
-								</div>
+		<!-- Infinite Moving Marquee Ticker -->
+		<div class="stark-marquee-wrapper">
+			<div class="stark-marquee-track">
+				<div class="stark-marquee-item">⚡ NEW 2026 DROPS LIVE <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">🚚 FREE EXPRESS DELIVERY OVER ₹999 <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">🔥 FLAT 15% OFF WITH CODE: PEHUNT15 <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">💎 100% VERIFIED AUTHENTIC APPAREL <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">🔄 7-DAY DOORSTEP RETURNS & REPLACEMENTS <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">💳 CASH ON DELIVERY & RAZORPAY UPI AVAILABLE <span class="sep">✦</span></div>
+				<!-- Duplicate for infinite seamless scroll -->
+				<div class="stark-marquee-item">⚡ NEW 2026 DROPS LIVE <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">🚚 FREE EXPRESS DELIVERY OVER ₹999 <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">🔥 FLAT 15% OFF WITH CODE: PEHUNT15 <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">💎 100% VERIFIED AUTHENTIC APPAREL <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">🔄 7-DAY DOORSTEP RETURNS & REPLACEMENTS <span class="sep">✦</span></div>
+				<div class="stark-marquee-item">💳 CASH ON DELIVERY & RAZORPAY UPI AVAILABLE <span class="sep">✦</span></div>
+			</div>
+		</div>
 
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="600">
-									<h2 class="stark-hero-title">
-										UNMATCHED<br>ELEGANCE & STYLE
-									</h2>
-								</div>
-
-								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1200">
-									<a href="product.php" class="stark-btn-primary">
-										Shop Collection <i class="fa fa-arrow-right ml-2"></i>
-									</a>
-								</div>
-							</div>
-						</div>
+		<!-- Category Stories Highlight Bar -->
+		<div class="container stark-stories-container">
+			<div class="stark-stories-scroll">
+				<a href="product.php" class="stark-story-item">
+					<div class="stark-story-ring">
+						<img src="images/slide-01.jpg" alt="All" class="stark-story-img">
+						<span class="stark-story-badge">NEW</span>
 					</div>
+					<span class="stark-story-title">⚡ All Drops</span>
+				</a>
 
-					<div class="item-slick1" style="background-image: url(images/slide-02.jpg);">
-						<div class="container h-full">
-							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-									<div class="stark-hero-badge">
-										<i class="fa fa-fire"></i> URBAN STREETWEAR
-									</div>
-								</div>
-
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="600">
-									<h2 class="stark-hero-title">
-										JACKETS, HOODIES<br>& OVERSIZED FITS
-									</h2>
-								</div>
-
-								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1200">
-									<a href="product.php?product_target=m" class="stark-btn-primary">
-										Explore Men <i class="fa fa-arrow-right ml-2"></i>
-									</a>
-								</div>
-							</div>
-						</div>
+				<a href="product.php?product_target=m" class="stark-story-item">
+					<div class="stark-story-ring">
+						<img src="images/banner-02.jpg" alt="Men" class="stark-story-img">
+						<span class="stark-story-badge">HOT</span>
 					</div>
+					<span class="stark-story-title">👔 Men</span>
+				</a>
 
-					<div class="item-slick1" style="background-image: url(images/slide-03.jpg);">
-						<div class="container h-full">
-							<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
-									<div class="stark-hero-badge">
-										<i class="fa fa-diamond"></i> TRENDING ACCESSORIES
-									</div>
-								</div>
+				<a href="product.php?product_target=f" class="stark-story-item">
+					<div class="stark-story-ring">
+						<img src="images/banner-01.jpg" alt="Women" class="stark-story-img">
+					</div>
+					<span class="stark-story-title">👗 Women</span>
+				</a>
 
-								<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="600">
-									<h2 class="stark-hero-title">
-										ACCESSORIZE<br>YOUR AESTHETIC
-									</h2>
-								</div>
+				<a href="product.php?catg=2" class="stark-story-item">
+					<div class="stark-story-ring">
+						<img src="images/banner-03.jpg" alt="Watches" class="stark-story-img">
+					</div>
+					<span class="stark-story-title">⌚ Watches</span>
+				</a>
 
-								<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1200">
-									<a href="product.php?product_target=O" class="stark-btn-primary">
-										Discover Accessories <i class="fa fa-arrow-right ml-2"></i>
-									</a>
-								</div>
+				<a href="product.php?catg=3" class="stark-story-item">
+					<div class="stark-story-ring">
+						<img src="images/slide-03.jpg" alt="Footwear" class="stark-story-img">
+						<span class="stark-story-badge">DROP</span>
+					</div>
+					<span class="stark-story-title">👟 Shoes</span>
+				</a>
+
+				<a href="product.php?product_target=O" class="stark-story-item">
+					<div class="stark-story-ring">
+						<img src="images/slide-02.jpg" alt="Accessories" class="stark-story-img">
+					</div>
+					<span class="stark-story-title">🎒 Accessories</span>
+				</a>
+			</div>
+		</div>
+
+		<!-- Modern Editorial Bento Grid Showcase -->
+		<section class="stark-bento-section">
+			<div class="container">
+				<div class="d-flex flex-wrap justify-content-between align-items-end p-b-25">
+					<div>
+						<span class="stark-badge stark-badge-primary mb-2">✨ Curated Showcases</span>
+						<h3 class="ltext-103 cl5" style="font-weight: 800; font-size: 32px; letter-spacing: -0.03em;">
+							The Style Editorial
+						</h3>
+						<p class="text-muted m-0" style="font-size: 14.5px;">Explore signature aesthetics designed for bold everyday statements.</p>
+					</div>
+					<a href="product.php" class="stext-101 cl1 hov-cl1 trans-04 font-weight-bold d-inline-flex align-items-center gap-1 p-tb-5">
+						View All Showcases &rarr;
+					</a>
+				</div>
+
+				<div class="stark-bento-grid">
+					<!-- Large Bento Card: Men's Streetwear Feature -->
+					<a href="product.php?product_target=m" class="bento-card bento-large">
+						<img src="images/slide-02.jpg" alt="Urban Streetwear" class="bento-card-bg">
+						<div class="bento-overlay"></div>
+						<div class="bento-content">
+							<span class="bento-tag">🔥 Trending Drop</span>
+							<h3 class="bento-title" style="font-size: clamp(26px, 3.5vw, 42px);">
+								URBAN STREETWEAR &<br>OVERSIZED FITS
+							</h3>
+							<p class="bento-desc" style="max-width: 480px;">
+								Heavyweight combed cotton, structured drops & futuristic silhouettes engineered for supreme comfort and presence.
+							</p>
+							<div>
+								<span class="bento-btn">Explore Collection &rarr;</span>
 							</div>
 						</div>
+					</a>
+
+					<!-- Stack Column: 2 Cards -->
+					<div class="bento-stack">
+						<!-- Bento Card 2: Minimalist Watches -->
+						<a href="product.php?catg=2" class="bento-card">
+							<img src="images/banner-03.jpg" alt="Minimalist Watches" class="bento-card-bg">
+							<div class="bento-overlay"></div>
+							<div class="bento-content">
+								<span class="bento-tag">✨ Minimalist Essentials</span>
+								<h4 class="bento-title" style="font-size: 24px;">
+									LUXURY TIMEPIECES
+								</h4>
+								<p class="bento-desc">
+									Sleek stainless steel chronographs crafted for timeless sophistication.
+								</p>
+								<div>
+									<span class="bento-btn">Shop Watches &rarr;</span>
+								</div>
+							</div>
+						</a>
+
+						<!-- Bento Card 3: Women's Atelier -->
+						<a href="product.php?product_target=f" class="bento-card">
+							<img src="images/slide-01.jpg" alt="Women Atelier" class="bento-card-bg">
+							<div class="bento-overlay"></div>
+							<div class="bento-content">
+								<span class="bento-tag">🌸 Modern Chic</span>
+								<h4 class="bento-title" style="font-size: 24px;">
+									CONTEMPORARY ATELIER
+								</h4>
+								<p class="bento-desc">
+									Effortless cuts, breathable linen & vibrant summer statements.
+								</p>
+								<div>
+									<span class="bento-btn">Discover More &rarr;</span>
+								</div>
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>
 		</section>
 
-
-		<!-- Banner -->
-		<div class="sec-banner bg0 p-t-80 p-b-30">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-						<!-- Block1 -->
-						<div class="block1 wrap-pic-w">
-							<img src="images/banner-01.jpg" alt="IMG-BANNER">
-
-							<a href="product.php?product_target=f"
-								class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-								<div class="block1-txt-child1 flex-col-l">
-									<span class="block1-name ltext-102 trans-04 p-b-8">
-										Women
-									</span>
-
-									<span class="block1-info stext-102 trans-04">
-										Trending & Chic
-									</span>
-								</div>
-
-								<div class="block1-txt-child2 p-b-4 trans-05">
-									<div class="block1-link stext-101 cl0 trans-09">
-										Explore Now &rarr;
-									</div>
-								</div>
-							</a>
+		<!-- Flash Deal of the Day Banner -->
+		<div class="container">
+			<div class="stark-flash-deal">
+				<div class="row align-items-center">
+					<div class="col-lg-6 p-b-15">
+						<span class="stark-badge" style="background: rgba(236,72,153,0.25); color: #fbcfe8; border: 1px solid rgba(236,72,153,0.4); margin-bottom: 10px;">
+							⚡ Limited Time Drop
+						</span>
+						<h3 style="font-family: var(--font-display); font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 8px;">
+							FLASH DEAL OF THE DAY
+						</h3>
+						<p style="color: #cbd5e1; font-size: 14px; margin: 0;">
+							Get an extra <strong>15% OFF</strong> on all order items with checkout code:
+						</p>
+						<div class="d-flex align-items-center gap-2 mt-3">
+							<span class="coupon-tag" id="promoCoupon" onclick="copyPromoCode('PEHUNT15')">
+								<i class="fa fa-ticket mr-1"></i> PEHUNT15 <i class="fa fa-copy ml-1"></i>
+							</span>
+							<span class="text-xs" style="color: #94a3b8; font-size: 12px;">(Click to copy)</span>
 						</div>
 					</div>
 
-					<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-						<!-- Block1 -->
-						<div class="block1 wrap-pic-w">
-							<img src="images/banner-02.jpg" alt="IMG-BANNER">
-
-							<a href="product.php?product_target=m"
-								class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-								<div class="block1-txt-child1 flex-col-l">
-									<span class="block1-name ltext-102 trans-04 p-b-8">
-										Men
-									</span>
-
-									<span class="block1-info stext-102 trans-04">
-										Streetwear & Casual
-									</span>
-								</div>
-
-								<div class="block1-txt-child2 p-b-4 trans-05">
-									<div class="block1-link stext-101 cl0 trans-09">
-										Explore Now &rarr;
-									</div>
-								</div>
-							</a>
+					<div class="col-lg-6 text-lg-right p-t-10 p-b-15">
+						<p style="color: #cbd5e1; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 8px;">
+							Offer Expires In
+						</p>
+						<div class="flash-countdown-box">
+							<div class="countdown-pill">
+								<div class="countdown-number" id="cd-hours">09</div>
+								<div class="countdown-label">Hours</div>
+							</div>
+							<div class="countdown-pill">
+								<div class="countdown-number" id="cd-minutes">34</div>
+								<div class="countdown-label">Mins</div>
+							</div>
+							<div class="countdown-pill">
+								<div class="countdown-number" id="cd-seconds">48</div>
+								<div class="countdown-label">Secs</div>
+							</div>
 						</div>
-					</div>
-
-					<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
-						<!-- Block1 -->
-						<div class="block1 wrap-pic-w">
-							<img src="images/banner-03.jpg" alt="IMG-BANNER">
-
-							<a href="product.php?product_target=O"
-								class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-								<div class="block1-txt-child1 flex-col-l">
-									<span class="block1-name ltext-102 trans-04 p-b-8">
-										Accessories
-									</span>
-
-									<span class="block1-info stext-102 trans-04">
-										Watches, Bags & More
-									</span>
-								</div>
-
-								<div class="block1-txt-child2 p-b-4 trans-05">
-									<div class="block1-link stext-101 cl0 trans-09">
-										Explore Now &rarr;
-									</div>
-								</div>
+						<div class="mt-3">
+							<a href="product.php" class="stark-btn-primary" style="background: #ffffff !important; color: #1e1b4b !important; padding: 10px 24px !important; font-size: 13.5px !important;">
+								Claim Offer Now <i class="fa fa-arrow-right ml-1"></i>
 							</a>
 						</div>
 					</div>
@@ -511,294 +537,11 @@ stark_ensure_tables($con);
 					</div>
 				</div>
 
-				<div class="flex-w flex-sb-m p-b-52">
-					<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-							All Products
-						</button>
-
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Cloth">
-							Cloth
-						</button>
-
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Accessories">
-							Accessories
-						</button>
-
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Belt">
-							Belt
-						</button>
-
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Shoes">
-							Shoes
-						</button>
-
-						<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".Watches">
-							Watches
-						</button>
-					</div>
-
-					<div class="flex-w flex-c-m m-tb-10">
-						<div
-							class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
-							<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-							<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-							Filter
-						</div>
-
-						<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-							<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-							<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-							Search
-						</div>
-					</div>
-
-					<!-- Search product -->
-					<div class="dis-none panel-search w-full p-t-10 p-b-15">
-						<form action="product.php" method="GET" class="bor8 dis-flex p-l-15 w-full">
-							<button type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-								<i class="zmdi zmdi-search"></i>
-							</button>
-
-							<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search"
-								placeholder="Search products...">
-						</form>
-					</div>
-					<?php
-						if(isset($_GET['sort_by'] )){
-							$sort_by = $_GET['sort_by'];
-                            $cls = $_GET['cls'];
-						}else{
-                            $sort_by = "";
-                            $cls = "";
-                        }
-
-						if(isset($_GET['price_low']) || isset($_GET['price_high'])){
-							$price_low = $_GET['price_low'];
-                            $price_high = $_GET['price_high'];
-                            $price = "WHERE product_price BETWEEN $price_low AND $price_high";
-						}else{
-							$price_low = "";
-                            $price_high = "";
-                            $price = null;
-						}
-
-						switch($sort_by){
-							case "default":
-                                $products = null;
-                                break;
-                            case "Newness":
-                               	$products = "ORDER BY added_at DESC";
-                                break;
-                            case "Low to High":
-                                $products = "ORDER BY product_price ASC";
-                                break;
-                            case "High to Low":
-                                $products = "ORDER BY product_price DESC";
-                                break;
-							default:
-								$products = null;
-						}
-
-						$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id $price $products";
-					?>
-					<!-- Filter -->
-					<div class="dis-none panel-filter w-full p-t-10">
-						<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-							<div class="filter-col1 p-r-15 p-b-27">
-								<div class="mtext-102 cl2 p-b-15">
-									Sort By
-								</div>
-								<ul>
-									<li class="p-b-6">
-										<a href="index.php?sort_by=default&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'default' ? $cls : null; ?>">
-											Default
-										</a>
-									</li>
-
-									<!-- <li class="p-b-6">
-										<a href="index.php?sort_by=Popularity&cls=filter-link-active" class="filter-link stext-106 trans-04">
-											Popularity
-										</a>
-									</li> -->
-
-									<!-- <li class="p-b-6">
-										<a href="index.php?sort_by=rating&cls=filter-link-active" class="filter-link stext-106 trans-04">
-											Average rating
-										</a>
-									</li> -->
-									<!-- filter-link-active -->
-									<li class="p-b-6">
-										<a href="index.php?sort_by=Newness&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Newness' ? $cls : null;?>">
-											Newness
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=Low to High&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'Low to High' ? $cls : null;?>">
-											Price: Low to High
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=High to Low&cls=filter-link-active&<?php echo isset($_GET['price_low']) ? 'price_low='.$price_low : null; ?>&<?php echo isset($_GET['price_high']) ? 'price_high='.$price_high : null; ?>" class="filter-link stext-106 trans-04 <?php echo $sort_by == 'High to Low' ? $cls : null;?>">
-											Price: High to Low
-										</a>
-									</li>
-								</ul>
-							</div>
-
-							<div class="filter-col2 p-r-15 p-b-27">
-								<div class="mtext-102 cl2 p-b-15">
-									Price
-								</div>
-
-								<ul>
-									<li class="p-b-6">
-										<a href="index.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price=all" class="filter-link stext-106 trans-04 <?php echo isset($_GET['price']) == 'all' ? $cls : null;?>">
-											All
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=0&price_high=199" class="filter-link stext-106 trans-04 <?php echo $price_low == '0' ? $cls : null;?>">
-											₹0.00 - ₹199.00
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=201&price_high=499" class="filter-link stext-106 trans-04 <?php echo $price_low == '201' ? $cls : null;?>">
-											₹201.00 - ₹499.00
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=501&price_high=1499" class="filter-link stext-106 trans-04 <?php echo $price_low == '501' ? $cls : null;?>">
-											₹501.00 - ₹1499.00
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=1501&price_high=2499" class="filter-link stext-106 trans-04 <?php echo $price_low == '1501' ? $cls : null;?>">
-											₹1501.00 - ₹2499.00
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<a href="index.php?sort_by=<?php echo $sort_by?>&cls=filter-link-active&price_low=2501&price_high=100000" class="filter-link stext-106 trans-04 <?php echo $price_low == '2501' ? $cls : null;?>">
-											₹2501.00+
-										</a>
-									</li>
-								</ul>
-							</div>
-
-							<!-- <div class="filter-col3 p-r-15 p-b-27">
-								<div class="mtext-102 cl2 p-b-15">
-									Color
-								</div>
-
-								<ul>
-									<li class="p-b-6">
-										<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-											<i class="zmdi zmdi-circle"></i>
-										</span>
-
-										<a href="#" class="filter-link stext-106 trans-04">
-											Black
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-											<i class="zmdi zmdi-circle"></i>
-										</span>
-
-										<a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-											Blue
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-											<i class="zmdi zmdi-circle"></i>
-										</span>
-
-										<a href="#" class="filter-link stext-106 trans-04">
-											Grey
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-											<i class="zmdi zmdi-circle"></i>
-										</span>
-
-										<a href="#" class="filter-link stext-106 trans-04">
-											Green
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-											<i class="zmdi zmdi-circle"></i>
-										</span>
-
-										<a href="#" class="filter-link stext-106 trans-04">
-											Red
-										</a>
-									</li>
-
-									<li class="p-b-6">
-										<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-											<i class="zmdi zmdi-circle-o"></i>
-										</span>
-
-										<a href="#" class="filter-link stext-106 trans-04">
-											White
-										</a>
-									</li>
-								</ul>
-							</div> -->
-
-							<!-- <div class="filter-col4 p-b-27">
-								<div class="mtext-102 cl2 p-b-15">
-									Tags
-								</div>
-
-								<div class="flex-w p-t-4 m-r--5">
-									<a href="#"
-										class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-										Fashion
-									</a>
-
-									<a href="#"
-										class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-										Lifestyle
-									</a>
-
-									<a href="#"
-										class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-										Denim
-									</a>
-
-									<a href="#"
-										class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-										Streetstyle
-									</a>
-
-									<a href="#"
-										class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-										Crafts
-									</a>
-								</div>
-							</div> -->
-						</div>
-					</div>
-				</div>
-
 				<div class="row isotope-grid">
 					<?php
+					$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id ORDER BY product_item.id DESC";
 					$product_data = mysqli_query($con, $product);
+					if ($product_data) {
 					while ($fetch_product = mysqli_fetch_array($product_data)) {
 						$pr_img_arr = !empty($fetch_product['pr_imgs']) ? json_decode($fetch_product['pr_imgs'], true) : [];
 						$main_pic = !empty($fetch_product['product_img']) ? 'image/product/' . $fetch_product['product_img'] : 'images/product-placeholder.jpg';
@@ -850,14 +593,8 @@ stark_ensure_tables($con);
 						</div>
 					<?php
 					}
+					}
 					?>
-				</div>
-
-				<!-- Load more -->
-				<div class="flex-c-m flex-w w-full p-t-45">
-					<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-						Load More
-					</a>
 				</div>
 			</div>
 		</section>
@@ -868,10 +605,8 @@ stark_ensure_tables($con);
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6 col-lg-3 p-b-50">
-						<a href="index.php" class="stark-brand-logo mb-3" style="color: #fff !important;">
-							<span class="brand-icon"><i class="fa fa-bolt"></i></span>
-							<span class="brand-text" style="background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STARK</span>
-							<span class="brand-badge" style="background: rgba(99,102,241,0.2); color: #818cf8;">STORE</span>
+						<a href="index.php" class="d-inline-block mb-3">
+							<img src="images/icons/logo-01.png" alt="PEHUNT" style="height: 40px; width: auto; max-width: 180px; object-fit: contain;">
 						</a>
 						<p class="stext-107 cl7 m-b-20" style="line-height: 1.6;">
 							Premium fashion, streetwear & modern lifestyle essentials. Engineered for maximum comfort, cutting-edge style, and daily confidence.
@@ -961,7 +696,7 @@ stark_ensure_tables($con);
 						<p class="stext-107 cl7 m-b-15">
 							Subscribe for exclusive drops, private sale invites and 15% off your first purchase.
 						</p>
-						<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Stark VIP Club!', 'success');">
+						<form class="stark-newsletter-form" onsubmit="event.preventDefault(); swal('Subscribed!', 'Welcome to the Pehunt VIP Club!', 'success');">
 							<input type="email" placeholder="Enter your email" required>
 							<button type="submit">Join <i class="fa fa-paper-plane ml-1"></i></button>
 						</form>
@@ -971,7 +706,7 @@ stark_ensure_tables($con);
 				<div class="p-t-30 p-b-10" style="border-top: 1px solid rgba(255,255,255,0.08);">
 					<div class="d-flex flex-wrap justify-content-between align-items-center">
 						<p class="stext-107 cl6 m-0">
-							&copy; <?php echo date('Y'); ?> <strong>Stark Store</strong>. All rights reserved. Built with precision & modern aesthetics.
+							&copy; <?php echo date('Y'); ?> <strong>Pehunt</strong>. All rights reserved. Built with precision & modern aesthetics.
 						</p>
 						<div class="flex-c-m flex-w p-t-4">
 							<a href="#" class="m-all-1"><img src="images/icons/icon-pay-01.png" alt="PAYPAL"></a>
@@ -1345,7 +1080,7 @@ stark_ensure_tables($con);
 
 			// setInterval(fetchCartData, 2000);
 
-			$(document).ready(function() {
+		$(document).ready(function() {
 				fetchCartData();
 				fetchWishlistData();
 			});
@@ -1355,6 +1090,61 @@ stark_ensure_tables($con);
 		if (window.history.replaceState) {
 			window.history.replaceState(null, null, window.location.href);
 		}
+
+		function copyPromoCode(code) {
+			if (navigator.clipboard && navigator.clipboard.writeText) {
+				navigator.clipboard.writeText(code).then(function() {
+					if (typeof swal === 'function') {
+						swal("Code Copied!", "Use code " + code + " at checkout for 15% OFF!", "success");
+					} else {
+						alert("Code " + code + " copied to clipboard!");
+					}
+				}).catch(function() {
+					fallbackCopy(code);
+				});
+			} else {
+				fallbackCopy(code);
+			}
+		}
+
+		function fallbackCopy(code) {
+			var dummy = document.createElement("input");
+			document.body.appendChild(dummy);
+			dummy.setAttribute("value", code);
+			dummy.select();
+			document.execCommand("copy");
+			document.body.removeChild(dummy);
+			if (typeof swal === 'function') {
+				swal("Code Copied!", "Use code " + code + " at checkout for 15% OFF!", "success");
+			}
+		}
+
+		// Rolling daily countdown timer
+		(function initFlashCountdown() {
+			function updateCountdown() {
+				var now = new Date();
+				var midnight = new Date();
+				midnight.setHours(23, 59, 59, 999);
+				var diff = midnight.getTime() - now.getTime();
+				if (diff <= 0) {
+					diff = 24 * 60 * 60 * 1000;
+				}
+
+				var hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+				var minutes = Math.floor((diff / (1000 * 60)) % 60);
+				var seconds = Math.floor((diff / 1000) % 60);
+
+				var hEl = document.getElementById('cd-hours');
+				var mEl = document.getElementById('cd-minutes');
+				var sEl = document.getElementById('cd-seconds');
+
+				if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+				if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+				if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+			}
+			updateCountdown();
+			setInterval(updateCountdown, 1000);
+		})();
 	</script>
 	</body>
 

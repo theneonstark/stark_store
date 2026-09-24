@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account - Stark Store</title>
+  <title>Create Account - Pehunt</title>
   <link rel="icon" type="image/png" href="images/icons/favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -53,12 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 sm:p-10 border border-slate-100">
     <!-- Brand Header -->
     <div class="text-center mb-8">
-      <a href="index.php" class="inline-flex items-center space-x-2.5 mb-3">
-        <span class="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-600/30">S</span>
-        <span class="text-2xl font-black tracking-tight text-slate-900">STARK STORE</span>
+      <a href="index.php" class="inline-block mb-3">
+        <img src="images/icons/logo-pehunt-dark.png" alt="PEHUNT" class="h-10 mx-auto" style="height: 40px; width: auto; object-fit: contain;">
       </a>
       <h1 class="text-xl font-bold text-slate-900 mt-2">Create New Account</h1>
-      <p class="text-xs text-slate-500 mt-1">Join Stark Store for seamless online shopping</p>
+      <p class="text-xs text-slate-500 mt-1">Join Pehunt for seamless online shopping</p>
     </div>
 
     <?php if ($error): ?>
