@@ -477,7 +477,21 @@ require_once __DIR__ . '/auth_check.php';
             </h2>
 
             <?php
-            if (isset($_POST['sub'])) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && empty($_FILES) && (intval($_SERVER['CONTENT_LENGTH'] ?? 0) > 0)) {
+              $mb = round(intval($_SERVER['CONTENT_LENGTH']) / (1024 * 1024), 2);
+              ?>
+              <script>
+                $(document).ready(function() {
+                  Swal.fire({
+                    title: "Upload Exceeded Limit",
+                    text: "Total uploaded size (<?php echo $mb; ?> MB) exceeded the server limit. Please upload images under 25 MB each.",
+                    icon: "warning",
+                    confirmButtonText: "Okay"
+                  });
+                });
+              </script>
+              <?php
+            } elseif (isset($_POST['sub'])) {
               $pname = mysqli_real_escape_string($con, trim($_POST['productName'] ?? ''));
               $gender = mysqli_real_escape_string($con, $_POST['gender'] ?? 'M');
               $price = floatval($_POST['price'] ?? 0);
@@ -685,6 +699,24 @@ require_once __DIR__ . '/auth_check.php';
       if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
       }
+
+      // Client-side file size guard (25MB limit per image)
+      $(document).ready(function() {
+        $('input[type="file"]').on('change', function() {
+          var maxBytes = 25 * 1024 * 1024;
+          if (this.files && this.files[0]) {
+            if (this.files[0].size > maxBytes) {
+              var mb = (this.files[0].size / (1024 * 1024)).toFixed(1);
+              Swal.fire({
+                title: "File Too Large",
+                text: "Selected file (" + mb + " MB) exceeds 25 MB. Please select an optimized image.",
+                icon: "warning"
+              });
+              $(this).val('');
+            }
+          }
+        });
+      });
     </script>
   </body>
 
