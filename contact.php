@@ -1,19 +1,17 @@
+<?php
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+include('config.php');
+if (isset($_POST['send']) && $con) {
+	$mail = mysqli_real_escape_string($con, $_POST['email'] ?? '');
+	$msg = mysqli_real_escape_string($con, $_POST['msg'] ?? '');
+	@mysqli_query($con, "INSERT INTO queries (email, message) VALUES ('$mail', '$msg')");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
-<?php
-session_start();
-include ('config.php');
-$product = "select * from product_item";
-$wishlist_data = "select * from wishlist";
-// if (isset($_SESSION['email']) && isset($_SESSION['password'])) {
-
-	if(isset($_POST['send'])){
-		$mail = $_POST['email'];
-		$msg = $_POST['msg'];
-		$send_query = mysqli_query($fandq_info, "INSERT INTO queries (email, message) VALUES ('$mail', '$msg')");
-	}
-
-	?>
 <head>
 	<title>Contact Us - Pehunt</title>
 	<meta charset="UTF-8">

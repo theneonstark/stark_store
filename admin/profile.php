@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <?php
-session_start();
-include('../config.php');
-if (isset($_SESSION['email'])) {
-            if (isset($_POST['update'])) {
-              $id = $_SESSION['id'];
-              $name = $_POST['name'];
-              $username = $_POST['username'];
-              $email = $_POST['email'];
-              $address = $_POST['address'];
-              $city = $_POST['city'];
-              $country = $_POST['country'];
-              $pincode = $_POST['pincode'];
-              $about = $_POST['about'];
-              $query = "SELECT id FROM admins WHERE username = '$username' AND id != '$id'";
-              $result = mysqli_query($con, $query);
-              if (!mysqli_num_rows($result) > 0) {
+require_once __DIR__ . '/auth_check.php';
+
+if (isset($_POST['update']) && $con) {
+  $id = intval($_SESSION['id'] ?? 0);
+  $name = mysqli_real_escape_string($con, $_POST['name'] ?? '');
+  $username = mysqli_real_escape_string($con, $_POST['username'] ?? '');
+  $email = mysqli_real_escape_string($con, $_POST['email'] ?? '');
+  $address = mysqli_real_escape_string($con, $_POST['address'] ?? '');
+  $city = mysqli_real_escape_string($con, $_POST['city'] ?? '');
+  $country = mysqli_real_escape_string($con, $_POST['country'] ?? '');
+  $pincode = mysqli_real_escape_string($con, $_POST['pincode'] ?? '');
+  $about = mysqli_real_escape_string($con, $_POST['about'] ?? '');
+  $query = "SELECT id FROM admins WHERE username = '$username' AND id != '$id'";
+  $result = @mysqli_query($con, $query);
+  if ($result && mysqli_num_rows($result) === 0) {
                 if (isset($_FILES['profile_update'])) {
                   $directory = "../image/users/";
                   $profile_update = $_FILES['profile_update']['name'];
@@ -38,7 +35,8 @@ if (isset($_SESSION['email'])) {
               }
             }
   ?>
-
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -485,19 +483,21 @@ if (isset($_SESSION['email'])) {
               <!-- Profile menu -->
               <li class="relative">
               <?php
-                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
-                while ($admins_detail = mysqli_fetch_assoc($admin_query)) 
-                if($_SESSION['id']== $admins_detail['id']){
+                $current_admin_img = $_SESSION['profile_img'] ?? 'user_profile.jpg';
+                if (!empty($con) && isset($_SESSION['id'])) {
+                    $adm_id = intval($_SESSION['id']);
+                    $adm_res = @mysqli_query($con, "SELECT profile_img FROM admins WHERE id = $adm_id LIMIT 1");
+                    if ($adm_res && ($adm_row = mysqli_fetch_assoc($adm_res))) {
+                        $current_admin_img = $adm_row['profile_img'] ?: $current_admin_img;
+                    }
+                }
               ?>
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
+                  src="../image/users/<?php echo htmlspecialchars($current_admin_img); ?>"
                   alt="" aria-hidden="true" />
               </button>
-              <?php
-                }
-              ?>
                 <template x-if="isProfileMenuOpen">
                   <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -627,7 +627,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="address"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Address</label>
-                                  <input type="text" name="address" value="<?php echo $admins_detail['address']; ?>"
+                                  <input type="text" name="address" value="<?php echo htmlspecialchars($admins_detail['address'] ?? ''); ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -636,7 +636,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="city"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">City</label>
-                                  <input type="text" name="city" value="<?php echo $admins_detail['city']; ?>"
+                                  <input type="text" name="city" value="<?php echo htmlspecialchars($admins_detail['city'] ?? ''); ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -645,7 +645,7 @@ if (isset($_SESSION['email'])) {
                                 <div class="mb-4">
                                   <label for="country"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Country</label>
-                                  <input type="text" name="country" value="<?php echo $admins_detail['country']; ?>"
+                                  <input type="text" name="country" value="<?php echo htmlspecialchars($admins_detail['country'] ?? ''); ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -655,7 +655,7 @@ if (isset($_SESSION['email'])) {
                                   <label for="postal code"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Postal
                                     code</label>
-                                  <input type="text" name="pincode" value="<?php echo $admins_detail['pincode']; ?>"
+                                  <input type="text" name="pincode" value="<?php echo htmlspecialchars($admins_detail['pincode'] ?? ''); ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -671,7 +671,7 @@ if (isset($_SESSION['email'])) {
                                   <label for="about me"
                                     class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">About
                                     me</label>
-                                  <input type="text" name="about" value="<?php echo $admins_detail['about']; ?>"
+                                  <input type="text" name="about" value="<?php echo htmlspecialchars($admins_detail['about'] ?? ''); ?>"
                                     class="focus:shadow-primary-outline dark:bg-gray-900 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-600 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-400 focus:outline-none"
                                     x-bind:readonly="!isToggled" />
                                 </div>
@@ -690,12 +690,5 @@ if (isset($_SESSION['email'])) {
     </div>
     </main>
     </div>
-    </div>
   </body>
-  <?php
-} else {
-  header('location: ../login.php');
-}
-?>
-
 </html>

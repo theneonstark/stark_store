@@ -1,15 +1,15 @@
+<?php
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+include('config.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<?php
-	session_start();
-	include('config.php');
-	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
-		";
-	$wishlist_data = "select * from wishlist";
-	?>
-	<title>About</title>
+	<title>About - Pehunt</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />

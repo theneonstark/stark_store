@@ -1,10 +1,23 @@
+<?php
+require_once __DIR__ . '/auth_check.php';
+
+$order_details = false;
+$users_date_filters = false;
+$users_month_filters = false;
+if ($con) {
+  try {
+    $order_details = @mysqli_query($con, "SELECT * FROM user_order");
+    $users_date_filters = @mysqli_query($con, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
+    $users_month_filters = @mysqli_query($con, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
+  } catch (Throwable $e) {}
+}
+?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PeHunt</title>
+  <title>New Users - PeHunt Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -15,18 +28,7 @@
   <script src="./assets/js/charts-pie.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<?php
-session_start();
-include('../config.php');
-if (isset($_SESSION['email'])) {
-
-  $order_details = mysqli_query($user_order, "SELECT * FROM user_order");
-  $users_date_filters = mysqli_query($user_order, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
-  $users_month_filters = mysqli_query($user_order, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
-?>
-
-  <body>
+<body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
       <!-- Desktop sidebar -->
       <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
@@ -423,19 +425,21 @@ if (isset($_SESSION['email'])) {
               <!-- Profile menu -->
               <li class="relative">
                 <?php
-                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
-                while ($admins_detail = mysqli_fetch_assoc($admin_query))
-                  if ($_SESSION['id'] == $admins_detail['id']) {
+                $current_admin_img = $_SESSION['profile_img'] ?? 'user_profile.jpg';
+                if (!empty($con) && isset($_SESSION['id'])) {
+                    $adm_id = intval($_SESSION['id']);
+                    $adm_res = @mysqli_query($con, "SELECT profile_img FROM admins WHERE id = $adm_id LIMIT 1");
+                    if ($adm_res && ($adm_row = mysqli_fetch_assoc($adm_res))) {
+                        $current_admin_img = $adm_row['profile_img'] ?: $current_admin_img;
+                    }
+                }
                 ?>
-                  <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
-                    @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
-                    <img class="object-cover w-8 h-8 rounded-full"
-                      src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
-                      alt="" aria-hidden="true" />
-                  </button>
-                <?php
-                  }
-                ?>
+                <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+                  @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
+                  <img class="object-cover w-8 h-8 rounded-full"
+                    src="../image/users/<?php echo htmlspecialchars($current_admin_img); ?>"
+                    alt="" aria-hidden="true" />
+                </button>
                 <template x-if="isProfileMenuOpen">
                   <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -495,9 +499,6 @@ if (isset($_SESSION['email'])) {
                           <p class="text-lg font-semibold text-blue-600">time</p>
                         </div>
                       </div>
-                    <?php
-                    }
-                    ?>
 
             </div>
         </main>

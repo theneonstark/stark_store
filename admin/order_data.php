@@ -6,13 +6,22 @@ if (isset($_POST['delete_order_id'])) {
   mysqli_query($con, "DELETE FROM user_order WHERE id = $del_id");
 }
 
-$users_details = mysqli_query($con, "SELECT * FROM department RIGHT JOIN users ON users.office = department.dept_id");
-$admins_details = mysqli_query($con, "SELECT * FROM admins LEFT JOIN department ON admins.id = department.dept_id");
-$order_details = mysqli_query($con, "SELECT * FROM user_order ORDER BY id DESC");
-$users_date_filters = mysqli_query($con, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
-$users_month_filters = mysqli_query($con, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
-$user_order_price = mysqli_query($con, "SELECT SUM(amount) AS total_amount FROM user_order");
-$user_order_count = mysqli_query($con, "SELECT COUNT(*) AS total_count FROM user_order");
+function safe_admin_query($conn, $sql) {
+    if (!$conn) return false;
+    try {
+        return @mysqli_query($conn, $sql);
+    } catch (Throwable $e) {
+        return false;
+    }
+}
+
+$users_details = safe_admin_query($con, "SELECT users.*, department.dept_name FROM users LEFT JOIN department ON users.office = department.dept_id");
+$admins_details = safe_admin_query($con, "SELECT admins.*, department.dept_name FROM admins LEFT JOIN department ON admins.id = department.dept_id");
+$order_details = safe_admin_query($con, "SELECT * FROM user_order ORDER BY id DESC");
+$users_date_filters = safe_admin_query($con, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM user_order GROUP BY DATE(created_at) ORDER BY day");
+$users_month_filters = safe_admin_query($con, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM user_order GROUP BY MONTH(created_at) ORDER BY month");
+$user_order_price = safe_admin_query($con, "SELECT SUM(amount) AS total_amount FROM user_order");
+$user_order_count = safe_admin_query($con, "SELECT COUNT(*) AS total_count FROM user_order");
 ?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
@@ -429,19 +438,21 @@ $user_order_count = mysqli_query($con, "SELECT COUNT(*) AS total_count FROM user
               <!-- Profile menu -->
               <li class="relative">
                 <?php
-                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
-                while ($admins_detail = mysqli_fetch_assoc($admin_query))
-                  if ($_SESSION['id'] == $admins_detail['id']) {
+                $current_admin_img = $_SESSION['profile_img'] ?? 'user_profile.jpg';
+                if (!empty($con) && isset($_SESSION['id'])) {
+                    $adm_id = intval($_SESSION['id']);
+                    $adm_res = @mysqli_query($con, "SELECT profile_img FROM admins WHERE id = $adm_id LIMIT 1");
+                    if ($adm_res && ($adm_row = mysqli_fetch_assoc($adm_res))) {
+                        $current_admin_img = $adm_row['profile_img'] ?: $current_admin_img;
+                    }
+                }
                 ?>
-                  <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
-                    @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
-                    <img class="object-cover w-8 h-8 rounded-full"
-                      src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
-                      alt="" aria-hidden="true" />
-                  </button>
-                <?php
-                  }
-                ?>
+                <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+                  @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
+                  <img class="object-cover w-8 h-8 rounded-full"
+                    src="../image/users/<?php echo htmlspecialchars($current_admin_img); ?>"
+                    alt="" aria-hidden="true" />
+                </button>
                 <template x-if="isProfileMenuOpen">
                   <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -497,7 +508,9 @@ $user_order_count = mysqli_query($con, "SELECT COUNT(*) AS total_count FROM user
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                    echo mysqli_num_rows($users_details) + mysqli_num_rows($admins_details);
+                    $u_c = ($users_details && $users_details instanceof mysqli_result) ? mysqli_num_rows($users_details) : 0;
+                    $a_c = ($admins_details && $admins_details instanceof mysqli_result) ? mysqli_num_rows($admins_details) : 0;
+                    echo ($u_c + $a_c);
                   ?>
                 </p>
               </div>

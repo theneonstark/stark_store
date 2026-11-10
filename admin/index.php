@@ -1,31 +1,41 @@
-
 <?php
-  require_once __DIR__ . '/auth_check.php';
+require_once __DIR__ . '/auth_check.php';
 
-  $users_date_filters = mysqli_query($con,"SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
-  $users_month_filters = mysqli_query($con,"SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
-  $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
-  $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
-  
-  if(isset($_POST['delete'])){
+// Safe query helper to protect admin dashboard from any SQL fatal errors
+function safe_admin_query($conn, $sql) {
+    if (!$conn) return false;
+    try {
+        return @mysqli_query($conn, $sql);
+    } catch (Throwable $e) {
+        error_log("Admin SQL error: " . $e->getMessage());
+        return false;
+    }
+}
+
+$users_date_filters  = safe_admin_query($con, "SELECT DATE(created_at) AS day, COUNT(*) AS new_users FROM users GROUP BY DATE(created_at) ORDER BY day");
+$users_month_filters = safe_admin_query($con, "SELECT DATE(created_at) AS month, COUNT(*) AS total_users FROM users GROUP BY MONTH(created_at) ORDER BY month");
+$user_order_price    = safe_admin_query($con, "SELECT SUM(amount) AS total_amount FROM user_order");
+$user_order_count    = safe_admin_query($con, "SELECT COUNT(*) AS total_orders FROM user_order");
+
+if (isset($_POST['delete']) && $con) {
     $delete_id = intval($_POST['delete']);
     // Clean up cart & wishlist records for this user
-    mysqli_query($con, "DELETE FROM user_cart WHERE user_id = $delete_id");
-    mysqli_query($con, "DELETE FROM user_wishlist WHERE user_id = $delete_id");
-    $del_row = mysqli_query($con, "DELETE FROM users WHERE id = $delete_id");
-    if($del_row){
-      echo "<script>alert('User deleted successfully')</script>";
+    @mysqli_query($con, "DELETE FROM user_cart WHERE user_id = $delete_id");
+    @mysqli_query($con, "DELETE FROM user_wishlist WHERE user_id = $delete_id");
+    $del_row = @mysqli_query($con, "DELETE FROM users WHERE id = $delete_id");
+    if ($del_row) {
+        echo "<script>alert('User deleted successfully')</script>";
     } else {
-      echo "<script>alert('Failed to delete user')</script>";
+        echo "<script>alert('Failed to delete user')</script>";
     }
-  }
+}
 ?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store Admin - Stark Store</title>
+  <title>Dashboard - PeHunt Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./assets/css/tailwind.output.css" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
@@ -41,7 +51,7 @@
     <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
       <div class="py-4 text-gray-500 dark:text-gray-400">
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-          Store Admin
+          PeHunt Admin
         </a>
         <ul class="mt-6">
           <li class="relative px-6 py-3">
@@ -195,7 +205,7 @@
       @keydown.escape="closeSideMenu">
       <div class="py-4 text-gray-500 dark:text-gray-400">
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-          Stark Store
+          PeHunt Admin
         </a>
         <ul class="mt-6">
           <li class="relative px-6 py-3">
@@ -421,19 +431,21 @@
             <!-- Profile menu -->
             <li class="relative">
               <?php
-                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
-                while ($admins_detail = mysqli_fetch_assoc($admin_query)) 
-                if($_SESSION['id']== $admins_detail['id']){
+                $current_admin_img = $_SESSION['profile_img'] ?? 'user_profile.jpg';
+                if (!empty($con) && isset($_SESSION['id'])) {
+                    $adm_id = intval($_SESSION['id']);
+                    $adm_res = @mysqli_query($con, "SELECT profile_img FROM admins WHERE id = $adm_id LIMIT 1");
+                    if ($adm_res && ($adm_row = mysqli_fetch_assoc($adm_res))) {
+                        $current_admin_img = $adm_row['profile_img'] ?: $current_admin_img;
+                    }
+                }
               ?>
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="../image/users/<?php echo $admins_detail['profile_img']?>"
+                  src="../image/users/<?php echo htmlspecialchars($current_admin_img); ?>"
                   alt="" aria-hidden="true" />
               </button>
-              <?php
-                }
-              ?>
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -489,8 +501,8 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                  $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
-                    echo mysqli_num_rows($users_details);
+                    $users_details = safe_admin_query($con, "SELECT users.*, department.dept_name FROM users LEFT JOIN department ON users.office = department.dept_id ORDER BY users.id DESC");
+                    echo ($users_details && $users_details instanceof mysqli_result) ? mysqli_num_rows($users_details) : 0;
                   ?>
                 </p>
               </div>
@@ -510,9 +522,11 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   ₹ <?php
-                    if($price = mysqli_fetch_assoc($user_order_price)){
-                      echo $price["SUM(amount)"]; 
+                    $bal = 0;
+                    if ($user_order_price && $user_order_price instanceof mysqli_result && ($price = mysqli_fetch_assoc($user_order_price))){
+                      $bal = $price["total_amount"] ?? $price["SUM(amount)"] ?? 0; 
                     }
+                    echo number_format((float)$bal, 2);
                   ?>
                 </p>
               </div>
@@ -532,9 +546,11 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                 <?php
-                    if($count = mysqli_fetch_assoc($user_order_count)){
-                      echo $count["COUNT(*)"];
+                    $sales = 0;
+                    if ($user_order_count && $user_order_count instanceof mysqli_result && ($count = mysqli_fetch_assoc($user_order_count))){
+                      $sales = $count["total_orders"] ?? $count["COUNT(*)"] ?? 0;
                     }
+                    echo intval($sales);
                   ?>
                 </p>
               </div>
@@ -554,8 +570,12 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                    $fetch_queries = mysqli_query($fandq_info , "SELECT COUNT(*) FROM queries");
-                    echo mysqli_num_rows($fetch_queries);
+                    $fetch_queries = safe_admin_query($con, "SELECT COUNT(*) AS total_q FROM queries");
+                    $q_total = 0;
+                    if ($fetch_queries && $fetch_queries instanceof mysqli_result && ($q_row = mysqli_fetch_assoc($fetch_queries))) {
+                      $q_total = $q_row['total_q'] ?? 0;
+                    }
+                    echo intval($q_total);
                   ?>
                 </p>
               </div>
@@ -621,10 +641,12 @@
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                   <?php
                       $users_data = [];
-                      while($users_row = mysqli_fetch_assoc($users_details)){
-                          $users_data[] = $users_row;
+                      if ($users_details && $users_details instanceof mysqli_result) {
+                          while($users_row = mysqli_fetch_assoc($users_details)){
+                              $users_data[] = $users_row;
+                          }
                       }
-                      $all_person = array_merge($users_data);
+                      $all_person = $users_data;
                       foreach($all_person as $person){
                         
                   ?>
@@ -703,22 +725,23 @@
             </div>
             <div id="fetched_data">
             <?php
-              while($date_fetch = mysqli_fetch_array($users_date_filters)){
+              if ($users_date_filters && $users_date_filters instanceof mysqli_result) {
+                while($date_fetch = mysqli_fetch_array($users_date_filters)){
             ?>
-            <input type="hidden" value="<?php echo $date_fetch['day']?>" class="fetch_per_day">
-            <input type="hidden" value="<?php echo $date_fetch['new_users'];?>" class="fetch_new_user">
+            <input type="hidden" value="<?php echo htmlspecialchars($date_fetch['day'] ?? ''); ?>" class="fetch_per_day">
+            <input type="hidden" value="<?php echo htmlspecialchars($date_fetch['new_users'] ?? '0'); ?>" class="fetch_new_user">
             <?php
+                }
               }
+              if ($users_month_filters && $users_month_filters instanceof mysqli_result) {
+                while($month_fetch = mysqli_fetch_array($users_month_filters)){
+                  $m_time = isset($month_fetch['month']) ? strtotime($month_fetch['month']) : false;
+                  $m_name = $m_time ? date('M', $m_time) : '';
             ?>
+            <input type="hidden" value="<?php echo htmlspecialchars($m_name); ?>" class="fetch_per_month">
+            <input type="hidden" value="<?php echo htmlspecialchars($month_fetch['total_users'] ?? '0'); ?>" class="fetch_monthly_users">
             <?php
-              while($month_fetch = mysqli_fetch_array($users_month_filters)){
-            ?>
-            <input type="hidden" value="<?php
-            $date = strtotime($month_fetch['month']);
-             echo date('M', $date);
-             ?>" class="fetch_per_month">
-            <input type="hidden" value="<?php echo $month_fetch['total_users'];?>" class="fetch_monthly_users">
-            <?php
+                }
               }
             ?>
             </div>

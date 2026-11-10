@@ -1,13 +1,15 @@
-<!DOCTYPE html>
 <?php
-session_start();
-include ('../config.php');
-if (isset($_SESSION['email'])) {
-  $products = mysqli_query($product_info, 'SELECT product_category.pc_id, product_category.pc_name, COUNT(product_item.id) AS item_count FROM product_category RIGHT JOIN product_item ON product_category.pc_id = product_item.product_catg GROUP BY product_category.pc_name');
-    ?>
-  <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
-
-  <head>
+require_once __DIR__ . '/auth_check.php';
+$products = false;
+if ($con) {
+    try {
+        $products = @mysqli_query($con, 'SELECT product_category.pc_id, product_category.pc_name, COUNT(product_item.id) AS item_count FROM product_category RIGHT JOIN product_item ON product_category.pc_id = product_item.product_catg GROUP BY product_category.pc_name');
+    } catch (Throwable $e) {}
+}
+?>
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Charts - PeHunt</title>
@@ -589,9 +591,6 @@ if (isset($_SESSION['email'])) {
         </main>
       </div>
     </div>
-    <?php
-}
-?>
 </body>
 
 </html>

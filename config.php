@@ -3,20 +3,26 @@
  * Stark Store - Central Configuration & Database Connection Manager
  */
 
-// Disable error reporting output in production, enable in development
+// Error reporting: Log errors to file; display only in debug mode
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-ini_set('display_errors', 0);
+if (isset($_GET['debug']) && $_GET['debug'] === '1') {
+    ini_set('display_errors', 1);
+} else {
+    ini_set('display_errors', 0);
+}
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/php_error.log');
+
 if (function_exists('mysqli_report')) {
     mysqli_report(MYSQLI_REPORT_OFF);
 }
 
-
 // Database connection parameters
-// You can customize these constants or override them via environment variables
-$db_host = getenv('DB_HOST') ?: '127.0.0.1';
-$db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
-$db_name = getenv('DB_NAME') ?: 'stark_store';
+$env_host = getenv('DB_HOST');
+$db_hosts = $env_host ? [$env_host, 'localhost', '127.0.0.1'] : ['localhost', '127.0.0.1'];
+$db_user  = getenv('DB_USER') ?: 'root';
+$db_pass  = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
+$db_name  = getenv('DB_NAME') ?: 'stark_store';
 
 // Legacy credential fallback credentials
 $legacy_users = [
@@ -26,57 +32,78 @@ $legacy_users = [
     ['user' => 'pehunt_member', 'pass' => 'BJ;RDe;0?[7V']
 ];
 
+$possible_dbs = array_unique([$db_name, 'stark_store', 'pehunt_store', 'pehunt_user', 'pehunt_db', 'pehunt_stark', 'pehunt_ecommerce', 'pehunt_pehunt']);
+
 $db = false;
+$active_host = 'localhost';
 $active_user = $db_user;
 $active_pass = $db_pass;
 
-// Try connecting with configured / fallback credentials
-foreach ($legacy_users as $cred) {
-    // Suppress warnings during connection test
-    $link = @mysqli_connect($db_host, $cred['user'], $cred['pass']);
-    if ($link) {
-        $active_user = $cred['user'];
-        $active_pass = $cred['pass'];
-        
-        // Check if primary database exists, or create it if missing
-        $select = @mysqli_select_db($link, $db_name);
-        if (!$select) {
-            // Check for alternative db names
-            foreach (['pehunt_user', 'pehunt_store', 'stark_store'] as $alt_db) {
-                if (@mysqli_select_db($link, $alt_db)) {
-                    $db_name = $alt_db;
+// Try connecting across hosts and credentials
+foreach ($db_hosts as $h) {
+    if ($db) break;
+    foreach ($legacy_users as $cred) {
+        $link = @mysqli_connect($h, $cred['user'], $cred['pass']);
+        if ($link) {
+            $active_host = $h;
+            $active_user = $cred['user'];
+            $active_pass = $cred['pass'];
+            
+            // Try selecting primary or candidate databases
+            $select = false;
+            foreach ($possible_dbs as $cand_db) {
+                if (@mysqli_select_db($link, $cand_db)) {
+                    $db_name = $cand_db;
                     $select = true;
                     break;
                 }
             }
-        }
 
-        // If database still doesn't exist, try to create it
-        if (!$select) {
-            @mysqli_query($link, "CREATE DATABASE IF NOT EXISTS `$db_name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-            if (@mysqli_select_db($link, $db_name)) {
-                $select = true;
-                // Auto-import seed schema if available
-                $schema_file = __DIR__ . '/stark_store_complete.sql';
-                if (file_exists($schema_file)) {
-                    $sql = file_get_contents($schema_file);
-                    @mysqli_multi_query($link, $sql);
-                    while (@mysqli_more_results($link) && @mysqli_next_result($link)) {;}
+            // If still not selected, discover accessible databases with tables
+            if (!$select) {
+                $db_res = @mysqli_query($link, "SHOW DATABASES");
+                if ($db_res) {
+                    while ($db_row = mysqli_fetch_row($db_res)) {
+                        $cand = $db_row[0];
+                        if (in_array($cand, ['information_schema', 'performance_schema', 'mysql', 'sys'])) continue;
+                        if (@mysqli_select_db($link, $cand)) {
+                            $tbl_chk = @mysqli_query($link, "SHOW TABLES LIKE 'users'");
+                            if ($tbl_chk && mysqli_num_rows($tbl_chk) > 0) {
+                                $db_name = $cand;
+                                $select = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
-        }
 
-        if ($select) {
-            $db = $link;
-            break;
-        } else {
-            mysqli_close($link);
+            // If database still doesn't exist, try to create it (local environments)
+            if (!$select) {
+                @mysqli_query($link, "CREATE DATABASE IF NOT EXISTS `$db_name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                if (@mysqli_select_db($link, $db_name)) {
+                    $select = true;
+                    $schema_file = __DIR__ . '/stark_store_complete.sql';
+                    if (file_exists($schema_file)) {
+                        $sql = file_get_contents($schema_file);
+                        @mysqli_multi_query($link, $sql);
+                        while (@mysqli_more_results($link) && @mysqli_next_result($link)) {;}
+                    }
+                }
+            }
+
+            if ($select) {
+                $db = $link;
+                break;
+            } else {
+                mysqli_close($link);
+            }
         }
     }
 }
 
 // Define connection constants
-defined('DB_HOST') or define('DB_HOST', $db_host);
+defined('DB_HOST') or define('DB_HOST', $active_host);
 defined('DB_USER') or define('DB_USER', $active_user);
 defined('DB_PASS') or define('DB_PASS', $active_pass);
 defined('DB_NAME') or define('DB_NAME', $db_name);
@@ -85,6 +112,12 @@ defined('DB_NAME') or define('DB_NAME', $db_name);
 defined('RAZORPAY_KEY_ID') or define('RAZORPAY_KEY_ID', 'rzp_test_kBREEooxYkKLPo');
 defined('RAZORPAY_KEY_SECRET') or define('RAZORPAY_KEY_SECRET', 'P5NsdNUNPas0c0C74oCjkk1Y');
 defined('ENABLE_COD') or define('ENABLE_COD', true);
+
+// Payment Gateway Configuration (Apiwala TPIPay - Pay via Online)
+defined('APIWALA_API_KEY') or define('APIWALA_API_KEY', getenv('APIWALA_API_KEY') ?: 'YOUR_API_KEY');
+defined('APIWALA_PARTNER_ID') or define('APIWALA_PARTNER_ID', getenv('APIWALA_PARTNER_ID') ?: 'YOUR_PARTNER_ID');
+defined('APIWALA_ENDPOINT') or define('APIWALA_ENDPOINT', 'https://apiwala.in/production/api/collection/order/tpipay');
+defined('APIWALA_CALLBACK_URL') or define('APIWALA_CALLBACK_URL', getenv('APIWALA_CALLBACK_URL') ?: '');
 
 // Set UTF-8 charset
 if ($db) {

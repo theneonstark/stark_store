@@ -34,38 +34,64 @@ if (empty($user_addr['address']) || empty($user_addr['city'])) {
 
 $full_address = trim($user_addr['address'] . ', ' . ($user_addr['landmark'] ? $user_addr['landmark'] . ', ' : '') . $user_addr['city'] . ' - ' . $user_addr['zip'] . ', ' . $user_addr['state']);
 
-// Fetch items from cart
-$cart_stmt = $con->prepare("
-    SELECT uc.product_id, uc.quantity, pi.product_price 
-    FROM user_cart uc 
-    JOIN product_item pi ON uc.product_id = pi.id 
-    WHERE uc.user_id = ? OR uc.session_id = ?
-");
-$cart_stmt->bind_param("is", $user_id, $session_id);
-$cart_stmt->execute();
-$cart_res = $cart_stmt->get_result();
-
+// Fetch items for order
 $product_ids = [];
 $total_amount = 0;
 
-while ($item = $cart_res->fetch_assoc()) {
-    $qty = max(1, intval($item['quantity']));
-    for ($q = 0; $q < $qty; $q++) {
-        $product_ids[] = (string)$item['product_id'];
+if (!empty($_POST['check_id'])) {
+    $submitted_ids = (array)$_POST['check_id'];
+    foreach ($submitted_ids as $pid) {
+        $pid = intval($pid);
+        if ($pid <= 0) continue;
+
+        // Check quantity in user's cart if exists, otherwise default to 1
+        $qty = 1;
+        $q_stmt = $con->prepare("SELECT quantity FROM user_cart WHERE (user_id = ? OR session_id = ?) AND product_id = ? LIMIT 1");
+        $q_stmt->bind_param("isi", $user_id, $session_id, $pid);
+        $q_stmt->execute();
+        $q_res = $q_stmt->get_result();
+        if ($q_row = $q_res->fetch_assoc()) {
+            $qty = max(1, intval($q_row['quantity']));
+        }
+        $q_stmt->close();
+
+        $p_stmt = $con->prepare("SELECT product_price FROM product_item WHERE id = ?");
+        $p_stmt->bind_param("i", $pid);
+        $p_stmt->execute();
+        $p_res = $p_stmt->get_result();
+        if ($p_row = $p_res->fetch_assoc()) {
+            for ($q = 0; $q < $qty; $q++) {
+                $product_ids[] = (string)$pid;
+            }
+            $total_amount += intval($p_row['product_price']) * $qty;
+        }
+        $p_stmt->close();
     }
-    $total_amount += intval($item['product_price']) * $qty;
+} else {
+    // Fetch all items from user_cart
+    $cart_stmt = $con->prepare("
+        SELECT uc.product_id, uc.quantity, pi.product_price 
+        FROM user_cart uc 
+        JOIN product_item pi ON uc.product_id = pi.id 
+        WHERE uc.user_id = ? OR uc.session_id = ?
+    ");
+    $cart_stmt->bind_param("is", $user_id, $session_id);
+    $cart_stmt->execute();
+    $cart_res = $cart_stmt->get_result();
+
+    while ($item = $cart_res->fetch_assoc()) {
+        $qty = max(1, intval($item['quantity']));
+        for ($q = 0; $q < $qty; $q++) {
+            $product_ids[] = (string)$item['product_id'];
+        }
+        $total_amount += intval($item['product_price']) * $qty;
+    }
+    $cart_stmt->close();
 }
-$cart_stmt->close();
 
 if (empty($product_ids)) {
-    // If cart is empty, check if specific check_id products were passed
-    if (!empty($_POST['check_id'])) {
-        $product_ids = array_map('strval', (array)$_POST['check_id']);
-        $total_amount = isset($_POST['total_amount']) ? intval($_POST['total_amount']) : 0;
-    } else {
-        header('Location: shoping-cart.php');
-        exit;
-    }
+    header('Location: shoping-cart.php');
+    exit;
 }
 
 // Shipping calculation (free over 1500, otherwise 50)
@@ -73,6 +99,12 @@ $shipping = ($total_amount > 1500 || $total_amount == 0) ? 0 : 50;
 $final_total = $total_amount + $shipping;
 
 $payment_method = $_POST['payment_method'] ?? 'Cash on Delivery';
+
+if ($payment_method === 'Pay via Online' || $payment_method === 'Online') {
+    include('initiate_tpipay.php');
+    exit;
+}
+
 $order_ref      = 'ORD-' . strtoupper(substr(uniqid(), 7)) . '-' . $user_id;
 $pay_id         = ($payment_method === 'Cash on Delivery') ? 'COD-' . time() : 'PENDING';
 $status         = 'Processing';
@@ -90,11 +122,21 @@ if ($order_stmt->execute()) {
     $inserted_order_id = $order_stmt->insert_id;
     $order_stmt->close();
 
-    // Clear user cart
-    $clear_stmt = $con->prepare("DELETE FROM user_cart WHERE user_id = ? OR session_id = ?");
-    $clear_stmt->bind_param("is", $user_id, $session_id);
-    $clear_stmt->execute();
-    $clear_stmt->close();
+    // Clear placed items from user cart
+    if (!empty($_POST['check_id'])) {
+        foreach ((array)$_POST['check_id'] as $pid) {
+            $pid = intval($pid);
+            $c_stmt = $con->prepare("DELETE FROM user_cart WHERE (user_id = ? OR session_id = ?) AND product_id = ?");
+            $c_stmt->bind_param("isi", $user_id, $session_id, $pid);
+            $c_stmt->execute();
+            $c_stmt->close();
+        }
+    } else {
+        $clear_stmt = $con->prepare("DELETE FROM user_cart WHERE user_id = ? OR session_id = ?");
+        $clear_stmt->bind_param("is", $user_id, $session_id);
+        $clear_stmt->execute();
+        $clear_stmt->close();
+    }
 
     // Set order success session
     $_SESSION['success'] = "order_success";

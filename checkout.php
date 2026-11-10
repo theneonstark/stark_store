@@ -21,11 +21,16 @@ if (!$user_id) {
 stark_ensure_tables($con);
 
 // Fetch user address
-$addr_query = mysqli_query($con, "SELECT * FROM users WHERE id = $user_id");
-$user_data  = mysqli_fetch_assoc($addr_query);
+$user_data = [];
+if ($con && $user_id) {
+    $addr_query = mysqli_query($con, "SELECT * FROM users WHERE id = " . intval($user_id));
+    if ($addr_query && mysqli_num_rows($addr_query) > 0) {
+        $user_data = mysqli_fetch_assoc($addr_query) ?: [];
+    }
+}
 
 $has_address = !empty($user_data['address']) && !empty($user_data['city']);
-$full_address = $has_address ? trim($user_data['address'] . ', ' . ($user_data['landmark'] ? $user_data['landmark'] . ', ' : '') . $user_data['city'] . ' - ' . $user_data['zip'] . ', ' . $user_data['state']) : '';
+$full_address = $has_address ? trim(($user_data['address'] ?? '') . ', ' . (!empty($user_data['landmark']) ? $user_data['landmark'] . ', ' : '') . ($user_data['city'] ?? '') . ' - ' . ($user_data['zip'] ?? '') . ', ' . ($user_data['state'] ?? '')) : '';
 $_SESSION['address'] = $full_address;
 
 // Determine products in checkout
@@ -37,19 +42,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['check_id'])) {
     $product_ids = (array)$_POST['check_id'];
     foreach ($product_ids as $pid) {
         $pid = intval($pid);
-        $p_res = mysqli_query($con, "SELECT id, product_name, product_price, product_img FROM product_item WHERE id = $pid");
-        if ($p_row = mysqli_fetch_assoc($p_res)) {
-            $checkout_items[] = [
-                'id'       => $p_row['id'],
-                'name'     => $p_row['product_name'],
-                'price'    => intval($p_row['product_price']),
-                'img'      => $p_row['product_img'],
-                'quantity' => 1
-            ];
-            $subtotal += intval($p_row['product_price']);
+        if ($pid <= 0) continue;
+        $qty = 1;
+        if ($con) {
+            $q_res = mysqli_query($con, "SELECT quantity FROM user_cart WHERE (user_id = $user_id OR session_id = '$session_id') AND product_id = $pid LIMIT 1");
+            if ($q_res && $q_row = mysqli_fetch_assoc($q_res)) {
+                $qty = max(1, intval($q_row['quantity']));
+            }
+            $p_res = mysqli_query($con, "SELECT id, product_name, product_price, product_img FROM product_item WHERE id = $pid");
+            if ($p_res && $p_row = mysqli_fetch_assoc($p_res)) {
+                $checkout_items[] = [
+                    'id'       => $p_row['id'],
+                    'name'     => $p_row['product_name'],
+                    'price'    => intval($p_row['product_price']),
+                    'img'      => $p_row['product_img'],
+                    'quantity' => $qty
+                ];
+                $subtotal += intval($p_row['product_price']) * $qty;
+            }
         }
     }
-} else {
+} else if ($con) {
     // Fetch directly from user_cart
     $cart_stmt = $con->prepare("
         SELECT uc.product_id, uc.quantity, pi.product_name, pi.product_price, pi.product_img
@@ -57,22 +70,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST['check_id'])) {
         JOIN product_item pi ON uc.product_id = pi.id
         WHERE uc.user_id = ? OR uc.session_id = ?
     ");
-    $cart_stmt->bind_param("is", $user_id, $session_id);
-    $cart_stmt->execute();
-    $cart_res = $cart_stmt->get_result();
+    if ($cart_stmt) {
+        $cart_stmt->bind_param("is", $user_id, $session_id);
+        $cart_stmt->execute();
+        $cart_res = $cart_stmt->get_result();
 
-    while ($c_row = $cart_res->fetch_assoc()) {
-        $qty = max(1, intval($c_row['quantity']));
-        $checkout_items[] = [
-            'id'       => $c_row['product_id'],
-            'name'     => $c_row['product_name'],
-            'price'    => intval($c_row['product_price']),
-            'img'      => $c_row['product_img'],
-            'quantity' => $qty
-        ];
-        $subtotal += intval($c_row['product_price']) * $qty;
+        while ($c_row = $cart_res->fetch_assoc()) {
+            $qty = max(1, intval($c_row['quantity']));
+            $checkout_items[] = [
+                'id'       => $c_row['product_id'],
+                'name'     => $c_row['product_name'],
+                'price'    => intval($c_row['product_price']),
+                'img'      => $c_row['product_img'],
+                'quantity' => $qty
+            ];
+            $subtotal += intval($c_row['product_price']) * $qty;
+        }
+        $cart_stmt->close();
     }
-    $cart_stmt->close();
 }
 
 if (empty($checkout_items)) {
@@ -88,27 +103,8 @@ $total = $subtotal + $shipping;
 $_SESSION['total_price'] = $total;
 $_SESSION['product_id'] = array_column($checkout_items, 'id');
 
-// Setup Razorpay order ID if online payment is initiated
-$razorpay_order_id = '';
-$razorpay_error = '';
-$keyId = defined('RAZORPAY_KEY_ID') ? RAZORPAY_KEY_ID : 'rzp_test_kBREEooxYkKLPo';
-$keySecret = defined('RAZORPAY_KEY_SECRET') ? RAZORPAY_KEY_SECRET : 'P5NsdNUNPas0c0C74oCjkk1Y';
-
-if (file_exists('./razorpay/Razorpay.php')) {
-    require_once './razorpay/Razorpay.php';
-    try {
-        $api = new \Razorpay\Api\Api($keyId, $keySecret);
-        $order = $api->order->create([
-            'amount'          => $total * 100,
-            'currency'        => 'INR',
-            'receipt'         => 'rcpt_' . $user_id . '_' . time(),
-            'payment_capture' => 1
-        ]);
-        $razorpay_order_id = $order['id'];
-    } catch (Exception $e) {
-        $razorpay_error = $e->getMessage();
-    }
-}
+// Cash on Delivery is active payment method
+$payment_method = 'Cash on Delivery';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -123,16 +119,21 @@ if (file_exists('./razorpay/Razorpay.php')) {
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/modern-stark.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <style>
+        html, body, .animsition {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
 </head>
 
-<body class="animsition bg-gray-50">
+<body class="bg-gray-50" style="opacity: 1 !important; visibility: visible !important;">
 
     <!-- Header -->
     <header class="header-v4">
@@ -216,15 +217,15 @@ if (file_exists('./razorpay/Razorpay.php')) {
                     <div class="mt-4">
                         <?php if ($has_address): ?>
                             <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                                <p class="font-bold text-gray-900"><?php echo htmlspecialchars($user_data['name']); ?></p>
-                                <p class="text-sm text-gray-700 mt-1"><?php echo htmlspecialchars($user_data['address']); ?></p>
+                                <p class="font-bold text-gray-900"><?php echo htmlspecialchars($user_data['name'] ?? ($_SESSION['name'] ?? 'User')); ?></p>
+                                <p class="text-sm text-gray-700 mt-1"><?php echo htmlspecialchars($user_data['address'] ?? ''); ?></p>
                                 <?php if (!empty($user_data['landmark'])): ?>
                                     <p class="text-xs text-gray-500">Landmark: <?php echo htmlspecialchars($user_data['landmark']); ?></p>
                                 <?php endif; ?>
                                 <p class="text-sm font-semibold text-gray-800 mt-1">
-                                    <?php echo htmlspecialchars($user_data['city'] . ' - ' . $user_data['zip'] . ', ' . $user_data['state']); ?>
+                                    <?php echo htmlspecialchars(($user_data['city'] ?? '') . ' - ' . ($user_data['zip'] ?? '') . ', ' . ($user_data['state'] ?? '')); ?>
                                 </p>
-                                <p class="text-xs text-gray-500 mt-2">Mobile: <?php echo htmlspecialchars($user_data['Mobile'] ?? 'N/A'); ?></p>
+                                <p class="text-xs text-gray-500 mt-2">Mobile: <?php echo htmlspecialchars($user_data['Mobile'] ?? ($user_data['mobile'] ?? 'N/A')); ?></p>
                             </div>
                         <?php else: ?>
                             <div class="p-5 rounded-xl border border-dashed border-amber-300 bg-amber-50 text-amber-800">
@@ -238,64 +239,114 @@ if (file_exists('./razorpay/Razorpay.php')) {
                     </div>
                 </div>
 
-                <!-- Payment Method Selection Card -->
+                <!-- Payment Method Card (COD + Pay via Online) -->
                 <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                    <div class="flex items-center space-x-3 pb-4 border-b border-gray-100">
-                        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">2</div>
-                        <h2 class="text-lg font-bold text-gray-900">Payment Method</h2>
+                    <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">2</div>
+                            <h2 class="text-lg font-bold text-gray-900">Select Payment Method</h2>
+                        </div>
+                        <span id="selectedMethodBadge" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800">
+                            Pay via Online Active
+                        </span>
                     </div>
 
-                    <div class="mt-4 space-y-3">
-                        <!-- COD Option -->
-                        <label class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-indigo-400 cursor-pointer transition bg-white has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
-                            <div class="flex items-center space-x-3">
-                                <input type="radio" name="pay_option" value="cod" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4" checked>
-                                <div>
-                                    <p class="font-bold text-sm text-gray-900">Cash on Delivery (COD)</p>
-                                    <p class="text-xs text-gray-500">Pay cash directly when your parcel is delivered to your doorstep</p>
+                    <div class="mt-4 space-y-3.5">
+                        <!-- Option 1: Pay via Online (TPIPay / Apiwala) -->
+                        <div id="optionOnline" onclick="selectPaymentMethod('online')" class="p-5 rounded-2xl border-2 border-indigo-600 bg-indigo-50/40 cursor-pointer relative transition duration-200 hover:shadow-md">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white flex items-center justify-center shadow-md shadow-indigo-500/20 flex-shrink-0 mt-0.5">
+                                    <i class="zmdi zmdi-card text-xl font-bold"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <p class="font-bold text-base text-gray-900">Pay via Online</p>
+                                            <span class="inline-flex items-center text-[10px] font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">
+                                                Instant & Secure
+                                            </span>
+                                        </div>
+                                        <span id="badgeOnline" class="inline-flex items-center text-xs font-bold text-indigo-700 bg-white px-2.5 py-1 rounded-full border border-indigo-200 shadow-xs">
+                                            <i class="zmdi zmdi-check-circle mr-1 text-sm text-indigo-600"></i> Selected
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                                        Pay instantly using UPI (Google Pay, PhonePe, Paytm, BHIM), Credit/Debit Cards, QR Code or Net Banking via secure TPIPay gateway.
+                                    </p>
+                                    
+                                    <!-- Online Highlights -->
+                                    <div class="mt-3.5 pt-3 border-t border-indigo-200/60 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-gray-700">
+                                        <div class="flex items-center space-x-1.5">
+                                            <i class="zmdi zmdi-flash text-indigo-600 text-base"></i>
+                                            <span>Instant Confirmation</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <i class="zmdi zmdi-shield-security text-indigo-600 text-base"></i>
+                                            <span>256-Bit Encrypted</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <i class="zmdi zmdi-smartphone-iphone text-indigo-600 text-base"></i>
+                                            <span>UPI & Cards Accepted</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <span class="text-xs font-semibold px-2.5 py-1 rounded bg-green-100 text-green-800">Recommended</span>
-                        </label>
+                        </div>
 
-                        <!-- Razorpay Online Option -->
-                        <label class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-indigo-400 cursor-pointer transition bg-white has-[:checked]:border-indigo-600 has-[:checked]:bg-indigo-50/40">
-                            <div class="flex items-center space-x-3">
-                                <input type="radio" name="pay_option" value="razorpay" class="text-indigo-600 focus:ring-indigo-500 h-4 w-4">
-                                <div>
-                                    <p class="font-bold text-sm text-gray-900">Online Payment (UPI, Cards, NetBanking)</p>
-                                    <p class="text-xs text-gray-500">Fast, encrypted payment powered by Razorpay</p>
+                        <!-- Option 2: Cash on Delivery (COD) -->
+                        <div id="optionCod" onclick="selectPaymentMethod('cod')" class="p-5 rounded-2xl border-2 border-gray-200 bg-white cursor-pointer relative transition duration-200 hover:border-gray-300">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 rounded-xl bg-gray-100 text-gray-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="zmdi zmdi-money text-xl font-bold"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-bold text-base text-gray-900">Cash on Delivery (COD)</p>
+                                        <span id="badgeCod" class="hidden items-center text-xs font-bold text-emerald-700 bg-white px-2.5 py-1 rounded-full border border-emerald-200 shadow-xs">
+                                            <i class="zmdi zmdi-check-circle mr-1 text-sm text-emerald-600"></i> Selected
+                                        </span>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                                        Pay with cash or UPI directly to the courier agent when your parcel arrives safely at your doorstep. No advance payment needed!
+                                    </p>
+
+                                    <!-- COD Highlights -->
+                                    <div class="mt-3.5 pt-3 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-gray-600">
+                                        <div class="flex items-center space-x-1.5">
+                                            <i class="zmdi zmdi-shield-check text-emerald-600 text-base"></i>
+                                            <span>Zero Advance Fee</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <i class="zmdi zmdi-truck text-emerald-600 text-base"></i>
+                                            <span>Doorstep Delivery</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1.5">
+                                            <i class="zmdi zmdi-pin-drop text-emerald-600 text-base"></i>
+                                            <span>Pay on Arrival</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex space-x-1">
-                                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-700">UPI</span>
-                                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-100 text-purple-700">Cards</span>
-                            </div>
-                        </label>
+                        </div>
                     </div>
 
                     <!-- Place Order Actions -->
                     <div class="mt-6">
                         <?php if ($has_address): ?>
-                            <!-- COD Form -->
-                            <form id="codForm" action="place_order.php" method="POST">
-                                <input type="hidden" name="payment_method" value="Cash on Delivery">
+                            <form id="checkoutPaymentForm" action="initiate_tpipay.php" method="POST">
+                                <input type="hidden" id="paymentMethodInput" name="payment_method" value="Pay via Online">
+                                <input type="hidden" name="total_amount" value="<?php echo $subtotal; ?>">
                                 <?php foreach ($checkout_items as $ci): ?>
                                     <input type="hidden" name="check_id[]" value="<?php echo $ci['id']; ?>">
                                 <?php endforeach; ?>
-                                <button type="submit" id="codButton" class="w-full py-4 px-6 rounded-xl bg-gray-900 hover:bg-gray-800 text-white font-bold text-base transition shadow-xl shadow-gray-900/10 flex items-center justify-center space-x-2">
-                                    <span>Place Order (Cash on Delivery)</span>
+
+                                <button type="submit" id="checkoutSubmitButton" class="w-full py-4 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base transition duration-200 shadow-xl shadow-indigo-600/20 flex items-center justify-center space-x-2">
+                                    <i class="zmdi zmdi-lock text-xl"></i>
+                                    <span id="buttonText">Pay via Online</span>
                                     <span>&bull;</span>
                                     <span>₹<?php echo number_format($total, 2); ?></span>
                                 </button>
                             </form>
-
-                            <!-- Razorpay Button -->
-                            <button id="rzpButton" class="hidden w-full py-4 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base transition shadow-xl shadow-indigo-600/20 flex items-center justify-center space-x-2">
-                                <span>Pay Now via Razorpay</span>
-                                <span>&bull;</span>
-                                <span>₹<?php echo number_format($total, 2); ?></span>
-                            </button>
                         <?php else: ?>
                             <a href="address.php" class="block text-center w-full py-4 px-6 rounded-xl bg-gray-400 text-white font-bold text-base cursor-not-allowed">
                                 Add Delivery Address to Place Order
@@ -344,87 +395,111 @@ if (file_exists('./razorpay/Razorpay.php')) {
                             <span class="text-base font-bold text-gray-900">Total Payable</span>
                             <span class="text-2xl font-black text-gray-900">₹<?php echo number_format($total, 2); ?></span>
                         </div>
+                        <div class="flex justify-between items-center text-xs text-gray-500 pt-2 border-t border-gray-100">
+                            <span>Payment Method</span>
+                            <span id="summaryMethodBadge" class="font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200">
+                                Pay via Online
+                            </span>
+                        </div>
                     </div>
 
                     <div class="mt-6 p-3.5 bg-gray-50 rounded-xl border border-gray-200 text-xs text-gray-500 flex items-center space-x-2">
                         <i class="zmdi zmdi-shield-check text-xl text-emerald-500"></i>
-                        <span>100% Safe & Secure Checkout with SSL encryption.</span>
+                        <span>100% Safe & Encrypted Payment Gateway.</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Razorpay SDK -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- Scripts -->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="vendor/animsition/js/animsition.min.js"></script>
     <script>
-        // Toggle payment button based on selected payment radio
-        $('input[name="pay_option"]').on('change', function() {
-            if ($(this).val() === 'razorpay') {
-                $('#codButton').addClass('hidden');
-                $('#rzpButton').removeClass('hidden');
+        var currentMethod = 'online';
+        var totalFormatted = '₹<?php echo number_format($total, 2); ?>';
+
+        function selectPaymentMethod(method) {
+            currentMethod = method;
+            var optionOnline = document.getElementById('optionOnline');
+            var optionCod = document.getElementById('optionCod');
+            var badgeOnline = document.getElementById('badgeOnline');
+            var badgeCod = document.getElementById('badgeCod');
+            var methodInput = document.getElementById('paymentMethodInput');
+            var submitBtn = document.getElementById('checkoutSubmitButton');
+            var form = document.getElementById('checkoutPaymentForm');
+            var selectedBadge = document.getElementById('selectedMethodBadge');
+            var summaryBadge = document.getElementById('summaryMethodBadge');
+
+            if (method === 'online') {
+                // Online Selected
+                optionOnline.className = 'p-5 rounded-2xl border-2 border-indigo-600 bg-indigo-50/40 cursor-pointer relative transition duration-200 shadow-md';
+                badgeOnline.className = 'inline-flex items-center text-xs font-bold text-indigo-700 bg-white px-2.5 py-1 rounded-full border border-indigo-200 shadow-xs';
+
+                optionCod.className = 'p-5 rounded-2xl border-2 border-gray-200 bg-white cursor-pointer relative transition duration-200 hover:border-gray-300';
+                badgeCod.className = 'hidden';
+
+                if (methodInput) methodInput.value = 'Pay via Online';
+                if (form) form.action = 'initiate_tpipay.php';
+
+                if (selectedBadge) {
+                    selectedBadge.className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800';
+                    selectedBadge.innerText = 'Pay via Online Active';
+                }
+                if (summaryBadge) {
+                    summaryBadge.className = 'font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200';
+                    summaryBadge.innerText = 'Pay via Online';
+                }
+
+                if (submitBtn) {
+                    submitBtn.className = 'w-full py-4 px-6 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base transition duration-200 shadow-xl shadow-indigo-600/20 flex items-center justify-center space-x-2';
+                    submitBtn.innerHTML = '<i class="zmdi zmdi-lock text-xl"></i><span>Pay via Online</span><span>&bull;</span><span>' + totalFormatted + '</span>';
+                }
             } else {
-                $('#codButton').removeClass('hidden');
-                $('#rzpButton').addClass('hidden');
+                // COD Selected
+                optionCod.className = 'p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50/40 cursor-pointer relative transition duration-200 shadow-md';
+                badgeCod.className = 'inline-flex items-center text-xs font-bold text-emerald-700 bg-white px-2.5 py-1 rounded-full border border-emerald-200 shadow-xs';
+
+                optionOnline.className = 'p-5 rounded-2xl border-2 border-gray-200 bg-white cursor-pointer relative transition duration-200 hover:border-gray-300';
+                badgeOnline.className = 'hidden';
+
+                if (methodInput) methodInput.value = 'Cash on Delivery';
+                if (form) form.action = 'place_order.php';
+
+                if (selectedBadge) {
+                    selectedBadge.className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800';
+                    selectedBadge.innerText = 'Cash on Delivery Active';
+                }
+                if (summaryBadge) {
+                    summaryBadge.className = 'font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200';
+                    summaryBadge.innerText = 'Cash on Delivery';
+                }
+
+                if (submitBtn) {
+                    submitBtn.className = 'w-full py-4 px-6 rounded-xl bg-gray-900 hover:bg-black text-white font-bold text-base transition duration-200 shadow-xl shadow-gray-900/10 flex items-center justify-center space-x-2';
+                    submitBtn.innerHTML = '<i class="zmdi zmdi-check-all text-xl"></i><span>Confirm & Place Order (COD)</span><span>&bull;</span><span>' + totalFormatted + '</span>';
+                }
             }
-        });
+        }
 
-        // Razorpay Payment Handler
-        var rzpBtn = document.getElementById('rzpButton');
-        if (rzpBtn) {
-            rzpBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                <?php if (!empty($razorpay_order_id)): ?>
-                var options = {
-                    "key": "<?php echo $keyId; ?>",
-                    "amount": "<?php echo $total * 100; ?>",
-                    "currency": "INR",
-                    "name": "Stark Store",
-                    "description": "Order Payment",
-                    "image": "images/icons/logo-01.png",
-                    "order_id": "<?php echo $razorpay_order_id; ?>",
-                    "handler": function(response) {
-                        // Send AJAX verification and ONLY navigate after server confirmation
-                        $.ajax({
-                            url: "verify_payment.php",
-                            type: "POST",
-                            dataType: "json",
-                            data: {
-                                payment_id: response.razorpay_payment_id,
-                                order_id: response.razorpay_order_id,
-                                signature: response.razorpay_signature
-                            },
-                            success: function(res) {
-                                if (res.status === 'success') {
-                                    window.location.href = res.redirect || "order.php";
-                                } else {
-                                    alert("Payment verification failed: " + (res.error || "Unknown error"));
-                                }
-                            },
-                            error: function(err) {
-                                alert("Failed to communicate with verification server.");
-                            }
-                        });
-                    },
-                    "prefill": {
-                        "name": "<?php echo htmlspecialchars($user_data['name'] ?? ''); ?>",
-                        "email": "<?php echo htmlspecialchars($user_data['email'] ?? ''); ?>",
-                        "contact": "<?php echo htmlspecialchars($user_data['Mobile'] ?? ''); ?>"
-                    },
-                    "theme": {
-                        "color": "#4f46e5"
-                    }
-                };
-                var rzp = new Razorpay(options);
-                rzp.open();
-                <?php else: ?>
-                alert("Razorpay is currently in offline mode. Please choose Cash on Delivery (COD) to complete your order.");
-                <?php endif; ?>
+        // Form Submit Spinner
+        var paymentForm = document.getElementById('checkoutPaymentForm');
+        if (paymentForm) {
+            paymentForm.addEventListener('submit', function() {
+                var btn = document.getElementById('checkoutSubmitButton');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-75', 'cursor-wait');
+                    var actionText = (currentMethod === 'online') ? 'Connecting to payment gateway...' : 'Placing your order...';
+                    btn.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> ' + actionText;
+                }
             });
         }
     </script>
+
+<?php
+if (ob_get_level() > 0) {
+    ob_end_flush();
+}
+?>
 </body>
 </html>

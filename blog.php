@@ -1,16 +1,15 @@
+<?php
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+	session_start();
+}
+include('config.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<?php
-	session_start();
-	include('config.php');
-	mysqli_set_charset($blog, "utf8mb4");
-	$product = "SELECT * FROM product_item LEFT JOIN product_images ON product_item.product_related_img = product_images.pr_id LEFT JOIN product_category ON product_item.product_catg = product_category.pc_id;
-		";
-	$wishlist_data = "select * from wishlist";
-	?>
-	<title>Blog</title>
+	<title>Blog - Pehunt</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
@@ -286,9 +285,10 @@
 					<div class="p-r-45 p-r-0-lg">
 						<!-- item blog -->
 						 <?php
-						 	$blog_details = mysqli_query($blog, "SELECT posts.*, admins.name, admins.office, department.dept_name FROM blogs.posts AS posts LEFT JOIN user.admins AS admins ON posts.posted_by = admins.id LEFT JOIN user.department AS department ON admins.office = department.dept_id");
-							while($blog_data = mysqli_fetch_assoc($blog_details)){
-								$tags = json_decode($blog_data['tags']);
+						 	$blog_details = $con ? @mysqli_query($con, "SELECT posts.*, admins.name, admins.office, department.dept_name FROM posts LEFT JOIN admins ON posts.posted_by = admins.id LEFT JOIN department ON admins.office = department.dept_id") : false;
+							if ($blog_details && $blog_details instanceof mysqli_result) {
+								while($blog_data = mysqli_fetch_assoc($blog_details)){
+									$tags = json_decode($blog_data['tags'] ?? '[]');
 						 ?>
 						<div class="p-b-63">
 							<a href="blog-detail.php?id=<?php echo $blog_data['id']?>&tlt=<?php echo $blog_data['title']?>&str=<?php echo $blog_data['story']?>&&crt=<?php echo $blog_data['created_at']?>&im=<?php echo $blog_data['blog_img']?>" class="hov-img0 how-pos5-parent">
@@ -360,8 +360,9 @@
 							</div>
 						</div>
 						<?php 
-					}
-					?>
+								}
+							}
+						?>
 						<!-- item blog -->
 						<div class="p-b-63">
 							<a href="blog-detail.php" class="hov-img0 how-pos5-parent">

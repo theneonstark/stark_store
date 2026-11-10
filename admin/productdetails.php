@@ -1,10 +1,20 @@
 <?php
-  require_once __DIR__ . '/auth_check.php';
-  $users_details = mysqli_query($con,"SELECT * FROM department right join users ON users.office = department.dept_id");
-  $admins_details = mysqli_query($con,"SELECT * FROM admins left join department ON admins.id = department.dept_id");
-  $user_order_price = mysqli_query($user_order, "SELECT SUM(amount) FROM user_order");
-  $user_order_count = mysqli_query($user_order, "SELECT COUNT(*) FROM user_order");
-  $product_details = mysqli_query($product_info, "SELECT * from product_category right join product_item ON product_category.pc_id = product_item.product_catg ORDER BY product_item.id DESC");
+require_once __DIR__ . '/auth_check.php';
+
+function safe_admin_query($conn, $sql) {
+    if (!$conn) return false;
+    try {
+        return @mysqli_query($conn, $sql);
+    } catch (Throwable $e) {
+        return false;
+    }
+}
+
+$users_details   = safe_admin_query($con, "SELECT users.*, department.dept_name FROM users LEFT JOIN department ON users.office = department.dept_id");
+$admins_details  = safe_admin_query($con, "SELECT admins.*, department.dept_name FROM admins LEFT JOIN department ON admins.id = department.dept_id");
+$user_order_price = safe_admin_query($con, "SELECT SUM(amount) AS total_amount FROM user_order");
+$user_order_count = safe_admin_query($con, "SELECT COUNT(*) AS total_count FROM user_order");
+$product_details = safe_admin_query($con, "SELECT product_category.*, product_item.* from product_category right join product_item ON product_category.pc_id = product_item.product_catg ORDER BY product_item.id DESC");
 ?>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
@@ -418,19 +428,21 @@
             <!-- Profile menu -->
             <li class="relative">
               <?php
-                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
-                while ($admins_detail = mysqli_fetch_assoc($admin_query)) 
-                if($_SESSION['id']== $admins_detail['id']){
+                $current_admin_img = $_SESSION['profile_img'] ?? 'user_profile.jpg';
+                if (!empty($con) && isset($_SESSION['id'])) {
+                    $adm_id = intval($_SESSION['id']);
+                    $adm_res = @mysqli_query($con, "SELECT profile_img FROM admins WHERE id = $adm_id LIMIT 1");
+                    if ($adm_res && ($adm_row = mysqli_fetch_assoc($adm_res))) {
+                        $current_admin_img = $adm_row['profile_img'] ?: $current_admin_img;
+                    }
+                }
               ?>
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
+                  src="../image/users/<?php echo htmlspecialchars($current_admin_img); ?>"
                   alt="" aria-hidden="true" />
               </button>
-              <?php
-                }
-              ?>
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -489,7 +501,9 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   <?php
-                    echo mysqli_num_rows($users_details) + mysqli_num_rows($admins_details);
+                    $u_cnt = ($users_details && $users_details instanceof mysqli_result) ? mysqli_num_rows($users_details) : 0;
+                    $a_cnt = ($admins_details && $admins_details instanceof mysqli_result) ? mysqli_num_rows($admins_details) : 0;
+                    echo ($u_cnt + $a_cnt);
                   ?>
                 </p>
               </div>
@@ -509,9 +523,11 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                   ₹ <?php
-                    if($price = mysqli_fetch_assoc($user_order_price)){
-                      echo $price["SUM(amount)"]; 
+                    $bal = 0;
+                    if ($user_order_price && $user_order_price instanceof mysqli_result && ($price = mysqli_fetch_assoc($user_order_price))){
+                      $bal = $price["total_amount"] ?? $price["SUM(amount)"] ?? 0;
                     }
+                    echo number_format((float)$bal, 2);
                   ?>
                 </p>
               </div>
@@ -531,9 +547,11 @@
                 </p>
                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                 <?php
-                    if($count = mysqli_fetch_assoc($user_order_count)){
-                      echo $count["COUNT(*)"];
+                    $sales = 0;
+                    if ($user_order_count && $user_order_count instanceof mysqli_result && ($count = mysqli_fetch_assoc($user_order_count))){
+                      $sales = $count["total_count"] ?? $count["COUNT(*)"] ?? 0;
                     }
+                    echo intval($sales);
                   ?>
                 </p>
               </div>

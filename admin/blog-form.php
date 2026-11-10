@@ -1,19 +1,17 @@
-<!DOCTYPE html>
 <?php
-  session_start();
-  include('../config.php');
-  if(isset($_SESSION['email'])){
-    if (isset($_POST['sub'])) {
-      $title = mysqli_real_escape_string($blog, $_POST['title']);
-      $tags = mysqli_real_escape_string($blog, $_POST['tags']);
-      
-      // Split the tags input into an array and convert to JSON format
-      $tagsArray = explode(',', $tags);
-      $tagsArray = array_map('trim', $tagsArray);
-      $jtags = json_encode($tagsArray);
-      
-      $posted = mysqli_real_escape_string($blog, $_POST['posted']);
-      $story = mysqli_real_escape_string($blog, $_POST['story']);
+require_once __DIR__ . '/auth_check.php';
+
+if (isset($_POST['sub']) && $con) {
+  $title = mysqli_real_escape_string($blog, $_POST['title'] ?? '');
+  $tags = mysqli_real_escape_string($blog, $_POST['tags'] ?? '');
+  
+  // Split the tags input into an array and convert to JSON format
+  $tagsArray = explode(',', $tags);
+  $tagsArray = array_map('trim', $tagsArray);
+  $jtags = json_encode($tagsArray);
+  
+  $posted = mysqli_real_escape_string($blog, $_POST['posted'] ?? '');
+  $story = mysqli_real_escape_string($blog, $_POST['story'] ?? '');
   
       if (isset($_FILES['blog_img'])) {
           $directory = "../image/blog/";
@@ -460,19 +458,21 @@
             <!-- Profile menu -->
             <li class="relative">
               <?php
-                $admin_query = mysqli_query($con, "SELECT * FROM admins #LEFT JOIN department ON admins.office = department.dept_id");
-                while ($admins_detail = mysqli_fetch_assoc($admin_query)) 
-                if($_SESSION['id']== $admins_detail['id']){
+                $current_admin_img = $_SESSION['profile_img'] ?? 'user_profile.jpg';
+                if (!empty($con) && isset($_SESSION['id'])) {
+                    $adm_id = intval($_SESSION['id']);
+                    $adm_res = @mysqli_query($con, "SELECT profile_img FROM admins WHERE id = $adm_id LIMIT 1");
+                    if ($adm_res && ($adm_row = mysqli_fetch_assoc($adm_res))) {
+                        $current_admin_img = $adm_row['profile_img'] ?: $current_admin_img;
+                    }
+                }
               ?>
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="../image/users/<?php echo $admins_detail['profile_img'] ?>"
+                  src="../image/users/<?php echo htmlspecialchars($current_admin_img); ?>"
                   alt="" aria-hidden="true" />
               </button>
-              <?php
-                }
-              ?>
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -566,9 +566,6 @@
     </div>
   </div>
 
-  <?php
-  }
-  ?>
   <script>
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);

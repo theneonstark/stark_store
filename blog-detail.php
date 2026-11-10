@@ -1,18 +1,20 @@
+<?php
+ob_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include('config.php');
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $title = $_GET['tlt'] ?? '';
+    $story = $_GET['str'] ?? '';
+    $image = $_GET['im'] ?? '';
+    $date = $_GET['crt'] ?? '';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<?php
-		session_start();
-		include('config.php');
-		mysqli_set_charset($blog, "utf8mb4");
-		if(isset($_GET['id'])){
-			$id = $_GET['id'];
-            $title = $_GET['tlt'];
-            $story = $_GET['str'];
-            $image = $_GET['im'];
-            $date = $_GET['crt'];
-		}
-	?>	
 	<title>Blog Detail</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">	
@@ -336,10 +338,9 @@
 		<div class="container">
 			<div class="row">
 				<?php
-					$blog_details = mysqli_query($blog, "SELECT posts.*, admins.name, admins.office, department.dept_name FROM blogs.posts AS posts LEFT JOIN user.admins AS admins ON posts.posted_by = admins.id LEFT JOIN user.department AS department ON admins.office = department.dept_id");
-					if($blog_item = mysqli_fetch_assoc($blog_details)){
-						$tags = json_decode($blog_item['tags']);
-					}
+					$blog_details = $con ? @mysqli_query($con, "SELECT posts.*, admins.name, admins.office, department.dept_name FROM posts LEFT JOIN admins ON posts.posted_by = admins.id LEFT JOIN department ON admins.office = department.dept_id") : false;
+					$blog_item = ($blog_details && $blog_details instanceof mysqli_result) ? mysqli_fetch_assoc($blog_details) : null;
+					$tags = $blog_item ? json_decode($blog_item['tags'] ?? '[]') : [];
 				?>
 				<div class="col-md-8 col-lg-9 p-b-80">
 					<div class="p-r-45 p-r-0-lg">
