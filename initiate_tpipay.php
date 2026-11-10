@@ -161,8 +161,8 @@ if (empty($callback_url)) {
     $callback_url = $protocol . $host . ($dir ? $dir : '') . '/apiwala_webhook.php';
 }
 
-$api_key    = defined('APIWALA_API_KEY') ? APIWALA_API_KEY : 'vXALSf0wFOXoRpN7oIMfzkB7796gcocFvaCEOgJS';
-$partner_id = defined('APIWALA_PARTNER_ID') ? APIWALA_PARTNER_ID : '25';
+$api_key    = (defined('APIWALA_API_KEY') && APIWALA_API_KEY !== 'YOUR_API_KEY') ? APIWALA_API_KEY : 'vXALSf0wFOXoRpN7oIMfzkB7796gcocFvaCEOgJS';
+$partner_id = (defined('APIWALA_PARTNER_ID') && APIWALA_PARTNER_ID !== 'YOUR_PARTNER_ID') ? APIWALA_PARTNER_ID : '25';
 $endpoint   = defined('APIWALA_ENDPOINT') ? APIWALA_ENDPOINT : 'https://apiwala.in/production/api/collection/order/tpipay';
 
 // Payload for Apiwala TPIPay API
@@ -177,7 +177,7 @@ $payload = [
 ];
 
 // Handle case where API credentials are still placeholder
-$is_placeholder = ($api_key === 'vXALSf0wFOXoRpN7oIMfzkB7796gcocFvaCEOgJS' || $partner_id === '25');
+$is_placeholder = empty($api_key) || in_array($api_key, ['YOUR_API_KEY', 'YOUR_ACTUAL_API_KEY', 'CHANGEME']);
 
 $response = null;
 $http_code = 0;
@@ -199,23 +199,71 @@ if (!$is_placeholder) {
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $curl_error = curl_error($ch);
     curl_close($ch);
+
+    // Audit log response for debugging
+    $log_entry = date('[Y-m-d H:i:s] ') . "TPIPay Initiate [Order $inserted_order_id | Txn $apitxnid] HTTP $http_code: " . ($response ?: $curl_error) . "\n";
+    @file_put_contents(__DIR__ . '/apiwala_tpipay.log', $log_entry, FILE_APPEND);
 }
 
-$res_data = $response ? json_decode($response, true) : null;
+$res_data = null;
+if (!empty($response)) {
+    $res_data = json_decode($response, true);
+    if (!is_array($res_data)) {
+        $clean_response = trim($response, "\xEF\xBB\xBF \t\n\r\0\x0B");
+        $res_data = json_decode($clean_response, true);
+    }
+}
 
-// Check if response contains a redirect/payment URL
+// Check if response contains a redirect / checkout / payment URL
 $redirect_url = null;
 if (is_array($res_data)) {
-    if (!empty($res_data['payment_url'])) {
+    // 1. Check direct keys
+    if (!empty($res_data['checkout_url'])) {
+        $redirect_url = $res_data['checkout_url'];
+    } elseif (!empty($res_data['payment_url'])) {
         $redirect_url = $res_data['payment_url'];
-    } elseif (!empty($res_data['data']['payment_url'])) {
-        $redirect_url = $res_data['data']['payment_url'];
-    } elseif (!empty($res_data['data']['url'])) {
-        $redirect_url = $res_data['data']['url'];
-    } elseif (!empty($res_data['url'])) {
-        $redirect_url = $res_data['url'];
     } elseif (!empty($res_data['redirect_url'])) {
         $redirect_url = $res_data['redirect_url'];
+    } elseif (!empty($res_data['url'])) {
+        $redirect_url = $res_data['url'];
+    // 2. Check nested in 'data'
+    } elseif (!empty($res_data['data']['checkout_url'])) {
+        $redirect_url = $res_data['data']['checkout_url'];
+    } elseif (!empty($res_data['data']['payment_url'])) {
+        $redirect_url = $res_data['data']['payment_url'];
+    } elseif (!empty($res_data['data']['redirect_url'])) {
+        $redirect_url = $res_data['data']['redirect_url'];
+    } elseif (!empty($res_data['data']['url'])) {
+        $redirect_url = $res_data['data']['url'];
+    // 3. Check nested in 'result'
+    } elseif (!empty($res_data['result']['checkout_url'])) {
+        $redirect_url = $res_data['result']['checkout_url'];
+    } elseif (!empty($res_data['result']['payment_url'])) {
+        $redirect_url = $res_data['result']['payment_url'];
+    } elseif (!empty($res_data['result']['redirect_url'])) {
+        $redirect_url = $res_data['result']['redirect_url'];
+    } elseif (!empty($res_data['result']['url'])) {
+        $redirect_url = $res_data['result']['url'];
+    }
+
+    // 4. Fallback search for any http/https URL string
+    if (empty($redirect_url)) {
+        foreach ($res_data as $key => $val) {
+            if (is_string($val) && (stripos($val, 'http://') === 0 || stripos($val, 'https://') === 0)) {
+                $redirect_url = $val;
+                break;
+            }
+        }
+    }
+
+    // If gateway returns txnid / transaction_id, store it with the order
+    $gateway_txnid = $res_data['txnid'] ?? ($res_data['transaction_id'] ?? ($res_data['data']['txnid'] ?? ($res_data['data']['transaction_id'] ?? null)));
+    if (!empty($gateway_txnid)) {
+        $_SESSION['gateway_txnid'] = $gateway_txnid;
+        $up_stmt = $con->prepare("UPDATE user_order SET razorpay_payment_id = ? WHERE id = ?");
+        $up_stmt->bind_param("si", $gateway_txnid, $inserted_order_id);
+        $up_stmt->execute();
+        $up_stmt->close();
     }
 }
 
@@ -223,9 +271,37 @@ if (is_array($res_data)) {
 $qr_string = $res_data['qr_string'] ?? ($res_data['data']['qr_string'] ?? ($res_data['intent_url'] ?? ($res_data['data']['intent_url'] ?? null)));
 $qr_image  = $res_data['qr_code_image'] ?? ($res_data['data']['qr_code_image'] ?? null);
 
-// If payment URL is available, redirect user directly to payment portal
+// If checkout / payment URL is available, redirect user directly to payment portal
 if (!empty($redirect_url)) {
+    if (ob_get_length()) {
+        ob_end_clean();
+    }
     header("Location: " . $redirect_url);
+    echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0;url=' . htmlspecialchars($redirect_url) . '">
+    <title>Redirecting to Payment Gateway...</title>
+    <script>window.location.href = ' . json_encode($redirect_url) . ';</script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #f8fafc; color: #1e293b; }
+        .card { background: white; padding: 2.5rem; border-radius: 1.25rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); text-align: center; max-width: 440px; width: 90%; }
+        .spinner { width: 44px; height: 44px; border: 4px solid #e2e8f0; border-top-color: #4f46e5; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 1.5rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        a.btn { display: inline-block; margin-top: 1.25rem; padding: 0.8rem 1.6rem; background: #4f46e5; color: white; text-decoration: none; border-radius: 0.6rem; font-weight: 700; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="spinner"></div>
+        <h2 style="margin: 0 0 0.5rem; font-size: 1.35rem; font-weight: 800;">Redirecting to Payment Gateway...</h2>
+        <p style="margin: 0; color: #64748b; font-size: 0.875rem; line-height: 1.5;">Please wait while we redirect you to complete your payment.</p>
+        <a href="' . htmlspecialchars($redirect_url) . '" class="btn">Click here if not redirected</a>
+    </div>
+</body>
+</html>';
     exit;
 }
 

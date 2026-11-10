@@ -114,8 +114,8 @@ defined('RAZORPAY_KEY_SECRET') or define('RAZORPAY_KEY_SECRET', 'P5NsdNUNPas0c0C
 defined('ENABLE_COD') or define('ENABLE_COD', true);
 
 // Payment Gateway Configuration (Apiwala TPIPay - Pay via Online)
-defined('APIWALA_API_KEY') or define('APIWALA_API_KEY', getenv('APIWALA_API_KEY') ?: 'YOUR_API_KEY');
-defined('APIWALA_PARTNER_ID') or define('APIWALA_PARTNER_ID', getenv('APIWALA_PARTNER_ID') ?: 'YOUR_PARTNER_ID');
+defined('APIWALA_API_KEY') or define('APIWALA_API_KEY', getenv('APIWALA_API_KEY') ?: 'vXALSf0wFOXoRpN7oIMfzkB7796gcocFvaCEOgJS');
+defined('APIWALA_PARTNER_ID') or define('APIWALA_PARTNER_ID', getenv('APIWALA_PARTNER_ID') ?: '25');
 defined('APIWALA_ENDPOINT') or define('APIWALA_ENDPOINT', 'https://apiwala.in/production/api/collection/order/tpipay');
 defined('APIWALA_CALLBACK_URL') or define('APIWALA_CALLBACK_URL', getenv('APIWALA_CALLBACK_URL') ?: '');
 

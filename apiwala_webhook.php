@@ -20,11 +20,15 @@ $log_entry = date('[Y-m-d H:i:s] ') . "TPIPay Callback: " . json_encode($params)
 @file_put_contents(__DIR__ . '/apiwala_callback.log', $log_entry, FILE_APPEND);
 
 // Extract transaction parameters
-$apitxnid = trim($params['apitxnid'] ?? ($params['order_id'] ?? ($params['client_id'] ?? '')));
+$apitxnid = trim($params['apitxnid'] ?? ($params['order_id'] ?? ($params['client_id'] ?? ($params['txnid'] ?? ($params['transaction_id'] ?? '')))));
 $status_raw = trim($params['status'] ?? ($params['statuscode'] ?? ''));
 $status_upper = strtoupper($status_raw);
-$txnid = trim($params['txnid'] ?? ($params['ref_id'] ?? ($params['utr'] ?? ($params['rrn'] ?? ''))));
-$is_redirect = !empty($params['redirect_return']) || (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false);
+$txnid = trim($params['txnid'] ?? ($params['transaction_id'] ?? ($params['ref_id'] ?? ($params['utr'] ?? ($params['rrn'] ?? '')))));
+$is_redirect = !empty($params['redirect_return']) || (!empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false) || $_SERVER['REQUEST_METHOD'] === 'GET';
+
+if (empty($apitxnid) && !empty($txnid)) {
+    $apitxnid = $txnid;
+}
 
 if (empty($apitxnid)) {
     if ($is_redirect) {
@@ -32,13 +36,13 @@ if (empty($apitxnid)) {
         exit;
     }
     header('Content-Type: application/json');
-    echo json_encode(['status' => 'error', 'message' => 'Missing apitxnid']);
+    echo json_encode(['status' => 'error', 'message' => 'Missing apitxnid or transaction identifier']);
     exit;
 }
 
-// Find order by apitxnid (stored in razorpay_order_id)
-$stmt = $con->prepare("SELECT * FROM user_order WHERE razorpay_order_id = ? LIMIT 1");
-$stmt->bind_param("s", $apitxnid);
+// Find order by apitxnid (stored in razorpay_order_id) or gateway transaction ID (stored in razorpay_payment_id)
+$stmt = $con->prepare("SELECT * FROM user_order WHERE razorpay_order_id = ? OR razorpay_payment_id = ? LIMIT 1");
+$stmt->bind_param("ss", $apitxnid, $apitxnid);
 $stmt->execute();
 $order = $stmt->get_result()->fetch_assoc();
 $stmt->close();
